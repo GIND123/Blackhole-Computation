@@ -69,7 +69,7 @@ def main():
     analytic_final = np.sin(mode * x) * np.cos(c * mode * solver.sim_time)
     max_error = np.max(np.abs(u["g"] - analytic_final))
 
-    output_dir = Path("outputs")
+    output_dir = Path("results/flat_wave")
     output_dir.mkdir(exist_ok=True)
 
     np.savetxt(

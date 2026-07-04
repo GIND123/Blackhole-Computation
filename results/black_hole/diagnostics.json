@@ -1,0 +1,36 @@
+{
+  "ringdown": {
+    "start": 40,
+    "end": 100,
+    "omega": 0.37335716902649285,
+    "alpha": 0.08893282678717848,
+    "relative_rms": 0.00046658366161212453,
+    "reference_omega": 0.37367168,
+    "reference_alpha": 0.08896232,
+    "omega_relative_error": 0.0008416773074886324,
+    "alpha_relative_error": 0.00033152477162821123
+  },
+  "tails": [
+    {
+      "observer": 1.0,
+      "start": 400,
+      "end": 900,
+      "exponent": -4.036437421838952,
+      "r_squared": 0.9999983250779285,
+      "points": 5000
+    },
+    {
+      "observer": 0.9,
+      "start": 400,
+      "end": 900,
+      "exponent": -6.902127241639482,
+      "r_squared": 0.9999775402347629,
+      "points": 3993
+    }
+  ],
+  "constraint": {
+    "maximum_linf": 3.370569292649454e-11,
+    "final_linf": 2.3884521979210255e-11,
+    "maximum_l2": 1.939119376323945e-12
+  }
+}
