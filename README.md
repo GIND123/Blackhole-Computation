@@ -1,8 +1,12 @@
-# Schwarzschild black-hole perturbations with Dedalus
+# Black-hole perturbations and bridge coordinates with Dedalus
 
 This repository evolves axial gravitational perturbations of a
 non-rotating black hole using the hyperboloidally compactified
 Regge--Wheeler equation described by Professor Anıl Zenginoğlu.
+
+It also includes a Schwarzschild-de Sitter scalar-wave bridge-coordinate
+study based on the coordinate choices in *Bridging time across null
+horizons*.
 
 The computational interval includes both physically important boundaries:
 
@@ -19,6 +23,7 @@ black_hole/             Reusable solver, analysis, and convergence package
 docs/                   Equations, method, and generated result summary
 legacy/flat_wave/       Original periodic-wave Dedalus exercise
 results/black_hole/     Production data, plots, and diagnostics
+results/sds_scalar/     Schwarzschild-de Sitter scalar bridge study
 results/flat_wave/      Outputs from the introductory flat-wave exercise
 tests/                  Analytic coefficient and initial-data tests
 environment.yml         Reproducible conda environment
@@ -73,6 +78,24 @@ Analyze an existing run:
   --output-dir results/black_hole
 ```
 
+## Schwarzschild-de Sitter scalar bridge study
+
+The command below runs the 1D scalar wave equation on six
+Schwarzschild-de Sitter bridge foliations, generates comparison plots, and
+performs a focused convergence study:
+
+```bash
+/home/govind/miniforge3/bin/mamba run -n dedalus3 \
+  python -m black_hole --verbose sds-suite \
+  --resolution 192 --timestep 0.02 --end-time 200 \
+  --signal-dt 0.05 --snapshot-dt 0.5 \
+  --output-dir results/sds_scalar \
+  --convergence-end-time 80
+```
+
+The equations, coordinate choices, diagnostics, and generated figures are
+summarized in [docs/SDS_SCALAR.md](docs/SDS_SCALAR.md).
+
 Run unit tests:
 
 ```bash
@@ -96,7 +119,20 @@ The full workflow creates:
 After running the production study, the measured values are summarized in
 `docs/RESULTS.md`.
 
+The SdS scalar workflow creates:
+
+- `bridge_boost_characteristics.png`: boost functions and light speeds
+- `spacetime_bridge_gallery.png`: side-by-side pulse propagation
+- `cosmological_horizon_waveforms.png`: extracted horizon signals
+- `horizon_signal_comparison.png`: black-hole and cosmological signals
+- `constraint_bridge_comparison.png`: constraint preservation by bridge
+- `bridge_summary.csv`: turning radii and constraint errors
+- `convergence/`: scalar-wave convergence data and plot
+
 ## References
+
+- [Bridging time across null horizons](https://arxiv.org/abs/2502.08581)
+- [Misner hyperboloidal coordinates](https://anilzen.github.io/post/2023/misner-hyperboloidal/)
 
 - [Banging a black hole — Anıl Zenginoğlu](https://anilzen.github.io/post/2026/black-hole-gravitational-waves/)
 - [Reference Colab notebook](https://colab.research.google.com/drive/1ii9zyHE9MlaOW4e9K1IBGPSPQzxltO7c)

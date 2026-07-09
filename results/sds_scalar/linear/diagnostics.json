@@ -1,0 +1,67 @@
+{
+  "bridge": "linear",
+  "label": "linear boost",
+  "model": {
+    "mass": 1.0,
+    "cosmological_length": 10.0,
+    "ell": 2
+  },
+  "horizons": {
+    "black_hole": 2.0914884844131665,
+    "cosmological": 8.78885066249973,
+    "unphysical": -10.880339146912895,
+    "kappa_black_hole": 0.2076918625327203,
+    "kappa_cosmological": 0.07494249985680072,
+    "kappa_unphysical": 0.1172506373240804
+  },
+  "constraint": {
+    "maximum_linf": 1.467609821780263e-11,
+    "final_linf": 1.377491732720089e-11,
+    "maximum_l2": 1.1371477487219272e-12
+  },
+  "peaks": [
+    {
+      "rho": 0.0,
+      "areal_radius": 2.0914884844131665,
+      "time": 6.239999999999955,
+      "value": -0.2839013153467604,
+      "abs_value": 0.2839013153467604
+    },
+    {
+      "rho": 0.25,
+      "areal_radius": 3.7658290289348075,
+      "time": 2.520000000000002,
+      "value": 0.3076697190815866,
+      "abs_value": 0.3076697190815866
+    },
+    {
+      "rho": 0.5,
+      "areal_radius": 5.440169573456448,
+      "time": 0.0,
+      "value": 0.6327368805949284,
+      "abs_value": 0.6327368805949284
+    },
+    {
+      "rho": 0.75,
+      "areal_radius": 7.114510117978089,
+      "time": 5.239999999999976,
+      "value": 0.4044487545559607,
+      "abs_value": 0.4044487545559607
+    },
+    {
+      "rho": 1.0,
+      "areal_radius": 8.78885066249973,
+      "time": 8.799999999999901,
+      "value": 0.3753761229034972,
+      "abs_value": 0.3753761229034972
+    }
+  ],
+  "late_log_decay_cosmological_horizon": {
+    "observer": 1.0,
+    "start": 110.00000000000001,
+    "end": 190.0,
+    "slope": -0.08321069948188685,
+    "r_squared": 0.8233590828256018,
+    "points": 1999
+  }
+}

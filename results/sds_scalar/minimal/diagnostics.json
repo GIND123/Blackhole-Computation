@@ -1,0 +1,67 @@
+{
+  "bridge": "minimal",
+  "label": "minimal gauge",
+  "model": {
+    "mass": 1.0,
+    "cosmological_length": 10.0,
+    "ell": 2
+  },
+  "horizons": {
+    "black_hole": 2.0914884844131665,
+    "cosmological": 8.78885066249973,
+    "unphysical": -10.880339146912895,
+    "kappa_black_hole": 0.2076918625327203,
+    "kappa_cosmological": 0.07494249985680072,
+    "kappa_unphysical": 0.1172506373240804
+  },
+  "constraint": {
+    "maximum_linf": 1.7858240518832536e-11,
+    "final_linf": 7.483653372575882e-12,
+    "maximum_l2": 1.3669352816684649e-12
+  },
+  "peaks": [
+    {
+      "rho": 0.0,
+      "areal_radius": 2.0914884844131665,
+      "time": 16.119999999999745,
+      "value": -0.425540831053408,
+      "abs_value": 0.425540831053408
+    },
+    {
+      "rho": 0.25,
+      "areal_radius": 3.7658290289348075,
+      "time": 10.359999999999868,
+      "value": -0.5859965596466606,
+      "abs_value": 0.5859965596466606
+    },
+    {
+      "rho": 0.5,
+      "areal_radius": 5.440169573456448,
+      "time": 0.0,
+      "value": 0.6327368805949284,
+      "abs_value": 0.6327368805949284
+    },
+    {
+      "rho": 0.75,
+      "areal_radius": 7.114510117978089,
+      "time": 16.719999999999732,
+      "value": 0.2818124963992779,
+      "abs_value": 0.2818124963992779
+    },
+    {
+      "rho": 1.0,
+      "areal_radius": 8.78885066249973,
+      "time": 16.39999999999974,
+      "value": 0.27391596620456793,
+      "abs_value": 0.27391596620456793
+    }
+  ],
+  "late_log_decay_cosmological_horizon": {
+    "observer": 1.0,
+    "start": 110.00000000000001,
+    "end": 190.0,
+    "slope": -0.08361172589936905,
+    "r_squared": 0.8240227880061761,
+    "points": 1999
+  }
+}

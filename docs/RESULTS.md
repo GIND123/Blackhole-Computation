@@ -75,3 +75,23 @@ The timestep self-convergence study gives an observed order of 2.00 between
 - [Convergence plot](../results/black_hole/convergence/convergence.png)
 - [Machine-readable diagnostics](../results/black_hole/diagnostics.json)
 - [Convergence table](../results/black_hole/convergence/convergence.csv)
+
+## Schwarzschild-de Sitter scalar bridge extension
+
+The new scalar-wave bridge study implements the 1D reduced scalar equation
+on Schwarzschild-de Sitter with \(M=1\), \(L=10\), and \(\ell=2\). Six
+future-directed bridge choices were evolved through \(\tau=200M\):
+minimum height, minimal gauge, linear boost, flat-limit linear boost,
+Mavrogiannis, and slow-roll.
+
+The minimal-gauge run preserved the first-order reduction constraint to
+\(1.79\times10^{-11}\). The Mavrogiannis turning point was
+\(r=2.999986M\), numerically recovering the expected photon-sphere
+location.
+
+The convergence study for the minimal bridge shows spectral spatial
+convergence from 32 to 64 Chebyshev modes and second-order timestep
+convergence in the refined \(\Delta\tau=0.01\) to \(0.005\) comparison.
+
+Full equations, tables, and figures are documented in
+[SDS_SCALAR.md](SDS_SCALAR.md).
