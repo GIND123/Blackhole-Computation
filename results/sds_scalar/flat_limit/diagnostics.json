@@ -1,0 +1,87 @@
+{
+  "purpose": "Compare finite-L cosmological-horizon signals with the Lambda=0 Schwarzschild signal at future null infinity.",
+  "coordinate": "rho=(1-r_b/r)/(1-r_b/r_c)",
+  "schwarzschild_coordinate": "rho=1-2M/r",
+  "bridge": "minimal",
+  "height_normalization": {
+    "reference_radius": 4.0,
+    "condition": "h_L(r_reference)=h_Schwarzschild(r_reference)=0"
+  },
+  "initial_data": {
+    "center_fraction": 0.45,
+    "width": 0.06,
+    "time_symmetric": true,
+    "pi_amplitude": 0.0
+  },
+  "numerical": {
+    "resolution": 256,
+    "timestep": 0.01,
+    "end_time": 200.0,
+    "signal_dt": 0.05,
+    "snapshot_dt": 0.5,
+    "observers": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "timestepper": "RK222",
+    "bridge": "minimal"
+  },
+  "schwarzschild_max_constraint_linf": 3.8048638774995335e-11,
+  "finite_L": [
+    {
+      "L": 20.0,
+      "Lambda": 0.0075,
+      "r_black_hole": 2.0206251576202168,
+      "r_cosmological": 18.91298547847183,
+      "A_black_hole": 0.06609692854399704,
+      "A_cosmological": 0.1199354134458334,
+      "difference_l2": 0.22676412574838686,
+      "difference_relative_l2": 0.36360738249216457,
+      "difference_linf": 0.10270957420590549,
+      "max_constraint_linf": 3.151494478900348e-11,
+      "empirical_power_in_L": ""
+    },
+    {
+      "L": 40.0,
+      "Lambda": 0.001875,
+      "r_black_hole": 2.0050378793509025,
+      "r_cosmological": 38.959774129251116,
+      "A_black_hole": 0.06498327395794268,
+      "A_cosmological": 0.1237460621739298,
+      "difference_l2": 0.09366604041111143,
+      "difference_relative_l2": 0.15018982244166465,
+      "difference_linf": 0.033806349409323644,
+      "max_constraint_linf": 2.5119251286385247e-11,
+      "empirical_power_in_L": 1.2755944390839777
+    },
+    {
+      "L": 80.0,
+      "Lambda": 0.00046875,
+      "r_black_hole": 2.0012523496262125,
+      "r_cosmological": 78.98059813298828,
+      "A_black_hole": 0.06390429325987625,
+      "A_cosmological": 0.1246872553698394,
+      "difference_l2": 0.044956747865618464,
+      "difference_relative_l2": 0.07208638210664599,
+      "difference_linf": 0.014036197611310669,
+      "max_constraint_linf": 2.7049558508874556e-11,
+      "empirical_power_in_L": 1.058988402763895
+    },
+    {
+      "L": 160.0,
+      "Lambda": 0.0001171875,
+      "r_black_hole": 2.0003126465759937,
+      "r_cosmological": 158.99046547057517,
+      "A_black_hole": 0.06324195087983163,
+      "A_cosmological": 0.12492185973354561,
+      "difference_l2": 0.02253925968948244,
+      "difference_relative_l2": 0.03614081897635507,
+      "difference_linf": 0.007146176782222485,
+      "max_constraint_linf": 1.910724063521125e-11,
+      "empirical_power_in_L": 0.9960975455302878
+    }
+  ]
+}

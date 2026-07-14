@@ -8,6 +8,7 @@ import logging
 from pathlib import Path
 
 from .analysis import create_plots, write_diagnostics
+from .flat_limit_study import run_flat_limit_study
 from .model import InitialData, ModelParameters
 from .sds_analysis import create_sds_plots, write_sds_diagnostics
 from .sds_model import BRIDGE_CHOICES, ScalarInitialData, SdSParameters
@@ -78,7 +79,12 @@ def add_sds_model_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--cosmological-length", type=float, default=10.0)
     parser.add_argument("--ell", type=int, default=2)
     parser.add_argument("--center-fraction", type=float, default=0.45)
-    parser.add_argument("--width", type=float, default=0.35)
+    parser.add_argument(
+        "--width",
+        type=float,
+        default=0.06,
+        help="Gaussian width in the common compact coordinate rho",
+    )
     parser.add_argument(
         "--pi-zero",
         action="store_true",
@@ -153,6 +159,53 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sds_suite.add_argument("--convergence-bridge", choices=BRIDGE_CHOICES, default="minimal")
     sds_suite.add_argument("--convergence-end-time", type=float, default=120.0)
+
+    flat_limit = subparsers.add_parser(
+        "sds-flat-limit",
+        help="compare finite-L SdS horizon signals with Schwarzschild scri+",
+    )
+    flat_limit.add_argument("--mass", type=float, default=1.0)
+    flat_limit.add_argument("--ell", type=int, default=2)
+    flat_limit.add_argument(
+        "--lengths", nargs="+", type=float, default=[20.0, 40.0, 80.0, 160.0]
+    )
+    flat_limit.add_argument("--center-fraction", type=float, default=0.45)
+    flat_limit.add_argument(
+        "--width",
+        type=float,
+        default=0.06,
+        help="Gaussian width in the common compact coordinate rho",
+    )
+    flat_limit.add_argument(
+        "--pi-zero",
+        action="store_true",
+        help="set pi=0 instead of time-symmetric physical initial data",
+    )
+    flat_limit.add_argument("--resolution", type=int, default=256)
+    flat_limit.add_argument("--timestep", type=float, default=0.01)
+    flat_limit.add_argument("--end-time", type=float, default=200.0)
+    flat_limit.add_argument("--signal-dt", type=float, default=0.05)
+    flat_limit.add_argument("--snapshot-dt", type=float, default=0.5)
+    flat_limit.add_argument(
+        "--timestepper",
+        choices=("RK111", "RK222", "RK443", "SBDF2", "SBDF4"),
+        default="RK222",
+    )
+    flat_limit.set_defaults(bridge="minimal")
+    flat_limit.add_argument("--reference-radius", type=float, default=4.0)
+    flat_limit.add_argument(
+        "--convergence-lengths",
+        nargs="+",
+        type=float,
+        default=[20.0, 160.0],
+    )
+    flat_limit.add_argument("--convergence-end-time", type=float, default=100.0)
+    flat_limit.add_argument("--skip-convergence", action="store_true")
+    flat_limit.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/sds_scalar/flat_limit"),
+    )
     return parser
 
 
@@ -231,6 +284,24 @@ def main() -> None:
                 indent=2,
             )
         )
+        return
+
+    if args.command == "sds-flat-limit":
+        output_dir = args.output_dir
+        output_dir.mkdir(parents=True, exist_ok=True)
+        results = run_flat_limit_study(
+            mass=args.mass,
+            ell=args.ell,
+            lengths=tuple(args.lengths),
+            initial=sds_initial_from_args(args),
+            numerical=sds_numerical_from_args(args),
+            output_dir=output_dir,
+            reference_radius=args.reference_radius,
+            convergence_lengths=tuple(args.convergence_lengths),
+            convergence_end_time=args.convergence_end_time,
+            run_convergence=not args.skip_convergence,
+        )
+        print(json.dumps(results, indent=2))
         return
 
     output_dir = args.output_dir

@@ -93,8 +93,21 @@ performs a focused convergence study:
   --convergence-end-time 80
 ```
 
+The controlled flat-limit workflow requested by Professor Zenginoglu runs
+\(L=20,40,80,160\), an independent \(\Lambda=0\) Schwarzschild reference,
+and convergence studies at \(L=20\) and \(L=160\):
+
+    /home/govind/miniforge3/bin/mamba run -n dedalus3 \
+      python -m black_hole --verbose sds-flat-limit \
+      --resolution 256 --timestep 0.01 --end-time 200 \
+      --signal-dt 0.05 --snapshot-dt 0.5 \
+      --convergence-end-time 100 \
+      --output-dir results/sds_scalar/flat_limit
+
 The equations, coordinate choices, diagnostics, and generated figures are
-summarized in [docs/SDS_SCALAR.md](docs/SDS_SCALAR.md).
+summarized in [docs/SDS_SCALAR.md](docs/SDS_SCALAR.md). The controlled
+Schwarzschild comparison and numerical findings are documented in
+[docs/FLAT_LIMIT.md](docs/FLAT_LIMIT.md).
 
 Run unit tests:
 
@@ -128,6 +141,19 @@ The SdS scalar workflow creates:
 - `constraint_bridge_comparison.png`: constraint preservation by bridge
 - `bridge_summary.csv`: turning radii and constraint errors
 - `convergence/`: scalar-wave convergence data and plot
+
+The flat-limit workflow adds the following under
+results/sds_scalar/flat_limit:
+
+- waveform_comparison.png: SdS cosmological-horizon signals and the
+  Schwarzschild future-null-infinity reference
+- waveform_differences.png: requested difference versus aligned time
+- flat_limit_norms.png: difference norms as \(L\) increases
+- height_alignment.png: common \(h(4M)=0\) normalization
+- coordinate_flat_limit.png: minimal-gauge coefficient approach
+- constraints.png: constraint preservation for the complete sequence
+- convergence/: independent \(L=20\) and \(L=160\) studies
+- raw/: reproducible production datasets
 
 ## References
 

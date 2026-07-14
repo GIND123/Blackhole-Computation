@@ -21,10 +21,12 @@ V_\ell=f\left[\frac{\ell(\ell+1)}{r^2}+\frac{f'}{r}\right].
 \]
 
 The black-hole and cosmological horizons are the positive roots
-\(r_b\) and \(r_c\) of \(f\). The numerical coordinate is
+\(r_b\) and \(r_c\) of \(f\). The numerical coordinate is the flat-limit
+compactification requested by Professor Zenginoglu,
 
 \[
-\rho=\frac{r-r_b}{r_c-r_b}, \qquad \tau=t+h(r),
+\rho=\frac{1-r_b/r}{1-r_b/r_c}, \qquad
+r=\frac{r_b}{1-(1-r_b/r_c)\rho}, \qquad \tau=t+h(r),
 \]
 
 and the future-directed bridge boost is
@@ -33,8 +35,16 @@ and the future-directed bridge boost is
 B=f\frac{dh}{dr}.
 \]
 
-With \(p=d\rho/dr_*=f/(r_c-r_b)\), \(A=p/(1-B^2)\), and
-\(P=V_\ell/p\), the evolved first-order system is
+With
+
+\[
+p=\frac{d\rho}{dr_*}
+=f\frac{r_b}{(1-r_b/r_c)r^2},
+\qquad A=\frac{p}{1-B^2},
+\qquad P=\frac{V_\ell}{p},
+\]
+
+the evolved first-order system is
 
 \[
 \partial_\tau u=A(B\psi+\pi),
@@ -58,6 +68,18 @@ No boundary conditions are imposed. The bridge boosts make the black-hole
 and cosmological horizons outflow boundaries for the two physical radial
 characteristics.
 
+The apparently singular horizon values of \(A\) are evaluated analytically.
+Writing the horizon value of the boost as \(B_h=s_h\), with \(s_b=+1\) and
+\(s_c=-1\), l'Hopital's rule gives
+
+\[
+A_h=\frac{f'(r_h)\rho'(r_h)}{-2s_h B'(r_h)}.
+\]
+
+The implementation uses regular closed forms for the boost and analytic
+radial derivatives. It does not evaluate coefficients at displaced points
+such as \(r_h\pm\epsilon\).
+
 ## Bridge choices
 
 The implementation compares six future-directed bridge choices:
@@ -73,9 +95,12 @@ For Mavrogiannis, the code uses the sign for which
 \(B(r_b)=+1\) and \(B(r_c)=-1\), matching the future-directed horizon
 behavior used by the evolution.
 
-## Numerical run
+## Archived exploratory six-bridge run
 
-The generated result set used:
+The original generated six-bridge result set is preserved for provenance. It
+predates the professor-requested flat-limit revision and used the former
+affine radius map \(\rho=(r-r_b)/(r_c-r_b)\). It is not used as evidence in
+the controlled flat-limit comparison. Its settings were:
 
 | Quantity | Value |
 |---|---:|
@@ -88,14 +113,31 @@ The generated result set used:
 | Timestep | 0.02 |
 | Final time | 200 |
 
-The Gaussian data were centered at 45 percent of the interval between the
-horizons with width 0.35 in areal-radius units. The physical time
-derivative was set to zero on the initial bridge slice.
+That exploratory run used a Gaussian centered at 45 percent of the affine
+areal-radius interval with width \(0.35M\). The physical time derivative was
+set to zero on each initial bridge slice.
 
-Because each bridge has a different \(\tau=0\) hypersurface, the six
-waveforms are not identical-Cauchy-data comparisons. They are a numerical
-test of regular evolution quality and coordinate behavior for the same
-localized profile specified on each bridge slice.
+Because each bridge has a different \(\tau=0\) hypersurface, the archived
+six-bridge waveforms are not identical-Cauchy-data comparisons. They are a
+numerical test of regular evolution quality and coordinate behavior. The
+controlled flat-limit calculation now uses only the minimal gauge.
+
+## Controlled flat limit
+
+The production flat-limit sequence and its interpretation are documented in
+[FLAT_LIMIT.md](FLAT_LIMIT.md). It compares \(L=20,40,80,160\) signals at the
+cosmological horizon with an independently evolved \(\Lambda=0\)
+Schwarzschild signal at future null infinity. The height functions are
+normalized by the common condition \(h(4M)=0\).
+
+The current Gaussian is specified directly in the common coordinate,
+
+\[
+u(0,\rho)=\exp\left[-\frac{(\rho-0.45)^2}{2(0.06)^2}\right].
+\]
+
+Consequently, all finite-\(L\) calculations and the Schwarzschild reference
+use exactly the same \(u(\rho)\) and \(\partial_\rho u(\rho)\).
 
 ## Bridge summary
 
