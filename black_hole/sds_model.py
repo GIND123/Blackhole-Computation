@@ -76,10 +76,16 @@ class SdSHorizons:
 
 @dataclass(frozen=True)
 class ScalarInitialData:
-    """Localized Gaussian data for the reduced scalar field u=r Phi."""
+    """Localized Gaussian data for the reduced scalar field ``u=r Phi``.
+
+    The center and width are specified in the common compact coordinate
+    ``rho``.  This is essential for comparisons at different cosmological
+    lengths: specifying the profile in areal radius would change the initial
+    data as the cosmological horizon moves.
+    """
 
     center_fraction: float = 0.45
-    width: float = 0.35
+    width: float = 0.06
     time_symmetric: bool = True
     pi_amplitude: float = 0.0
 
@@ -132,11 +138,43 @@ def sds_horizons(parameters: SdSParameters) -> SdSHorizons:
 
 
 def areal_radius(rho: np.ndarray, parameters: SdSParameters) -> np.ndarray:
-    """Map rho in [0, 1] to the areal radius between the two horizons."""
+    r"""Map the professor's compact coordinate to areal radius.
+
+    .. math::
+
+       \rho=\frac{1-r_b/r}{1-r_b/r_c},\qquad
+       r=\frac{r_b}{1-(1-r_b/r_c)\rho}.
+
+    The endpoints are assigned explicitly so their floating-point values are
+    the analytically known horizon radii.
+    """
 
     horizons = sds_horizons(parameters)
-    rho = np.asarray(rho)
-    return horizons.black_hole + horizons.width * rho
+    rho = np.asarray(rho, dtype=float)
+    compactification = 1.0 - horizons.black_hole / horizons.cosmological
+    radius = horizons.black_hole / (1.0 - compactification * rho)
+    radius = np.where(rho == 0.0, horizons.black_hole, radius)
+    return np.where(rho == 1.0, horizons.cosmological, radius)
+
+
+def compact_radius(r: np.ndarray, parameters: SdSParameters) -> np.ndarray:
+    """Map areal radius to the common compact coordinate ``rho``."""
+
+    horizons = sds_horizons(parameters)
+    r = np.asarray(r, dtype=float)
+    denominator = 1.0 - horizons.black_hole / horizons.cosmological
+    return (1.0 - horizons.black_hole / r) / denominator
+
+
+def compactification_derivative(
+    r: np.ndarray, parameters: SdSParameters
+) -> np.ndarray:
+    """Return the analytic derivative ``d rho / d r``."""
+
+    horizons = sds_horizons(parameters)
+    r = np.asarray(r, dtype=float)
+    denominator = 1.0 - horizons.black_hole / horizons.cosmological
+    return horizons.black_hole / (denominator * r**2)
 
 
 def metric_f(r: np.ndarray, parameters: SdSParameters) -> np.ndarray:
@@ -162,9 +200,13 @@ def tortoise_grid_speed(
 ) -> np.ndarray:
     """Return d rho / d r_* = f d rho / dr."""
 
-    horizons = sds_horizons(parameters)
+    rho = np.asarray(rho, dtype=float)
     r = areal_radius(rho, parameters)
-    return metric_f(r, parameters) / horizons.width
+    speed = metric_f(r, parameters) * compactification_derivative(r, parameters)
+    # The exact horizon values are zero.  Explicit assignment avoids retaining
+    # roundoff from evaluating f at a numerically computed polynomial root.
+    speed = np.where((rho == 0.0) | (rho == 1.0), 0.0, speed)
+    return speed
 
 
 def _singular_boost(
@@ -172,64 +214,128 @@ def _singular_boost(
     parameters: SdSParameters,
     bridge: str,
 ) -> np.ndarray:
-    """Evaluate boost functions whose derivative form is singular at horizons."""
+    """Evaluate the minimum and minimal boosts in regularized closed form.
+
+    The height-function derivatives contain individual horizon poles.  Here
+    those poles are cancelled analytically against the factorized metric
+    function before numerical evaluation.  No displaced horizon points or
+    epsilon offsets are used.
+    """
 
     horizons = sds_horizons(parameters)
     r = np.asarray(r, dtype=float)
-    boost = np.empty_like(r)
-    tolerance = 100.0 * np.finfo(float).eps * max(1.0, horizons.width)
-    left = np.abs(r - horizons.black_hole) <= tolerance
-    right = np.abs(r - horizons.cosmological) <= tolerance
-    interior = ~(left | right)
-    boost[left] = 1.0
-    boost[right] = -1.0
-
-    ri = r[interior]
-    fi = metric_f(ri, parameters)
+    rb = horizons.black_hole
+    rc = horizons.cosmological
+    ru = horizons.unphysical
+    length_squared = parameters.cosmological_length**2
     if bridge == "minimum":
-        boost[interior] = fi * (
-            1.0
-            / (
-                2.0
-                * horizons.kappa_black_hole
-                * (ri - horizons.black_hole)
-            )
-            - 1.0
-            / (
-                2.0
-                * horizons.kappa_cosmological
-                * (horizons.cosmological - ri)
-            )
+        boost = (
+            (rc - r)
+            * (r - ru)
+            / (2.0 * horizons.kappa_black_hole * length_squared * r)
+            - (r - rb)
+            * (r - ru)
+            / (2.0 * horizons.kappa_cosmological * length_squared * r)
         )
-        return boost
-
-    if bridge == "minimal":
-        boost[interior] = fi * (
-            horizons.black_hole
-            / (
-                2.0
-                * horizons.kappa_black_hole
-                * ri
-                * (ri - horizons.black_hole)
-            )
-            - horizons.cosmological
-            / (
-                2.0
-                * horizons.kappa_cosmological
-                * ri
-                * (horizons.cosmological - ri)
-            )
-            - horizons.unphysical
-            / (
-                2.0
-                * horizons.kappa_unphysical
-                * ri
-                * (ri - horizons.unphysical)
-            )
+    elif bridge == "minimal":
+        boost = (
+            rb
+            * (rc - r)
+            * (r - ru)
+            / (2.0 * horizons.kappa_black_hole * length_squared * r**2)
+            - rc
+            * (r - rb)
+            * (r - ru)
+            / (2.0 * horizons.kappa_cosmological * length_squared * r**2)
+            - ru
+            * (r - rb)
+            * (rc - r)
+            / (2.0 * horizons.kappa_unphysical * length_squared * r**2)
         )
-        return boost
+    else:
+        raise ValueError(f"Unsupported singular bridge {bridge!r}.")
+    boost = np.where(r == rb, 1.0, boost)
+    return np.where(r == rc, -1.0, boost)
 
-    raise ValueError(f"Unsupported singular bridge {bridge!r}.")
+
+def _boost_radial_derivative(
+    r: np.ndarray, parameters: SdSParameters, bridge: str
+) -> np.ndarray:
+    """Return the analytic radial derivative ``dB/dr``."""
+
+    horizons = sds_horizons(parameters)
+    r = np.asarray(r, dtype=float)
+    rb = horizons.black_hole
+    rc = horizons.cosmological
+    ru = horizons.unphysical
+    length_squared = parameters.cosmological_length**2
+
+    if bridge in {"minimum", "minimal"}:
+        numerator_b = (rc - r) * (r - ru)
+        derivative_b = rc + ru - 2.0 * r
+        numerator_c = (r - rb) * (r - ru)
+        derivative_c = 2.0 * r - rb - ru
+        if bridge == "minimum":
+            term_b = (derivative_b / r - numerator_b / r**2) / (
+                2.0 * horizons.kappa_black_hole * length_squared
+            )
+            term_c = (derivative_c / r - numerator_c / r**2) / (
+                2.0 * horizons.kappa_cosmological * length_squared
+            )
+            return term_b - term_c
+
+        numerator_u = (r - rb) * (rc - r)
+        derivative_u = rc + rb - 2.0 * r
+        quotient_b = derivative_b / r**2 - 2.0 * numerator_b / r**3
+        quotient_c = derivative_c / r**2 - 2.0 * numerator_c / r**3
+        quotient_u = derivative_u / r**2 - 2.0 * numerator_u / r**3
+        return (
+            rb
+            * quotient_b
+            / (2.0 * horizons.kappa_black_hole * length_squared)
+            - rc
+            * quotient_c
+            / (2.0 * horizons.kappa_cosmological * length_squared)
+            - ru
+            * quotient_u
+            / (2.0 * horizons.kappa_unphysical * length_squared)
+        )
+
+    if bridge == "linear":
+        return np.full_like(r, -2.0 / horizons.width)
+    if bridge == "modified_linear":
+        factor = rb**2 / horizons.width
+        return 2.0 * factor * (-1.0 / r**2 - 2.0 * (rc - r) / r**3)
+    if bridge == "mavrogiannis":
+        mass = parameters.mass
+        denominator = sqrt(
+            1.0 - 9.0 * mass**2 * parameters.cosmological_constant
+        )
+        first = 1.0 - 3.0 * mass / r
+        root = np.sqrt(1.0 + 6.0 * mass / r)
+        first_prime = 3.0 * mass / r**2
+        root_prime = -3.0 * mass / (r**2 * root)
+        return -(first_prime * root + first * root_prime) / denominator
+    if bridge == "slow_roll":
+        gamma = (rc**2 + rb**2) / (rc**3 - rb**3)
+        beta = rc**2 * rb**2 * (rc + rb) / (rc**3 - rb**3)
+        return -gamma - 2.0 * beta / r**3
+    raise ValueError(f"Unknown bridge {bridge!r}; choose from {BRIDGE_CHOICES}.")
+
+
+def propagation_endpoint_coefficients(
+    parameters: SdSParameters, bridge: str
+) -> tuple[float, float]:
+    """Return exact l'Hopital limits of ``A`` at both horizons."""
+
+    horizons = sds_horizons(parameters)
+    radii = np.array([horizons.black_hole, horizons.cosmological])
+    f_prime = metric_f_prime(radii, parameters)
+    rho_prime = compactification_derivative(radii, parameters)
+    boost_prime = _boost_radial_derivative(radii, parameters, bridge)
+    signs = np.array([1.0, -1.0])
+    limits = f_prime * rho_prime / (-2.0 * signs * boost_prime)
+    return float(limits[0]), float(limits[1])
 
 
 def bridge_boost(
@@ -286,28 +392,13 @@ def propagation_coefficient(
     rho = np.asarray(rho)
     speed = tortoise_grid_speed(rho, parameters)
     boost = bridge_boost(rho, parameters, bridge)
-    denominator = 1.0 - boost**2
-    coefficient = np.empty_like(speed, dtype=float)
-    mask = np.abs(denominator) > 1e-13
-    coefficient[mask] = speed[mask] / denominator[mask]
-
-    if np.any(~mask):
-        offset = 1e-7
-        left_value = _coefficient_at_fraction(offset, parameters, bridge)
-        right_value = _coefficient_at_fraction(1.0 - offset, parameters, bridge)
-        left = rho <= 0.5
-        coefficient[~mask & left] = left_value
-        coefficient[~mask & ~left] = right_value
+    denominator = (1.0 - boost) * (1.0 + boost)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        coefficient = speed / denominator
+    left_value, right_value = propagation_endpoint_coefficients(parameters, bridge)
+    coefficient = np.where(rho == 0.0, left_value, coefficient)
+    coefficient = np.where(rho == 1.0, right_value, coefficient)
     return coefficient
-
-
-def _coefficient_at_fraction(
-    rho: float, parameters: SdSParameters, bridge: str
-) -> float:
-    sample = np.array([rho], dtype=float)
-    speed = tortoise_grid_speed(sample, parameters)
-    boost = bridge_boost(sample, parameters, bridge)
-    return float(speed[0] / (1.0 - boost[0] ** 2))
 
 
 def rescaled_scalar_potential(
@@ -315,12 +406,11 @@ def rescaled_scalar_potential(
 ) -> np.ndarray:
     """Return V/(d rho/d r_*) for the reduced scalar wave equation."""
 
-    horizons = sds_horizons(parameters)
     r = areal_radius(rho, parameters)
     ell = parameters.ell
     angular = ell * (ell + 1.0) / r**2
     curvature = metric_f_prime(r, parameters) / r
-    return horizons.width * (angular + curvature)
+    return (angular + curvature) / compactification_derivative(r, parameters)
 
 
 def characteristic_speeds(
@@ -343,18 +433,47 @@ def scalar_gaussian_initial_data(
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Return (u, psi, pi) with psi=d_rho u."""
 
-    horizons = sds_horizons(parameters)
     rho = np.asarray(rho)
-    r = areal_radius(rho, parameters)
-    center = horizons.black_hole + initial.center_fraction * horizons.width
-    displacement = r - center
+    displacement = rho - initial.center_fraction
     u = np.exp(-(displacement**2) / (2.0 * initial.width**2))
-    psi = -horizons.width * displacement * u / initial.width**2
+    psi = -displacement * u / initial.width**2
     if initial.time_symmetric:
         pi = -bridge_boost(rho, parameters, bridge) * psi
     else:
         pi = np.full_like(u, initial.pi_amplitude)
     return u, psi, pi
+
+
+def minimal_height(
+    r: np.ndarray, parameters: SdSParameters, reference_radius: float
+) -> np.ndarray:
+    """Minimal-gauge height with ``h(reference_radius)=0``.
+
+    Only the additive constant is fixed here; the logarithmic divergences at
+    the two null horizons are the expected behavior of a stationary bridge
+    height function.
+    """
+
+    horizons = sds_horizons(parameters)
+    if not horizons.black_hole < reference_radius < horizons.cosmological:
+        raise ValueError("The height reference radius must lie between horizons.")
+
+    def primitive(radius: np.ndarray) -> np.ndarray:
+        rb = horizons.black_hole
+        rc = horizons.cosmological
+        ru = horizons.unphysical
+        radius = np.asarray(radius, dtype=float)
+        return (
+            np.log((radius - rb) / radius) / (2.0 * horizons.kappa_black_hole)
+            + np.log((rc - radius) / radius)
+            / (2.0 * horizons.kappa_cosmological)
+            + np.log(radius / (radius - ru))
+            / (2.0 * horizons.kappa_unphysical)
+        )
+
+    return primitive(np.asarray(r, dtype=float)) - primitive(
+        np.asarray(reference_radius, dtype=float)
+    )
 
 
 def turning_radius(parameters: SdSParameters, bridge: str) -> float:

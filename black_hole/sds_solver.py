@@ -7,6 +7,7 @@ import logging
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Callable
 
 import dedalus.public as d3
 import numpy as np
@@ -21,6 +22,14 @@ from .sds_model import (
     rescaled_scalar_potential,
     scalar_gaussian_initial_data,
     sds_horizons,
+)
+from .schwarzschild_scalar import (
+    SchwarzschildScalarParameters,
+    areal_radius as schwarzschild_areal_radius,
+    minimal_boost as schwarzschild_minimal_boost,
+    propagation_coefficient as schwarzschild_propagation_coefficient,
+    rescaled_scalar_potential as schwarzschild_rescaled_scalar_potential,
+    scalar_gaussian_initial_data as schwarzschild_initial_data,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -122,12 +131,22 @@ def _timestepper(name: str):
         raise ValueError(f"Unknown timestepper {name!r}; choose from {steppers}") from exc
 
 
-def run_sds_simulation(
-    model: SdSParameters,
+def _run_scalar_simulation(
+    model: SdSParameters | SchwarzschildScalarParameters,
     initial: ScalarInitialData,
     numerical: SdSNumericalParameters,
+    *,
+    background: str,
+    radius_function: Callable[[np.ndarray], np.ndarray],
+    boost_function: Callable[[np.ndarray], np.ndarray],
+    propagation_function: Callable[[np.ndarray], np.ndarray],
+    potential_function: Callable[[np.ndarray], np.ndarray],
+    initial_function: Callable[
+        [np.ndarray], tuple[np.ndarray, np.ndarray, np.ndarray]
+    ],
+    horizon_metadata: dict,
 ) -> SdSSimulationResult:
-    """Evolve the reduced scalar wave equation on an SdS bridge."""
+    """Evolve the common first-order scalar system on one background."""
 
     started = time.perf_counter()
     dtype = np.float64
@@ -141,7 +160,7 @@ def run_sds_simulation(
         dealias=1,
     )
     rho = np.asarray(dist.local_grid(basis)).ravel()
-    radius = areal_radius(rho, model)
+    radius = radius_function(rho)
 
     u = dist.Field(name="u", bases=basis)
     psi = dist.Field(name="psi", bases=basis)
@@ -150,12 +169,10 @@ def run_sds_simulation(
     coefficient_b = dist.Field(name="coefficient_b", bases=basis)
     potential = dist.Field(name="potential", bases=basis)
 
-    coefficient_a["g"] = propagation_coefficient(rho, model, numerical.bridge)
-    coefficient_b["g"] = bridge_boost(rho, model, numerical.bridge)
-    potential["g"] = rescaled_scalar_potential(rho, model)
-    u["g"], psi["g"], pi["g"] = scalar_gaussian_initial_data(
-        rho, model, initial, numerical.bridge
-    )
+    coefficient_a["g"] = propagation_function(rho)
+    coefficient_b["g"] = boost_function(rho)
+    potential["g"] = potential_function(rho)
+    u["g"], psi["g"], pi["g"] = initial_function(rho)
 
     drho = lambda field: d3.Differentiate(field, rho_coord)
 
@@ -176,7 +193,7 @@ def run_sds_simulation(
 
     observer_operators = [u(rho=point) for point in numerical.observers]
     observer_rho = np.asarray(numerical.observers, dtype=float)
-    observer_radius = areal_radius(observer_rho, model)
+    observer_radius = radius_function(observer_rho)
     constraint_operator = psi - drho(u)
 
     signal_stride = max(1, round(numerical.signal_dt / numerical.timestep))
@@ -222,18 +239,19 @@ def run_sds_simulation(
             record_snapshot()
         if solver.iteration % progress_stride == 0:
             LOGGER.info(
-                "%s bridge: tau=%8.2f / %.2f, iteration=%d",
+                "%s (%s): tau=%8.2f / %.2f, iteration=%d",
                 numerical.bridge,
+                background,
                 solver.sim_time,
                 numerical.end_time,
                 solver.iteration,
             )
 
     elapsed = time.perf_counter() - started
-    horizons = sds_horizons(model)
     metadata = {
+        "background": background,
         "model": model.as_dict(),
-        "horizons": horizons.as_dict(),
+        "horizons": horizon_metadata,
         "initial_data": initial.as_dict(),
         "numerical": asdict(numerical),
         "iterations": solver.iteration,
@@ -269,4 +287,63 @@ def run_sds_simulation(
         constraint_linf=np.asarray(constraint_linf),
         constraint_l2=np.asarray(constraint_l2),
         metadata=metadata,
+    )
+
+
+def run_sds_simulation(
+    model: SdSParameters,
+    initial: ScalarInitialData,
+    numerical: SdSNumericalParameters,
+) -> SdSSimulationResult:
+    """Evolve the reduced scalar wave equation on an SdS bridge."""
+
+    horizons = sds_horizons(model)
+    bridge = numerical.bridge
+    return _run_scalar_simulation(
+        model,
+        initial,
+        numerical,
+        background="Schwarzschild-de Sitter",
+        radius_function=lambda rho: areal_radius(rho, model),
+        boost_function=lambda rho: bridge_boost(rho, model, bridge),
+        propagation_function=lambda rho: propagation_coefficient(
+            rho, model, bridge
+        ),
+        potential_function=lambda rho: rescaled_scalar_potential(rho, model),
+        initial_function=lambda rho: scalar_gaussian_initial_data(
+            rho, model, initial, bridge
+        ),
+        horizon_metadata=horizons.as_dict(),
+    )
+
+
+def run_schwarzschild_scalar_simulation(
+    model: SchwarzschildScalarParameters,
+    initial: ScalarInitialData,
+    numerical: SdSNumericalParameters,
+) -> SdSSimulationResult:
+    """Evolve the Lambda=0 scalar reference in Schwarzschild minimal gauge."""
+
+    if numerical.bridge != "minimal":
+        raise ValueError("The Schwarzschild reference uses only the minimal gauge.")
+    return _run_scalar_simulation(
+        model,
+        initial,
+        numerical,
+        background="Schwarzschild",
+        radius_function=lambda rho: schwarzschild_areal_radius(rho, model),
+        boost_function=schwarzschild_minimal_boost,
+        propagation_function=lambda rho: schwarzschild_propagation_coefficient(
+            rho, model
+        ),
+        potential_function=lambda rho: schwarzschild_rescaled_scalar_potential(
+            rho, model
+        ),
+        initial_function=lambda rho: schwarzschild_initial_data(
+            rho, model, initial
+        ),
+        horizon_metadata={
+            "black_hole": model.black_hole_horizon,
+            "future_null_infinity": "rho=1 (r=infinity)",
+        },
     )
