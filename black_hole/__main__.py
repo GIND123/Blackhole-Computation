@@ -11,7 +11,12 @@ from .analysis import create_plots, write_diagnostics
 from .flat_limit_study import run_flat_limit_study
 from .model import InitialData, ModelParameters
 from .sds_analysis import create_sds_plots, write_sds_diagnostics
-from .sds_model import BRIDGE_CHOICES, ScalarInitialData, SdSParameters
+from .sds_model import (
+    ArealBumpInitialData,
+    BRIDGE_CHOICES,
+    ScalarInitialData,
+    SdSParameters,
+)
 from .sds_solver import (
     SdSNumericalParameters,
     load_sds_result,
@@ -59,6 +64,14 @@ def sds_initial_from_args(args: argparse.Namespace) -> ScalarInitialData:
         center_fraction=args.center_fraction,
         width=args.width,
         time_symmetric=not args.pi_zero,
+    )
+
+
+def flat_limit_initial_from_args(args: argparse.Namespace) -> ArealBumpInitialData:
+    return ArealBumpInitialData(
+        center_radius=args.center_radius,
+        support_half_width=args.support_half_width,
+        time_symmetric=True,
     )
 
 
@@ -169,17 +182,12 @@ def build_parser() -> argparse.ArgumentParser:
     flat_limit.add_argument(
         "--lengths", nargs="+", type=float, default=[20.0, 40.0, 80.0, 160.0]
     )
-    flat_limit.add_argument("--center-fraction", type=float, default=0.45)
+    flat_limit.add_argument("--center-radius", type=float, default=4.0)
     flat_limit.add_argument(
-        "--width",
+        "--support-half-width",
         type=float,
-        default=0.06,
-        help="Gaussian width in the common compact coordinate rho",
-    )
-    flat_limit.add_argument(
-        "--pi-zero",
-        action="store_true",
-        help="set pi=0 instead of time-symmetric physical initial data",
+        default=1.5,
+        help="half-width in areal radius of the smooth compact pulse",
     )
     flat_limit.add_argument("--resolution", type=int, default=256)
     flat_limit.add_argument("--timestep", type=float, default=0.01)
@@ -293,7 +301,7 @@ def main() -> None:
             mass=args.mass,
             ell=args.ell,
             lengths=tuple(args.lengths),
-            initial=sds_initial_from_args(args),
+            initial=flat_limit_initial_from_args(args),
             numerical=sds_numerical_from_args(args),
             output_dir=output_dir,
             reference_radius=args.reference_radius,

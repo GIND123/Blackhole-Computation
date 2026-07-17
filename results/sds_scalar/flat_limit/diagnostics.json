@@ -7,9 +7,25 @@
     "reference_radius": 4.0,
     "condition": "h_L(r_reference)=h_Schwarzschild(r_reference)=0"
   },
+  "retarded_time": {
+    "definition": "U=tau-q, q=lim(h+r_*)",
+    "endpoint_evaluation": "closed-form analytic limit",
+    "common_U_interval": [
+      -2.422588722239781,
+      197.2274112777602
+    ],
+    "schwarzschild_q": 2.772588722239781,
+    "finite_L_q": {
+      "20.0": 2.461850110309174,
+      "40.0": 2.597389463167362,
+      "80.0": 2.6791369725882506,
+      "160.0": 2.724272458022873
+    }
+  },
   "initial_data": {
-    "center_fraction": 0.45,
-    "width": 0.06,
+    "profile": "C-infinity areal-radius bump",
+    "center_radius": 4.0,
+    "support_half_width": 1.5,
     "time_symmetric": true,
     "pi_amplitude": 0.0
   },
@@ -29,7 +45,7 @@
     "timestepper": "RK222",
     "bridge": "minimal"
   },
-  "schwarzschild_max_constraint_linf": 3.8048638774995335e-11,
+  "schwarzschild_max_constraint_linf": 6.955705674430433e-10,
   "finite_L": [
     {
       "L": 20.0,
@@ -38,10 +54,12 @@
       "r_cosmological": 18.91298547847183,
       "A_black_hole": 0.06609692854399704,
       "A_cosmological": 0.1199354134458334,
-      "difference_l2": 0.22676412574838686,
-      "difference_relative_l2": 0.36360738249216457,
-      "difference_linf": 0.10270957420590549,
-      "max_constraint_linf": 3.151494478900348e-11,
+      "retarded_time_offset_q": 2.461850110309174,
+      "offset_difference_from_schwarzschild": -0.31073861193060726,
+      "difference_l2": 0.6515212969475186,
+      "difference_relative_l2": 0.6378003006881895,
+      "difference_linf": 0.21599758485940623,
+      "max_constraint_linf": 6.410055251146938e-10,
       "empirical_power_in_L": ""
     },
     {
@@ -51,11 +69,13 @@
       "r_cosmological": 38.959774129251116,
       "A_black_hole": 0.06498327395794268,
       "A_cosmological": 0.1237460621739298,
-      "difference_l2": 0.09366604041111143,
-      "difference_relative_l2": 0.15018982244166465,
-      "difference_linf": 0.033806349409323644,
-      "max_constraint_linf": 2.5119251286385247e-11,
-      "empirical_power_in_L": 1.2755944390839777
+      "retarded_time_offset_q": 2.597389463167362,
+      "offset_difference_from_schwarzschild": -0.17519925907241918,
+      "difference_l2": 0.27094039640964424,
+      "difference_relative_l2": 0.26523440923308483,
+      "difference_linf": 0.09240522550977054,
+      "max_constraint_linf": 3.3558556440759247e-09,
+      "empirical_power_in_L": 1.2658368272931886
     },
     {
       "L": 80.0,
@@ -64,11 +84,13 @@
       "r_cosmological": 78.98059813298828,
       "A_black_hole": 0.06390429325987625,
       "A_cosmological": 0.1246872553698394,
-      "difference_l2": 0.044956747865618464,
-      "difference_relative_l2": 0.07208638210664599,
-      "difference_linf": 0.014036197611310669,
-      "max_constraint_linf": 2.7049558508874556e-11,
-      "empirical_power_in_L": 1.058988402763895
+      "retarded_time_offset_q": 2.6791369725882506,
+      "offset_difference_from_schwarzschild": -0.09345174965153058,
+      "difference_l2": 0.13017632149364888,
+      "difference_relative_l2": 0.12743481660557235,
+      "difference_linf": 0.04169236777662763,
+      "max_constraint_linf": 4.006981070670056e-09,
+      "empirical_power_in_L": 1.0575084587115156
     },
     {
       "L": 160.0,
@@ -77,11 +99,13 @@
       "r_cosmological": 158.99046547057517,
       "A_black_hole": 0.06324195087983163,
       "A_cosmological": 0.12492185973354561,
-      "difference_l2": 0.02253925968948244,
-      "difference_relative_l2": 0.03614081897635507,
-      "difference_linf": 0.007146176782222485,
-      "max_constraint_linf": 1.910724063521125e-11,
-      "empirical_power_in_L": 0.9960975455302878
+      "retarded_time_offset_q": 2.724272458022873,
+      "offset_difference_from_schwarzschild": -0.048316264216908156,
+      "difference_l2": 0.05784282200142501,
+      "difference_relative_l2": 0.056624655921468724,
+      "difference_linf": 0.020420009562295217,
+      "max_constraint_linf": 1.6247090732308875e-09,
+      "empirical_power_in_L": 1.1702572079458997
     }
   ]
 }
