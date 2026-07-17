@@ -78,10 +78,11 @@ class SdSHorizons:
 class ScalarInitialData:
     """Localized Gaussian data for the reduced scalar field ``u=r Phi``.
 
-    The center and width are specified in the common compact coordinate
-    ``rho``.  This is essential for comparisons at different cosmological
-    lengths: specifying the profile in areal radius would change the initial
-    data as the cosmological horizon moves.
+    The center and width are specified in the compact coordinate ``rho``.
+    This legacy profile is retained for the bridge-comparison study.  The
+    controlled flat-limit study instead uses :class:`ArealBumpInitialData`,
+    because equal profiles in ``rho`` are not equal physical pulses when the
+    map ``rho(r)`` depends on the cosmological length.
     """
 
     center_fraction: float = 0.45
@@ -97,6 +98,60 @@ class ScalarInitialData:
 
     def as_dict(self) -> dict[str, float | bool]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class ArealBumpInitialData:
+    r"""Smooth compactly supported initial data for ``u=r Phi``.
+
+    The normalized standard bump is
+
+    .. math::
+
+       u(r)=\exp\left[1-\frac{1}{1-x^2}\right],\qquad
+       x=\frac{r-r_0}{w},\quad |x|<1,
+
+    and is zero for ``|x| >= 1``.  It is infinitely differentiable at the
+    support boundary and has unit amplitude at ``r=r_0``.
+    """
+
+    center_radius: float = 4.0
+    support_half_width: float = 1.5
+    time_symmetric: bool = True
+    pi_amplitude: float = 0.0
+
+    def __post_init__(self) -> None:
+        if self.center_radius <= 0.0:
+            raise ValueError("Areal-radius pulse center must be positive.")
+        if self.support_half_width <= 0.0:
+            raise ValueError("Areal-radius pulse half-width must be positive.")
+        if self.center_radius <= self.support_half_width:
+            raise ValueError("The compact pulse support must have positive radius.")
+
+    def as_dict(self) -> dict[str, float | bool | str]:
+        return {"profile": "C-infinity areal-radius bump", **asdict(self)}
+
+
+def compact_areal_profile(
+    radius: np.ndarray, initial: ArealBumpInitialData
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return the common compact bump ``(u, du/dr)`` in areal radius."""
+
+    radius = np.asarray(radius, dtype=float)
+    x = (radius - initial.center_radius) / initial.support_half_width
+    inside = np.abs(x) < 1.0
+    u = np.zeros_like(radius)
+    du_dr = np.zeros_like(radius)
+    x_inside = x[inside]
+    denominator = 1.0 - x_inside**2
+    u[inside] = np.exp(1.0 - 1.0 / denominator)
+    du_dr[inside] = (
+        -2.0
+        * x_inside
+        * u[inside]
+        / (initial.support_half_width * denominator**2)
+    )
+    return u, du_dr
 
 
 def sds_horizons(parameters: SdSParameters) -> SdSHorizons:
@@ -444,6 +499,31 @@ def scalar_gaussian_initial_data(
     return u, psi, pi
 
 
+def scalar_areal_bump_initial_data(
+    rho: np.ndarray,
+    parameters: SdSParameters,
+    initial: ArealBumpInitialData,
+    bridge: str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    r"""Return identical physical data with ``psi=(du/dr)(dr/d rho)``."""
+
+    rho = np.asarray(rho, dtype=float)
+    radius = areal_radius(rho, parameters)
+    horizons = sds_horizons(parameters)
+    support_left = initial.center_radius - initial.support_half_width
+    support_right = initial.center_radius + initial.support_half_width
+    if not horizons.black_hole < support_left < support_right < horizons.cosmological:
+        raise ValueError("The compact areal-radius pulse must lie between horizons.")
+    u, du_dr = compact_areal_profile(radius, initial)
+    dr_drho = 1.0 / compactification_derivative(radius, parameters)
+    psi = du_dr * dr_drho
+    if initial.time_symmetric:
+        pi = -bridge_boost(rho, parameters, bridge) * psi
+    else:
+        pi = np.full_like(u, initial.pi_amplitude)
+    return u, psi, pi
+
+
 def minimal_height(
     r: np.ndarray, parameters: SdSParameters, reference_radius: float
 ) -> np.ndarray:
@@ -473,6 +553,63 @@ def minimal_height(
 
     return primitive(np.asarray(r, dtype=float)) - primitive(
         np.asarray(reference_radius, dtype=float)
+    )
+
+
+def tortoise_coordinate(
+    r: np.ndarray, parameters: SdSParameters, reference_radius: float
+) -> np.ndarray:
+    r"""SdS tortoise coordinate normalized by ``r_*(reference_radius)=0``.
+
+    The three logarithmic terms are the exact partial-fraction integral of
+    ``dr_*/dr=1/f``.  Ratios to the reference-radius factors make every
+    logarithm dimensionless and fix the additive constant geometrically.
+    """
+
+    horizons = sds_horizons(parameters)
+    rb, rc, ru = (
+        horizons.black_hole,
+        horizons.cosmological,
+        horizons.unphysical,
+    )
+    if not rb < reference_radius < rc:
+        raise ValueError("The tortoise reference radius must lie between horizons.")
+    radius = np.asarray(r, dtype=float)
+    if np.any((radius <= rb) | (radius >= rc)):
+        raise ValueError("The SdS tortoise coordinate is defined between horizons.")
+    return (
+        np.log((radius - rb) / (reference_radius - rb))
+        / (2.0 * horizons.kappa_black_hole)
+        - np.log((rc - radius) / (rc - reference_radius))
+        / (2.0 * horizons.kappa_cosmological)
+        + np.log((radius - ru) / (reference_radius - ru))
+        / (2.0 * horizons.kappa_unphysical)
+    )
+
+
+def retarded_time_offset(
+    parameters: SdSParameters, reference_radius: float
+) -> float:
+    r"""Return the analytic limit ``q_L=lim_{r->r_c}(h+r_*)``.
+
+    The cosmological-horizon logarithms in the normalized minimal height and
+    tortoise coordinate cancel algebraically.  Evaluating this expression
+    therefore uses neither an endpoint offset nor a fitted time translation.
+    """
+
+    horizons = sds_horizons(parameters)
+    rb, rc = horizons.black_hole, horizons.cosmological
+    ru = horizons.unphysical
+    r0 = float(reference_radius)
+    if not rb < r0 < rc:
+        raise ValueError("The retarded-time reference radius must lie between horizons.")
+    black_hole_term = np.log((rc - rb) ** 2 * r0 / (rc * (r0 - rb) ** 2))
+    scale_log = np.log(rc / r0)
+    return float(
+        black_hole_term / (2.0 * horizons.kappa_black_hole)
+        + (1.0 / (2.0 * horizons.kappa_unphysical)
+           - 1.0 / (2.0 * horizons.kappa_cosmological))
+        * scale_log
     )
 
 

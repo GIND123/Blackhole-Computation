@@ -13,6 +13,7 @@ import dedalus.public as d3
 import numpy as np
 
 from .sds_model import (
+    ArealBumpInitialData,
     BRIDGE_CHOICES,
     ScalarInitialData,
     SdSParameters,
@@ -21,6 +22,7 @@ from .sds_model import (
     propagation_coefficient,
     rescaled_scalar_potential,
     scalar_gaussian_initial_data,
+    scalar_areal_bump_initial_data,
     sds_horizons,
 )
 from .schwarzschild_scalar import (
@@ -30,6 +32,7 @@ from .schwarzschild_scalar import (
     propagation_coefficient as schwarzschild_propagation_coefficient,
     rescaled_scalar_potential as schwarzschild_rescaled_scalar_potential,
     scalar_gaussian_initial_data as schwarzschild_initial_data,
+    scalar_areal_bump_initial_data as schwarzschild_areal_bump_initial_data,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -133,7 +136,7 @@ def _timestepper(name: str):
 
 def _run_scalar_simulation(
     model: SdSParameters | SchwarzschildScalarParameters,
-    initial: ScalarInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData,
     numerical: SdSNumericalParameters,
     *,
     background: str,
@@ -169,12 +172,24 @@ def _run_scalar_simulation(
     coefficient_b = dist.Field(name="coefficient_b", bases=basis)
     potential = dist.Field(name="potential", bases=basis)
 
+    drho = lambda field: d3.Differentiate(field, rho_coord)
+
     coefficient_a["g"] = propagation_function(rho)
     coefficient_b["g"] = boost_function(rho)
     potential["g"] = potential_function(rho)
-    u["g"], psi["g"], pi["g"] = initial_function(rho)
-
-    drho = lambda field: d3.Differentiate(field, rho_coord)
+    initial_u, initial_psi, initial_pi = initial_function(rho)
+    u["g"] = initial_u
+    psi["g"] = initial_psi
+    pi["g"] = initial_pi
+    if isinstance(initial, ArealBumpInitialData):
+        # The analytic chain-rule values are used by the model validation.
+        # In the finite Chebyshev representation, initialize the auxiliary
+        # variable with the derivative of the represented u itself.  This is
+        # the spectrally consistent realization of psi=(du/dr)(dr/d rho) and
+        # prevents an avoidable O(truncation) first-order constraint at t=0.
+        psi["g"] = np.asarray(drho(u).evaluate()["g"]).ravel()
+        if initial.time_symmetric:
+            pi["g"] = -np.asarray(coefficient_b["g"]).ravel() * psi["g"]
 
     problem = d3.IVP([u, psi, pi], namespace=locals())
     problem.add_equation(
@@ -265,6 +280,15 @@ def _run_scalar_simulation(
             "B": "f*dh/dr",
             "P": "V_scalar/(f*d rho/dr)",
         },
+        "initialization": {
+            "psi": (
+                "Chebyshev derivative D_rho of the represented common u(r); "
+                "continuum identity psi=(du/dr)(dr/d rho)"
+                if isinstance(initial, ArealBumpInitialData)
+                else "analytic derivative of the rho-Gaussian"
+            ),
+            "pi": "-B*psi" if initial.time_symmetric else "constant amplitude",
+        },
     }
     LOGGER.info(
         "finished %s: tau=%.6f, iterations=%d, wall=%.2fs, max constraint=%.3e",
@@ -292,13 +316,21 @@ def _run_scalar_simulation(
 
 def run_sds_simulation(
     model: SdSParameters,
-    initial: ScalarInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData,
     numerical: SdSNumericalParameters,
 ) -> SdSSimulationResult:
     """Evolve the reduced scalar wave equation on an SdS bridge."""
 
     horizons = sds_horizons(model)
     bridge = numerical.bridge
+    if isinstance(initial, ArealBumpInitialData):
+        initial_function = lambda rho: scalar_areal_bump_initial_data(
+            rho, model, initial, bridge
+        )
+    else:
+        initial_function = lambda rho: scalar_gaussian_initial_data(
+            rho, model, initial, bridge
+        )
     return _run_scalar_simulation(
         model,
         initial,
@@ -310,22 +342,28 @@ def run_sds_simulation(
             rho, model, bridge
         ),
         potential_function=lambda rho: rescaled_scalar_potential(rho, model),
-        initial_function=lambda rho: scalar_gaussian_initial_data(
-            rho, model, initial, bridge
-        ),
+        initial_function=initial_function,
         horizon_metadata=horizons.as_dict(),
     )
 
 
 def run_schwarzschild_scalar_simulation(
     model: SchwarzschildScalarParameters,
-    initial: ScalarInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData,
     numerical: SdSNumericalParameters,
 ) -> SdSSimulationResult:
     """Evolve the Lambda=0 scalar reference in Schwarzschild minimal gauge."""
 
     if numerical.bridge != "minimal":
         raise ValueError("The Schwarzschild reference uses only the minimal gauge.")
+    if isinstance(initial, ArealBumpInitialData):
+        initial_function = lambda rho: schwarzschild_areal_bump_initial_data(
+            rho, model, initial
+        )
+    else:
+        initial_function = lambda rho: schwarzschild_initial_data(
+            rho, model, initial
+        )
     return _run_scalar_simulation(
         model,
         initial,
@@ -339,9 +377,7 @@ def run_schwarzschild_scalar_simulation(
         potential_function=lambda rho: schwarzschild_rescaled_scalar_potential(
             rho, model
         ),
-        initial_function=lambda rho: schwarzschild_initial_data(
-            rho, model, initial
-        ),
+        initial_function=initial_function,
         horizon_metadata={
             "black_hole": model.black_hole_horizon,
             "future_null_infinity": "rho=1 (r=infinity)",

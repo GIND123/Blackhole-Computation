@@ -95,7 +95,9 @@ performs a focused convergence study:
 
 The controlled flat-limit workflow requested by Professor Zenginoglu runs
 \(L=20,40,80,160\), an independent \(\Lambda=0\) Schwarzschild reference,
-and convergence studies at \(L=20\) and \(L=160\):
+and convergence studies at \(L=20\) and \(L=160\). It uses an identical
+\(C^\infty\) compact pulse in areal radius centered at \(4M\), and aligns the
+horizon signals with the analytic geometric time \(U=\tau-\lim(h+r_*)\):
 
     /home/govind/miniforge3/bin/mamba run -n dedalus3 \
       python -m black_hole --verbose sds-flat-limit \

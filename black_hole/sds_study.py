@@ -18,7 +18,12 @@ from .sds_analysis import (
     create_sds_plots,
     write_sds_diagnostics,
 )
-from .sds_model import BRIDGE_CHOICES, ScalarInitialData, SdSParameters
+from .sds_model import (
+    ArealBumpInitialData,
+    BRIDGE_CHOICES,
+    ScalarInitialData,
+    SdSParameters,
+)
 from .sds_solver import (
     SdSNumericalParameters,
     SdSSimulationResult,
@@ -74,7 +79,7 @@ def run_sds_bridge_suite(
 
 def run_sds_convergence_study(
     model: SdSParameters,
-    initial: ScalarInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData,
     base: SdSNumericalParameters,
     output_dir: Path,
     bridge: str = "minimal",
@@ -82,6 +87,7 @@ def run_sds_convergence_study(
     temporal_resolution: int = 256,
     timesteps: tuple[float, ...] = (0.02, 0.01, 0.005, 0.0025),
     end_time: float = 120.0,
+    spatial_timestep: float | None = None,
 ) -> list[dict]:
     """Run spatial and temporal convergence checks for one bridge."""
 
@@ -93,7 +99,10 @@ def run_sds_convergence_study(
             stale_path.unlink()
     rows: list[dict] = []
 
-    spatial_timestep = min(base.timestep, min(timesteps))
+    if spatial_timestep is None:
+        spatial_timestep = min(base.timestep, min(timesteps))
+    if spatial_timestep <= 0.0:
+        raise ValueError("The spatial-study timestep must be positive.")
     spatial_results = []
     for resolution in resolutions:
         settings = replace(
