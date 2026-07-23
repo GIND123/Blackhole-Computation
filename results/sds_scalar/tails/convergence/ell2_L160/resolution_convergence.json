@@ -1,0 +1,32 @@
+[
+  {
+    "ell": 2,
+    "L": 160.0,
+    "resolution": 1024,
+    "timestep": 0.005,
+    "schwarzschild_scri_power": 4.552259172988779,
+    "schwarzschild_scri_r_squared": 0.9810353364534511,
+    "sds_tail_metric": null,
+    "sds_tail_metric_kind": "gamma_over_kappa",
+    "reference_relative_l2_to_finest": 1.3713385825260833e-05,
+    "sds_relative_l2_to_finest": 1.310715341800705e-05,
+    "sds_tail_relative_l2_to_finest": 20.547118528401523,
+    "reference_max_constraint": 3.6106788531886253e-10,
+    "sds_max_constraint": 5.862140542423893e-10
+  },
+  {
+    "ell": 2,
+    "L": 160.0,
+    "resolution": 2048,
+    "timestep": 0.0025,
+    "schwarzschild_scri_power": 4.019801013423824,
+    "schwarzschild_scri_r_squared": 0.9999885073758435,
+    "sds_tail_metric": 1.702380911927639,
+    "sds_tail_metric_kind": "gamma_over_kappa",
+    "reference_relative_l2_to_finest": 0.0,
+    "sds_relative_l2_to_finest": 0.0,
+    "sds_tail_relative_l2_to_finest": 0.0,
+    "reference_max_constraint": 2.717910383308138e-09,
+    "sds_max_constraint": 5.203100330808386e-09
+  }
+]

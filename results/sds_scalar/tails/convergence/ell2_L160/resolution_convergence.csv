@@ -1,0 +1,3 @@
+ell,L,resolution,timestep,schwarzschild_scri_power,schwarzschild_scri_r_squared,sds_tail_metric,sds_tail_metric_kind,reference_relative_l2_to_finest,sds_relative_l2_to_finest,sds_tail_relative_l2_to_finest,reference_max_constraint,sds_max_constraint
+2,160.0,1024,0.005,4.552259172988779,0.9810353364534511,nan,gamma_over_kappa,1.3713385825260833e-05,1.310715341800705e-05,20.547118528401523,3.6106788531886253e-10,5.862140542423893e-10
+2,160.0,2048,0.0025,4.019801013423824,0.9999885073758435,1.702380911927639,gamma_over_kappa,0.0,0.0,0.0,2.717910383308138e-09,5.203100330808386e-09

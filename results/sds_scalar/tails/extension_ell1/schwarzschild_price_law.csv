@@ -1,0 +1,2 @@
+ell,resolution,timestep,expected_scri_power,measured_scri_power,scri_r_squared,scri_status,expected_horizon_power,measured_horizon_power,horizon_r_squared,horizon_status,maximum_constraint_linf
+1,1024,0.005,3,2.9801840501706884,0.9994277639756708,validated,5,8.63941076205611,0.9204766114676574,unresolved,1.3495381511173218e-09
