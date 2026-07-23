@@ -54,6 +54,50 @@ difference and `|q_L - q_0|` decrease as `L` increases. This is numerical
 evidence for the finite-time flat limit over the tested sequence; it is not
 presented as a proof of an asymptotic power law.
 
+## Latest tail and crossover results
+
+The tail study uses initially dynamical data with `u = psi = 0` and the same
+physical velocity `G(r)` on every background. The momentum is initialized
+separately as `pi = G/A`, so the physical initial velocity—not merely a
+coordinate array—is identical across the Schwarzschild and SdS sequence.
+
+The independent Schwarzschild calculation recovers the expected
+future-null-infinity Price exponents:
+
+| `ell` | Expected power | Measured power | Fit `R^2` |
+|---:|---:|---:|---:|
+| 0 | 2 | 2.0251 | 0.999994 |
+| 1 | 3 | 2.9842 | 0.999377 |
+| 2 | 4 | 4.0293 | 0.999791 |
+
+For finite `L`, the `ell = 0` field approaches a nonzero constant. The
+resolved dipole rates are `gamma/kappa_c = 1.0518`, `1.0445`, and `1.0613`
+for `L/M = 40`, `80`, and `160`, respectively. The `ell = 2`, `L/M = 80`
+case gives `gamma/kappa_c = 1.9249`, close to the predicted value `2`.
+Large-`L` dipole runs through `L/M = 640` quantify 1%, 5%, and 10% waveform
+trust times; their late exponential rates at fixed `N = 1024` are marked
+unresolved after the amplitudes reach spatial-truncation plateaus.
+
+![Schwarzschild Price-law validation](results/sds_scalar/tails/ell1/schwarzschild_price_law.png)
+
+*Schwarzschild dipole validation. The future-null-infinity signal recovers
+the expected power `3`; the much smaller horizon tail is conservatively
+reported as unresolved.*
+
+![SdS dipole exponential tails](results/sds_scalar/tails/ell1/late_time_semilog.png)
+
+*Finite-`L` dipole signals on a semilogarithmic scale. Shaded bands identify
+fit intervals that pass the stability and fit-quality requirements.*
+
+![Large-L rates and trust times](results/sds_scalar/tails/extension_ell1/tail_summary.png)
+
+*Resolved exponential rates and sliding-window trust times. Missing rate
+points at `L/M = 320` and `640` explicitly record the fixed-resolution
+conditioning limit.*
+
+The complete derivation, fit intervals, convergence evidence, and limitations
+are documented in [the tail-study report](docs/TAILS.md).
+
 ## 1. Scientific questions
 
 The computations address the following questions:
@@ -222,11 +266,12 @@ The corrected experiment supports the expected finite-time Schwarzschild
 limit: the coordinate map, geometric time offset, and evolved horizon waveform
 all approach their asymptotically flat counterparts as `L` grows.
 
-The present calculation does **not** yet establish the joint large-`L`,
-late-time limit. SdS decay times themselves grow with `L`, so finite-`L` tails
-need not be uniformly ordered at a fixed final time. The next stage is to
-increase `L`, extend the evolution time, and resolve the transition between SdS
-decay and the Schwarzschild tail before beginning the planned 3D extension.
+The flat-limit sequence alone does **not** establish the joint large-`L`,
+late-time limit because SdS decay times grow with `L`. That limitation
+motivated the separate tail study now included in this repository, with
+longer evolutions through `L/M = 640`, local decay rates, and quantitative
+trust times. The remaining fixed-resolution conditioning boundary is recorded
+explicitly before any planned 3D extension.
 
 ## 7. Reproducing the calculation
 
@@ -318,6 +363,10 @@ The most useful machine-readable outputs are:
 - [initial profile](results/sds_scalar/flat_limit/initial_profiles.csv)
 - [complete diagnostics](results/sds_scalar/flat_limit/diagnostics.json)
 - [raw production archives](results/sds_scalar/flat_limit/raw)
+- [tail-study diagnostics](results/sds_scalar/tails/diagnostics.json)
+- [Schwarzschild Price-law table](results/sds_scalar/tails/schwarzschild_price_law.csv)
+- [SdS decay-rate table](results/sds_scalar/tails/sds_tail_summary.csv)
+- [large-`L` trust times](results/sds_scalar/tails/extension_ell1/trust_times.csv)
 
 ## Acknowledgments
 
