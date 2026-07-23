@@ -132,6 +132,53 @@ class ArealBumpInitialData:
         return {"profile": "C-infinity areal-radius bump", **asdict(self)}
 
 
+@dataclass(frozen=True)
+class ArealVelocityBumpInitialData:
+    r"""Initially dynamical, physically matched data for ``u=r Phi``.
+
+    The displacement and its radial derivative vanish initially,
+
+    .. math::
+
+       u(0,r)=0,\qquad \psi(0,r)=0,
+
+    while the physical Killing-time velocity is the same smooth compact
+    bump ``G(r)`` on every background:
+
+    .. math::
+
+       \partial_t u(0,r)=\partial_\tau u(0,r)=G(r).
+
+    Since the first-order evolution equation gives
+    ``partial_tau u=A(B psi+pi)``, the evolved momentum is initialized as
+    ``pi=G/A``.  The support is specified in areal radius and must lie
+    strictly between the physical horizons.
+    """
+
+    center_radius: float = 6.0
+    support_half_width: float = 3.0
+    amplitude: float = 1.0
+
+    def __post_init__(self) -> None:
+        if self.center_radius <= 0.0:
+            raise ValueError("Areal-radius velocity center must be positive.")
+        if self.support_half_width <= 0.0:
+            raise ValueError("Velocity-bump half-width must be positive.")
+        if self.center_radius <= self.support_half_width:
+            raise ValueError("The velocity-bump support must have positive radius.")
+        if not np.isfinite(self.amplitude) or self.amplitude == 0.0:
+            raise ValueError("Velocity-bump amplitude must be finite and nonzero.")
+
+    def as_dict(self) -> dict[str, float | str]:
+        return {
+            "profile": "C-infinity physical areal-radius velocity bump",
+            "displacement": "u=0",
+            "radial_derivative": "psi=0",
+            "momentum": "pi=G(r)/A",
+            **asdict(self),
+        }
+
+
 def compact_areal_profile(
     radius: np.ndarray, initial: ArealBumpInitialData
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -152,6 +199,19 @@ def compact_areal_profile(
         / (initial.support_half_width * denominator**2)
     )
     return u, du_dr
+
+
+def compact_areal_velocity_profile(
+    radius: np.ndarray, initial: ArealVelocityBumpInitialData
+) -> np.ndarray:
+    """Return the common physical initial velocity ``G(r)``."""
+
+    profile_data = ArealBumpInitialData(
+        center_radius=initial.center_radius,
+        support_half_width=initial.support_half_width,
+    )
+    profile, _ = compact_areal_profile(radius, profile_data)
+    return initial.amplitude * profile
 
 
 def sds_horizons(parameters: SdSParameters) -> SdSHorizons:
@@ -521,6 +581,36 @@ def scalar_areal_bump_initial_data(
         pi = -bridge_boost(rho, parameters, bridge) * psi
     else:
         pi = np.full_like(u, initial.pi_amplitude)
+    return u, psi, pi
+
+
+def scalar_areal_velocity_initial_data(
+    rho: np.ndarray,
+    parameters: SdSParameters,
+    initial: ArealVelocityBumpInitialData,
+    bridge: str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    r"""Return ``u=psi=0`` and ``pi=G(r)/A_L(r)`` for SdS."""
+
+    rho = np.asarray(rho, dtype=float)
+    radius = areal_radius(rho, parameters)
+    horizons = sds_horizons(parameters)
+    support_left = initial.center_radius - initial.support_half_width
+    support_right = initial.center_radius + initial.support_half_width
+    if support_left <= horizons.black_hole or support_right >= horizons.cosmological:
+        raise ValueError(
+            "The physical velocity bump must lie strictly between the SdS horizons."
+        )
+
+    velocity = compact_areal_velocity_profile(radius, initial)
+    coefficient_a = propagation_coefficient(rho, parameters, bridge)
+    u = np.zeros_like(rho)
+    psi = np.zeros_like(rho)
+    pi = np.zeros_like(rho)
+    support = velocity != 0.0
+    pi[support] = velocity[support] / coefficient_a[support]
+    if not np.all(np.isfinite(pi)):
+        raise FloatingPointError("Non-finite momentum in physical velocity data.")
     return u, psi, pi
 
 

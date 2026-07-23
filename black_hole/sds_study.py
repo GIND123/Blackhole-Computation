@@ -20,6 +20,7 @@ from .sds_analysis import (
 )
 from .sds_model import (
     ArealBumpInitialData,
+    ArealVelocityBumpInitialData,
     BRIDGE_CHOICES,
     ScalarInitialData,
     SdSParameters,
@@ -79,7 +80,7 @@ def run_sds_bridge_suite(
 
 def run_sds_convergence_study(
     model: SdSParameters,
-    initial: ScalarInitialData | ArealBumpInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     base: SdSNumericalParameters,
     output_dir: Path,
     bridge: str = "minimal",

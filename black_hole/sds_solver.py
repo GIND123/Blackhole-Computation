@@ -14,6 +14,7 @@ import numpy as np
 
 from .sds_model import (
     ArealBumpInitialData,
+    ArealVelocityBumpInitialData,
     BRIDGE_CHOICES,
     ScalarInitialData,
     SdSParameters,
@@ -23,6 +24,7 @@ from .sds_model import (
     rescaled_scalar_potential,
     scalar_gaussian_initial_data,
     scalar_areal_bump_initial_data,
+    scalar_areal_velocity_initial_data,
     sds_horizons,
 )
 from .schwarzschild_scalar import (
@@ -33,6 +35,7 @@ from .schwarzschild_scalar import (
     rescaled_scalar_potential as schwarzschild_rescaled_scalar_potential,
     scalar_gaussian_initial_data as schwarzschild_initial_data,
     scalar_areal_bump_initial_data as schwarzschild_areal_bump_initial_data,
+    scalar_areal_velocity_initial_data as schwarzschild_areal_velocity_initial_data,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -50,6 +53,7 @@ class SdSNumericalParameters:
     observers: tuple[float, ...] = (0.0, 0.25, 0.5, 0.75, 1.0)
     timestepper: str = "RK222"
     bridge: str = "minimal"
+    dealias: float = 1.5
 
     def __post_init__(self) -> None:
         if self.resolution < 32:
@@ -64,6 +68,8 @@ class SdSNumericalParameters:
             raise ValueError("Observer locations must lie in [0, 1].")
         if self.bridge not in BRIDGE_CHOICES:
             raise ValueError(f"Unknown bridge {self.bridge!r}.")
+        if not np.isfinite(self.dealias) or self.dealias < 1.0:
+            raise ValueError("The spectral dealias factor must be at least one.")
 
 
 @dataclass
@@ -136,7 +142,7 @@ def _timestepper(name: str):
 
 def _run_scalar_simulation(
     model: SdSParameters | SchwarzschildScalarParameters,
-    initial: ScalarInitialData | ArealBumpInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     numerical: SdSNumericalParameters,
     *,
     background: str,
@@ -160,7 +166,7 @@ def _run_scalar_simulation(
         rho_coord,
         size=numerical.resolution,
         bounds=(0.0, 1.0),
-        dealias=1,
+        dealias=numerical.dealias,
     )
     rho = np.asarray(dist.local_grid(basis)).ravel()
     radius = radius_function(rho)
@@ -282,12 +288,22 @@ def _run_scalar_simulation(
         },
         "initialization": {
             "psi": (
-                "Chebyshev derivative D_rho of the represented common u(r); "
-                "continuum identity psi=(du/dr)(dr/d rho)"
-                if isinstance(initial, ArealBumpInitialData)
-                else "analytic derivative of the rho-Gaussian"
+                "identically zero"
+                if isinstance(initial, ArealVelocityBumpInitialData)
+                else (
+                    "Chebyshev derivative D_rho of the represented common u(r); "
+                    "continuum identity psi=(du/dr)(dr/d rho)"
+                    if isinstance(initial, ArealBumpInitialData)
+                    else "analytic derivative of the rho-Gaussian"
+                )
             ),
-            "pi": "-B*psi" if initial.time_symmetric else "constant amplitude",
+            "pi": (
+                "G(r)/A(r), giving partial_tau u=G(r)"
+                if isinstance(initial, ArealVelocityBumpInitialData)
+                else "-B*psi"
+                if initial.time_symmetric
+                else "constant amplitude"
+            ),
         },
     }
     LOGGER.info(
@@ -316,14 +332,18 @@ def _run_scalar_simulation(
 
 def run_sds_simulation(
     model: SdSParameters,
-    initial: ScalarInitialData | ArealBumpInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     numerical: SdSNumericalParameters,
 ) -> SdSSimulationResult:
     """Evolve the reduced scalar wave equation on an SdS bridge."""
 
     horizons = sds_horizons(model)
     bridge = numerical.bridge
-    if isinstance(initial, ArealBumpInitialData):
+    if isinstance(initial, ArealVelocityBumpInitialData):
+        initial_function = lambda rho: scalar_areal_velocity_initial_data(
+            rho, model, initial, bridge
+        )
+    elif isinstance(initial, ArealBumpInitialData):
         initial_function = lambda rho: scalar_areal_bump_initial_data(
             rho, model, initial, bridge
         )
@@ -349,14 +369,18 @@ def run_sds_simulation(
 
 def run_schwarzschild_scalar_simulation(
     model: SchwarzschildScalarParameters,
-    initial: ScalarInitialData | ArealBumpInitialData,
+    initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     numerical: SdSNumericalParameters,
 ) -> SdSSimulationResult:
     """Evolve the Lambda=0 scalar reference in Schwarzschild minimal gauge."""
 
     if numerical.bridge != "minimal":
         raise ValueError("The Schwarzschild reference uses only the minimal gauge.")
-    if isinstance(initial, ArealBumpInitialData):
+    if isinstance(initial, ArealVelocityBumpInitialData):
+        initial_function = lambda rho: schwarzschild_areal_velocity_initial_data(
+            rho, model, initial
+        )
+    elif isinstance(initial, ArealBumpInitialData):
         initial_function = lambda rho: schwarzschild_areal_bump_initial_data(
             rho, model, initial
         )

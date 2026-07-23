@@ -8,8 +8,10 @@ import numpy as np
 
 from .sds_model import (
     ArealBumpInitialData,
+    ArealVelocityBumpInitialData,
     ScalarInitialData,
     compact_areal_profile,
+    compact_areal_velocity_profile,
 )
 
 
@@ -129,6 +131,32 @@ def scalar_areal_bump_initial_data(
         pi = -minimal_boost(rho) * psi
     else:
         pi = np.full_like(u, initial.pi_amplitude)
+    return u, psi, pi
+
+
+def scalar_areal_velocity_initial_data(
+    rho: np.ndarray,
+    parameters: SchwarzschildScalarParameters,
+    initial: ArealVelocityBumpInitialData,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    r"""Return ``u=psi=0`` and ``pi=G(r)/A_0(r)`` for Schwarzschild."""
+
+    rho = np.asarray(rho, dtype=float)
+    support_left = initial.center_radius - initial.support_half_width
+    if support_left <= parameters.black_hole_horizon:
+        raise ValueError(
+            "The physical velocity bump must lie strictly outside the horizon."
+        )
+    radius = areal_radius(rho, parameters)
+    velocity = compact_areal_velocity_profile(radius, initial)
+    coefficient_a = propagation_coefficient(rho, parameters)
+    u = np.zeros_like(rho)
+    psi = np.zeros_like(rho)
+    pi = np.zeros_like(rho)
+    support = velocity != 0.0
+    pi[support] = velocity[support] / coefficient_a[support]
+    if not np.all(np.isfinite(pi)):
+        raise FloatingPointError("Non-finite momentum in physical velocity data.")
     return u, psi, pi
 
 

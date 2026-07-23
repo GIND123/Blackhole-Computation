@@ -1,0 +1,24 @@
+[
+  {
+    "ell": 1,
+    "L": 160.0,
+    "resolution": 1024,
+    "timestep": 0.01,
+    "schwarzschild_scri_power": 2.984220851096196,
+    "gamma_over_kappa": 1.0612921306396996,
+    "reference_relative_l2_to_finest": 2.8566654517969625e-05,
+    "sds_relative_l2_to_finest": 2.7342805533562295e-05,
+    "sds_tail_relative_l2_to_finest": 4.7744995041025396e-08
+  },
+  {
+    "ell": 1,
+    "L": 160.0,
+    "resolution": 1024,
+    "timestep": 0.005,
+    "schwarzschild_scri_power": 2.984221040372153,
+    "gamma_over_kappa": 1.061292045608606,
+    "reference_relative_l2_to_finest": 0.0,
+    "sds_relative_l2_to_finest": 0.0,
+    "sds_tail_relative_l2_to_finest": 0.0
+  }
+]

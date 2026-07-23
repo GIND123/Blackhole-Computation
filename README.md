@@ -24,14 +24,14 @@ projects:
    the black-hole and cosmological horizons and compared with an independent
    Schwarzschild reference at future null infinity.
 
-The current principal result is a controlled one-dimensional SdS-to-
-Schwarzschild flat-limit experiment. The comparison uses the same smooth,
-compactly supported physical pulse in areal radius on every spacetime and an
-analytically derived geometric retarded time. For `L/M = 20, 40, 80, 160`,
-the aligned cosmological-horizon waveform approaches the Schwarzschild
-waveform monotonically. The calculation is supported by analytic endpoint
-regularization, first-order constraint monitoring, spatial convergence through
-512 Chebyshev modes, and timestep refinement.
+The current principal results are a controlled one-dimensional SdS-to-
+Schwarzschild flat-limit experiment and a high-resolution tail/crossover
+study. The latter uses identical initially dynamical physical data,
+validates the Schwarzschild Price exponents `2`, `3`, and `4` at future null
+infinity for `ell = 0, 1, 2`, recovers the nonzero finite-`L` SdS monopole,
+and resolves exponential dipole and quadrupole regimes. Tail production uses
+up to 2048 Chebyshev modes, with explicit resolution, timestep, pulse-width,
+and trust-time diagnostics.
 
 > **Reproducibility:** source code, raw simulation archives, CSV tables,
 > diagnostics, figures, and convergence runs are stored together in this
@@ -110,6 +110,7 @@ More complete derivations are available in:
 
 - [SdS scalar formulation](docs/SDS_SCALAR.md)
 - [Corrected flat-limit derivation and results](docs/FLAT_LIMIT.md)
+- [Dynamical tails and crossover study](docs/TAILS.md)
 - [Schwarzschild perturbation method](docs/METHOD.md)
 
 ## 3. Controlled flat-limit experiment
@@ -262,10 +263,11 @@ cases, both convergence studies, and all plot/table generation.
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 16 analytic and model-level tests covering horizon
-roots, regular endpoint coefficients, the compactification and its inverse,
+The current suite contains 28 analytic and model-level tests covering horizon
+roots, regular endpoint coefficients, compactification and its inverse,
 identical areal-radius data, chain-rule initialization, height normalization,
-analytic retarded-time limits, and the Schwarzschild flat limit.
+analytic retarded-time limits, the Schwarzschild flat limit, physically
+matched velocity data, robust tail fits, alignment, and trust-time logic.
 
 ## 8. Repository organization
 
@@ -275,10 +277,14 @@ black_hole/
   schwarzschild_scalar.py   Independent asymptotically flat reference model
   sds_solver.py             Dedalus first-order scalar evolution
   flat_limit_study.py       Controlled sequence, alignment, diagnostics, plots
+  tail_analysis.py          Power/exponential fits and trust-time diagnostics
+  tail_study.py             Schwarzschild/SdS tail production workflow
+  tail_validation.py        Resolution, timestep, and profile reports
   model.py, solver.py       Regge-Wheeler perturbation calculation
 
 docs/
   FLAT_LIMIT.md             Full corrected flat-limit derivation and results
+  TAILS.md                  Dynamical tail derivation, validation, and results
   SDS_SCALAR.md             Bridge-coordinate scalar formulation
   METHOD.md                 Schwarzschild perturbation method
   RESULTS.md                Regge-Wheeler production results
@@ -289,6 +295,14 @@ results/sds_scalar/flat_limit/
   *.csv                     Waveforms, offsets, profiles, and summary tables
   *.png                     Publication-style figures
   diagnostics.json          Machine-readable configuration and diagnostics
+
+results/sds_scalar/tails/
+  raw/                      Tail production archives for ell = 0, 1, 2
+  convergence/              Resolution and timestep evidence
+  profile_sensitivity/      Independent physical-width check
+  extension_ell1/           Selected L/M = 320, 640 conditioning study
+  ell0/, ell1/, ell2/       Publication-style validation figures
+  *.csv, diagnostics.json   Fits, trust times, and complete metadata
 
 tests/                      Analytic and numerical-model regression tests
 environment.yml             Reproducible software environment

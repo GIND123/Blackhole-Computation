@@ -1,0 +1,28 @@
+[
+  {
+    "ell": 1,
+    "L": 160.0,
+    "support_half_width": 2.75,
+    "resolution": 1024,
+    "timestep": 0.005,
+    "schwarzschild_scri_power": 3.047811027322296,
+    "schwarzschild_scri_r_squared": 0.9996802385063793,
+    "gamma_over_kappa": 0.9146490673274996,
+    "exponential_r_squared": 0.9999873643974961,
+    "exponential_start": 367.72572754171273,
+    "exponential_end": 529.7257275415654
+  },
+  {
+    "ell": 1,
+    "L": 160.0,
+    "support_half_width": 3.0,
+    "resolution": 1024,
+    "timestep": 0.005,
+    "schwarzschild_scri_power": 3.002680133192351,
+    "schwarzschild_scri_r_squared": 0.9999567165863112,
+    "gamma_over_kappa": 1.0911169589340772,
+    "exponential_r_squared": 0.9996559930995541,
+    "exponential_start": 430.075727541656,
+    "exponential_end": 592.0757275415087
+  }
+]

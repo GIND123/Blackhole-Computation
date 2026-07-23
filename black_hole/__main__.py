@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import json
 import logging
 from pathlib import Path
@@ -13,6 +14,7 @@ from .model import InitialData, ModelParameters
 from .sds_analysis import create_sds_plots, write_sds_diagnostics
 from .sds_model import (
     ArealBumpInitialData,
+    ArealVelocityBumpInitialData,
     BRIDGE_CHOICES,
     ScalarInitialData,
     SdSParameters,
@@ -25,6 +27,12 @@ from .sds_solver import (
 from .sds_study import run_sds_bridge_suite, run_sds_convergence_study
 from .solver import NumericalParameters, load_result, run_simulation
 from .study import run_convergence_study
+from .tail_study import run_tail_study
+from .tail_validation import (
+    create_profile_sensitivity_report,
+    create_resolution_report,
+    create_timestep_report,
+)
 
 
 def numerical_from_args(args: argparse.Namespace) -> NumericalParameters:
@@ -75,6 +83,14 @@ def flat_limit_initial_from_args(args: argparse.Namespace) -> ArealBumpInitialDa
     )
 
 
+def tail_initial_from_args(args: argparse.Namespace) -> ArealVelocityBumpInitialData:
+    return ArealVelocityBumpInitialData(
+        center_radius=args.center_radius,
+        support_half_width=args.support_half_width,
+        amplitude=args.amplitude,
+    )
+
+
 def sds_numerical_from_args(args: argparse.Namespace) -> SdSNumericalParameters:
     return SdSNumericalParameters(
         resolution=args.resolution,
@@ -84,6 +100,7 @@ def sds_numerical_from_args(args: argparse.Namespace) -> SdSNumericalParameters:
         snapshot_dt=args.snapshot_dt,
         timestepper=args.timestepper,
         bridge=args.bridge,
+        dealias=args.dealias,
     )
 
 
@@ -117,6 +134,12 @@ def add_sds_numerical_arguments(parser: argparse.ArgumentParser) -> None:
         default="RK222",
     )
     parser.add_argument("--bridge", choices=BRIDGE_CHOICES, default="minimal")
+    parser.add_argument(
+        "--dealias",
+        type=float,
+        default=1.5,
+        help="Chebyshev dealias scale for variable-coefficient products",
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -214,6 +237,111 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("results/sds_scalar/flat_limit"),
     )
+    flat_limit.add_argument("--dealias", type=float, default=1.5)
+
+    tails = subparsers.add_parser(
+        "sds-tail-study",
+        help="validate Schwarzschild Price laws and finite-L SdS tails",
+    )
+    tails.add_argument("--mass", type=float, default=1.0)
+    tails.add_argument("--ells", nargs="+", type=int, default=[0, 1, 2])
+    tails.add_argument(
+        "--lengths", nargs="+", type=float, default=[20.0, 40.0, 80.0, 160.0]
+    )
+    tails.add_argument("--center-radius", type=float, default=6.0)
+    tails.add_argument(
+        "--support-half-width",
+        type=float,
+        default=3.0,
+        help="areal-radius half-width of the physical velocity bump",
+    )
+    tails.add_argument("--amplitude", type=float, default=1.0)
+    add_sds_numerical_arguments(tails)
+    tails.set_defaults(
+        bridge="minimal",
+        resolution=1024,
+        timestep=0.005,
+        end_time=120.0,
+        signal_dt=0.05,
+        snapshot_dt=2.0,
+    )
+    tails.add_argument(
+        "--ell2-resolution",
+        type=int,
+        default=2048,
+        help="targeted ell=2 Chebyshev resolution",
+    )
+    tails.add_argument(
+        "--ell2-timestep",
+        type=float,
+        default=0.0025,
+        help="targeted ell=2 timestep",
+    )
+    tails.add_argument("--reference-radius", type=float, default=4.0)
+    tails.add_argument(
+        "--cosmological-timescales",
+        type=float,
+        default=5.0,
+        help="evolve each SdS case for this many inverse surface gravities",
+    )
+    tails.add_argument(
+        "--window-width",
+        type=float,
+        default=20.0,
+        help="width in M of the sliding relative-waveform comparison",
+    )
+    tails.add_argument(
+        "--reuse-existing",
+        action="store_true",
+        help="reuse matching raw paths instead of rerunning evolutions",
+    )
+    tails.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/sds_scalar/tails"),
+    )
+
+    tail_resolution = subparsers.add_parser(
+        "sds-tail-resolution-report",
+        help="compare saved tail runs at increasing resolutions",
+    )
+    tail_resolution.add_argument("--ell", type=int, required=True)
+    tail_resolution.add_argument("--length", type=float, required=True)
+    tail_resolution.add_argument(
+        "--reference-inputs", nargs="+", type=Path, required=True
+    )
+    tail_resolution.add_argument(
+        "--sds-inputs", nargs="+", type=Path, required=True
+    )
+    tail_resolution.add_argument("--reference-radius", type=float, default=4.0)
+    tail_resolution.add_argument("--output-dir", type=Path, required=True)
+
+    tail_profile = subparsers.add_parser(
+        "sds-tail-profile-report",
+        help="compare saved tail runs for different physical pulse widths",
+    )
+    tail_profile.add_argument("--ell", type=int, required=True)
+    tail_profile.add_argument("--length", type=float, required=True)
+    tail_profile.add_argument("--half-widths", nargs="+", type=float, required=True)
+    tail_profile.add_argument(
+        "--reference-inputs", nargs="+", type=Path, required=True
+    )
+    tail_profile.add_argument("--sds-inputs", nargs="+", type=Path, required=True)
+    tail_profile.add_argument("--reference-radius", type=float, default=4.0)
+    tail_profile.add_argument("--output-dir", type=Path, required=True)
+
+    tail_timestep = subparsers.add_parser(
+        "sds-tail-timestep-report",
+        help="compare saved tail runs at fixed resolution and refined timesteps",
+    )
+    tail_timestep.add_argument("--ell", type=int, required=True)
+    tail_timestep.add_argument("--length", type=float, required=True)
+    tail_timestep.add_argument(
+        "--reference-inputs", nargs="+", type=Path, required=True
+    )
+    tail_timestep.add_argument("--sds-inputs", nargs="+", type=Path, required=True)
+    tail_timestep.add_argument("--reference-radius", type=float, default=4.0)
+    tail_timestep.add_argument("--output-dir", type=Path, required=True)
     return parser
 
 
@@ -310,6 +438,76 @@ def main() -> None:
             run_convergence=not args.skip_convergence,
         )
         print(json.dumps(results, indent=2))
+        return
+
+    if args.command == "sds-tail-study":
+        output_dir = args.output_dir
+        output_dir.mkdir(parents=True, exist_ok=True)
+        numerical = sds_numerical_from_args(args)
+        results = run_tail_study(
+            mass=args.mass,
+            ells=tuple(args.ells),
+            lengths=tuple(args.lengths),
+            initial=tail_initial_from_args(args),
+            numerical=numerical,
+            output_dir=output_dir,
+            reference_radius=args.reference_radius,
+            cosmological_timescales=args.cosmological_timescales,
+            window_width=args.window_width,
+            reuse_existing=args.reuse_existing,
+            ell2_numerical=replace(
+                numerical,
+                resolution=args.ell2_resolution,
+                timestep=args.ell2_timestep,
+            ),
+        )
+        print(json.dumps(results, indent=2))
+        return
+
+    if args.command == "sds-tail-resolution-report":
+        rows = create_resolution_report(
+            ell=args.ell,
+            length=args.length,
+            reference_paths=tuple(args.reference_inputs),
+            sds_paths=tuple(args.sds_inputs),
+            output_dir=args.output_dir,
+            reference_radius=args.reference_radius,
+        )
+        print(json.dumps(rows, indent=2))
+        return
+
+    if args.command == "sds-tail-profile-report":
+        if not (
+            len(args.half_widths)
+            == len(args.reference_inputs)
+            == len(args.sds_inputs)
+        ):
+            parser.error(
+                "--half-widths, --reference-inputs, and --sds-inputs "
+                "must contain the same number of entries"
+            )
+        rows = create_profile_sensitivity_report(
+            ell=args.ell,
+            length=args.length,
+            cases=tuple(
+                zip(args.half_widths, args.reference_inputs, args.sds_inputs)
+            ),
+            output_dir=args.output_dir,
+            reference_radius=args.reference_radius,
+        )
+        print(json.dumps(rows, indent=2))
+        return
+
+    if args.command == "sds-tail-timestep-report":
+        rows = create_timestep_report(
+            ell=args.ell,
+            length=args.length,
+            reference_paths=tuple(args.reference_inputs),
+            sds_paths=tuple(args.sds_inputs),
+            output_dir=args.output_dir,
+            reference_radius=args.reference_radius,
+        )
+        print(json.dumps(rows, indent=2))
         return
 
     output_dir = args.output_dir
