@@ -28,10 +28,11 @@ The current principal results are a controlled one-dimensional SdS-to-
 Schwarzschild flat-limit experiment and a high-resolution tail/crossover
 study. The latter uses identical initially dynamical physical data,
 validates the Schwarzschild Price exponents `2`, `3`, and `4` at future null
-infinity for `ell = 0, 1, 2`, recovers the nonzero finite-`L` SdS monopole,
-and resolves exponential dipole and quadrupole regimes. Tail production uses
-up to 2048 Chebyshev modes, with explicit resolution, timestep, pulse-width,
-and trust-time diagnostics.
+infinity, resolves their finite-radius counterparts, and tracks the
+finite-`L` transition from a Schwarzschild power tail to an SdS exponential
+tail. The newest exact-observer runs use up to 4096 Chebyshev modes, with
+explicit spatial-refinement, timestep, pulse-width, and trust-time
+diagnostics.
 
 > **Reproducibility:** source code, raw simulation archives, CSV tables,
 > diagnostics, figures, and convergence runs are stored together in this
@@ -70,30 +71,52 @@ future-null-infinity Price exponents:
 | 1 | 3 | 2.9842 | 0.999377 |
 | 2 | 4 | 4.0293 | 0.999791 |
 
-For finite `L`, the `ell = 0` field approaches a nonzero constant. The
-resolved dipole rates are `gamma/kappa_c = 1.0518`, `1.0445`, and `1.0613`
-for `L/M = 40`, `80`, and `160`, respectively. The `ell = 2`, `L/M = 80`
-case gives `gamma/kappa_c = 1.9249`, close to the predicted value `2`.
-Large-`L` dipole runs through `L/M = 640` quantify 1%, 5%, and 10% waveform
-trust times; their late exponential rates at fixed `N = 1024` are marked
-unresolved after the amplitudes reach spatial-truncation plateaus.
+The refined finite-radius Schwarzschild runs use `N = 2048` for
+`ell = 0,1` and `N = 4096` for `ell = 2`, with exact Dedalus interpolation
+operators at `r/M = 4,8,16,20,50,100,200`. At `r = 20M`, the clean late
+rates are approximately `-2.93`, `-4.74`, and `-6.71`, approaching the
+finite-radius targets `-3`, `-5`, and `-7`; the corresponding future-null-
+infinity rates approach `-2`, `-3`, and `-4`.
 
-![Schwarzschild Price-law validation](results/sds_scalar/tails/ell1/schwarzschild_price_law.png)
+For finite `L`, a centered RMS amplitude envelope removes phase singularities
+at waveform zero crossings before the local exponential rate is
+differentiated. The crossover is defined as the first persistent interval
+where the normalized rate is closer to the SdS target than to the
+Schwarzschild prediction:
 
-*Schwarzschild dipole validation. The future-null-infinity signal recovers
-the expected power `3`; the much smaller horizon tail is conservatively
-reported as unresolved.*
+| `L/M` | `U_cross/M` at the cosmological horizon | `U_cross/M` at `r = 8M` |
+|---:|---:|---:|
+| 20 | 67.44 | unresolved |
+| 40 | 130.70 | unresolved |
+| 80 | 149.37 | 180.87 |
+| 160 | 258.18 | 360.08 |
 
-![SdS dipole exponential tails](results/sds_scalar/tails/ell1/late_time_semilog.png)
+Thus the physical crossover moves later as the cosmological scale increases,
+and the finite-radius transition occurs later than the horizon transition
+when both are resolved. A separate `ell = 2`, `L/M = 80`, `N = 4096`
+refinement gives late normalized rates `2.02` at `r = 8M` and `2.05` at the
+cosmological horizon, consistent with the SdS target `2`.
 
-*Finite-`L` dipole signals on a semilogarithmic scale. Shaded bands identify
-fit intervals that pass the stability and fit-quality requirements.*
+![Higher-resolution Schwarzschild finite-radius rates](results/sds_scalar/tails/high_resolution_rates/schwarzschild_high_resolution_rates.png)
 
-![Large-L rates and trust times](results/sds_scalar/tails/extension_ell1/tail_summary.png)
+*Higher-resolution local power indices at four finite radii and future null
+infinity. The restricted vertical ranges expose the approach to the
+location-dependent Price rates.*
 
-*Resolved exponential rates and sliding-window trust times. Missing rate
-points at `L/M = 320` and `640` explicitly record the fixed-resolution
-conditioning limit.*
+![Finite-L dipole rate transition](results/sds_scalar/tails/high_resolution_rates/sds_ell1_multiradius_rate_transition.png)
+
+*Phase-insensitive local dipole rates at three finite radii and the
+cosmological horizon, compared with the Schwarzschild power-law and SdS
+exponential predictions.*
+
+![Dipole crossover times](results/sds_scalar/tails/high_resolution_rates/sds_ell1_crossover_times.png)
+
+*Operational crossover times in physical and cosmological units. Missing
+finite-radius points mean that no persistent transition was resolved; they
+are not silently extrapolated.*
+
+The [quadrupole refinement plot](results/sds_scalar/tails/high_resolution_rates/sds_ell2_L80_rate_refinement.png)
+provides the independent higher-multipole check.
 
 The complete derivation, fit intervals, convergence evidence, and limitations
 are documented in [the tail-study report](docs/TAILS.md).
@@ -308,7 +331,7 @@ cases, both convergence studies, and all plot/table generation.
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 28 analytic and model-level tests covering horizon
+The current suite contains 30 analytic and model-level tests covering horizon
 roots, regular endpoint coefficients, compactification and its inverse,
 identical areal-radius data, chain-rule initialization, height normalization,
 analytic retarded-time limits, the Schwarzschild flat limit, physically
@@ -323,6 +346,7 @@ black_hole/
   sds_solver.py             Dedalus first-order scalar evolution
   flat_limit_study.py       Controlled sequence, alignment, diagnostics, plots
   tail_analysis.py          Power/exponential fits and trust-time diagnostics
+  high_resolution_tail_rates.py  Exact-observer refinement and crossover report
   tail_study.py             Schwarzschild/SdS tail production workflow
   tail_validation.py        Resolution, timestep, and profile reports
   model.py, solver.py       Regge-Wheeler perturbation calculation
@@ -346,6 +370,7 @@ results/sds_scalar/tails/
   convergence/              Resolution and timestep evidence
   profile_sensitivity/      Independent physical-width check
   extension_ell1/           Selected L/M = 320, 640 conditioning study
+  high_resolution_rates/    Exact-observer archives, rate tables, and figures
   ell0/, ell1/, ell2/       Publication-style validation figures
   *.csv, diagnostics.json   Fits, trust times, and complete metadata
 

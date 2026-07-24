@@ -9,6 +9,7 @@ import numpy as np
 from black_hole.tail_analysis import (
     aligned_signals,
     asymptotic_constant,
+    decay_rate_transition_time,
     fit_exponential,
     fit_power_law,
     sliding_window_difference,
@@ -99,6 +100,42 @@ class TailAnalysisTests(unittest.TestCase):
             )
         )
         np.testing.assert_allclose(interpolated, expected, rtol=2e-13, atol=2e-13)
+
+    def test_decay_rate_transition_requires_both_regimes(self) -> None:
+        scaled_time = np.linspace(0.5, 5.0, 4501)
+        schwarzschild = 5.0 / scaled_time
+        normalized_rate = np.where(scaled_time < 2.0, schwarzschild, 1.0)
+        transition = decay_rate_transition_time(
+            scaled_time,
+            normalized_rate,
+            schwarzschild_power=5.0,
+            ell=1,
+            sustained_width=0.1,
+        )
+        self.assertGreaterEqual(transition, 2.0)
+        self.assertLess(transition, 2.02)
+
+        never_sds = decay_rate_transition_time(
+            scaled_time,
+            schwarzschild,
+            schwarzschild_power=5.0,
+            ell=1,
+            sustained_width=0.1,
+        )
+        self.assertTrue(np.isnan(never_sds))
+
+        temporary_excursion = schwarzschild.copy()
+        temporary_excursion[
+            (scaled_time >= 2.0) & (scaled_time <= 2.3)
+        ] = 1.0
+        rejected = decay_rate_transition_time(
+            scaled_time,
+            temporary_excursion,
+            schwarzschild_power=5.0,
+            ell=1,
+            sustained_width=0.1,
+        )
+        self.assertTrue(np.isnan(rejected))
 
 
 if __name__ == "__main__":

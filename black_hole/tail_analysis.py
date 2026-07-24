@@ -397,3 +397,78 @@ def trust_times(
                 break
         answer[threshold] = crossing
     return answer
+
+
+def decay_rate_transition_time(
+    scaled_time: np.ndarray,
+    normalized_rate: np.ndarray,
+    schwarzschild_power: float,
+    ell: int,
+    *,
+    sustained_width: float = 0.25,
+    establishment_width: float = 0.08,
+    minimum_scaled_time: float = 0.45,
+) -> float:
+    """Locate a sustained Schwarzschild-to-SdS local-rate transition.
+
+    ``normalized_rate`` is ``gamma_eff/kappa_c`` and ``scaled_time`` is
+    ``kappa_c U``.  The early Schwarzschild power law predicts
+    ``schwarzschild_power/scaled_time``; the minimally coupled late SdS tail
+    predicts ``ell``.  The returned time is the first sustained interval that
+    is closer to the SdS prediction, after a sustained Schwarzschild-like
+    interval has first been established, provided the SdS classification
+    also dominates the remaining resolved tail.  The persistence check
+    rejects a temporary oscillatory crossing.
+    """
+
+    scaled_time = np.asarray(scaled_time, dtype=float)
+    normalized_rate = np.asarray(normalized_rate, dtype=float)
+    if scaled_time.shape != normalized_rate.shape or scaled_time.ndim != 1:
+        raise ValueError("Scaled times and rates must be one-dimensional peers.")
+    if scaled_time.size < 3 or np.any(np.diff(scaled_time) <= 0.0):
+        raise ValueError("Scaled time must be strictly increasing.")
+    if schwarzschild_power <= 0.0 or ell <= 0:
+        raise ValueError("Positive Schwarzschild and SdS rates are required.")
+    if sustained_width <= 0.0 or establishment_width <= 0.0:
+        raise ValueError("The sustained widths must be positive.")
+
+    valid = (
+        (scaled_time > minimum_scaled_time)
+        & np.isfinite(normalized_rate)
+        & (normalized_rate > 0.0)
+    )
+    schwarzschild = schwarzschild_power / np.maximum(scaled_time, 1e-12)
+    closer_sds = (
+        valid
+        & (
+            np.abs(normalized_rate - ell)
+            < np.abs(normalized_rate - schwarzschild)
+        )
+    )
+    closer_schwarzschild = valid & ~closer_sds
+    step = float(np.median(np.diff(scaled_time)))
+    transition_count = max(2, int(round(sustained_width / step)))
+    establishment_count = max(2, int(round(establishment_width / step)))
+    armed = False
+    maximum_count = max(establishment_count, transition_count)
+    for index in range(0, scaled_time.size - maximum_count + 1):
+        if not armed and np.all(
+            closer_schwarzschild[index : index + establishment_count]
+        ):
+            armed = True
+            continue
+        if armed and np.all(closer_sds[index : index + transition_count]):
+            suffix = np.flatnonzero(valid & (scaled_time >= scaled_time[index]))
+            if suffix.size < transition_count:
+                continue
+            span = float(scaled_time[suffix[-1]] - scaled_time[suffix[0]])
+            persistent_fraction = float(np.mean(closer_sds[suffix]))
+            final_indices = suffix[-transition_count:]
+            final_fraction = float(np.mean(closer_sds[final_indices]))
+            if (
+                span >= max(0.5, 2.0 * sustained_width)
+                and persistent_fraction >= 0.70
+                and final_fraction >= 0.70
+            ):
+                return float(scaled_time[index])
+    return float("nan")

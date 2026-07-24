@@ -1,0 +1,5 @@
+ell,L_over_M,observer,baseline_resolution,refined_resolution,median_absolute_normalized_rate_difference
+1,20.0,cosmological_horizon,1024,2048,2.8111144128040166e-06
+1,40.0,cosmological_horizon,1024,2048,0.00056118066219768
+1,80.0,cosmological_horizon,1024,2048,0.015119182450411772
+1,160.0,cosmological_horizon,1024,2048,0.06384905182936595

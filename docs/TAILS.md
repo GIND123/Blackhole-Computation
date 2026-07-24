@@ -115,9 +115,12 @@ flat-limit comparisons.  A dedicated refinement study found:
 - \(N=1024\): resolved \(\ell=0,1\) tails;
 - \(N=2048\): required for the \(\ell=2\) tail.
 
-The final raw data therefore use \(N=1024,\Delta\tau=0.005M\) for
-\(\ell=0,1\), and \(N=2048,\Delta\tau=0.0025M\) for \(\ell=2\).
-Every archive records its actual settings.
+The original global production data use \(N=1024,\Delta\tau=0.005M\) for
+\(\ell=0,1\), and \(N=2048,\Delta\tau=0.0025M\) for \(\ell=2\).  The
+subsequent exact-observer rate study doubles both spatial and temporal
+resolution: \(N=2048,\Delta\tau=0.0025M\) for \(\ell=0,1\), and
+\(N=4096,\Delta\tau=0.00125M\) for \(\ell=2\).  Every archive records its
+actual settings.
 
 ## 4. Schwarzschild Price-law validation
 
@@ -156,11 +159,9 @@ Following the finite-distance diagnostics in
 and [Zenginoğlu, Khanna, and Burko (2014)](https://arxiv.org/abs/1208.5839),
 restricted-range plots evaluate the signed rate
 \(n_{\rm eff}=d\ln|u|/d\ln U=-p_{\rm eff}\) at up to
-\(r/M=20,50,100,200\) and at \(\mathscr I^+\).  The \(\ell=2\), \(r=20M\)
-curve is omitted because it reaches the spatial-truncation floor in the
-relevant interval.  The remaining finite-radius signals are evaluated from
-the saved dealiased Chebyshev snapshots by barycentric interpolation; no new
-evolution or radial extrapolation is used.
+\(r/M=20,50,100,200\) and at \(\mathscr I^+\).  The refined evolutions use
+exact Dedalus interpolation operators at every extraction radius, rather
+than reconstructing the time series from sparse spatial snapshots.
 
 The curves resolve the transition between the signed null-infinity target
 \(-(\ell+2)\) and the signed finite-radius target \(-(2\ell+3)\).  The
@@ -169,9 +170,13 @@ faster-decaying finite-radius signals eventually reach the
 spatial-truncation floor.  Data beyond that point are omitted rather than
 interpreted as physical rates.
 
-- [Restricted \(\ell=0\) rates](../results/sds_scalar/tails/distance_rates/schwarzschild_local_decay_rate_ell0.png)
-- [Restricted \(\ell=1\) rates](../results/sds_scalar/tails/distance_rates/schwarzschild_local_decay_rate_ell1.png)
-- [Restricted \(\ell=2\) rates](../results/sds_scalar/tails/distance_rates/schwarzschild_local_decay_rate_ell2.png)
+![Refined finite-radius rates](../results/sds_scalar/tails/high_resolution_rates/schwarzschild_high_resolution_rates.png)
+
+The earlier snapshot-interpolated curves are retained for provenance but are
+superseded by these exact-observer refinements.  The direct resolution plot
+shows that the late oscillations shrink strongly when \(N\) is doubled:
+
+![Finite-radius resolution check](../results/sds_scalar/tails/high_resolution_rates/schwarzschild_rate_resolution_comparison.png)
 
 ## 5. SdS monopole constants
 
@@ -197,6 +202,38 @@ The local exponential rate is
 \gamma_{\rm eff}(U)=-\frac{d\ln|u|}{dU}.
 \]
 
+### Multi-radius finite-\(L\) crossover
+
+The direct derivative of \(\ln|u|\) is singular at each oscillatory waveform
+zero.  For the crossover diagnostic, the amplitude is therefore defined by a
+centered sliding RMS envelope before differentiation.  This phase-insensitive
+estimator preserves a slowly varying power-law or exponential rate without
+mistaking zero crossings for numerical-rate oscillations.
+
+In the scaled variables \(x=\kappa_cU\) and
+\(\widehat\gamma=\gamma_{\rm eff}/\kappa_c\), the early Schwarzschild
+predictions are \(5/x\) at fixed finite radius and \(3/x\) at the outer
+boundary for \(\ell=1\).  The late minimally coupled SdS target is
+\(\widehat\gamma=1\).  We define the crossover as the first sustained interval
+that is closer to the SdS target than to the appropriate Schwarzschild curve,
+after a Schwarzschild-like interval has been established and provided the SdS
+classification dominates the remaining resolved tail.
+
+| \(L/M\) | \(\mathcal H_c^+\): \(U_{\rm cross}/M\) | \(\kappa_cU_{\rm cross}\) | \(r=8M\): \(U_{\rm cross}/M\) | \(\kappa_cU_{\rm cross}\) |
+|---:|---:|---:|---:|---:|
+| 20 | 67.44 | 3.000 | -- | -- |
+| 40 | 130.70 | 3.096 | -- | -- |
+| 80 | 149.37 | 1.819 | 180.87 | 2.203 |
+| 160 | 258.18 | 1.593 | 360.08 | 2.222 |
+
+The unscaled transition moves later as \(L\) increases.  At finite radius the
+two regimes are cleanly separated only for \(L/M=80,160\) in this sequence,
+and the crossover occurs later than at the cosmological horizon.
+
+![Finite-L rate transition](../results/sds_scalar/tails/high_resolution_rates/sds_ell1_multiradius_rate_transition.png)
+
+![Crossover-time dependence](../results/sds_scalar/tails/high_resolution_rates/sds_ell1_crossover_times.png)
+
 Fits require a positive rate, \(R^2\ge0.98\), and consistent rates in the two
 halves of the selected interval.  The raw local indices are singular at
 waveform zero crossings; the plotted thick horizontal segments therefore mark
@@ -218,6 +255,15 @@ approximately six-percent level.  The quadrupole calculations establish
 exponential decay but do not yet demonstrate monotonic convergence of the
 fitted rate to \(2\kappa_c\).  The \(L/M=160\) rate remains 15 percent low,
 which is recorded as a finite-time/resolution limitation rather than hidden.
+
+A targeted exact-observer refinement of the \(L/M=80\) quadrupole to
+\(N=4096,\Delta\tau=0.00125M\) resolves late RMS-envelope rates
+\(\gamma_{\rm eff}/\kappa_c=2.02\) at \(r=8M\) and \(2.05\) at
+\(\mathcal H_c^+\).  The \(N=4096\) curve remains on the predicted target
+after the \(N=2048\) curve turns downward, directly identifying the earlier
+departure as a resolution effect.
+
+![Refined quadrupole transition](../results/sds_scalar/tails/high_resolution_rates/sds_ell2_L80_rate_refinement.png)
 
 ![Aligned quadrupole waveforms](../results/sds_scalar/tails/ell2/aligned_waveforms.png)
 
@@ -333,8 +379,29 @@ sds-tail-timestep-report
 sds-tail-profile-report
 ```
 
+The exact-observer refinements and report are reproduced with:
+
+```bash
+python -m black_hole.high_resolution_tail_rates suite \
+  --group all \
+  --output-dir results/sds_scalar/tails/high_resolution_rates/raw \
+  --reuse-existing
+
+python -m black_hole.high_resolution_tail_rates run \
+  --background sds --ell 2 --length 80 \
+  --resolution 4096 --timestep 0.00125 --end-time 492.594296548683 \
+  --output-dir results/sds_scalar/tails/high_resolution_rates/raw \
+  --reuse-existing
+
+python -m black_hole.high_resolution_tail_rates report \
+  --raw-dir results/sds_scalar/tails/high_resolution_rates/raw \
+  --output-dir results/sds_scalar/tails/high_resolution_rates \
+  --baseline-root results/sds_scalar/tails/raw
+```
+
 Principal data products:
 
+- [Higher-resolution rate study](../results/sds_scalar/tails/high_resolution_rates)
 - [Schwarzschild Price-law table](../results/sds_scalar/tails/schwarzschild_price_law.csv)
 - [SdS tail summary](../results/sds_scalar/tails/sds_tail_summary.csv)
 - [Trust-time table](../results/sds_scalar/tails/trust_times.csv)

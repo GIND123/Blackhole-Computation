@@ -1,0 +1,151 @@
+{
+  "definition_signed_power_rate": "d ln|u| / d ln U",
+  "definition_normalized_exponential_rate": "-d ln|u| / d(kappa_c U)",
+  "finite_L_rate_estimator": "derivative of a centered sliding RMS amplitude envelope; phase-insensitive at waveform zero crossings",
+  "schwarzschild_finite_radius_target": "-(2 ell + 3)",
+  "schwarzschild_outer_target": "-(ell + 2)",
+  "sds_minimal_late_target": "gamma/kappa_c = ell for ell > 0",
+  "transition_criterion": "first sustained interval in which gamma_eff/kappa_c is closer to ell than to p/(kappa_c U), with that classification dominating the remaining resolved tail",
+  "cases": [
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "L_over_M": null,
+      "resolution": 2048,
+      "timestep": 0.0025,
+      "end_time": 720.0,
+      "maximum_constraint_linf": 1.0761982936411578e-08,
+      "wall_seconds": 264.501243004,
+      "observer_areal_radii": [
+        4.0,
+        8.0,
+        16.0,
+        20.000000000000004,
+        49.99999999999996,
+        99.99999999999991,
+        199.99999999999983,
+        null
+      ]
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "L_over_M": null,
+      "resolution": 2048,
+      "timestep": 0.0025,
+      "end_time": 360.0,
+      "maximum_constraint_linf": 3.3305901138085166e-09,
+      "wall_seconds": 137.96004628000003,
+      "observer_areal_radii": [
+        4.0,
+        8.0,
+        16.0,
+        20.000000000000004,
+        49.99999999999996,
+        99.99999999999991,
+        199.99999999999983,
+        null
+      ]
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "L_over_M": null,
+      "resolution": 4096,
+      "timestep": 0.00125,
+      "end_time": 440.0,
+      "maximum_constraint_linf": 2.1360190706223476e-08,
+      "wall_seconds": 877.573618587,
+      "observer_areal_radii": [
+        4.0,
+        8.0,
+        16.0,
+        20.000000000000004,
+        49.99999999999996,
+        99.99999999999991,
+        199.99999999999983,
+        null
+      ]
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "L_over_M": 20.0,
+      "resolution": 2048,
+      "timestep": 0.0025,
+      "end_time": 120.0,
+      "maximum_constraint_linf": 5.9994261402389584e-09,
+      "wall_seconds": 82.79751841100003,
+      "observer_areal_radii": [
+        4.0,
+        8.000000000000002,
+        16.000000000000004,
+        18.91298547847183
+      ]
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "L_over_M": 40.0,
+      "resolution": 2048,
+      "timestep": 0.0025,
+      "end_time": 211.05026894031198,
+      "maximum_constraint_linf": 1.950319484593763e-09,
+      "wall_seconds": 183.185263963,
+      "observer_areal_radii": [
+        4.0,
+        7.999999999999998,
+        15.999999999999996,
+        38.959774129251116
+      ]
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "L_over_M": 80.0,
+      "resolution": 2048,
+      "timestep": 0.0025,
+      "end_time": 410.4952471239025,
+      "maximum_constraint_linf": 6.872729328106875e-09,
+      "wall_seconds": 552.734858701,
+      "observer_areal_radii": [
+        4.0,
+        8.0,
+        15.999999999999993,
+        78.98059813298828
+      ]
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "L_over_M": 160.0,
+      "resolution": 2048,
+      "timestep": 0.0025,
+      "end_time": 810.2408065228317,
+      "maximum_constraint_linf": 2.6760810723686893e-09,
+      "wall_seconds": 1169.8026722950003,
+      "observer_areal_radii": [
+        4.0,
+        8.0,
+        16.0,
+        158.99046547057517
+      ]
+    },
+    {
+      "background": "sds",
+      "ell": 2,
+      "L_over_M": 80.0,
+      "resolution": 4096,
+      "timestep": 0.00125,
+      "end_time": 492.594296548683,
+      "maximum_constraint_linf": 3.1225069967920446e-08,
+      "wall_seconds": 2209.5334479890003,
+      "observer_areal_radii": [
+        4.0,
+        8.0,
+        15.999999999999993,
+        78.98059813298828
+      ]
+    }
+  ]
+}
