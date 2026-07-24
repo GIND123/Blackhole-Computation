@@ -15,6 +15,10 @@ from black_hole.tail_analysis import (
     select_stable_exponential_fit,
     trust_times,
 )
+from black_hole.tail_rate_figures import (
+    chebyshev_gauss_grid,
+    interpolate_chebyshev_snapshots,
+)
 
 
 class TailAnalysisTests(unittest.TestCase):
@@ -77,6 +81,24 @@ class TailAnalysisTests(unittest.TestCase):
         difference = np.full_like(times, 0.2)
         crossings = trust_times(times, difference, start_time=10.0)
         self.assertTrue(all(np.isnan(value) for value in crossings.values()))
+
+    def test_snapshot_interpolation_is_spectral_for_polynomials(self) -> None:
+        grid = chebyshev_gauss_grid(32)
+        snapshots = np.vstack(
+            (
+                1.0 + 2.0 * grid - 3.0 * grid**4,
+                -0.2 + 0.7 * grid**7,
+            )
+        )
+        target = 0.937
+        interpolated = interpolate_chebyshev_snapshots(snapshots, target)
+        expected = np.array(
+            (
+                1.0 + 2.0 * target - 3.0 * target**4,
+                -0.2 + 0.7 * target**7,
+            )
+        )
+        np.testing.assert_allclose(interpolated, expected, rtol=2e-13, atol=2e-13)
 
 
 if __name__ == "__main__":

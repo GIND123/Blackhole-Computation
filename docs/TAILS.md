@@ -149,6 +149,30 @@ Representative plots are stored in
 [`ell1`](../results/sds_scalar/tails/ell1), and
 [`ell2`](../results/sds_scalar/tails/ell2).
 
+### Distance dependence of the local decay rate
+
+Following the finite-distance diagnostics in
+[Zenginoğlu, *Class. Quantum Grav.* 25 (2008)](https://arxiv.org/abs/0803.2018)
+and [Zenginoğlu, Khanna, and Burko (2014)](https://arxiv.org/abs/1208.5839),
+restricted-range plots evaluate the signed rate
+\(n_{\rm eff}=d\ln|u|/d\ln U=-p_{\rm eff}\) at up to
+\(r/M=20,50,100,200\) and at \(\mathscr I^+\).  The \(\ell=2\), \(r=20M\)
+curve is omitted because it reaches the spatial-truncation floor in the
+relevant interval.  The remaining finite-radius signals are evaluated from
+the saved dealiased Chebyshev snapshots by barycentric interpolation; no new
+evolution or radial extrapolation is used.
+
+The curves resolve the transition between the signed null-infinity target
+\(-(\ell+2)\) and the signed finite-radius target \(-(2\ell+3)\).  The
+displayed time interval is shortened as \(\ell\) increases because the
+faster-decaying finite-radius signals eventually reach the
+spatial-truncation floor.  Data beyond that point are omitted rather than
+interpreted as physical rates.
+
+- [Restricted \(\ell=0\) rates](../results/sds_scalar/tails/distance_rates/schwarzschild_local_decay_rate_ell0.png)
+- [Restricted \(\ell=1\) rates](../results/sds_scalar/tails/distance_rates/schwarzschild_local_decay_rate_ell1.png)
+- [Restricted \(\ell=2\) rates](../results/sds_scalar/tails/distance_rates/schwarzschild_local_decay_rate_ell2.png)
+
 ## 5. SdS monopole constants
 
 For \(\ell=0\), each finite-\(L\) signal settles to a nonzero value:
