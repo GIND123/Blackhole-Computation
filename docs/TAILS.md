@@ -7,6 +7,11 @@ Chambers, Laarakkers, and Poisson in
 [Radiative falloff in Schwarzschild-de Sitter spacetime](../9902010v2.pdf)
 ([arXiv:gr-qc/9902010](https://arxiv.org/abs/gr-qc/9902010)).
 
+> The crossover classification used below has been superseded.  The final
+> criterion, its systematic ranges, and the finite-radius convergence evidence
+> are in [`CROSSOVER.md`](CROSSOVER.md); the derivation, fits, and validation
+> in this document remain current.
+
 The calculation separates three questions:
 
 1. Does the independent Schwarzschild solver recover Price's law for generic

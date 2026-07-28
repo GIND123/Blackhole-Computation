@@ -19,9 +19,9 @@ from .sds_model import (
     ScalarInitialData,
     SdSParameters,
 )
+from .sds_result import load_sds_result
 from .sds_solver import (
     SdSNumericalParameters,
-    load_sds_result,
     run_sds_simulation,
 )
 from .sds_study import run_sds_bridge_suite, run_sds_convergence_study

@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import json
 import logging
 import time
 from dataclasses import asdict, dataclass
-from pathlib import Path
 from typing import Callable
 
 import dedalus.public as d3
@@ -27,6 +25,7 @@ from .sds_model import (
     scalar_areal_velocity_initial_data,
     sds_horizons,
 )
+from .sds_result import SdSSimulationResult
 from .schwarzschild_scalar import (
     SchwarzschildScalarParameters,
     areal_radius as schwarzschild_areal_radius,
@@ -70,60 +69,6 @@ class SdSNumericalParameters:
             raise ValueError(f"Unknown bridge {self.bridge!r}.")
         if not np.isfinite(self.dealias) or self.dealias < 1.0:
             raise ValueError("The spectral dealias factor must be at least one.")
-
-
-@dataclass
-class SdSSimulationResult:
-    """In-memory output from one SdS scalar evolution."""
-
-    rho: np.ndarray
-    areal_radius: np.ndarray
-    signal_times: np.ndarray
-    observer_rho: np.ndarray
-    observer_areal_radius: np.ndarray
-    signals: np.ndarray
-    snapshot_times: np.ndarray
-    u_snapshots: np.ndarray
-    constraint_linf: np.ndarray
-    constraint_l2: np.ndarray
-    metadata: dict
-
-    def save(self, path: Path) -> None:
-        path = Path(path)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        np.savez_compressed(
-            path,
-            rho=self.rho,
-            areal_radius=self.areal_radius,
-            signal_times=self.signal_times,
-            observer_rho=self.observer_rho,
-            observer_areal_radius=self.observer_areal_radius,
-            signals=self.signals,
-            snapshot_times=self.snapshot_times,
-            u_snapshots=self.u_snapshots,
-            constraint_linf=self.constraint_linf,
-            constraint_l2=self.constraint_l2,
-            metadata=np.array(json.dumps(self.metadata, sort_keys=True)),
-        )
-
-
-def load_sds_result(path: Path) -> SdSSimulationResult:
-    """Load a saved SdS scalar result without enabling pickle."""
-
-    with np.load(path, allow_pickle=False) as data:
-        return SdSSimulationResult(
-            rho=data["rho"],
-            areal_radius=data["areal_radius"],
-            signal_times=data["signal_times"],
-            observer_rho=data["observer_rho"],
-            observer_areal_radius=data["observer_areal_radius"],
-            signals=data["signals"],
-            snapshot_times=data["snapshot_times"],
-            u_snapshots=data["u_snapshots"],
-            constraint_linf=data["constraint_linf"],
-            constraint_l2=data["constraint_l2"],
-            metadata=json.loads(data["metadata"].item()),
-        )
 
 
 def _timestepper(name: str):

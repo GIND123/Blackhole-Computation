@@ -32,7 +32,9 @@ infinity, resolves their finite-radius counterparts, and tracks the
 finite-`L` transition from a Schwarzschild power tail to an SdS exponential
 tail. The newest exact-observer runs use up to 4096 Chebyshev modes, with
 explicit spatial-refinement, timestep, pulse-width, and trust-time
-diagnostics.
+diagnostics. That transition is now quantified as an interval between a
+departure from the Schwarzschild reference and an entry into the cosmological
+rate, with systematic ranges and finite-radius convergence evidence.
 
 > **Reproducibility:** source code, raw simulation archives, CSV tables,
 > diagnostics, figures, and convergence runs are stored together in this
@@ -80,22 +82,53 @@ infinity rates approach `-2`, `-3`, and `-4`.
 
 For finite `L`, a centered RMS amplitude envelope removes phase singularities
 at waveform zero crossings before the local exponential rate is
-differentiated. The crossover is defined as the first persistent interval
-where the normalized rate is closer to the SdS target than to the
-Schwarzschild prediction:
+differentiated.
 
-| `L/M` | `U_cross/M` at the cosmological horizon | `U_cross/M` at `r = 8M` |
-|---:|---:|---:|
-| 20 | 67.44 | unresolved |
-| 40 | 130.70 | unresolved |
-| 80 | 149.37 | 180.87 |
-| 160 | 258.18 | 360.08 |
+## Final crossover result
 
-Thus the physical crossover moves later as the cosmological scale increases,
-and the finite-radius transition occurs later than the horizon transition
-when both are resolved. A separate `ell = 2`, `L/M = 80`, `N = 4096`
-refinement gives late normalized rates `2.02` at `r = 8M` and `2.05` at the
-cosmological horizon, consistent with the SdS target `2`.
+The crossover is now reported as a **transition interval** in `kappa_c U`,
+bracketed by a persistent departure from an independently evolved
+Schwarzschild reference and a persistent entry into a tolerance of the
+cosmological rate `gamma/kappa_c = ell`, with a systematic range obtained by
+sweeping 54 estimator and criterion settings. Dipole values at `r = 8M`:
+
+| `L/M` | departure `kappa_c U` | entry `kappa_c U` | departure `U/M` | entry `U/M` | resolved |
+|---:|---|---|---:|---:|---:|
+| 20 | unresolved | unresolved | -- | -- | 0/54 |
+| 40 | 2.73 | 4.27 | 115.1 | 180.3 | 1/54 |
+| 80 | 1.41 [1.15, 1.76] | 2.83 [2.56, 3.07] | 115.9 | 232.7 | 54/54 |
+| 160 | 0.82 [0.71, 0.96] | 2.94 [2.68, 3.19] | 133.5 | 476.9 | 54/54 |
+
+The two well-resolved entry times agree to `4%` in cosmological units while
+differing by a factor `2.05` in geometric units, so the approach to the
+cosmological rate is governed by `kappa_c^{-1}`. The departure instead stays
+near `120M` for both lengths, so it is governed by `M`; the transition
+interval therefore widens with `L`. The `L/M = 20` case is reported as
+unresolved: its rate stays near `2.1` and never enters a band around `1`.
+
+Spatial convergence at `r = 8M` is demonstrated with matched-timestep ladders
+and a halved-timestep control, and the Schwarzschild reference run shows that
+its own Price-law plateau at `r = 8M` only begins at `U ~ 220M`, later than
+the departures above. The complete final report is
+[`docs/CROSSOVER.md`](docs/CROSSOVER.md).
+
+![Dipole transition intervals](results/sds_scalar/tails/crossover_final/sds_ell1_transition_intervals.png)
+
+*Local dipole rates against the primary time variable `kappa_c U`, with the
+Schwarzschild reference at the same observer (dashed) and the `r = 8M`
+transition interval shaded.*
+
+![Transition intervals with systematic ranges](results/sds_scalar/tails/crossover_final/sds_ell1_transition_uncertainty.png)
+
+*Departure-to-entry bars with the full sweep range. Crosses mark observers
+with no resolved transition.*
+
+![Convergence at r=8M](results/sds_scalar/tails/crossover_final/sds_ell1_r8_convergence.png)
+
+*Matched-timestep spatial convergence at `r = 8M`, with errors measured
+against the local tail amplitude.*
+
+## Earlier high-resolution rate figures
 
 ![Higher-resolution Schwarzschild finite-radius rates](results/sds_scalar/tails/high_resolution_rates/schwarzschild_high_resolution_rates.png)
 
@@ -119,7 +152,9 @@ The [quadrupole refinement plot](results/sds_scalar/tails/high_resolution_rates/
 provides the independent higher-multipole check.
 
 The complete derivation, fit intervals, convergence evidence, and limitations
-are documented in [the tail-study report](docs/TAILS.md).
+are documented in [the tail-study report](docs/TAILS.md), and the final
+crossover criterion, its systematic ranges, and the finite-radius convergence
+evidence are in [the crossover report](docs/CROSSOVER.md).
 
 ## 1. Scientific questions
 
@@ -178,6 +213,7 @@ More complete derivations are available in:
 - [SdS scalar formulation](docs/SDS_SCALAR.md)
 - [Corrected flat-limit derivation and results](docs/FLAT_LIMIT.md)
 - [Dynamical tails and crossover study](docs/TAILS.md)
+- [Final crossover report with uncertainties](docs/CROSSOVER.md)
 - [Schwarzschild perturbation method](docs/METHOD.md)
 
 ## 3. Controlled flat-limit experiment
@@ -325,17 +361,30 @@ python -m black_hole --verbose sds-flat-limit \
 This command runs the Schwarzschild reference, the four finite-`L` production
 cases, both convergence studies, and all plot/table generation.
 
+### Final crossover analysis
+
+```bash
+python -m black_hole.crossover_final \
+  --output-dir results/sds_scalar/tails/crossover_final
+```
+
+This reads the archived exact-observer evolutions and regenerates the
+transition intervals, the estimator sweep, the convergence tables, and every
+figure of [`docs/CROSSOVER.md`](docs/CROSSOVER.md). The evolution commands
+that produce those archives are listed in the same report.
+
 ### Tests
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 30 analytic and model-level tests covering horizon
+The current suite contains 44 analytic and model-level tests covering horizon
 roots, regular endpoint coefficients, compactification and its inverse,
 identical areal-radius data, chain-rule initialization, height normalization,
 analytic retarded-time limits, the Schwarzschild flat limit, physically
-matched velocity data, robust tail fits, alignment, and trust-time logic.
+matched velocity data, robust tail fits, alignment, trust-time logic, the
+envelope rate estimator, and the transition-interval criterion.
 
 ## 8. Repository organization
 
@@ -347,6 +396,8 @@ black_hole/
   flat_limit_study.py       Controlled sequence, alignment, diagnostics, plots
   tail_analysis.py          Power/exponential fits and trust-time diagnostics
   high_resolution_tail_rates.py  Exact-observer refinement and crossover report
+  crossover_final.py        Transition intervals, sweeps, and convergence report
+  sds_result.py             Saved-evolution container shared by solver and analysis
   tail_study.py             Schwarzschild/SdS tail production workflow
   tail_validation.py        Resolution, timestep, and profile reports
   model.py, solver.py       Regge-Wheeler perturbation calculation
@@ -354,6 +405,7 @@ black_hole/
 docs/
   FLAT_LIMIT.md             Full corrected flat-limit derivation and results
   TAILS.md                  Dynamical tail derivation, validation, and results
+  CROSSOVER.md              Final transition-interval report and uncertainties
   SDS_SCALAR.md             Bridge-coordinate scalar formulation
   METHOD.md                 Schwarzschild perturbation method
   RESULTS.md                Regge-Wheeler production results
@@ -371,6 +423,7 @@ results/sds_scalar/tails/
   profile_sensitivity/      Independent physical-width check
   extension_ell1/           Selected L/M = 320, 640 conditioning study
   high_resolution_rates/    Exact-observer archives, rate tables, and figures
+  crossover_final/          Final transition intervals, sweeps, and convergence
   ell0/, ell1/, ell2/       Publication-style validation figures
   *.csv, diagnostics.json   Fits, trust times, and complete metadata
 
@@ -387,6 +440,10 @@ The most useful machine-readable outputs are:
 - [retarded-time offsets](results/sds_scalar/flat_limit/retarded_time_offsets.csv)
 - [initial profile](results/sds_scalar/flat_limit/initial_profiles.csv)
 - [complete diagnostics](results/sds_scalar/flat_limit/diagnostics.json)
+- [transition intervals](results/sds_scalar/tails/crossover_final/transition_intervals.csv)
+- [per-setting transition sweep](results/sds_scalar/tails/crossover_final/transition_sweep.csv)
+- [finite-radius convergence](results/sds_scalar/tails/crossover_final/sds_ell1_r8_convergence.csv)
+- [Schwarzschild power-law onset](results/sds_scalar/tails/crossover_final/schwarzschild_power_law_onset.csv)
 - [raw production archives](results/sds_scalar/flat_limit/raw)
 - [tail-study diagnostics](results/sds_scalar/tails/diagnostics.json)
 - [Schwarzschild Price-law table](results/sds_scalar/tails/schwarzschild_price_law.csv)

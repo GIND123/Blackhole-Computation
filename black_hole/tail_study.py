@@ -30,10 +30,10 @@ from .sds_model import (
     retarded_time_offset as sds_retarded_time_offset,
     sds_horizons,
 )
+from .sds_result import load_sds_result
 from .sds_solver import (
     SdSNumericalParameters,
     SdSSimulationResult,
-    load_sds_result,
     run_schwarzschild_scalar_simulation,
     run_sds_simulation,
 )

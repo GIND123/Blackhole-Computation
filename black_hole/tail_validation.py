@@ -19,7 +19,7 @@ from .sds_model import (
     retarded_time_offset as sds_retarded_time_offset,
     sds_horizons,
 )
-from .sds_solver import SdSSimulationResult, load_sds_result
+from .sds_result import SdSSimulationResult, load_sds_result
 from .schwarzschild_scalar import (
     SchwarzschildScalarParameters,
     retarded_time_offset as schwarzschild_retarded_time_offset,
