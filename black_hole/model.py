@@ -1,5 +1,7 @@
 """Analytic coefficients and initial data for the Regge--Wheeler system."""
 
+from __future__ import annotations
+
 from dataclasses import asdict, dataclass
 
 import numpy as np

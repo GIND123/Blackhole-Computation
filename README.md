@@ -25,8 +25,9 @@ projects:
    Schwarzschild reference at future null infinity.
 
 The current principal results are a controlled one-dimensional SdS-to-
-Schwarzschild flat-limit experiment and a high-resolution tail/crossover
-study. The latter uses identical initially dynamical physical data,
+Schwarzschild flat-limit experiment, a high-resolution tail/crossover study,
+and the first pure-mode 3D validation. The tail study uses identical initially
+dynamical physical data,
 validates the Schwarzschild Price exponents `2`, `3`, and `4` at future null
 infinity, resolves their finite-radius counterparts, and tracks the
 finite-`L` transition from a Schwarzschild power tail to an SdS exponential
@@ -35,6 +36,13 @@ explicit spatial-refinement, timestep, pulse-width, and trust-time
 diagnostics. That transition is now quantified as an interval between a
 departure from the Schwarzschild reference and an entry into the cosmological
 rate, with systematic ranges and finite-radius convergence evidence.
+
+The new angular-spectral calculation evolves pure real `Y_00`, `Y_11`, and
+`Y_22` packets on Schwarzschild and `L/M = 80` SdS using an independent
+eighth-order radial finite-difference code. It reproduces the 1D waveforms to
+relative `L2` errors between `2.0e-6` and `3.4e-5`, recovers the finite-radius
+Price indices, matches the dipole and quadrupole transition intervals, and
+limits angular contamination to roundoff.
 
 > **Reproducibility:** source code, raw simulation archives, CSV tables,
 > diagnostics, figures, and convergence runs are stored together in this
@@ -128,6 +136,31 @@ with no resolved transition.*
 *Matched-timestep spatial convergence at `r = 8M`, with errors measured
 against the local tail amplitude.*
 
+## First 3D pure-mode validation
+
+The requested pure-angular-data stage is complete. The 3D field is represented
+in orthonormal real spherical harmonics and evolved with a radial
+discretization independent of the 1D Dedalus implementation. The production
+modes are `(ell,m) = (0,0), (1,1), (2,2)` on Schwarzschild and `L/M = 80`
+SdS.
+
+| result | 3D | 1D |
+|---|---:|---:|
+| Schwarzschild `ell=0` index at `r=8M` | 3.0006 | 3.0006 |
+| Schwarzschild `ell=1` index at `r=8M` | 4.9506 | 4.9553 |
+| Schwarzschild `ell=2` index at `r=8M` | 6.9518 | 6.9185 |
+| dipole entry `kappa_c U` | 2.833 | 2.835 |
+| quadrupole entry `kappa_c U` | 3.554 | 3.546 |
+
+![Pure-mode 3D/1D waveforms](results/three_d_validation/pure_mode_waveform_comparison.png)
+
+![3D/1D transition intervals](results/three_d_validation/transition_interval_comparison.png)
+
+The formulation, convergence ladders, constraints, angular-mode purity,
+limitations, and reproduction commands are in
+[`docs/THREE_D_VALIDATION.md`](docs/THREE_D_VALIDATION.md). Mixed angular data
+remain the next stage; they are not conflated with this pure-mode benchmark.
+
 ## Earlier high-resolution rate figures
 
 ![Higher-resolution Schwarzschild finite-radius rates](results/sds_scalar/tails/high_resolution_rates/schwarzschild_high_resolution_rates.png)
@@ -168,6 +201,9 @@ The computations address the following questions:
   future null infinity when the cosmological length `L` tends to infinity?
 - Can that comparison be made using identical physical initial data and a
   geometrically defined time coordinate rather than fitted waveform shifts?
+- Does a 3D angular-spectral evolution of pure `Y_lm` data reproduce the
+  corresponding 1D waveforms, rates, transition intervals, constraints, and
+  convergence behavior without generating spurious angular modes?
 
 ## 2. Geometric and numerical formulation
 
@@ -330,7 +366,8 @@ late-time limit because SdS decay times grow with `L`. That limitation
 motivated the separate tail study now included in this repository, with
 longer evolutions through `L/M = 640`, local decay rates, and quantitative
 trust times. The remaining fixed-resolution conditioning boundary is recorded
-explicitly before any planned 3D extension.
+explicitly. The pure-mode 3D extension is reported separately, so it does not
+alter the scope of the one-dimensional flat-limit claim.
 
 ## 7. Reproducing the calculation
 
@@ -373,18 +410,36 @@ transition intervals, the estimator sweep, the convergence tables, and every
 figure of [`docs/CROSSOVER.md`](docs/CROSSOVER.md). The evolution commands
 that produce those archives are listed in the same report.
 
+### Pure-mode 3D validation
+
+```bash
+python -m black_hole.three_d_validation --verbose suite \
+  --output-dir results/three_d_validation
+```
+
+This runs the six production evolutions, twelve matched-timestep radial
+refinements, and all waveform, rate, transition, constraint, convergence, and
+angular-purity analysis. To regenerate only the figures and tables:
+
+```bash
+python -m black_hole.three_d_validation analyze \
+  --output-dir results/three_d_validation
+```
+
 ### Tests
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 44 analytic and model-level tests covering horizon
+The current suite contains 49 analytic and model-level tests covering horizon
 roots, regular endpoint coefficients, compactification and its inverse,
 identical areal-radius data, chain-rule initialization, height normalization,
 analytic retarded-time limits, the Schwarzschild flat limit, physically
 matched velocity data, robust tail fits, alignment, trust-time logic, the
-envelope rate estimator, and the transition-interval criterion.
+envelope rate estimator, the transition-interval criterion, real
+spherical-harmonic transforms, eighth-order radial operators, and a short
+pure-mode 3D evolution.
 
 ## 8. Repository organization
 
@@ -397,6 +452,8 @@ black_hole/
   tail_analysis.py          Power/exponential fits and trust-time diagnostics
   high_resolution_tail_rates.py  Exact-observer refinement and crossover report
   crossover_final.py        Transition intervals, sweeps, and convergence report
+  three_d_solver.py          Angular-spectral pure-mode 3D evolution
+  three_d_validation.py      3D/1D comparisons, convergence, plots, and tables
   sds_result.py             Saved-evolution container shared by solver and analysis
   tail_study.py             Schwarzschild/SdS tail production workflow
   tail_validation.py        Resolution, timestep, and profile reports
@@ -406,6 +463,7 @@ docs/
   FLAT_LIMIT.md             Full corrected flat-limit derivation and results
   TAILS.md                  Dynamical tail derivation, validation, and results
   CROSSOVER.md              Final transition-interval report and uncertainties
+  THREE_D_VALIDATION.md     Pure-mode 3D formulation and validation results
   SDS_SCALAR.md             Bridge-coordinate scalar formulation
   METHOD.md                 Schwarzschild perturbation method
   RESULTS.md                Regge-Wheeler production results
@@ -426,6 +484,13 @@ results/sds_scalar/tails/
   crossover_final/          Final transition intervals, sweeps, and convergence
   ell0/, ell1/, ell2/       Publication-style validation figures
   *.csv, diagnostics.json   Fits, trust times, and complete metadata
+
+results/three_d_validation/
+  raw/                      Six production 3D archives
+  convergence/raw/          Twelve matched-timestep radial refinements
+  *.csv                     Waveform, rate, transition, and convergence tables
+  *.png                     3D/1D and angular-purity figures
+  diagnostics.json          Full configurations and derived diagnostics
 
 tests/                      Analytic and numerical-model regression tests
 environment.yml             Reproducible software environment
@@ -449,6 +514,10 @@ The most useful machine-readable outputs are:
 - [Schwarzschild Price-law table](results/sds_scalar/tails/schwarzschild_price_law.csv)
 - [SdS decay-rate table](results/sds_scalar/tails/sds_tail_summary.csv)
 - [large-`L` trust times](results/sds_scalar/tails/extension_ell1/trust_times.csv)
+- [3D/1D waveform agreement](results/three_d_validation/waveform_agreement.csv)
+- [3D/1D transition intervals](results/three_d_validation/transition_intervals.csv)
+- [3D radial convergence](results/three_d_validation/radial_convergence.csv)
+- [complete 3D diagnostics](results/three_d_validation/diagnostics.json)
 
 ## Acknowledgments
 

@@ -1,0 +1,1057 @@
+{
+  "purpose": "First 3D validation stage requested by Professor Zenginoglu: pure Y_lm packets before angularly mixed data.",
+  "independence": "3D uses real spherical harmonics, eighth-order uniform-rho finite differences, and explicit RK4.  The 1D references use Chebyshev collocation and Dedalus RK222.",
+  "cases": [
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "m": 0,
+      "archive": "results/three_d_validation/raw/schwarzschild_ell0_m0_N2048.npz",
+      "one_d_reference": "results/sds_scalar/tails/high_resolution_rates/raw/schwarzschild_ell0_N2048.npz",
+      "metadata": {
+        "angular_basis": {
+          "ell_max": 2,
+          "m_convention": "m>0 cosine, m<0 sine",
+          "maximum_gram_error": 1.3322676295501878e-15,
+          "maximum_off_mode_amplitude": 1.1518563880486e-15,
+          "one_minus_purity": 0.0,
+          "phi_collocation": "uniform Fourier",
+          "phi_points": 7,
+          "purity": 1.0,
+          "target_coefficient": 1.0000000000000002,
+          "theta_collocation": "Gauss-Legendre",
+          "theta_points": 4,
+          "type": "orthonormal real spherical harmonics"
+        },
+        "background": "Schwarzschild",
+        "background_key": "schwarzschild",
+        "equations": {
+          "angular_laplacian": "Delta_S2 Y_lm=-ell(ell+1)Y_lm",
+          "field": "u(tau,rho,theta,phi)=sum_lm u_lm Y_lm^R",
+          "pi": "dt(pi_lm)=d_rho[A*(psi_lm+B*pi_lm)]-P_ell*u_lm",
+          "psi": "dt(psi_lm)=d_rho[A*(B*psi_lm+pi_lm)]",
+          "u": "dt(u_lm)=A*(B*psi_lm+pi_lm)"
+        },
+        "final_time": 720.0,
+        "horizons": {
+          "black_hole": 2.0,
+          "future_null_infinity": "rho=1 (r=infinity)"
+        },
+        "initial_data": {
+          "amplitude": 1.0,
+          "center_radius": 6.0,
+          "displacement": "u=0",
+          "momentum": "pi=G(r)/A",
+          "profile": "C-infinity physical areal-radius velocity bump",
+          "radial_derivative": "psi=0",
+          "support_half_width": 3.0
+        },
+        "iterations": 288000,
+        "model": {
+          "ell": 0,
+          "mass": 1.0
+        },
+        "numerical": {
+          "angular_ell_max": 2,
+          "diagnostic_dt": 1.0,
+          "end_time": 720.0,
+          "finite_difference_order": 8,
+          "observer_radii": [
+            4.0,
+            8.0,
+            16.0,
+            null
+          ],
+          "radial_resolution": 2048,
+          "signal_dt": 0.05,
+          "snapshot_dt": 90.0,
+          "timestep": 0.0025
+        },
+        "radial_discretization": {
+          "coordinate": "uniform rho in [0,1]",
+          "coordinate_cfl": 1.2793750000000002,
+          "derivative": "8th-order centered finite difference with matched one-sided endpoint stencils",
+          "interpolation": "local degree-8 polynomial",
+          "maximum_characteristic_speed": 0.25,
+          "time_stepper": "explicit classical RK4"
+        },
+        "retarded_time_offset": {
+          "evaluation": "analytic",
+          "q": 2.772588722239781,
+          "reference_radius": 4.0
+        },
+        "target_mode": {
+          "ell": 0,
+          "m": 0
+        },
+        "validation_role": "independent 3D angular-spectral / radial finite-difference cross-check of the 1D Chebyshev-Dedalus evolution",
+        "wall_seconds": 101.08384066699999
+      }
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "m": 1,
+      "archive": "results/three_d_validation/raw/schwarzschild_ell1_m1_N2048.npz",
+      "one_d_reference": "results/sds_scalar/tails/crossover_final/raw/schwarzschild_ell1_N2048.npz",
+      "metadata": {
+        "angular_basis": {
+          "ell_max": 2,
+          "m_convention": "m>0 cosine, m<0 sine",
+          "maximum_gram_error": 1.3322676295501878e-15,
+          "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+          "one_minus_purity": 0.0,
+          "phi_collocation": "uniform Fourier",
+          "phi_points": 7,
+          "purity": 1.0,
+          "target_coefficient": 1.0000000000000004,
+          "theta_collocation": "Gauss-Legendre",
+          "theta_points": 4,
+          "type": "orthonormal real spherical harmonics"
+        },
+        "background": "Schwarzschild",
+        "background_key": "schwarzschild",
+        "equations": {
+          "angular_laplacian": "Delta_S2 Y_lm=-ell(ell+1)Y_lm",
+          "field": "u(tau,rho,theta,phi)=sum_lm u_lm Y_lm^R",
+          "pi": "dt(pi_lm)=d_rho[A*(psi_lm+B*pi_lm)]-P_ell*u_lm",
+          "psi": "dt(psi_lm)=d_rho[A*(B*psi_lm+pi_lm)]",
+          "u": "dt(u_lm)=A*(B*psi_lm+pi_lm)"
+        },
+        "final_time": 830.0,
+        "horizons": {
+          "black_hole": 2.0,
+          "future_null_infinity": "rho=1 (r=infinity)"
+        },
+        "initial_data": {
+          "amplitude": 1.0,
+          "center_radius": 6.0,
+          "displacement": "u=0",
+          "momentum": "pi=G(r)/A",
+          "profile": "C-infinity physical areal-radius velocity bump",
+          "radial_derivative": "psi=0",
+          "support_half_width": 3.0
+        },
+        "iterations": 332000,
+        "model": {
+          "ell": 1,
+          "mass": 1.0
+        },
+        "numerical": {
+          "angular_ell_max": 2,
+          "diagnostic_dt": 1.0,
+          "end_time": 830.0,
+          "finite_difference_order": 8,
+          "observer_radii": [
+            4.0,
+            8.0,
+            16.0,
+            null
+          ],
+          "radial_resolution": 2048,
+          "signal_dt": 0.05,
+          "snapshot_dt": 103.75,
+          "timestep": 0.0025
+        },
+        "radial_discretization": {
+          "coordinate": "uniform rho in [0,1]",
+          "coordinate_cfl": 1.2793750000000002,
+          "derivative": "8th-order centered finite difference with matched one-sided endpoint stencils",
+          "interpolation": "local degree-8 polynomial",
+          "maximum_characteristic_speed": 0.25,
+          "time_stepper": "explicit classical RK4"
+        },
+        "retarded_time_offset": {
+          "evaluation": "analytic",
+          "q": 2.772588722239781,
+          "reference_radius": 4.0
+        },
+        "target_mode": {
+          "ell": 1,
+          "m": 1
+        },
+        "validation_role": "independent 3D angular-spectral / radial finite-difference cross-check of the 1D Chebyshev-Dedalus evolution",
+        "wall_seconds": 116.722333709
+      }
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "m": 2,
+      "archive": "results/three_d_validation/raw/schwarzschild_ell2_m2_N4096.npz",
+      "one_d_reference": "results/sds_scalar/tails/high_resolution_rates/raw/schwarzschild_ell2_N4096.npz",
+      "metadata": {
+        "angular_basis": {
+          "ell_max": 2,
+          "m_convention": "m>0 cosine, m<0 sine",
+          "maximum_gram_error": 1.3322676295501878e-15,
+          "maximum_off_mode_amplitude": 6.201636426617085e-17,
+          "one_minus_purity": 0.0,
+          "phi_collocation": "uniform Fourier",
+          "phi_points": 7,
+          "purity": 1.0,
+          "target_coefficient": 1.0000000000000013,
+          "theta_collocation": "Gauss-Legendre",
+          "theta_points": 4,
+          "type": "orthonormal real spherical harmonics"
+        },
+        "background": "Schwarzschild",
+        "background_key": "schwarzschild",
+        "equations": {
+          "angular_laplacian": "Delta_S2 Y_lm=-ell(ell+1)Y_lm",
+          "field": "u(tau,rho,theta,phi)=sum_lm u_lm Y_lm^R",
+          "pi": "dt(pi_lm)=d_rho[A*(psi_lm+B*pi_lm)]-P_ell*u_lm",
+          "psi": "dt(psi_lm)=d_rho[A*(B*psi_lm+pi_lm)]",
+          "u": "dt(u_lm)=A*(B*psi_lm+pi_lm)"
+        },
+        "final_time": 440.0,
+        "horizons": {
+          "black_hole": 2.0,
+          "future_null_infinity": "rho=1 (r=infinity)"
+        },
+        "initial_data": {
+          "amplitude": 1.0,
+          "center_radius": 6.0,
+          "displacement": "u=0",
+          "momentum": "pi=G(r)/A",
+          "profile": "C-infinity physical areal-radius velocity bump",
+          "radial_derivative": "psi=0",
+          "support_half_width": 3.0
+        },
+        "iterations": 352000,
+        "model": {
+          "ell": 2,
+          "mass": 1.0
+        },
+        "numerical": {
+          "angular_ell_max": 2,
+          "diagnostic_dt": 1.0,
+          "end_time": 440.0,
+          "finite_difference_order": 8,
+          "observer_radii": [
+            4.0,
+            8.0,
+            16.0,
+            null
+          ],
+          "radial_resolution": 4096,
+          "signal_dt": 0.05,
+          "snapshot_dt": 55.0,
+          "timestep": 0.00125
+        },
+        "radial_discretization": {
+          "coordinate": "uniform rho in [0,1]",
+          "coordinate_cfl": 1.2796875,
+          "derivative": "8th-order centered finite difference with matched one-sided endpoint stencils",
+          "interpolation": "local degree-8 polynomial",
+          "maximum_characteristic_speed": 0.25,
+          "time_stepper": "explicit classical RK4"
+        },
+        "retarded_time_offset": {
+          "evaluation": "analytic",
+          "q": 2.772588722239781,
+          "reference_radius": 4.0
+        },
+        "target_mode": {
+          "ell": 2,
+          "m": 2
+        },
+        "validation_role": "independent 3D angular-spectral / radial finite-difference cross-check of the 1D Chebyshev-Dedalus evolution",
+        "wall_seconds": 149.98552708299997
+      }
+    },
+    {
+      "background": "sds",
+      "ell": 0,
+      "m": 0,
+      "archive": "results/three_d_validation/raw/sds_L80_ell0_m0_N2048.npz",
+      "one_d_reference": "results/sds_scalar/tails/raw/ell0/sds_L80.npz",
+      "metadata": {
+        "angular_basis": {
+          "ell_max": 2,
+          "m_convention": "m>0 cosine, m<0 sine",
+          "maximum_gram_error": 1.3322676295501878e-15,
+          "maximum_off_mode_amplitude": 1.1518563880486e-15,
+          "one_minus_purity": 0.0,
+          "phi_collocation": "uniform Fourier",
+          "phi_points": 7,
+          "purity": 1.0,
+          "target_coefficient": 1.0000000000000002,
+          "theta_collocation": "Gauss-Legendre",
+          "theta_points": 4,
+          "type": "orthonormal real spherical harmonics"
+        },
+        "background": "Schwarzschild-de Sitter",
+        "background_key": "sds",
+        "equations": {
+          "angular_laplacian": "Delta_S2 Y_lm=-ell(ell+1)Y_lm",
+          "field": "u(tau,rho,theta,phi)=sum_lm u_lm Y_lm^R",
+          "pi": "dt(pi_lm)=d_rho[A*(psi_lm+B*pi_lm)]-P_ell*u_lm",
+          "psi": "dt(psi_lm)=d_rho[A*(B*psi_lm+pi_lm)]",
+          "u": "dt(u_lm)=A*(B*psi_lm+pi_lm)"
+        },
+        "final_time": 410.4952471239025,
+        "horizons": {
+          "black_hole": 2.0012523496262125,
+          "cosmological": 78.98059813298828,
+          "kappa_black_hole": 0.24937451073966244,
+          "kappa_cosmological": 0.012180408993848391,
+          "kappa_unphysical": 0.012805898254185958,
+          "unphysical": -80.98185048261449
+        },
+        "initial_data": {
+          "amplitude": 1.0,
+          "center_radius": 6.0,
+          "displacement": "u=0",
+          "momentum": "pi=G(r)/A",
+          "profile": "C-infinity physical areal-radius velocity bump",
+          "radial_derivative": "psi=0",
+          "support_half_width": 3.0
+        },
+        "iterations": 164199,
+        "model": {
+          "cosmological_length": 80.0,
+          "ell": 0,
+          "mass": 1.0
+        },
+        "numerical": {
+          "angular_ell_max": 2,
+          "diagnostic_dt": 1.0,
+          "end_time": 410.4952471239025,
+          "finite_difference_order": 8,
+          "observer_radii": [
+            4.0,
+            8.0,
+            16.0,
+            null
+          ],
+          "radial_resolution": 2048,
+          "signal_dt": 0.05,
+          "snapshot_dt": 51.311905890487814,
+          "timestep": 0.0025
+        },
+        "radial_discretization": {
+          "coordinate": "uniform rho in [0,1]",
+          "coordinate_cfl": 1.2761740587103063,
+          "derivative": "8th-order centered finite difference with matched one-sided endpoint stencils",
+          "interpolation": "local degree-8 polynomial",
+          "maximum_characteristic_speed": 0.2493745107396788,
+          "time_stepper": "explicit classical RK4"
+        },
+        "retarded_time_offset": {
+          "evaluation": "analytic",
+          "q": 2.6791369725882506,
+          "reference_radius": 4.0
+        },
+        "target_mode": {
+          "ell": 0,
+          "m": 0
+        },
+        "validation_role": "independent 3D angular-spectral / radial finite-difference cross-check of the 1D Chebyshev-Dedalus evolution",
+        "wall_seconds": 57.754183499999954
+      }
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "m": 1,
+      "archive": "results/three_d_validation/raw/sds_L80_ell1_m1_N2048.npz",
+      "one_d_reference": "results/sds_scalar/tails/high_resolution_rates/raw/sds_ell1_L80_N2048.npz",
+      "metadata": {
+        "angular_basis": {
+          "ell_max": 2,
+          "m_convention": "m>0 cosine, m<0 sine",
+          "maximum_gram_error": 1.3322676295501878e-15,
+          "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+          "one_minus_purity": 0.0,
+          "phi_collocation": "uniform Fourier",
+          "phi_points": 7,
+          "purity": 1.0,
+          "target_coefficient": 1.0000000000000004,
+          "theta_collocation": "Gauss-Legendre",
+          "theta_points": 4,
+          "type": "orthonormal real spherical harmonics"
+        },
+        "background": "Schwarzschild-de Sitter",
+        "background_key": "sds",
+        "equations": {
+          "angular_laplacian": "Delta_S2 Y_lm=-ell(ell+1)Y_lm",
+          "field": "u(tau,rho,theta,phi)=sum_lm u_lm Y_lm^R",
+          "pi": "dt(pi_lm)=d_rho[A*(psi_lm+B*pi_lm)]-P_ell*u_lm",
+          "psi": "dt(psi_lm)=d_rho[A*(B*psi_lm+pi_lm)]",
+          "u": "dt(u_lm)=A*(B*psi_lm+pi_lm)"
+        },
+        "final_time": 410.4952471239025,
+        "horizons": {
+          "black_hole": 2.0012523496262125,
+          "cosmological": 78.98059813298828,
+          "kappa_black_hole": 0.24937451073966244,
+          "kappa_cosmological": 0.012180408993848391,
+          "kappa_unphysical": 0.012805898254185958,
+          "unphysical": -80.98185048261449
+        },
+        "initial_data": {
+          "amplitude": 1.0,
+          "center_radius": 6.0,
+          "displacement": "u=0",
+          "momentum": "pi=G(r)/A",
+          "profile": "C-infinity physical areal-radius velocity bump",
+          "radial_derivative": "psi=0",
+          "support_half_width": 3.0
+        },
+        "iterations": 164199,
+        "model": {
+          "cosmological_length": 80.0,
+          "ell": 1,
+          "mass": 1.0
+        },
+        "numerical": {
+          "angular_ell_max": 2,
+          "diagnostic_dt": 1.0,
+          "end_time": 410.4952471239025,
+          "finite_difference_order": 8,
+          "observer_radii": [
+            4.0,
+            8.0,
+            16.0,
+            null
+          ],
+          "radial_resolution": 2048,
+          "signal_dt": 0.05,
+          "snapshot_dt": 51.311905890487814,
+          "timestep": 0.0025
+        },
+        "radial_discretization": {
+          "coordinate": "uniform rho in [0,1]",
+          "coordinate_cfl": 1.2761740587103063,
+          "derivative": "8th-order centered finite difference with matched one-sided endpoint stencils",
+          "interpolation": "local degree-8 polynomial",
+          "maximum_characteristic_speed": 0.2493745107396788,
+          "time_stepper": "explicit classical RK4"
+        },
+        "retarded_time_offset": {
+          "evaluation": "analytic",
+          "q": 2.6791369725882506,
+          "reference_radius": 4.0
+        },
+        "target_mode": {
+          "ell": 1,
+          "m": 1
+        },
+        "validation_role": "independent 3D angular-spectral / radial finite-difference cross-check of the 1D Chebyshev-Dedalus evolution",
+        "wall_seconds": 57.968843209000056
+      }
+    },
+    {
+      "background": "sds",
+      "ell": 2,
+      "m": 2,
+      "archive": "results/three_d_validation/raw/sds_L80_ell2_m2_N4096.npz",
+      "one_d_reference": "results/sds_scalar/tails/high_resolution_rates/raw/sds_ell2_L80_N4096.npz",
+      "metadata": {
+        "angular_basis": {
+          "ell_max": 2,
+          "m_convention": "m>0 cosine, m<0 sine",
+          "maximum_gram_error": 1.3322676295501878e-15,
+          "maximum_off_mode_amplitude": 6.201636426617085e-17,
+          "one_minus_purity": 0.0,
+          "phi_collocation": "uniform Fourier",
+          "phi_points": 7,
+          "purity": 1.0,
+          "target_coefficient": 1.0000000000000013,
+          "theta_collocation": "Gauss-Legendre",
+          "theta_points": 4,
+          "type": "orthonormal real spherical harmonics"
+        },
+        "background": "Schwarzschild-de Sitter",
+        "background_key": "sds",
+        "equations": {
+          "angular_laplacian": "Delta_S2 Y_lm=-ell(ell+1)Y_lm",
+          "field": "u(tau,rho,theta,phi)=sum_lm u_lm Y_lm^R",
+          "pi": "dt(pi_lm)=d_rho[A*(psi_lm+B*pi_lm)]-P_ell*u_lm",
+          "psi": "dt(psi_lm)=d_rho[A*(B*psi_lm+pi_lm)]",
+          "u": "dt(u_lm)=A*(B*psi_lm+pi_lm)"
+        },
+        "final_time": 492.594296548683,
+        "horizons": {
+          "black_hole": 2.0012523496262125,
+          "cosmological": 78.98059813298828,
+          "kappa_black_hole": 0.24937451073966244,
+          "kappa_cosmological": 0.012180408993848391,
+          "kappa_unphysical": 0.012805898254185958,
+          "unphysical": -80.98185048261449
+        },
+        "initial_data": {
+          "amplitude": 1.0,
+          "center_radius": 6.0,
+          "displacement": "u=0",
+          "momentum": "pi=G(r)/A",
+          "profile": "C-infinity physical areal-radius velocity bump",
+          "radial_derivative": "psi=0",
+          "support_half_width": 3.0
+        },
+        "iterations": 394076,
+        "model": {
+          "cosmological_length": 80.0,
+          "ell": 2,
+          "mass": 1.0
+        },
+        "numerical": {
+          "angular_ell_max": 2,
+          "diagnostic_dt": 1.0,
+          "end_time": 492.594296548683,
+          "finite_difference_order": 8,
+          "observer_radii": [
+            4.0,
+            8.0,
+            16.0,
+            null
+          ],
+          "radial_resolution": 4096,
+          "signal_dt": 0.05,
+          "snapshot_dt": 61.57428706858538,
+          "timestep": 0.00125
+        },
+        "radial_discretization": {
+          "coordinate": "uniform rho in [0,1]",
+          "coordinate_cfl": 1.2764857768487308,
+          "derivative": "8th-order centered finite difference with matched one-sided endpoint stencils",
+          "interpolation": "local degree-8 polynomial",
+          "maximum_characteristic_speed": 0.2493745107396788,
+          "time_stepper": "explicit classical RK4"
+        },
+        "retarded_time_offset": {
+          "evaluation": "analytic",
+          "q": 2.6791369725882506,
+          "reference_radius": 4.0
+        },
+        "target_mode": {
+          "ell": 2,
+          "m": 2
+        },
+        "validation_role": "independent 3D angular-spectral / radial finite-difference cross-check of the 1D Chebyshev-Dedalus evolution",
+        "wall_seconds": 168.13082037499998
+      }
+    }
+  ],
+  "waveform_agreement": [
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 717.2274112777602,
+      "relative_waveform_L2": 2.0113319327426174e-06,
+      "maximum_error_over_reference_peak": 3.220967123598874e-07,
+      "maximum_constraint_linf": 3.724879987787588e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 827.2274112777602,
+      "relative_waveform_L2": 1.4707517287570915e-05,
+      "maximum_error_over_reference_peak": 1.493353557390323e-06,
+      "maximum_constraint_linf": 7.363620824207828e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 4096,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 437.2274112777602,
+      "relative_waveform_L2": 3.419687549283144e-05,
+      "maximum_error_over_reference_peak": 2.4166080781996475e-06,
+      "maximum_constraint_linf": 2.711919022679865e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17
+    },
+    {
+      "background": "sds",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 2048,
+      "observer": "outer_boundary",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 407.81611015131426,
+      "relative_waveform_L2": 3.5645477926507323e-06,
+      "maximum_error_over_reference_peak": 7.557267508358198e-07,
+      "maximum_constraint_linf": 4.368763129036779e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 407.81611015131426,
+      "relative_waveform_L2": 1.0872716084379847e-05,
+      "maximum_error_over_reference_peak": 1.0445396726429431e-06,
+      "maximum_constraint_linf": 6.215161718614581e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16
+    },
+    {
+      "background": "sds",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 4096,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 489.91515957609477,
+      "relative_waveform_L2": 2.6391626342793574e-05,
+      "maximum_error_over_reference_peak": 1.8164583323018007e-06,
+      "maximum_constraint_linf": 1.91596405407779e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17
+    }
+  ],
+  "schwarzschild_decay_rates": [
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "observer": "r/M=8",
+      "target_power_index": 3.0,
+      "measurement_start_U_over_M": 350.0,
+      "measurement_end_U_over_M": 650.0,
+      "three_d_median_power_index": 3.000611438776463,
+      "one_d_median_power_index": 3.0005926113498225
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "observer": "r/M=8",
+      "target_power_index": 5.0,
+      "measurement_start_U_over_M": 230.0,
+      "measurement_end_U_over_M": 480.0,
+      "three_d_median_power_index": 4.950599700025123,
+      "one_d_median_power_index": 4.955326183402245
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "observer": "r/M=8",
+      "target_power_index": 7.0,
+      "measurement_start_U_over_M": 270.0,
+      "measurement_end_U_over_M": 410.0,
+      "three_d_median_power_index": 6.951756579005711,
+      "one_d_median_power_index": 6.9184591695785365
+    }
+  ],
+  "transition_intervals": [
+    {
+      "implementation": "3D",
+      "ell": 0,
+      "m": 0,
+      "L_over_M": 80.0,
+      "observer": "cosmological_horizon",
+      "status": "not_applicable_nonzero_monopole_limit",
+      "reason": "The minimally coupled ell=0 field approaches a nonzero constant, so a decay-rate transition interval is undefined."
+    },
+    {
+      "ell": 1,
+      "L_over_M": 80.0,
+      "observer": "r/M=8",
+      "kappa_c": 0.012180408993848391,
+      "status": "resolved",
+      "configurations": 54,
+      "resolved_configurations": 54,
+      "kappa_c_U_departure_median": 1.411963522592881,
+      "kappa_c_U_departure_minimum": 1.1506937496750709,
+      "kappa_c_U_departure_maximum": 1.7603232198166285,
+      "kappa_c_U_entry_median": 2.8331127419488498,
+      "kappa_c_U_entry_minimum": 2.5636211929601993,
+      "kappa_c_U_entry_maximum": 3.059363839009378,
+      "U_over_M_departure_median": 115.92086302734012,
+      "U_over_M_departure_minimum": 94.47086302735964,
+      "U_over_M_departure_maximum": 144.52086302731414,
+      "U_over_M_entry_median": 232.59586302723403,
+      "U_over_M_entry_minimum": 210.47086302725415,
+      "U_over_M_entry_maximum": 251.17086302721714,
+      "final_rate_median": 1.0238357561615872,
+      "status_counts": "resolved=54",
+      "implementation": "3D",
+      "m": 1
+    },
+    {
+      "ell": 1,
+      "L_over_M": 80.0,
+      "observer": "r/M=8",
+      "kappa_c": 0.012180408993848391,
+      "status": "resolved",
+      "configurations": 54,
+      "resolved_configurations": 54,
+      "kappa_c_U_departure_median": 1.411963522592881,
+      "kappa_c_U_departure_minimum": 1.1506937496750709,
+      "kappa_c_U_departure_maximum": 1.7603232198166285,
+      "kappa_c_U_entry_median": 2.8349398032979254,
+      "kappa_c_U_entry_minimum": 2.5636211929601993,
+      "kappa_c_U_entry_maximum": 3.0660630639559883,
+      "U_over_M_departure_median": 115.92086302734012,
+      "U_over_M_departure_minimum": 94.47086302735964,
+      "U_over_M_departure_maximum": 144.52086302731414,
+      "U_over_M_entry_median": 232.7458630272339,
+      "U_over_M_entry_minimum": 210.47086302725415,
+      "U_over_M_entry_maximum": 251.72086302721664,
+      "final_rate_median": 1.0237001482437396,
+      "status_counts": "resolved=54",
+      "implementation": "1D",
+      "m": "mode-reduced"
+    },
+    {
+      "ell": 2,
+      "L_over_M": 80.0,
+      "observer": "r/M=8",
+      "kappa_c": 0.012180408993848391,
+      "status": "marginal",
+      "configurations": 54,
+      "resolved_configurations": 16,
+      "kappa_c_U_departure_median": 2.702477855489724,
+      "kappa_c_U_departure_minimum": 2.3857872216499536,
+      "kappa_c_U_departure_maximum": 2.87422162230283,
+      "kappa_c_U_entry_median": 3.553583933944748,
+      "kappa_c_U_entry_minimum": 3.480805990204915,
+      "kappa_c_U_entry_maximum": 3.6653391864657463,
+      "U_over_M_departure_median": 221.87086302722568,
+      "U_over_M_departure_minimum": 195.8708630272493,
+      "U_over_M_departure_maximum": 235.97086302721286,
+      "U_over_M_entry_median": 291.7458630280358,
+      "U_over_M_entry_minimum": 285.77086302790536,
+      "U_over_M_entry_maximum": 300.92086302823606,
+      "final_rate_median": 2.033075061934576,
+      "status_counts": "no_cosmological_entry=38;resolved=16",
+      "implementation": "3D",
+      "m": 2
+    },
+    {
+      "ell": 2,
+      "L_over_M": 80.0,
+      "observer": "r/M=8",
+      "kappa_c": 0.012180408993848391,
+      "status": "marginal",
+      "configurations": 54,
+      "resolved_configurations": 16,
+      "kappa_c_U_departure_median": 2.702477855489724,
+      "kappa_c_U_departure_minimum": 2.3857872216499536,
+      "kappa_c_U_departure_maximum": 2.87422162230283,
+      "kappa_c_U_entry_median": 3.5459711783234265,
+      "kappa_c_U_entry_minimum": 3.4801969697552093,
+      "kappa_c_U_entry_maximum": 3.6647301660160405,
+      "U_over_M_departure_median": 221.87086302722568,
+      "U_over_M_departure_minimum": 195.8708630272493,
+      "U_over_M_departure_maximum": 235.97086302721286,
+      "U_over_M_entry_median": 291.12086302802214,
+      "U_over_M_entry_minimum": 285.7208630279043,
+      "U_over_M_entry_maximum": 300.87086302823496,
+      "final_rate_median": 2.0295092549614506,
+      "status_counts": "no_cosmological_entry=38;resolved=16",
+      "implementation": "1D",
+      "m": "mode-reduced"
+    }
+  ],
+  "radial_convergence": [
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 512,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127763481,
+      "relative_waveform_L2": 4.953894928017863e-05,
+      "maximum_error_over_reference_peak": 4.9462096360421695e-06,
+      "maximum_constraint_linf": 5.624489762823259e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15,
+      "relative_L2_to_finest_3D": 4.8373782605559716e-05,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 1024,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127763481,
+      "relative_waveform_L2": 2.1633738725370053e-06,
+      "maximum_error_over_reference_peak": 3.217662606035371e-07,
+      "maximum_constraint_linf": 1.2824636144714852e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15,
+      "relative_L2_to_finest_3D": 4.000419573914834e-07,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127763481,
+      "relative_waveform_L2": 2.0111512999905648e-06,
+      "maximum_error_over_reference_peak": 3.220967123598874e-07,
+      "maximum_constraint_linf": 3.724879987787588e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15,
+      "relative_L2_to_finest_3D": 0.0,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 512,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127763481,
+      "relative_waveform_L2": 1.4665019746858211e-05,
+      "maximum_error_over_reference_peak": 1.757043421843686e-06,
+      "maximum_constraint_linf": 3.530420400466028e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+      "relative_L2_to_finest_3D": 1.6298936028372604e-05,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 1024,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127763481,
+      "relative_waveform_L2": 1.4688800961194956e-05,
+      "maximum_error_over_reference_peak": 1.4933387389165226e-06,
+      "maximum_constraint_linf": 9.55154844106687e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+      "relative_L2_to_finest_3D": 1.3513867104021276e-07,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127763481,
+      "relative_waveform_L2": 1.4707517264637956e-05,
+      "maximum_error_over_reference_peak": 1.493353557390323e-06,
+      "maximum_constraint_linf": 7.363620824207828e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+      "relative_L2_to_finest_3D": 0.0,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 1024,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127761668,
+      "relative_waveform_L2": 3.418276122912466e-05,
+      "maximum_error_over_reference_peak": 2.4161087430788216e-06,
+      "maximum_constraint_linf": 5.663092217389476e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17,
+      "relative_L2_to_finest_3D": 9.295345830040184e-08,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127761668,
+      "relative_waveform_L2": 3.419690521849982e-05,
+      "maximum_error_over_reference_peak": 2.4166081927937456e-06,
+      "maximum_constraint_linf": 1.7271839514165777e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17,
+      "relative_L2_to_finest_3D": 1.904750186003979e-10,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "schwarzschild",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 4096,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97741127761668,
+      "relative_waveform_L2": 3.419687549279888e-05,
+      "maximum_error_over_reference_peak": 2.4166080781996475e-06,
+      "maximum_constraint_linf": 2.711919022679865e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17,
+      "relative_L2_to_finest_3D": 0.0,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 512,
+      "observer": "outer_boundary",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97086302728644,
+      "relative_waveform_L2": 2.194694056444101e-05,
+      "maximum_error_over_reference_peak": 1.170887234695377e-05,
+      "maximum_constraint_linf": 1.2744560962119067e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15,
+      "relative_L2_to_finest_3D": 2.177089040457366e-05,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 1024,
+      "observer": "outer_boundary",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97086302728644,
+      "relative_waveform_L2": 1.7528025988948804e-06,
+      "maximum_error_over_reference_peak": 3.986341370159598e-07,
+      "maximum_constraint_linf": 2.3575097429784364e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15,
+      "relative_L2_to_finest_3D": 1.4222842117434303e-07,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 0,
+      "m": 0,
+      "radial_resolution": 2048,
+      "observer": "outer_boundary",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97086302728644,
+      "relative_waveform_L2": 1.7461361637300002e-06,
+      "maximum_error_over_reference_peak": 3.9936115620267853e-07,
+      "maximum_constraint_linf": 4.368763129036779e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.1518563880486e-15,
+      "relative_L2_to_finest_3D": 0.0,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 512,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97086302728644,
+      "relative_waveform_L2": 3.5380995386594184e-05,
+      "maximum_error_over_reference_peak": 3.2410582201318037e-06,
+      "maximum_constraint_linf": 6.827327592162646e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+      "relative_L2_to_finest_3D": 3.952201894992827e-05,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 1024,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97086302728644,
+      "relative_waveform_L2": 1.0874620922435806e-05,
+      "maximum_error_over_reference_peak": 1.0449600836521604e-06,
+      "maximum_constraint_linf": 7.761213893786589e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+      "relative_L2_to_finest_3D": 2.5870332408836067e-07,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 1,
+      "m": 1,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.97086302728644,
+      "relative_waveform_L2": 1.0872715832192221e-05,
+      "maximum_error_over_reference_peak": 1.0445396726429431e-06,
+      "maximum_constraint_linf": 6.215161718614581e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 1.5048726154098802e-16,
+      "relative_L2_to_finest_3D": 0.0,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 1024,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.9708630272683,
+      "relative_waveform_L2": 2.6429669187502605e-05,
+      "maximum_error_over_reference_peak": 1.8159576106437086e-06,
+      "maximum_constraint_linf": 9.788021088086296e-11,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17,
+      "relative_L2_to_finest_3D": 1.7723394976169497e-07,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 2048,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.9708630272683,
+      "relative_waveform_L2": 2.6391610914897214e-05,
+      "maximum_error_over_reference_peak": 1.8164587925256542e-06,
+      "maximum_constraint_linf": 2.037482405015112e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17,
+      "relative_L2_to_finest_3D": 1.4293527714244108e-10,
+      "comparison_kind": "matched-timestep radial refinement"
+    },
+    {
+      "background": "sds",
+      "ell": 2,
+      "m": 2,
+      "radial_resolution": 4096,
+      "observer": "r/M=8",
+      "comparison_start_U_over_M": 20.0,
+      "comparison_end_U_over_M": 174.9708630272683,
+      "relative_waveform_L2": 2.6391626342738232e-05,
+      "maximum_error_over_reference_peak": 1.8164583323018007e-06,
+      "maximum_constraint_linf": 1.91596405407779e-10,
+      "minimum_mode_purity": 1.0,
+      "maximum_off_mode_amplitude": 6.201636426617085e-17,
+      "relative_L2_to_finest_3D": 0.0,
+      "comparison_kind": "matched-timestep radial refinement"
+    }
+  ],
+  "scope_boundary": "No mixed-mode result is claimed here.  That is the next stage after these pure-mode comparisons pass."
+}

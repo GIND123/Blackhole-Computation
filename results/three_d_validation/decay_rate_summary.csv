@@ -1,0 +1,4 @@
+background,ell,observer,target_power_index,measurement_start_U_over_M,measurement_end_U_over_M,three_d_median_power_index,one_d_median_power_index
+schwarzschild,0,r/M=8,3.0,350.0,650.0,3.000611438776463,3.0005926113498225
+schwarzschild,1,r/M=8,5.0,230.0,480.0,4.950599700025123,4.955326183402245
+schwarzschild,2,r/M=8,7.0,270.0,410.0,6.951756579005711,6.9184591695785365
