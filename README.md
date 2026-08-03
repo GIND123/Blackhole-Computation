@@ -44,6 +44,15 @@ relative `L2` errors between `2.0e-6` and `3.4e-5`, recovers the finite-radius
 Price indices, matches the dipole and quadrupole transition intervals, and
 limits angular contamination to roundoff.
 
+The newest stage replaces pure-mode data by a genuinely three-dimensional
+**localized source** modelling the retarded Green function. On Schwarzschild
+it reproduces the direct signal and the caustic echo train, with arrival
+times, crossing interval, and caustic amplification matching photon-sphere
+geometric optics without a fitted parameter. The same physical emitter on
+`L/M = 20, 40, 80, 160` converges to the asymptotically flat Green function
+like `M/L`, and reaches the expected cosmological end state: a frozen
+monopole proportional to `Lambda` and a dipole rate `gamma/kappa_c -> 1`.
+
 > **Reproducibility:** source code, raw simulation archives, CSV tables,
 > diagnostics, figures, and convergence runs are stored together in this
 > repository.
@@ -160,6 +169,72 @@ The formulation, convergence ladders, constraints, angular-mode purity,
 limitations, and reproduction commands are in
 [`docs/THREE_D_VALIDATION.md`](docs/THREE_D_VALIDATION.md). Mixed angular data
 remain the next stage; they are not conflated with this pure-mode benchmark.
+
+## Retarded Green function: caustic echoes and the mixed-mode SdS flat limit
+
+The requested next stage is complete: the pure spherical-harmonic data are
+replaced by a genuinely three-dimensional **localized source** that models the
+retarded Green function. Starting from zero data we solve `Box Phi = S` with a
+smooth emitter at `r = 6M` in the equatorial plane, specified once in the
+background-independent labels `(t, r, theta, phi)` and evaluated on each
+background at `t = tau - h_L(r)`. The same physical emitter therefore acts on
+Schwarzschild and on `L/M = 20, 40, 80, 160`.
+
+![Equatorial wavefront](results/green_function/caustic_field_schwarzschild.png)
+
+*The pulse leaves the emitter (star), wraps the photon sphere in both
+directions, and refocuses on the far side of the black hole. Drawn in the
+computational radial coordinate: centre is the horizon, rim is future null
+infinity.*
+
+![Caustic echoes](results/green_function/caustic_waterfall_schwarzschild.png)
+
+*The waveform at future null infinity against retarded time and equatorial
+angle. The dashed lines are not fits: they are the arrival times of null rays
+winding on the `r = 3M` photon orbit.*
+
+Three parameter-free checks on the Schwarzschild caustic sequence:
+
+| quantity | measured | geometric optics | difference |
+|---|---:|---:|---:|
+| direct arrival `U/M` | 26.85 | 26.614 | `0.9%` |
+| crossing interval `dU/M` | 16.147 | 16.324 | `1.1%` |
+| first caustic / direct signal | 1.872 | amplification | — |
+
+The first caustic echo is **larger than the direct signal** even after
+travelling half way around the black hole. The envelope then falls by a
+factor `0.214` per crossing.
+
+The flat limit of the mixed-mode Green function, measured on
+`U = tau - q_L` over the window `[5M, 115M]`:
+
+| `L/M` | `q_L/M` | relative `L2` | relative `Linf` | max constraint |
+|---:|---:|---:|---:|---:|
+| 20  | 2.461850 | 1.1067 | 0.7890 | `2.72e-9` |
+| 40  | 2.597389 | 0.5199 | 0.3456 | `1.76e-9` |
+| 80  | 2.679137 | 0.2529 | 0.1598 | `6.81e-10` |
+| 160 | 2.724272 | 0.1249 | 0.0767 | `5.18e-10` |
+
+Both norms halve at each doubling of `L`; the fitted exponent is `-1.05`,
+that is, `M/L` convergence to the asymptotically flat Green function.
+
+![Flat limit](results/green_function/sds_flat_limit_convergence.png)
+
+The cosmological end state is the expected one. The monopole freezes onto a
+constant proportional to `Lambda` (`Phi L^2/M^2 = -99.1, -94.2, -91.9, -90.8`),
+and the dipole rate approaches `gamma/kappa_c = 1` at every length.
+
+![Late time](results/green_function/sds_late_time.png)
+
+The source term is verified against an **independent static-coordinate
+leapfrog solve** that shares no part of the hyperboloidal machinery — no
+height function, no compactification, no first-order reduction — and the two
+agree to `1e-5` to `5e-4` relative, with the residual falling as the
+reference is refined.
+
+Full formulation, suite definition, refinement ladders, the sharpened-emitter
+follow-up, and an explicit list of what is *not* established are in
+[`docs/GREEN_FUNCTION.md`](docs/GREEN_FUNCTION.md).
 
 ## Earlier high-resolution rate figures
 
@@ -426,6 +501,20 @@ python -m black_hole.three_d_validation analyze \
   --output-dir results/three_d_validation
 ```
 
+### Localized-source Green-function study
+
+```bash
+python -m black_hole.caustic_study --output-dir results/green_function
+python -m black_hole.caustic_report --output-dir results/green_function
+```
+
+The first command runs every evolution of the suite: the Schwarzschild and
+four SdS production cases, the radial, timestep, angular, and stencil
+ladders, and the sharpened emitter. Individual cases can be named, which
+parallelizes well across cores; running the module with no arguments lists
+them. The second command rebuilds every figure and table from the archives
+alone and needs no Dedalus installation.
+
 ### Tests
 
 ```bash
@@ -454,6 +543,11 @@ black_hole/
   crossover_final.py        Transition intervals, sweeps, and convergence report
   three_d_solver.py          Angular-spectral pure-mode 3D evolution
   three_d_validation.py      3D/1D comparisons, convergence, plots, and tables
+  localized_source.py        Localized emitter and its exact angular spectrum
+  source_evolution.py        Sourced mixed-mode 3D evolution on Schwarzschild/SdS
+  static_reference.py        Independent static-coordinate check of the source
+  caustic_study.py           Green-function suite, ladders, and echo analysis
+  caustic_report.py          Green-function figures, tables, and JSON digest
   sds_result.py             Saved-evolution container shared by solver and analysis
   tail_study.py             Schwarzschild/SdS tail production workflow
   tail_validation.py        Resolution, timestep, and profile reports
@@ -464,6 +558,7 @@ docs/
   TAILS.md                  Dynamical tail derivation, validation, and results
   CROSSOVER.md              Final transition-interval report and uncertainties
   THREE_D_VALIDATION.md     Pure-mode 3D formulation and validation results
+  GREEN_FUNCTION.md         Localized-source caustic echoes and SdS flat limit
   SDS_SCALAR.md             Bridge-coordinate scalar formulation
   METHOD.md                 Schwarzschild perturbation method
   RESULTS.md                Regge-Wheeler production results
@@ -492,6 +587,14 @@ results/three_d_validation/
   *.png                     3D/1D and angular-purity figures
   diagnostics.json          Full configurations and derived diagnostics
 
+results/green_function/
+  raw/                      Schwarzschild and four SdS sourced archives
+  convergence/raw/          Radial, timestep, angular, and stencil ladders
+  narrow/raw/               Sharpened-emitter follow-up
+  tables/*.csv              Modes, echoes, flat limit, late time, convergence
+  *.png                     Caustic, flat-limit, and validation figures
+  green_function_summary.json  Every derived number in one machine-readable file
+
 tests/                      Analytic and numerical-model regression tests
 environment.yml             Reproducible software environment
 ```
@@ -518,6 +621,13 @@ The most useful machine-readable outputs are:
 - [3D/1D transition intervals](results/three_d_validation/transition_intervals.csv)
 - [3D radial convergence](results/three_d_validation/radial_convergence.csv)
 - [complete 3D diagnostics](results/three_d_validation/diagnostics.json)
+- [caustic pulse measurements](results/green_function/tables/caustic_pulses.csv)
+- [caustic phase relations](results/green_function/tables/caustic_phase.csv)
+- [SdS Green-function flat limit](results/green_function/tables/sds_flat_limit.csv)
+- [caustic timing shift with `L`](results/green_function/tables/sds_pulse_timing.csv)
+- [source-term cross-validation](results/green_function/tables/source_validation.csv)
+- [Green-function convergence ladders](results/green_function/tables/convergence.csv)
+- [complete Green-function digest](results/green_function/green_function_summary.json)
 
 ## Acknowledgments
 

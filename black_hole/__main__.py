@@ -342,6 +342,28 @@ def build_parser() -> argparse.ArgumentParser:
     tail_timestep.add_argument("--sds-inputs", nargs="+", type=Path, required=True)
     tail_timestep.add_argument("--reference-radius", type=float, default=4.0)
     tail_timestep.add_argument("--output-dir", type=Path, required=True)
+
+    green_run = subparsers.add_parser(
+        "green-function-run",
+        help="evolve the localized-source (retarded Green function) suite",
+    )
+    green_run.add_argument(
+        "cases",
+        nargs="*",
+        help="case names; omit to run the whole suite",
+    )
+    green_run.add_argument(
+        "--output-dir", type=Path, default=Path("results/green_function")
+    )
+    green_run.add_argument("--force", action="store_true")
+
+    green_report = subparsers.add_parser(
+        "green-function-report",
+        help="build every figure and table of the Green-function study",
+    )
+    green_report.add_argument(
+        "--output-dir", type=Path, default=Path("results/green_function")
+    )
     return parser
 
 
@@ -508,6 +530,22 @@ def main() -> None:
             reference_radius=args.reference_radius,
         )
         print(json.dumps(rows, indent=2))
+        return
+
+    if args.command == "green-function-run":
+        # Imported here so the source study runs without a Dedalus install.
+        from .caustic_study import all_case_names, run_named_case
+
+        names = args.cases or all_case_names(args.output_dir)
+        for name in names:
+            print(run_named_case(args.output_dir, name, force=args.force))
+        return
+
+    if args.command == "green-function-report":
+        from .caustic_report import create_report
+
+        for path in create_report(args.output_dir):
+            print(path)
         return
 
     output_dir = args.output_dir
