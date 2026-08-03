@@ -52,6 +52,9 @@ geometric optics without a fitted parameter. The same physical emitter on
 `L/M = 20, 40, 80, 160` converges to the asymptotically flat Green function
 like `M/L`, and reaches the expected cosmological end state: a frozen
 monopole proportional to `Lambda` and a dipole rate `gamma/kappa_c -> 1`.
+The sourced equations now have both the production eighth-order
+finite-difference backend and an optional Chebyshev--Dedalus 3 backend with
+stage-accurate Killing-time forcing and archive-compatible modal outputs.
 
 > **Reproducibility:** source code, raw simulation archives, CSV tables,
 > diagnostics, figures, and convergence runs are stored together in this
@@ -504,16 +507,24 @@ python -m black_hole.three_d_validation analyze \
 ### Localized-source Green-function study
 
 ```bash
-python -m black_hole.caustic_study --output-dir results/green_function
-python -m black_hole.caustic_report --output-dir results/green_function
+python -m black_hole green-function-run --output-dir results/green_function
+python -m black_hole green-function-report --output-dir results/green_function
+
+# Run the same sourced equations with Chebyshev--Dedalus fields.
+python -m black_hole green-function-run \
+  --backend dedalus \
+  --output-dir results/green_function \
+  schwarzschild
 ```
 
 The first command runs every evolution of the suite: the Schwarzschild and
 four SdS production cases, the radial, timestep, angular, and stencil
 ladders, and the sharpened emitter. Individual cases can be named, which
 parallelizes well across cores; running the module with no arguments lists
-them. The second command rebuilds every figure and table from the archives
-alone and needs no Dedalus installation.
+them. Dedalus archives are kept separately under
+`results/green_function/dedalus`, so they cannot overwrite the published
+finite-difference suite. The report command rebuilds every figure and table
+from the production archives alone and needs no Dedalus installation.
 
 ### Tests
 
@@ -521,14 +532,15 @@ alone and needs no Dedalus installation.
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 49 analytic and model-level tests covering horizon
-roots, regular endpoint coefficients, compactification and its inverse,
+The test suite covers horizon roots, regular endpoint coefficients,
+compactification and its inverse,
 identical areal-radius data, chain-rule initialization, height normalization,
 analytic retarded-time limits, the Schwarzschild flat limit, physically
 matched velocity data, robust tail fits, alignment, trust-time logic, the
 envelope rate estimator, the transition-interval criterion, real
 spherical-harmonic transforms, eighth-order radial operators, and a short
-pure-mode 3D evolution.
+pure-mode 3D evolution. In the pinned Dedalus environment it also runs
+localized-source activation and finite-difference/Dedalus agreement tests.
 
 ## 8. Repository organization
 
@@ -545,6 +557,7 @@ black_hole/
   three_d_validation.py      3D/1D comparisons, convergence, plots, and tables
   localized_source.py        Localized emitter and its exact angular spectrum
   source_evolution.py        Sourced mixed-mode 3D evolution on Schwarzschild/SdS
+  dedalus_source_evolution.py  Chebyshev--Dedalus sourced-evolution backend
   static_reference.py        Independent static-coordinate check of the source
   caustic_study.py           Green-function suite, ladders, and echo analysis
   caustic_report.py          Green-function figures, tables, and JSON digest
@@ -594,6 +607,7 @@ results/green_function/
   tables/*.csv              Modes, echoes, flat limit, late time, convergence
   *.png                     Caustic, flat-limit, and validation figures
   green_function_summary.json  Every derived number in one machine-readable file
+  dedalus/                  Optional same-schema Dedalus cross-check archives
 
 tests/                      Analytic and numerical-model regression tests
 environment.yml             Reproducible software environment

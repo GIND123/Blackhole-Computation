@@ -7,11 +7,9 @@ from dataclasses import replace
 import json
 import logging
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from .analysis import create_plots, write_diagnostics
-from .flat_limit_study import run_flat_limit_study
 from .model import InitialData, ModelParameters
-from .sds_analysis import create_sds_plots, write_sds_diagnostics
 from .sds_model import (
     ArealBumpInitialData,
     ArealVelocityBumpInitialData,
@@ -19,23 +17,15 @@ from .sds_model import (
     ScalarInitialData,
     SdSParameters,
 )
-from .sds_result import load_sds_result
-from .sds_solver import (
-    SdSNumericalParameters,
-    run_sds_simulation,
-)
-from .sds_study import run_sds_bridge_suite, run_sds_convergence_study
-from .solver import NumericalParameters, load_result, run_simulation
-from .study import run_convergence_study
-from .tail_study import run_tail_study
-from .tail_validation import (
-    create_profile_sensitivity_report,
-    create_resolution_report,
-    create_timestep_report,
-)
+
+if TYPE_CHECKING:
+    from .sds_solver import SdSNumericalParameters
+    from .solver import NumericalParameters
 
 
 def numerical_from_args(args: argparse.Namespace) -> NumericalParameters:
+    from .solver import NumericalParameters
+
     return NumericalParameters(
         resolution=args.resolution,
         timestep=args.timestep,
@@ -92,6 +82,8 @@ def tail_initial_from_args(args: argparse.Namespace) -> ArealVelocityBumpInitial
 
 
 def sds_numerical_from_args(args: argparse.Namespace) -> SdSNumericalParameters:
+    from .sds_solver import SdSNumericalParameters
+
     return SdSNumericalParameters(
         resolution=args.resolution,
         timestep=args.timestep,
@@ -355,6 +347,15 @@ def build_parser() -> argparse.ArgumentParser:
     green_run.add_argument(
         "--output-dir", type=Path, default=Path("results/green_function")
     )
+    green_run.add_argument(
+        "--backend",
+        choices=("finite-difference", "dedalus"),
+        default="finite-difference",
+        help=(
+            "radial evolution backend; Dedalus archives are stored below "
+            "OUTPUT_DIR/dedalus"
+        ),
+    )
     green_run.add_argument("--force", action="store_true")
 
     green_report = subparsers.add_parser(
@@ -378,12 +379,17 @@ def main() -> None:
     initial = InitialData()
 
     if args.command == "simulate":
+        from .solver import run_simulation
+
         result = run_simulation(model, initial, numerical_from_args(args))
         result.save(args.output)
         print(f"saved {args.output}")
         return
 
     if args.command == "analyze":
+        from .analysis import create_plots, write_diagnostics
+        from .solver import load_result
+
         result = load_result(args.input)
         diagnostics = write_diagnostics(
             result,
@@ -396,6 +402,8 @@ def main() -> None:
         return
 
     if args.command == "sds-simulate":
+        from .sds_solver import run_sds_simulation
+
         result = run_sds_simulation(
             sds_model_from_args(args),
             sds_initial_from_args(args),
@@ -406,6 +414,9 @@ def main() -> None:
         return
 
     if args.command == "sds-analyze":
+        from .sds_analysis import create_sds_plots, write_sds_diagnostics
+        from .sds_result import load_sds_result
+
         result = load_sds_result(args.input)
         diagnostics = write_sds_diagnostics(result, args.output_dir)
         create_sds_plots(result, args.output_dir)
@@ -413,6 +424,8 @@ def main() -> None:
         return
 
     if args.command == "sds-suite":
+        from .sds_study import run_sds_bridge_suite, run_sds_convergence_study
+
         output_dir = args.output_dir
         output_dir.mkdir(parents=True, exist_ok=True)
         model_sds = sds_model_from_args(args)
@@ -445,6 +458,8 @@ def main() -> None:
         return
 
     if args.command == "sds-flat-limit":
+        from .flat_limit_study import run_flat_limit_study
+
         output_dir = args.output_dir
         output_dir.mkdir(parents=True, exist_ok=True)
         results = run_flat_limit_study(
@@ -463,6 +478,8 @@ def main() -> None:
         return
 
     if args.command == "sds-tail-study":
+        from .tail_study import run_tail_study
+
         output_dir = args.output_dir
         output_dir.mkdir(parents=True, exist_ok=True)
         numerical = sds_numerical_from_args(args)
@@ -487,6 +504,8 @@ def main() -> None:
         return
 
     if args.command == "sds-tail-resolution-report":
+        from .tail_validation import create_resolution_report
+
         rows = create_resolution_report(
             ell=args.ell,
             length=args.length,
@@ -499,6 +518,8 @@ def main() -> None:
         return
 
     if args.command == "sds-tail-profile-report":
+        from .tail_validation import create_profile_sensitivity_report
+
         if not (
             len(args.half_widths)
             == len(args.reference_inputs)
@@ -521,6 +542,8 @@ def main() -> None:
         return
 
     if args.command == "sds-tail-timestep-report":
+        from .tail_validation import create_timestep_report
+
         rows = create_timestep_report(
             ell=args.ell,
             length=args.length,
@@ -536,9 +559,18 @@ def main() -> None:
         # Imported here so the source study runs without a Dedalus install.
         from .caustic_study import all_case_names, run_named_case
 
-        names = args.cases or all_case_names(args.output_dir)
+        names = args.cases or all_case_names(
+            args.output_dir, backend=args.backend
+        )
         for name in names:
-            print(run_named_case(args.output_dir, name, force=args.force))
+            print(
+                run_named_case(
+                    args.output_dir,
+                    name,
+                    force=args.force,
+                    backend=args.backend,
+                )
+            )
         return
 
     if args.command == "green-function-report":
@@ -549,6 +581,10 @@ def main() -> None:
         return
 
     output_dir = args.output_dir
+    from .analysis import create_plots, write_diagnostics
+    from .solver import run_simulation
+    from .study import run_convergence_study
+
     output_dir.mkdir(parents=True, exist_ok=True)
     result = run_simulation(model, initial, numerical_from_args(args))
     raw_path = output_dir / "primary_evolution.npz"

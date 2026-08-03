@@ -112,6 +112,9 @@ PHOTON_SPHERE_PERIOD = 6.0 * np.sqrt(3.0) * np.pi
 VALIDATION_WINDOW = (5.0, 115.0)
 """Retarded-time window, in ``M``, used for every flat-limit norm."""
 
+SOURCE_BACKENDS = ("finite-difference", "dedalus")
+"""Available radial backends for the same localized-source equations."""
+
 
 def case_label(case: str | float) -> str:
     if case == "schwarzschild":
@@ -134,6 +137,14 @@ def _archive(directory: Path, name: str) -> Path:
     return Path(directory) / "raw" / f"{name}.npz"
 
 
+def _backend_directory(directory: Path, backend: str) -> Path:
+    if backend not in SOURCE_BACKENDS:
+        raise ValueError(f"Unknown source backend {backend!r}.")
+    if backend == "dedalus":
+        return Path(directory) / "dedalus"
+    return Path(directory)
+
+
 def _execute(
     path: Path,
     *,
@@ -141,6 +152,7 @@ def _execute(
     source: LocalizedSourceParameters,
     numerical: SourcedNumericalParameters,
     force: bool,
+    backend: str,
 ) -> Path:
     if path.exists() and not force:
         LOGGER.info("reusing %s", path)
@@ -155,18 +167,32 @@ def _execute(
         numerical.timestep,
         numerical.end_time,
     )
-    result = run_sourced_simulation(
-        background=background,
-        source=source,
-        numerical=numerical,
-        cosmological_length=length,
-    )
+    arguments = {
+        "background": background,
+        "source": source,
+        "numerical": numerical,
+        "cosmological_length": length,
+    }
+    if backend == "finite-difference":
+        result = run_sourced_simulation(**arguments)
+    elif backend == "dedalus":
+        # Keep Dedalus optional for report generation and for the lightweight
+        # NumPy/SciPy environment used by the finite-difference production run.
+        from .dedalus_source_evolution import run_sourced_dedalus_simulation
+
+        result = run_sourced_dedalus_simulation(**arguments)
+    else:
+        raise ValueError(f"Unknown source backend {backend!r}.")
     result.save(path)
     return path
 
 
 def run_production_case(
-    output_dir: Path, case: str | float, *, force: bool = False
+    output_dir: Path,
+    case: str | float,
+    *,
+    force: bool = False,
+    backend: str = "finite-difference",
 ) -> Path:
     """Run one production case of the broad-source suite."""
 
@@ -174,16 +200,21 @@ def run_production_case(
     if case in SNAPSHOT_CASES:
         numerical = replace(numerical, **SNAPSHOT_SETTINGS)
     return _execute(
-        _archive(output_dir, case_label(case)),
+        _archive(_backend_directory(output_dir, backend), case_label(case)),
         case=case,
         source=BROAD_SOURCE,
         numerical=numerical,
         force=force,
+        backend=backend,
     )
 
 
 def run_narrow_case(
-    output_dir: Path, case: str | float, *, force: bool = False
+    output_dir: Path,
+    case: str | float,
+    *,
+    force: bool = False,
+    backend: str = "finite-difference",
 ) -> Path:
     """Run one case of the sharpened-emitter follow-up."""
 
@@ -192,11 +223,15 @@ def run_narrow_case(
         end_time=min(END_TIME[case], NARROW_NUMERICAL.end_time),
     )
     return _execute(
-        Path(output_dir) / "narrow" / "raw" / f"{case_label(case)}.npz",
+        _backend_directory(output_dir, backend)
+        / "narrow"
+        / "raw"
+        / f"{case_label(case)}.npz",
         case=case,
         source=NARROW_SOURCE,
         numerical=numerical,
         force=force,
+        backend=backend,
     )
 
 
@@ -258,46 +293,76 @@ def convergence_cases() -> list[tuple[str, str | float, SourcedNumericalParamete
 
 
 def run_convergence_case(
-    output_dir: Path, name: str, *, force: bool = False
+    output_dir: Path,
+    name: str,
+    *,
+    force: bool = False,
+    backend: str = "finite-difference",
 ) -> Path:
     """Run one entry of the refinement ladders."""
 
     lookup = {entry[0]: entry[1:] for entry in convergence_cases()}
     if name not in lookup:
         raise ValueError(f"Unknown convergence case {name!r}.")
+    if backend == "dedalus" and name == "stencil_order6":
+        raise ValueError("stencil_order6 is specific to the finite-difference backend.")
     case, numerical = lookup[name]
     return _execute(
-        Path(output_dir) / "convergence" / "raw" / f"{name}.npz",
+        _backend_directory(output_dir, backend)
+        / "convergence"
+        / "raw"
+        / f"{name}.npz",
         case=case,
         source=BROAD_SOURCE,
         numerical=numerical,
         force=force,
+        backend=backend,
     )
 
 
-def all_case_names(output_dir: Path) -> list[str]:
+def all_case_names(
+    output_dir: Path, *, backend: str = "finite-difference"
+) -> list[str]:
     """Return every runnable case name for the command-line driver."""
 
     names = ["schwarzschild"] + [case_label(value) for value in COSMOLOGICAL_LENGTHS]
     names += ["narrow:schwarzschild"]
-    names += [f"convergence:{entry[0]}" for entry in convergence_cases()]
+    convergence = [entry[0] for entry in convergence_cases()]
+    if backend == "dedalus":
+        convergence.remove("stencil_order6")
+    names += [f"convergence:{name}" for name in convergence]
     return names
 
 
-def run_named_case(output_dir: Path, name: str, *, force: bool = False) -> Path:
+def run_named_case(
+    output_dir: Path,
+    name: str,
+    *,
+    force: bool = False,
+    backend: str = "finite-difference",
+) -> Path:
     """Dispatch one case name from :func:`all_case_names`."""
 
     if name.startswith("convergence:"):
-        return run_convergence_case(output_dir, name.split(":", 1)[1], force=force)
+        return run_convergence_case(
+            output_dir,
+            name.split(":", 1)[1],
+            force=force,
+            backend=backend,
+        )
     if name.startswith("narrow:"):
         target = name.split(":", 1)[1]
         case = "schwarzschild" if target == "schwarzschild" else 80.0
-        return run_narrow_case(output_dir, case, force=force)
+        return run_narrow_case(output_dir, case, force=force, backend=backend)
     if name == "schwarzschild":
-        return run_production_case(output_dir, "schwarzschild", force=force)
+        return run_production_case(
+            output_dir, "schwarzschild", force=force, backend=backend
+        )
     for length in COSMOLOGICAL_LENGTHS:
         if name == case_label(length):
-            return run_production_case(output_dir, length, force=force)
+            return run_production_case(
+                output_dir, length, force=force, backend=backend
+            )
     raise ValueError(f"Unknown case {name!r}.")
 
 
@@ -723,17 +788,25 @@ def main() -> None:
     parser.add_argument(
         "--output-dir", type=Path, default=Path("results/green_function")
     )
+    parser.add_argument(
+        "--backend", choices=SOURCE_BACKENDS, default="finite-difference"
+    )
     parser.add_argument("--force", action="store_true")
     arguments = parser.parse_args()
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s"
     )
     if not arguments.cases:
-        for name in all_case_names(arguments.output_dir):
+        for name in all_case_names(arguments.output_dir, backend=arguments.backend):
             print(name)
         return
     for name in arguments.cases:
-        path = run_named_case(arguments.output_dir, name, force=arguments.force)
+        path = run_named_case(
+            arguments.output_dir,
+            name,
+            force=arguments.force,
+            backend=arguments.backend,
+        )
         LOGGER.info("wrote %s", path)
 
 

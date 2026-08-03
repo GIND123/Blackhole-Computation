@@ -15,7 +15,9 @@ tables, and the machine-readable digest). The source model is in
 [`black_hole/localized_source.py`](../black_hole/localized_source.py), the
 sourced evolution in
 [`black_hole/source_evolution.py`](../black_hole/source_evolution.py), and
-the independent verification solver in
+the optional Chebyshev--Dedalus backend in
+[`black_hole/dedalus_source_evolution.py`](../black_hole/dedalus_source_evolution.py).
+The independent verification solver is in
 [`black_hole/static_reference.py`](../black_hole/static_reference.py). Data
 and figures live in
 [`results/green_function`](../results/green_function).
@@ -149,12 +151,23 @@ bounded on the compact support of the emitter, so the new term is as regular
 as the rest of the system, and it is evaluated only on the radial window
 where `R(r) > 0`.
 
-All excited modes are advanced simultaneously as a single vectorized state of
-shape `(3, modes, radial points)` sharing one eighth-order radial derivative
-and one explicit RK4 stepper, with the source re-evaluated at every RK stage.
-The discretization is the finite-difference discretization introduced for
-the pure-mode 3D validation, not the Chebyshev–Dedalus discretization of the
-one-dimensional studies.
+The archived production results use the finite-difference discretization
+introduced for the pure-mode 3D validation. All excited modes are advanced
+simultaneously as a vectorized state of shape `(3, modes, radial points)`,
+sharing one eighth-order radial derivative and one explicit RK4 stepper, with
+the source re-evaluated at every RK stage.
+
+There is also a Dedalus 3 backend for the same sourced equations. It uses
+ChebyshevT fields in `rho`, dealiased variable-coefficient products, and a
+Dedalus `GeneralFunction` tied to the IVP time field so that
+`T(tau-h_L(r))` is refreshed at every internal Runge--Kutta stage. Spherical
+symmetry makes the radial response identical for every `m` at fixed `ell`,
+apart from the known source coefficient. The Dedalus backend therefore
+evolves one response per `ell` and reconstructs every retained `(ell,m)`
+coefficient exactly. For the broad `ell_max=16` source this reduces 81 modal
+responses to 17 without changing the reconstructed 3D field. Its archives
+use the same schema as the finite-difference runs, enabling direct waveform,
+constraint, and caustic comparisons.
 
 ## 4. Independent verification of the source term
 
@@ -221,16 +234,22 @@ which is the observable that the caustic and flat-limit results rest on.
 
 ## 6. Reproducing
 
-The Green-function study needs only NumPy, SciPy, and Matplotlib; unlike the
-one-dimensional studies it does not use Dedalus.
+The archived production study needs only NumPy, SciPy, and Matplotlib. The
+Dedalus cross-discretization backend additionally needs the pinned
+`dedalus3` environment from `environment.yml`.
 
 ```bash
-# every evolution of the suite (production, ladders, sharpened emitter)
-python -m black_hole.caustic_study --output-dir results/green_function
+# every finite-difference evolution (production, ladders, sharpened emitter)
+python -m black_hole green-function-run --output-dir results/green_function
 
 # one case at a time, which parallelizes well across cores
-python -m black_hole.caustic_study schwarzschild sds_L80
-python -m black_hole.caustic_study            # with no arguments: list the cases
+python -m black_hole green-function-run schwarzschild sds_L80
+
+# the same case through Dedalus; stored under results/green_function/dedalus
+python -m black_hole green-function-run --backend dedalus schwarzschild
+
+# the module entry point with no cases lists all available case names
+python -m black_hole.caustic_study
 
 # all figures, tables, and the JSON digest, from the archives alone
 python -m black_hole.caustic_report --output-dir results/green_function
@@ -241,7 +260,8 @@ The same two entry points are wired into the project command line as
 `python -m black_hole green-function-report`.
 
 ```bash
-python -m unittest tests.test_localized_source tests.test_source_evolution -v
+python -m unittest tests.test_localized_source tests.test_source_evolution \
+  tests.test_dedalus_source_evolution -v
 ```
 
 covers the compact profiles and their supports, the closed-form angular
@@ -251,8 +271,10 @@ angular profile from the mode catalogue, exact vanishing of the field before
 the emitter switches on, rejection of an emitter that would already be active
 on the initial slice, linearity in the source amplitude, the reduction
 constraint on both backgrounds, the analytic retarded-time offset, the
-tortoise inversion including the deep-horizon region, and agreement between
-the hyperboloidal and static-coordinate solves.
+tortoise inversion including the deep-horizon region, agreement between the
+hyperboloidal and static-coordinate solves, exact pre-activation vanishing in
+Dedalus, and agreement of the active-source Dedalus and finite-difference
+waveforms.
 
 ## 7. Schwarzschild: the direct signal and the caustic echoes
 
