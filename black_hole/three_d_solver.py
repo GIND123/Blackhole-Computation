@@ -1,4 +1,4 @@
-"""Angular-spectral 3D scalar evolution on spherical black-hole backgrounds.
+r"""Angular-spectral 3D scalar evolution on spherical black-hole backgrounds.
 
 The background geometries in this project are spherically symmetric.  A
 three-dimensional scalar field can therefore be represented without angular

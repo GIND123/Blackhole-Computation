@@ -449,6 +449,18 @@ alter the scope of the one-dimensional flat-limit claim.
 
 ## 7. Reproducing the calculation
 
+### Verified repository state
+
+As of **August 4, 2026**, the repository has been rechecked end to end on the
+current workspace:
+
+- native Windows Python 3.12: `70/70` tests pass after installing `scipy`
+- WSL2 Ubuntu 22.04 with the pinned `dedalus3` conda environment:
+  `70/70` tests pass, including the Dedalus backend tests
+
+The machine-readable record of that verification is stored in
+[`results/verification/test_summary_2026-08-04.json`](results/verification/test_summary_2026-08-04.json).
+
 ### Environment
 
 The project uses Python, Dedalus 3.0.5, NumPy, SciPy, and Matplotlib. Create the
@@ -458,6 +470,25 @@ environment from the repository root:
 mamba env create -f environment.yml
 mamba activate dedalus3
 conda env config vars set OMP_NUM_THREADS=1 NUMEXPR_MAX_THREADS=1
+```
+
+For the full Dedalus-backed validation suite, use Linux, macOS, or WSL2.
+Native Windows can run the non-Dedalus parts of the project, but the
+officially supported Dedalus installation path is the pinned conda
+environment above.
+
+### WSL2 environment used for full verification
+
+On this workspace, the complete suite including the Dedalus backend was run in
+`WSL2 Ubuntu-22.04` with Miniforge:
+
+```bash
+wsl -d Ubuntu-22.04
+source ~/miniforge3/etc/profile.d/conda.sh
+conda env create -f environment.yml -n dedalus3
+conda activate dedalus3
+cd /mnt/e/Blackhole-Computation
+python -m unittest discover -s tests -v
 ```
 
 ### Corrected flat-limit sequence
@@ -542,6 +573,11 @@ spherical-harmonic transforms, eighth-order radial operators, and a short
 pure-mode 3D evolution. In the pinned Dedalus environment it also runs
 localized-source activation and finite-difference/Dedalus agreement tests.
 
+The complete validation status recorded on **August 4, 2026** is:
+
+- native Windows Python: `70/70` tests passed after installing `scipy`
+- WSL2 `dedalus3` environment: `70/70` tests passed, with no skips
+
 ## 8. Repository organization
 
 ```text
@@ -609,6 +645,9 @@ results/green_function/
   green_function_summary.json  Every derived number in one machine-readable file
   dedalus/                  Optional same-schema Dedalus cross-check archives
 
+results/verification/
+  test_summary_2026-08-04.json  Full-suite verification record for this repo
+
 tests/                      Analytic and numerical-model regression tests
 environment.yml             Reproducible software environment
 ```
@@ -642,6 +681,7 @@ The most useful machine-readable outputs are:
 - [source-term cross-validation](results/green_function/tables/source_validation.csv)
 - [Green-function convergence ladders](results/green_function/tables/convergence.csv)
 - [complete Green-function digest](results/green_function/green_function_summary.json)
+- [verification summary, August 4 2026](results/verification/test_summary_2026-08-04.json)
 
 ## Acknowledgments
 

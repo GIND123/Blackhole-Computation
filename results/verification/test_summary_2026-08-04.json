@@ -1,0 +1,41 @@
+{
+  "date": "2026-08-04",
+  "repository": "Blackhole-Computation",
+  "summary": {
+    "overall_status": "passed",
+    "final_authoritative_run": {
+      "platform": "WSL2 Ubuntu-22.04",
+      "environment": "conda environment 'dedalus3' from environment.yml",
+      "command": "python -m unittest discover -s tests -v",
+      "tests_run": 70,
+      "passed": 70,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "wall_time_seconds": 48.307
+    },
+    "native_windows_run": {
+      "platform": "Windows Python 3.12",
+      "command": "python -m unittest discover -s tests -v",
+      "tests_run": 70,
+      "passed": 70,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 2,
+      "note": "The two skipped tests were Dedalus backend tests before moving to the WSL2 Dedalus environment."
+    }
+  },
+  "environment_notes": [
+    "scipy was installed into the native Windows Python environment to unblock imports for the full non-Dedalus suite",
+    "Dedalus 3.0.5 was validated through the pinned Linux conda environment under WSL2 Ubuntu-22.04",
+    "The three_d_solver module docstring was converted to a raw string to remove an import-time SyntaxWarning from LaTeX escape sequences"
+  ],
+  "dedalus_backend": {
+    "dedalus_specific_command": "python -m unittest tests.test_dedalus_source_evolution -v",
+    "tests_run": 3,
+    "passed": 3,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}
