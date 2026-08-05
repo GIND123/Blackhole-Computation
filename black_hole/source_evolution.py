@@ -239,7 +239,7 @@ class SourcedSimulationResult:
             archive["response_signal_scale"] = scale
             self.metadata["compact_response_encoding"] = {
                 "method": "per response int32 delta quantization",
-                "maximum_relative_peak_error": 5e-8,
+                "maximum_relative_peak_error": 1e-7,
                 "samples_preserved": int(self.signal_times.size),
             }
         else:
