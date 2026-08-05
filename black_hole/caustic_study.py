@@ -48,6 +48,7 @@ BROAD_SOURCE = LocalizedSourceParameters(
     time_center=30.0,
     time_half_width=4.0,
     angular_concentration=16.0,
+    normalization="peak",
 )
 """The broad emitter used for the production suite (``sigma = 0.25`` rad)."""
 
@@ -58,6 +59,7 @@ NARROW_SOURCE = LocalizedSourceParameters(
     time_center=30.0,
     time_half_width=2.5,
     angular_concentration=49.0,
+    normalization="peak",
 )
 """A sharper emitter (``sigma = 1/7`` rad) run at higher resolution."""
 

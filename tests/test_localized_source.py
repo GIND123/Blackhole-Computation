@@ -79,6 +79,16 @@ class CompactProfileTests(unittest.TestCase):
             places=10,
         )
 
+    def test_legacy_peak_normalization_remains_available_for_old_archives(self) -> None:
+        source = LocalizedSourceParameters(normalization="peak")
+        self.assertAlmostEqual(
+            float(time_profile(np.asarray(source.time_center), source)), 1.0
+        )
+        self.assertAlmostEqual(
+            float(radial_profile(np.asarray(source.center_radius), source)), 1.0
+        )
+        self.assertNotAlmostEqual(source.as_dict()["covariant_integral"], 1.0)
+
     def test_weak_source_family_converges_to_fixed_strength_delta(self) -> None:
         widths = (1.0, 0.5, 0.25)
         errors = []

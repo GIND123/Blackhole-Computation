@@ -155,6 +155,7 @@ class LocalizedSourceParameters:
     angular_concentration: float = 16.0
     source_theta: float = pi / 2.0
     source_phi: float = 0.0
+    normalization: str = "covariant"
 
     def __post_init__(self) -> None:
         if not np.isfinite(self.amplitude) or self.amplitude == 0.0:
@@ -167,6 +168,8 @@ class LocalizedSourceParameters:
             raise ValueError("The angular concentration kappa must be positive.")
         if not 0.0 <= self.source_theta <= pi:
             raise ValueError("The source colatitude must lie in [0, pi].")
+        if self.normalization not in {"covariant", "peak"}:
+            raise ValueError("Source normalization must be 'covariant' or 'peak'.")
 
     @property
     def angular_width(self) -> float:
@@ -190,8 +193,21 @@ class LocalizedSourceParameters:
 
     def as_dict(self) -> dict:
         temporal_normalization, radial_normalization = source_normalizations(self)
+        covariant_integral = self.amplitude
+        if self.normalization == "peak":
+            covariant_integral *= (
+                self.time_half_width
+                * _unit_bump_integral()
+                * _radial_measure_integral(
+                    self.center_radius, self.radial_half_width
+                )
+            )
         return {
-            "profile": "covariantly normalized C-infinity compact delta family",
+            "profile": (
+                "covariantly normalized C-infinity compact delta family"
+                if self.normalization == "covariant"
+                else "legacy peak-normalized C-infinity compact bumps"
+            ),
             "angular_profile": "normalized von Mises-Fisher exp[-(1-cos gamma)/sigma^2]",
             "equation": "Box Phi = S with vanishing initial data",
             "angular_width_radians": self.angular_width,
@@ -199,7 +215,7 @@ class LocalizedSourceParameters:
             "killing_time_support": list(self.killing_time_support),
             "temporal_normalization": temporal_normalization,
             "radial_normalization": radial_normalization,
-            "covariant_integral": self.amplitude,
+            "covariant_integral": covariant_integral,
             **asdict(self),
         }
 
@@ -235,6 +251,8 @@ def source_normalizations(source: LocalizedSourceParameters) -> tuple[float, flo
     this gives ``integral sqrt(-g) S d4x = amplitude``.
     """
 
+    if source.normalization == "peak":
+        return 1.0, 1.0
     temporal = 1.0 / (source.time_half_width * _unit_bump_integral())
     radial = 1.0 / _radial_measure_integral(
         source.center_radius, source.radial_half_width
