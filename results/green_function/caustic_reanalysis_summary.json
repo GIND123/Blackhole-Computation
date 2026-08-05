@@ -1683,8 +1683,8 @@
   ],
   "phase_observables": [
     {
-      "phase_radians": 0.7456551576793273,
-      "phase_over_half_pi": 0.47469881674652636,
+      "phase_radians": -0.7456551576793273,
+      "phase_over_half_pi": -0.47469881674652636,
       "matched_lag_over_M": 1.2249999826539573,
       "coherence": 0.9999067027331677,
       "case": "schwarzschild",
@@ -1693,8 +1693,8 @@
       "delay_over_M": 17.93123556655054
     },
     {
-      "phase_radians": 1.912942992290499,
-      "phase_over_half_pi": 1.2178173323041375,
+      "phase_radians": -1.912942992290499,
+      "phase_over_half_pi": -1.2178173323041375,
       "matched_lag_over_M": -1.4203848298025987,
       "coherence": 0.9998232709866213,
       "case": "schwarzschild",
@@ -1703,8 +1703,8 @@
       "delay_over_M": 18.944258360731972
     },
     {
-      "phase_radians": 0.9667594421047132,
-      "phase_over_half_pi": 0.6154581759669124,
+      "phase_radians": -0.9667594421047132,
+      "phase_over_half_pi": -0.6154581759669124,
       "matched_lag_over_M": 1.0149999654384108,
       "coherence": 0.9992058476254032,
       "case": "schwarzschild",
@@ -1713,8 +1713,8 @@
       "delay_over_M": 14.32486636029639
     },
     {
-      "phase_radians": 0.6543854616302174,
-      "phase_over_half_pi": 0.41659472362368366,
+      "phase_radians": -0.6543854616302174,
+      "phase_over_half_pi": -0.41659472362368366,
       "matched_lag_over_M": 1.0492721190110643,
       "coherence": 0.9999660176514903,
       "case": "sds_L20",
@@ -1723,8 +1723,8 @@
       "delay_over_M": 19.268165016077667
     },
     {
-      "phase_radians": 1.7719363412665987,
-      "phase_over_half_pi": 1.128049710226987,
+      "phase_radians": -1.7719363412665987,
+      "phase_over_half_pi": -1.128049710226987,
       "matched_lag_over_M": 0.8049999964708497,
       "coherence": 0.9998639244826173,
       "case": "sds_L20",
@@ -1733,8 +1733,8 @@
       "delay_over_M": 17.192126150725983
     },
     {
-      "phase_radians": 2.0650752858655026,
-      "phase_over_half_pi": 1.3146677584096143,
+      "phase_radians": -2.0650752858655026,
+      "phase_over_half_pi": -1.3146677584096143,
       "matched_lag_over_M": 0.4899999812295633,
       "coherence": 0.9999467457308094,
       "case": "sds_L20",
@@ -1743,8 +1743,8 @@
       "delay_over_M": 17.236377154217564
     },
     {
-      "phase_radians": 0.7367469983910934,
-      "phase_over_half_pi": 0.4690277064082367,
+      "phase_radians": -0.7367469983910934,
+      "phase_over_half_pi": -0.4690277064082367,
       "matched_lag_over_M": 1.2249999520286474,
       "coherence": 0.9999245445762914,
       "case": "sds_L40",
@@ -1753,8 +1753,8 @@
       "delay_over_M": 18.22262335768776
     },
     {
-      "phase_radians": 1.8281679425614612,
-      "phase_over_half_pi": 1.163847859443187,
+      "phase_radians": -1.8281679425614612,
+      "phase_over_half_pi": -1.163847859443187,
       "matched_lag_over_M": -1.1820752653108404,
       "coherence": 0.9998831154607039,
       "case": "sds_L40",
@@ -1763,8 +1763,8 @@
       "delay_over_M": 18.736423497762758
     },
     {
-      "phase_radians": 1.0134224645745469,
-      "phase_over_half_pi": 0.6451647787096413,
+      "phase_radians": -1.0134224645745469,
+      "phase_over_half_pi": -0.6451647787096413,
       "matched_lag_over_M": 0.7349999341858497,
       "coherence": 0.9991673979509649,
       "case": "sds_L40",
@@ -1773,8 +1773,8 @@
       "delay_over_M": 14.819319102699765
     },
     {
-      "phase_radians": 0.7397286282735218,
-      "phase_over_half_pi": 0.47092587094527266,
+      "phase_radians": -0.7397286282735218,
+      "phase_over_half_pi": -0.47092587094527266,
       "matched_lag_over_M": 1.2249999237447406,
       "coherence": 0.9999113230513081,
       "case": "sds_L80",
@@ -1783,8 +1783,8 @@
       "delay_over_M": 17.996875602685996
     },
     {
-      "phase_radians": 1.8926987359419545,
-      "phase_over_half_pi": 1.204929438435776,
+      "phase_radians": -1.8926987359419545,
+      "phase_over_half_pi": -1.204929438435776,
       "matched_lag_over_M": -1.3845889568246237,
       "coherence": 0.9998362800855445,
       "case": "sds_L80",
@@ -1793,8 +1793,8 @@
       "delay_over_M": 18.917650693581507
     },
     {
-      "phase_radians": 0.9377748666406649,
-      "phase_over_half_pi": 0.5970060221328191,
+      "phase_radians": -0.9377748666406649,
+      "phase_over_half_pi": -0.5970060221328191,
       "matched_lag_over_M": 0.9099999497834008,
       "coherence": 0.9989168188755004,
       "case": "sds_L80",
@@ -1803,8 +1803,8 @@
       "delay_over_M": 14.418905675079998
     },
     {
-      "phase_radians": 0.7449312524958249,
-      "phase_over_half_pi": 0.47423796439338933,
+      "phase_radians": -0.7449312524958249,
+      "phase_over_half_pi": -0.47423796439338933,
       "matched_lag_over_M": 1.224999956245793,
       "coherence": 0.9999078703207671,
       "case": "sds_L160",
@@ -1813,8 +1813,8 @@
       "delay_over_M": 17.948801999095288
     },
     {
-      "phase_radians": 1.9196899592185175,
-      "phase_over_half_pi": 1.2221125848540242,
+      "phase_radians": -1.9196899592185175,
+      "phase_over_half_pi": -1.2221125848540242,
       "matched_lag_over_M": -1.3999999675780646,
       "coherence": 0.9998260119213414,
       "case": "sds_L160",
@@ -1823,8 +1823,8 @@
       "delay_over_M": 18.94513191831892
     },
     {
-      "phase_radians": 0.9709750907157682,
-      "phase_over_half_pi": 0.618141941226064,
+      "phase_radians": -0.9709750907157682,
+      "phase_over_half_pi": -0.618141941226064,
       "matched_lag_over_M": 1.014999949612086,
       "coherence": 0.9991354783152274,
       "case": "sds_L160",
@@ -1833,8 +1833,8 @@
       "delay_over_M": 14.340090759014416
     },
     {
-      "phase_radians": 0.6780614460152896,
-      "phase_over_half_pi": 0.43166732341348674,
+      "phase_radians": -0.6780614460152896,
+      "phase_over_half_pi": -0.43166732341348674,
       "matched_lag_over_M": 1.0683333274711215,
       "coherence": 0.9998683829318465,
       "case": "schwarzschild",
@@ -1843,8 +1843,8 @@
       "delay_over_M": 17.41754693612478
     },
     {
-      "phase_radians": 1.8814538476161111,
-      "phase_over_half_pi": 1.1977707201894787,
+      "phase_radians": -1.8814538476161111,
+      "phase_over_half_pi": -1.1977707201894787,
       "matched_lag_over_M": -1.487050277469446,
       "coherence": 0.9998206282833852,
       "case": "schwarzschild",
@@ -1853,8 +1853,8 @@
       "delay_over_M": 19.171726076706015
     },
     {
-      "phase_radians": 0.9455531739233008,
-      "phase_over_half_pi": 0.6019578463444959,
+      "phase_radians": -0.9455531739233008,
+      "phase_over_half_pi": -0.6019578463444959,
       "matched_lag_over_M": 1.0149999517752784,
       "coherence": 0.9992195575191278,
       "case": "schwarzschild",
@@ -1863,8 +1863,8 @@
       "delay_over_M": 14.299393554587141
     },
     {
-      "phase_radians": 0.5876774932961282,
-      "phase_over_half_pi": 0.37412711200773197,
+      "phase_radians": -0.5876774932961282,
+      "phase_over_half_pi": -0.37412711200773197,
       "matched_lag_over_M": 0.9243439068196229,
       "coherence": 0.9999340515332494,
       "case": "sds_L20",
@@ -1873,8 +1873,8 @@
       "delay_over_M": 18.677720216946355
     },
     {
-      "phase_radians": 1.7493254792843318,
-      "phase_over_half_pi": 1.1136551884188015,
+      "phase_radians": -1.7493254792843318,
+      "phase_over_half_pi": -1.1136551884188015,
       "matched_lag_over_M": 0.8049999790267945,
       "coherence": 0.9998951467689928,
       "case": "sds_L20",
@@ -1883,8 +1883,8 @@
       "delay_over_M": 17.401955297876626
     },
     {
-      "phase_radians": 2.071671997497991,
-      "phase_over_half_pi": 1.3188673554674637,
+      "phase_radians": -2.071671997497991,
+      "phase_over_half_pi": -1.3188673554674637,
       "matched_lag_over_M": 0.4899999812295633,
       "coherence": 0.9999740293135418,
       "case": "sds_L20",
@@ -1893,8 +1893,8 @@
       "delay_over_M": 17.24998666691978
     },
     {
-      "phase_radians": 0.6569167372773387,
-      "phase_over_half_pi": 0.4182061837499536,
+      "phase_radians": -0.6569167372773387,
+      "phase_over_half_pi": -0.4182061837499536,
       "matched_lag_over_M": 1.0717867620551838,
       "coherence": 0.9998892712197686,
       "case": "sds_L40",
@@ -1903,8 +1903,8 @@
       "delay_over_M": 17.674401982228638
     },
     {
-      "phase_radians": 1.7936960147873233,
-      "phase_over_half_pi": 1.1419023486305437,
+      "phase_radians": -1.7936960147873233,
+      "phase_over_half_pi": -1.1419023486305437,
       "matched_lag_over_M": -1.328782098352419,
       "coherence": 0.9998876062126383,
       "case": "sds_L40",
@@ -1913,8 +1913,8 @@
       "delay_over_M": 19.04571365063748
     },
     {
-      "phase_radians": 0.9765768075449105,
-      "phase_over_half_pi": 0.6217081049187002,
+      "phase_radians": -0.9765768075449105,
+      "phase_over_half_pi": -0.6217081049187002,
       "matched_lag_over_M": 0.7699999778152685,
       "coherence": 0.9994569077093813,
       "case": "sds_L40",
@@ -1923,8 +1923,8 @@
       "delay_over_M": 14.73252190666578
     },
     {
-      "phase_radians": 0.6710075763003251,
-      "phase_over_half_pi": 0.42717669048123547,
+      "phase_radians": -0.6710075763003251,
+      "phase_over_half_pi": -0.42717669048123547,
       "matched_lag_over_M": 1.0712105172137967,
       "coherence": 0.999873983981037,
       "case": "sds_L80",
@@ -1933,8 +1933,8 @@
       "delay_over_M": 17.47563842551392
     },
     {
-      "phase_radians": 1.861891889091335,
-      "phase_over_half_pi": 1.1853171906063718,
+      "phase_radians": -1.861891889091335,
+      "phase_over_half_pi": -1.1853171906063718,
       "matched_lag_over_M": -1.462822560285677,
       "coherence": 0.9998345639978882,
       "case": "sds_L80",
@@ -1943,8 +1943,8 @@
       "delay_over_M": 19.15924265912262
     },
     {
-      "phase_radians": 0.951895411075755,
-      "phase_over_half_pi": 0.6059954399167925,
+      "phase_radians": -0.951895411075755,
+      "phase_over_half_pi": -0.6059954399167925,
       "matched_lag_over_M": 0.9799999464162056,
       "coherence": 0.9988548588524321,
       "case": "sds_L80",
@@ -1953,8 +1953,8 @@
       "delay_over_M": 14.378332033024215
     },
     {
-      "phase_radians": 0.6767263721109362,
-      "phase_over_half_pi": 0.4308173889684034,
+      "phase_radians": -0.6767263721109362,
+      "phase_over_half_pi": -0.4308173889684034,
       "matched_lag_over_M": 1.068437261158519,
       "coherence": 0.9998697564912246,
       "case": "sds_L160",
@@ -1963,8 +1963,8 @@
       "delay_over_M": 17.433334425566347
     },
     {
-      "phase_radians": 1.8771123841634905,
-      "phase_over_half_pi": 1.1950068587145293,
+      "phase_radians": -1.8771123841634905,
+      "phase_over_half_pi": -1.1950068587145293,
       "matched_lag_over_M": -1.4859478732481717,
       "coherence": 0.9998223753690633,
       "case": "sds_L160",
@@ -1973,8 +1973,8 @@
       "delay_over_M": 19.174465825119952
     },
     {
-      "phase_radians": 0.9491599252787413,
-      "phase_over_half_pi": 0.6042539755713828,
+      "phase_radians": -0.9491599252787413,
+      "phase_over_half_pi": -0.6042539755713828,
       "matched_lag_over_M": 1.0149999438451818,
       "coherence": 0.9991246978832985,
       "case": "sds_L160",
@@ -1983,8 +1983,8 @@
       "delay_over_M": 14.313633332701045
     },
     {
-      "phase_radians": 0.6161717239157524,
-      "phase_over_half_pi": 0.39226710261858644,
+      "phase_radians": -0.6161717239157524,
+      "phase_over_half_pi": -0.39226710261858644,
       "matched_lag_over_M": 0.8921161345924944,
       "coherence": 0.9996076958846813,
       "case": "schwarzschild",
@@ -1993,8 +1993,8 @@
       "delay_over_M": 16.042005853407616
     },
     {
-      "phase_radians": 1.7727729884801546,
-      "phase_over_half_pi": 1.1285823363856329,
+      "phase_radians": -1.7727729884801546,
+      "phase_over_half_pi": -1.1285823363856329,
       "matched_lag_over_M": -1.6450000448387032,
       "coherence": 0.999784355779613,
       "case": "schwarzschild",
@@ -2003,8 +2003,8 @@
       "delay_over_M": 19.712312153356933
     },
     {
-      "phase_radians": 0.9262886217313816,
-      "phase_over_half_pi": 0.5896936515133129,
+      "phase_radians": -0.9262886217313816,
+      "phase_over_half_pi": -0.5896936515133129,
       "matched_lag_over_M": 1.014999991602182,
       "coherence": 0.9992071328532701,
       "case": "schwarzschild",
@@ -2013,8 +2013,8 @@
       "delay_over_M": 14.286358021325583
     },
     {
-      "phase_radians": 0.5453331170086768,
-      "phase_over_half_pi": 0.3471698448145675,
+      "phase_radians": -0.5453331170086768,
+      "phase_over_half_pi": -0.3471698448145675,
       "matched_lag_over_M": 0.7851612162911809,
       "coherence": 0.9998578258038223,
       "case": "sds_L20",
@@ -2023,8 +2023,8 @@
       "delay_over_M": 18.21245010863904
     },
     {
-      "phase_radians": 1.7100452716732188,
-      "phase_over_half_pi": 1.0886486315908634,
+      "phase_radians": -1.7100452716732188,
+      "phase_over_half_pi": -1.0886486315908634,
       "matched_lag_over_M": 0.8049999917920437,
       "coherence": 0.9999371776113145,
       "case": "sds_L20",
@@ -2033,8 +2033,8 @@
       "delay_over_M": 17.54914891333194
     },
     {
-      "phase_radians": 2.069082188749952,
-      "phase_over_half_pi": 1.3172186320118116,
+      "phase_radians": -2.069082188749952,
+      "phase_over_half_pi": -1.3172186320118116,
       "matched_lag_over_M": 0.454999975367693,
       "coherence": 0.9999888794190844,
       "case": "sds_L20",
@@ -2043,8 +2043,8 @@
       "delay_over_M": 17.281906700023768
     },
     {
-      "phase_radians": 0.6463030561988917,
-      "phase_over_half_pi": 0.4114493045178106,
+      "phase_radians": -0.6463030561988917,
+      "phase_over_half_pi": -0.4114493045178106,
       "matched_lag_over_M": 1.0300011259038155,
       "coherence": 0.9997186432132827,
       "case": "sds_L40",
@@ -2053,8 +2053,8 @@
       "delay_over_M": 16.709340254289316
     },
     {
-      "phase_radians": 1.6688752712619557,
-      "phase_over_half_pi": 1.0624389953006719,
+      "phase_radians": -1.6688752712619557,
+      "phase_over_half_pi": -1.0624389953006719,
       "matched_lag_over_M": -1.4850757028162946,
       "coherence": 0.9999443445600823,
       "case": "sds_L40",
@@ -2063,8 +2063,8 @@
       "delay_over_M": 19.37099383883718
     },
     {
-      "phase_radians": 0.9403425824577768,
-      "phase_over_half_pi": 0.5986406807918134,
+      "phase_radians": -0.9403425824577768,
+      "phase_over_half_pi": -0.5986406807918134,
       "matched_lag_over_M": 0.6649999784173228,
       "coherence": 0.9999189897647363,
       "case": "sds_L40",
@@ -2073,8 +2073,8 @@
       "delay_over_M": 14.785601539958435
     },
     {
-      "phase_radians": 0.6341825407371986,
-      "phase_over_half_pi": 0.40373314472360977,
+      "phase_radians": -0.6341825407371986,
+      "phase_over_half_pi": -0.40373314472360977,
       "matched_lag_over_M": 0.9628110639971016,
       "coherence": 0.9996542869130568,
       "case": "sds_L80",
@@ -2083,8 +2083,8 @@
       "delay_over_M": 16.308933616296617
     },
     {
-      "phase_radians": 1.7345405797990316,
-      "phase_over_half_pi": 1.104242829073992,
+      "phase_radians": -1.7345405797990316,
+      "phase_over_half_pi": -1.104242829073992,
       "matched_lag_over_M": -1.6450000353731746,
       "coherence": 0.9998555924753372,
       "case": "sds_L80",
@@ -2093,8 +2093,8 @@
       "delay_over_M": 19.596399716870764
     },
     {
-      "phase_radians": 0.9524646288744264,
-      "phase_over_half_pi": 0.6063578152222102,
+      "phase_radians": -0.9524646288744264,
+      "phase_over_half_pi": -0.6063578152222102,
       "matched_lag_over_M": 0.9799999505205922,
       "coherence": 0.9996704860246984,
       "case": "sds_L80",
@@ -2103,8 +2103,8 @@
       "delay_over_M": 14.389669013819656
     },
     {
-      "phase_radians": 0.6266713319401993,
-      "phase_over_half_pi": 0.39895136068905873,
+      "phase_radians": -0.6266713319401993,
+      "phase_over_half_pi": -0.39895136068905873,
       "matched_lag_over_M": 0.9269800762725393,
       "coherence": 0.9996281231949706,
       "case": "sds_L160",
@@ -2113,8 +2113,8 @@
       "delay_over_M": 16.162056348458037
     },
     {
-      "phase_radians": 1.7648904824387637,
-      "phase_over_half_pi": 1.1235641771838767,
+      "phase_radians": -1.7648904824387637,
+      "phase_over_half_pi": -1.1235641771838767,
       "matched_lag_over_M": -1.6464586229410376,
       "coherence": 0.9998071627965812,
       "case": "sds_L160",
@@ -2123,8 +2123,8 @@
       "delay_over_M": 19.66181337002319
     },
     {
-      "phase_radians": 0.9388112831050894,
-      "phase_over_half_pi": 0.597665825346479,
+      "phase_radians": -0.9388112831050894,
+      "phase_over_half_pi": -0.597665825346479,
       "matched_lag_over_M": 1.0149999902781859,
       "coherence": 0.9990014670912334,
       "case": "sds_L160",
@@ -4233,8 +4233,8 @@
   ],
   "generic_phase": [
     {
-      "phase_radians": 1.0871104834234981,
-      "phase_over_half_pi": 0.6920760284954788,
+      "phase_radians": -1.0871104834234981,
+      "phase_over_half_pi": -0.6920760284954788,
       "matched_lag_over_M": 1.5541597819345494,
       "coherence": 0.9997438502217663,
       "case": "schwarzschild",
@@ -4242,11 +4242,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.18124019612724573,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.6579068102183947
+      "phase_residual_from_minus_pi_over_2": 0.4836858433713984
     },
     {
-      "phase_radians": 1.6449537973672321,
-      "phase_over_half_pi": 1.0472101120351158,
+      "phase_radians": -1.6449537973672321,
+      "phase_over_half_pi": -1.0472101120351158,
       "matched_lag_over_M": -1.9999998904336085,
       "coherence": 0.9995353907341666,
       "case": "schwarzschild",
@@ -4254,11 +4254,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.23551942438070003,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -3.067435183017458
+      "phase_residual_from_minus_pi_over_2": -0.07415747057233556
     },
     {
-      "phase_radians": 0.08434797173902858,
-      "phase_over_half_pi": 0.05369758656816756,
+      "phase_radians": -0.08434797173902858,
+      "phase_over_half_pi": -0.05369758656816756,
       "matched_lag_over_M": -0.5600000338463171,
       "coherence": 0.998627124415682,
       "case": "schwarzschild",
@@ -4266,11 +4266,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.148213073117569,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 1.655144298533925
+      "phase_residual_from_minus_pi_over_2": 1.486448355055868
     },
     {
-      "phase_radians": 1.0939275512397721,
-      "phase_over_half_pi": 0.6964159086568894,
+      "phase_radians": -1.0939275512397721,
+      "phase_over_half_pi": -0.6964159086568894,
       "matched_lag_over_M": 1.391151687669779,
       "coherence": 0.9999840835516507,
       "case": "sds_L20",
@@ -4278,11 +4278,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.1472747682627638,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.6647238780346685
+      "phase_residual_from_minus_pi_over_2": 0.47686877555512436
     },
     {
-      "phase_radians": 1.1331023050716333,
-      "phase_over_half_pi": 0.721355331523885,
+      "phase_radians": -1.1331023050716333,
+      "phase_over_half_pi": -0.721355331523885,
       "matched_lag_over_M": -1.4349999980088064,
       "coherence": 0.999991290070208,
       "case": "sds_L20",
@@ -4290,11 +4290,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.2283757416133657,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.70389863186653
+      "phase_residual_from_minus_pi_over_2": 0.4376940217232632
     },
     {
-      "phase_radians": 0.544439324705144,
-      "phase_over_half_pi": 0.3466008389617485,
+      "phase_radians": -0.544439324705144,
+      "phase_over_half_pi": -0.3466008389617485,
       "matched_lag_over_M": -1.2250000314136986,
       "coherence": 0.9999997993903209,
       "case": "sds_L20",
@@ -4302,11 +4302,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.17037231654040227,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.115235651500041
+      "phase_residual_from_minus_pi_over_2": 1.0263570020897526
     },
     {
-      "phase_radians": 1.075655006301184,
-      "phase_over_half_pi": 0.6847832452575091,
+      "phase_radians": -1.075655006301184,
+      "phase_over_half_pi": -0.6847832452575091,
       "matched_lag_over_M": 1.4557700129136781,
       "coherence": 0.9999513195605065,
       "case": "sds_L40",
@@ -4314,11 +4314,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.16597060379284073,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.6464513330960804
+      "phase_residual_from_minus_pi_over_2": 0.4951413204937125
     },
     {
-      "phase_radians": 1.4908770770393371,
-      "phase_over_half_pi": 0.9491218254128279,
+      "phase_radians": -1.4908770770393371,
+      "phase_over_half_pi": -0.9491218254128279,
       "matched_lag_over_M": -1.9999999359595737,
       "coherence": 0.9999281288877768,
       "case": "sds_L40",
@@ -4326,11 +4326,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.22593868583613147,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 3.0616734038342335
+      "phase_residual_from_minus_pi_over_2": 0.07991924975555942
     },
     {
-      "phase_radians": 0.0060396232150248625,
-      "phase_over_half_pi": 0.0038449435563350878,
+      "phase_radians": -0.0060396232150248625,
+      "phase_over_half_pi": -0.0038449435563350878,
       "matched_lag_over_M": -0.7463255114583908,
       "coherence": 0.9999977353487775,
       "case": "sds_L40",
@@ -4338,11 +4338,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.15644191841422292,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 1.5768359500099214
+      "phase_residual_from_minus_pi_over_2": 1.5647567035798717
     },
     {
-      "phase_radians": 1.0755139371032327,
-      "phase_over_half_pi": 0.6846934378168212,
+      "phase_radians": -1.0755139371032327,
+      "phase_over_half_pi": -0.6846934378168212,
       "matched_lag_over_M": 1.504548613428019,
       "coherence": 0.999890871321937,
       "case": "sds_L80",
@@ -4350,11 +4350,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.1729593640853577,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.6463102638981293
+      "phase_residual_from_minus_pi_over_2": 0.49528238969166377
     },
     {
-      "phase_radians": 1.601277412263829,
-      "phase_over_half_pi": 1.0194048616927485,
+      "phase_radians": -1.601277412263829,
+      "phase_over_half_pi": -1.0194048616927485,
       "matched_lag_over_M": -1.9999998939141836,
       "coherence": 0.9992992221183306,
       "case": "sds_L80",
@@ -4362,11 +4362,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.23252467235438362,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -3.111111568120861
+      "phase_residual_from_minus_pi_over_2": -0.030481085468932356
     },
     {
-      "phase_radians": 0.028469682963259746,
-      "phase_over_half_pi": 0.01812436308744763,
+      "phase_radians": -0.028469682963259746,
+      "phase_over_half_pi": -0.01812436308744763,
       "matched_lag_over_M": -0.6454094996645177,
       "coherence": 0.9999902958975251,
       "case": "sds_L80",
@@ -4374,11 +4374,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.1505189114590388,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 1.5992660097581564
+      "phase_residual_from_minus_pi_over_2": 1.5423266438316368
     },
     {
-      "phase_radians": 1.081116023585562,
-      "phase_over_half_pi": 0.6882598368379852,
+      "phase_radians": -1.081116023585562,
+      "phase_over_half_pi": -0.6882598368379852,
       "matched_lag_over_M": 1.5281506195757713,
       "coherence": 0.9998292970109535,
       "case": "sds_L160",
@@ -4386,11 +4386,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.1764456379452367,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.6519123503804582
+      "phase_residual_from_minus_pi_over_2": 0.4896803032093346
     },
     {
-      "phase_radians": 1.6293736519624304,
-      "phase_over_half_pi": 1.0372914834140572,
+      "phase_radians": -1.6293736519624304,
+      "phase_over_half_pi": -1.0372914834140572,
       "matched_lag_over_M": -1.999999888713791,
       "coherence": 0.9981451221816742,
       "case": "sds_L160",
@@ -4398,11 +4398,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.2352800774753594,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -3.0830153284222597
+      "phase_residual_from_minus_pi_over_2": -0.058577325167533896
     },
     {
-      "phase_radians": 0.056103976239212046,
-      "phase_over_half_pi": 0.035716900582323366,
+      "phase_radians": -0.056103976239212046,
+      "phase_over_half_pi": -0.035716900582323366,
       "matched_lag_over_M": -0.5989788217613895,
       "coherence": 0.9999558898213414,
       "case": "sds_L160",
@@ -4410,11 +4410,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.14866687839912,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 1.6269003030341087
+      "phase_residual_from_minus_pi_over_2": 1.5146923505556844
     },
     {
-      "phase_radians": 1.6316000426791912,
-      "phase_over_half_pi": 1.0387088477653628,
+      "phase_radians": -1.6316000426791912,
+      "phase_over_half_pi": -1.0387088477653628,
       "matched_lag_over_M": 1.846027498932773,
       "coherence": 0.9996793846839902,
       "case": "schwarzschild",
@@ -4422,11 +4422,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.17788138648197305,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -3.0807889377054987
+      "phase_residual_from_minus_pi_over_2": -0.06080371588429467
     },
     {
-      "phase_radians": 2.1982203238277283,
-      "phase_over_half_pi": 1.3994305221689993,
+      "phase_radians": -2.1982203238277283,
+      "phase_over_half_pi": -1.3994305221689993,
       "matched_lag_over_M": -0.41591900098038254,
       "coherence": 0.9997395151473554,
       "case": "schwarzschild",
@@ -4434,11 +4434,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.22323574447335814,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -2.514168656556962
+      "phase_residual_from_minus_pi_over_2": -0.6274239970328317
     },
     {
-      "phase_radians": 1.509101031178039,
-      "phase_over_half_pi": 0.9607235549482456,
+      "phase_radians": -1.509101031178039,
+      "phase_over_half_pi": -0.9607235549482456,
       "matched_lag_over_M": 0.49886728257370844,
       "coherence": 0.9999538739415956,
       "case": "schwarzschild",
@@ -4446,11 +4446,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.18092139670719443,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 3.0798973579729356
+      "phase_residual_from_minus_pi_over_2": 0.0616952956168575
     },
     {
-      "phase_radians": 1.5560600072530513,
-      "phase_over_half_pi": 0.9906185676077345,
+      "phase_radians": -1.5560600072530513,
+      "phase_over_half_pi": -0.9906185676077345,
       "matched_lag_over_M": 1.6450000438602037,
       "coherence": 0.9999729016448717,
       "case": "sds_L20",
@@ -4458,11 +4458,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.1953119164678269,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 3.1268563340479476
+      "phase_residual_from_minus_pi_over_2": 0.014736319541845289
     },
     {
-      "phase_radians": 1.413286633312372,
-      "phase_over_half_pi": 0.8997262147894677,
+      "phase_radians": -1.413286633312372,
+      "phase_over_half_pi": -0.8997262147894677,
       "matched_lag_over_M": 1.3999999870679565,
       "coherence": 0.9999975472491213,
       "case": "sds_L20",
@@ -4470,11 +4470,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.1796293787331971,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.9840829601072683
+      "phase_residual_from_minus_pi_over_2": 0.15750969348252464
     },
     {
-      "phase_radians": 2.3550740952359868,
-      "phase_over_half_pi": 1.4992867344179215,
+      "phase_radians": -2.3550740952359868,
+      "phase_over_half_pi": -1.4992867344179215,
       "matched_lag_over_M": 0.16102274389927163,
       "coherence": 0.9999998649057404,
       "case": "sds_L20",
@@ -4482,11 +4482,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.19194305293015892,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -2.3573148851487034
+      "phase_residual_from_minus_pi_over_2": -0.7842777684410902
     },
     {
-      "phase_radians": 1.4196977617339985,
-      "phase_over_half_pi": 0.9038076659058629,
+      "phase_radians": -1.4196977617339985,
+      "phase_over_half_pi": -0.9038076659058629,
       "matched_lag_over_M": 1.8550000032276304,
       "coherence": 0.999881569110431,
       "case": "sds_L40",
@@ -4494,11 +4494,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.17649185271390486,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.9904940885288953
+      "phase_residual_from_minus_pi_over_2": 0.15109856506089803
     },
     {
-      "phase_radians": 2.067925865816362,
-      "phase_over_half_pi": 1.316482493969046,
+      "phase_radians": -2.067925865816362,
+      "phase_over_half_pi": -1.316482493969046,
       "matched_lag_over_M": -0.7349999957943876,
       "coherence": 0.9999905608187946,
       "case": "sds_L40",
@@ -4506,11 +4506,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.20464541063797723,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -2.644463114568328
+      "phase_residual_from_minus_pi_over_2": -0.4971295390214654
     },
     {
-      "phase_radians": 1.2851006557645608,
-      "phase_over_half_pi": 0.8181204869422642,
+      "phase_radians": -1.2851006557645608,
+      "phase_over_half_pi": -0.8181204869422642,
       "matched_lag_over_M": 0.4123881266049284,
       "coherence": 0.9999998345397771,
       "case": "sds_L40",
@@ -4518,11 +4518,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.19409846003788464,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.8558969825594573
+      "phase_residual_from_minus_pi_over_2": 0.2856956710303358
     },
     {
-      "phase_radians": 1.546080555832917,
-      "phase_over_half_pi": 0.9842654515162953,
+      "phase_radians": -1.546080555832917,
+      "phase_over_half_pi": -0.9842654515162953,
       "matched_lag_over_M": 1.868974525420107,
       "coherence": 0.9997971472482575,
       "case": "sds_L80",
@@ -4530,11 +4530,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.17565975287735322,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 3.1168768826278135
+      "phase_residual_from_minus_pi_over_2": 0.024715770961979633
     },
     {
-      "phase_radians": 2.168298625894596,
-      "phase_over_half_pi": 1.3803817776419574,
+      "phase_radians": -2.168298625894596,
+      "phase_over_half_pi": -1.3803817776419574,
       "matched_lag_over_M": -0.5949999857998755,
       "coherence": 0.9999174372099717,
       "case": "sds_L80",
@@ -4542,11 +4542,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.21689885703174766,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -2.5440903544900935
+      "phase_residual_from_minus_pi_over_2": -0.5975022990996997
     },
     {
-      "phase_radians": 1.4114603516263091,
-      "phase_over_half_pi": 0.8985635677582072,
+      "phase_radians": -1.4114603516263091,
+      "phase_over_half_pi": -0.8985635677582072,
       "matched_lag_over_M": 0.5595860111896728,
       "coherence": 0.9999994724797894,
       "case": "sds_L80",
@@ -4554,11 +4554,11 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.18491292285411065,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 2.982256678421206
+      "phase_residual_from_minus_pi_over_2": 0.15933597516858744
     },
     {
-      "phase_radians": 1.6049740392804137,
-      "phase_over_half_pi": 1.0217582075425746,
+      "phase_radians": -1.6049740392804137,
+      "phase_over_half_pi": -1.0217582075425746,
       "matched_lag_over_M": 1.8611443056794026,
       "coherence": 0.9997395045010573,
       "case": "sds_L160",
@@ -4566,11 +4566,11 @@
       "pulse_pair": "0->1",
       "amplitude_ratio": 0.17584049377200733,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -3.107414941104276
+      "phase_residual_from_minus_pi_over_2": -0.03417771248551715
     },
     {
-      "phase_radians": 2.19322992203137,
-      "phase_over_half_pi": 1.396253533713379,
+      "phase_radians": -2.19322992203137,
+      "phase_over_half_pi": -1.396253533713379,
       "matched_lag_over_M": -0.48999996261350287,
       "coherence": 0.9993033849869498,
       "case": "sds_L160",
@@ -4578,11 +4578,11 @@
       "pulse_pair": "1->2",
       "amplitude_ratio": 0.22178593959395757,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": -2.51915905835332
+      "phase_residual_from_minus_pi_over_2": -0.6224335952364735
     },
     {
-      "phase_radians": 1.4683604582573375,
-      "phase_over_half_pi": 0.9347873006893437,
+      "phase_radians": -1.4683604582573375,
+      "phase_over_half_pi": -0.9347873006893437,
       "matched_lag_over_M": 0.5410510092355477,
       "coherence": 0.999998072805271,
       "case": "sds_L160",
@@ -4590,7 +4590,7 @@
       "pulse_pair": "2->3",
       "amplitude_ratio": 0.181877449311375,
       "eikonal_amplitude_ratio": 0.20787957635076193,
-      "phase_residual_from_minus_pi_over_2": 3.039156785052234
+      "phase_residual_from_minus_pi_over_2": 0.10243586853755904
     }
   ],
   "normalized_source": [
@@ -4704,7 +4704,7 @@
     }
   ],
   "analysis_environment": {
-    "git_commit": "d8c0be92c06812660a7950e209d78de6b96520b3",
+    "git_commit": "1da59c053339f09d559a5d2451608794f36a90f1",
     "git_worktree_dirty": true,
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "python_implementation": "CPython",

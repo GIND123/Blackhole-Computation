@@ -245,9 +245,13 @@ def local_phase_comparison(
     coherence = np.sqrt(
         max(0.0, 1.0 - float(matched["objective"]) / candidate_norm)
     ) if candidate_norm else np.nan
+    # Report the retarded Green function convention, in which the simple
+    # caustic Maslov factor is exp(-i pi/2).  SciPy's analytic signal uses
+    # the opposite Fourier sign, so its fitted phase is negated here.
+    maslov_phase = -float(matched["phase"])
     return {
-        "phase_radians": float(matched["phase"]),
-        "phase_over_half_pi": float(matched["phase"] / (0.5 * np.pi)),
+        "phase_radians": maslov_phase,
+        "phase_over_half_pi": float(maslov_phase / (0.5 * np.pi)),
         "matched_lag_over_M": float(matched["time_shift"]),
         "coherence": float(coherence),
     }
