@@ -46,6 +46,7 @@ class NullRayTests(unittest.TestCase):
             observer_radius=None,
             target_angle=np.pi / 2.0,
             emission_time=30.0,
+            cosmological_length=12.0,
             winding=0,
         )
         self.assertTrue(np.isfinite(ray.arrival_u))
