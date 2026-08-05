@@ -173,7 +173,13 @@ def pulse_measurements(
             for phi in (0.0, np.pi)
         }
         estimates = []
-        for pulse, (start, end, phi) in enumerate(PULSE_WINDOWS):
+        available_windows = [
+            window
+            for window in PULSE_WINDOWS
+            if window[1]
+            <= min(float(result.retarded_time[-1]), float(reference.retarded_time[-1]))
+        ]
+        for pulse, (start, end, phi) in enumerate(available_windows):
             estimate = estimate_pulse(
                 pulse=pulse,
                 phi=phi,
@@ -330,8 +336,12 @@ def convergence_rows(output_dir: Path) -> list[dict]:
 def cross_code_rows(output_dir: Path) -> list[dict]:
     rows: list[dict] = []
     for case in ("schwarzschild", "sds_L80"):
-        finite_difference = load_sourced_result(Path(output_dir) / "raw" / f"{case}.npz")
-        dedalus = load_sourced_result(Path(output_dir) / "dedalus" / f"{case}.npz")
+        finite_difference = load_sourced_result(
+            Path(output_dir) / "cross_code" / "finite_difference" / f"{case}.npz"
+        )
+        dedalus = load_sourced_result(
+            Path(output_dir) / "cross_code" / "dedalus" / f"{case}.npz"
+        )
         comparison = compare_observables(
             dedalus,
             finite_difference,
