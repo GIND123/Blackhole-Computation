@@ -166,12 +166,13 @@ def production_cases() -> dict[str, tuple[str, float, tuple[float | None, ...]]]
 
 def sds_width_cases() -> dict[str, tuple[float, SourcedNumericalParameters]]:
     cases: dict[str, tuple[float, SourcedNumericalParameters]] = {}
-    for scale in WIDTH_SCALES:
-        label = str(scale).replace(".", "p")
-        cases[f"width_sds_L80_w{label}"] = (
-            scale,
-            replace(BASE, angular_ell_max=angular_cutoff(scale)),
-        )
+    for length in (20, 80):
+        for scale in WIDTH_SCALES:
+            label = str(scale).replace(".", "p")
+            cases[f"width_sds_L{length}_w{label}"] = (
+                scale,
+                replace(BASE, angular_ell_max=angular_cutoff(scale)),
+            )
     return cases
 
 
@@ -203,12 +204,13 @@ def run_named_case(
     sds_widths = sds_width_cases()
     if name in sds_widths:
         scale, numerical = sds_widths[name]
+        length = float(name.split("_L", maxsplit=1)[1].split("_", maxsplit=1)[0])
         return _run(
             Path(output_dir) / "pilots" / "raw" / f"{name}.npz",
             background="sds",
             source=source_for_width(scale),
             numerical=numerical,
-            cosmological_length=80.0,
+            cosmological_length=length,
             backend=backend,
             force=force,
         )
