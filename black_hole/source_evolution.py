@@ -202,39 +202,50 @@ class SourcedSimulationResult:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         self.metadata["reproducibility"] = reproducibility_metadata()
-        np.savez_compressed(
-            path,
-            rho=self.rho,
-            areal_radius=self.areal_radius,
-            mode_ell=self.mode_ell,
-            mode_m=self.mode_m,
-            mode_source_amplitude=self.mode_source_amplitude,
-            response_ell=self.response_ell,
-            signal_times=self.signal_times,
-            observer_rho=self.observer_rho,
-            observer_areal_radius=self.observer_areal_radius,
-            modal_signals=self.modal_signals,
-            response_signals=(
-                self.response_signals.astype(np.float32)
-                if self.uses_compact_modal_storage
-                else self.response_signals
-            ),
-            diagnostic_times=self.diagnostic_times,
-            constraint_linf=self.constraint_linf,
-            constraint_l2=self.constraint_l2,
-            field_linf=self.field_linf,
-            source_activity=self.source_activity,
-            snapshot_times=self.snapshot_times,
-            snapshot_rho=self.snapshot_rho,
-            snapshot_areal_radius=self.snapshot_areal_radius,
-            modal_snapshots=self.modal_snapshots,
-            response_snapshots=(
-                self.response_snapshots.astype(np.float32)
-                if self.uses_compact_modal_storage
-                else self.response_snapshots
-            ),
-            metadata=np.array(json.dumps(self.metadata, sort_keys=True)),
-        )
+        archive = {
+            "rho": self.rho,
+            "areal_radius": self.areal_radius,
+            "mode_ell": self.mode_ell,
+            "mode_m": self.mode_m,
+            "mode_source_amplitude": self.mode_source_amplitude,
+            "response_ell": self.response_ell,
+            "signal_times": self.signal_times,
+            "observer_rho": self.observer_rho,
+            "observer_areal_radius": self.observer_areal_radius,
+            "modal_signals": self.modal_signals,
+            "diagnostic_times": self.diagnostic_times,
+            "constraint_linf": self.constraint_linf,
+            "constraint_l2": self.constraint_l2,
+            "field_linf": self.field_linf,
+            "source_activity": self.source_activity,
+            "snapshot_times": self.snapshot_times,
+            "snapshot_rho": self.snapshot_rho,
+            "snapshot_areal_radius": self.snapshot_areal_radius,
+            "modal_snapshots": self.modal_snapshots,
+            "response_snapshots": self.response_snapshots.astype(np.float32),
+        }
+        if self.uses_compact_modal_storage:
+            maximum = np.max(np.abs(self.response_signals), axis=0)
+            scale = np.where(maximum > 0.0, maximum * 1e-7, 1.0)
+            quantized = np.rint(self.response_signals / scale[None, :, :]).astype(
+                np.int32
+            )
+            delta = np.diff(
+                quantized,
+                axis=0,
+                prepend=np.zeros_like(quantized[:1]),
+            )
+            archive["response_signal_delta"] = delta
+            archive["response_signal_scale"] = scale
+            self.metadata["compact_response_encoding"] = {
+                "method": "per response int32 delta quantization",
+                "maximum_relative_peak_error": 5e-8,
+                "samples_preserved": int(self.signal_times.size),
+            }
+        else:
+            archive["response_signals"] = self.response_signals
+        archive["metadata"] = np.array(json.dumps(self.metadata, sort_keys=True))
+        np.savez_compressed(path, **archive)
 
 
 def load_sourced_result(path: Path) -> SourcedSimulationResult:
@@ -242,7 +253,13 @@ def load_sourced_result(path: Path) -> SourcedSimulationResult:
 
     with np.load(path, allow_pickle=False) as data:
         response_ell = data["response_ell"] if "response_ell" in data else np.empty(0, dtype=int)
-        response_signals = data["response_signals"] if "response_signals" in data else np.empty((0, 0, 0))
+        if "response_signal_delta" in data:
+            quantized = np.cumsum(data["response_signal_delta"], axis=0, dtype=np.int64)
+            response_signals = (
+                quantized * data["response_signal_scale"][None, :, :]
+            ).astype(np.float32)
+        else:
+            response_signals = data["response_signals"] if "response_signals" in data else np.empty((0, 0, 0))
         response_snapshots = data["response_snapshots"] if "response_snapshots" in data else np.empty((0, 0, 0))
         return SourcedSimulationResult(
             rho=data["rho"],

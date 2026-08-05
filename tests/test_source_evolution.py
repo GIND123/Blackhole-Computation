@@ -93,8 +93,8 @@ class StructureTests(unittest.TestCase):
             np.testing.assert_allclose(
                 direction_waveform(loaded, np.pi / 3.0)[1],
                 direction_waveform(expanded, np.pi / 3.0)[1],
-                rtol=0.0,
-                atol=1e-14,
+                rtol=1e-7,
+                atol=1e-10,
             )
 
     def test_response_is_linear_in_the_source_amplitude(self) -> None:
