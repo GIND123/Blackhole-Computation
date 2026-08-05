@@ -219,9 +219,11 @@ python -m black_hole.production_report --output-dir results/caustic_production
 
 The native environment uses Python `3.12.10`, NumPy `2.5.1`, SciPy `1.18.0`, Microsoft compiler `19.43`, and Windows `11 build 26200`.
 
-The independent spectral environment uses Python `3.14.6`, Dedalus `3.0.5`, NumPy `2.5.1`, SciPy `1.18.0`, mpi4py `4.1.2`, Open MPI `4.1.2`, GCC `14.3.0`, and WSL Linux `6.6.87.2`.
+The independent spectral environment uses Python `3.14.6`, Dedalus `3.0.5`, NumPy `2.5.1`, SciPy `1.18.0`, mpi4py `4.1.2`, Open MPI `5.0.10`, GCC `14.3.0`, and WSL Linux `6.6.87.2`.
 
 Every production archive stores Python, package, compiler, operating system, MPI, Git commit, and tracked worktree state. JSON summaries are strict JSON and map unresolved nonfinite values to `null`.
+
+The archive audit retains two historical dirty state records. `radial_N768` was saved while the compact error bound metadata change was pending at revision `724724c`. The de Sitter Dedalus archive at revision `d1e14ad` saw tracked line ending differences under WSL. Their numerical arrays are finite and preserved exactly. The restamp note is stored inside each affected archive, and `archive_audit.json` reports both records.
 
 ## Data products
 
