@@ -19,7 +19,7 @@ from .caustic_reanalysis import (
 )
 from .caustic_study import direction_waveform
 from .null_geodesics import generic_target_angle, trace_null_ray
-from .production_analysis import convergence_rows
+from .production_analysis import convergence_rows, pulse_measurements
 from .source_evolution import SourcedSimulationResult, load_sourced_result
 from .tail_analysis import json_safe
 from .three_d_solver import real_spherical_harmonic
@@ -290,6 +290,89 @@ def generic_angle_rows(output_dir: Path) -> tuple[list[dict], list[dict]]:
     return pulse_rows, phase_rows
 
 
+def scaling_fit_rows(delay_rows: list[dict]) -> list[dict]:
+    rows: list[dict] = []
+    for observer in ("r8M", "r12M", "outer"):
+        selected = [row for row in delay_rows if row["observer"] == observer]
+        lengths = np.asarray(
+            [row["cosmological_length_over_M"] for row in selected], dtype=float
+        )
+        shifts = np.abs(
+            np.asarray([row["delay_shift_over_M"] for row in selected], dtype=float)
+        )
+        for fit_range, mask in (
+            ("L20_through_L160", np.ones(lengths.size, dtype=bool)),
+            ("L20_through_L80", lengths <= 80.0),
+        ):
+            slope, intercept = np.polyfit(
+                np.log(lengths[mask]), np.log(shifts[mask]), 1
+            )
+            rows.append(
+                {
+                    "observer": observer,
+                    "fit_range": fit_range,
+                    "power_in_M_over_L": float(-slope),
+                    "coefficient": float(np.exp(intercept)),
+                    "candidate_local_power": 2.0,
+                    "candidate_outer_power": 1.0,
+                }
+            )
+    return rows
+
+
+def source_width_delay_rows(output_dir: Path) -> list[dict]:
+    raw = Path(output_dir) / "pilots" / "raw"
+    rows: list[dict] = []
+    for length in (20, 80):
+        shifts: dict[tuple[str, int], float] = {}
+        narrow = load_sourced_result(raw / f"width_sds_L{length}_w0p5.npz")
+        observer_lookup = {
+            _observer_label(narrow, index): index
+            for index in range(narrow.observer_areal_radius.size)
+        }
+        for width in ("1p0", "0p7", "0p5"):
+            schwarzschild = load_sourced_result(raw / f"width_w{width}.npz")
+            sds = load_sourced_result(raw / f"width_sds_L{length}_w{width}.npz")
+            schwarzschild_pulses, _ = pulse_measurements(
+                schwarzschild, schwarzschild
+            )
+            sds_pulses, _ = pulse_measurements(sds, sds)
+            for observer in range(sds.observer_areal_radius.size):
+                schwarzschild_selected = [
+                    row
+                    for row in schwarzschild_pulses
+                    if row["observer_index"] == observer
+                ]
+                sds_selected = [
+                    row for row in sds_pulses if row["observer_index"] == observer
+                ]
+                shift = (
+                    sds_selected[1]["time"]
+                    - sds_selected[0]["time"]
+                    - schwarzschild_selected[1]["time"]
+                    + schwarzschild_selected[0]["time"]
+                )
+                shifts[(width, observer)] = shift
+                rows.append(
+                    {
+                        "cosmological_length_over_M": length,
+                        "width_scale": width.replace("p", "."),
+                        "observer": _observer_label(sds, observer),
+                        "delay_shift_over_M": shift,
+                        "difference_from_narrow_over_M": np.nan,
+                    }
+                )
+        for row in rows:
+            if row["cosmological_length_over_M"] != length:
+                continue
+            observer = observer_lookup[row["observer"]]
+            width = row["width_scale"].replace(".", "p")
+            row["difference_from_narrow_over_M"] = abs(
+                shifts[(width, observer)] - shifts[("0p5", observer)]
+            )
+    return rows
+
+
 def plot_production_collapse(path: Path, rows: list[dict]) -> Path:
     figure, axes = plt.subplots(1, 2, figsize=(10.5, 4.1))
     for axis, gamma in zip(axes, (1.0 / 3.0, 0.5)):
@@ -345,6 +428,28 @@ def error_budget_rows(
             entry[f"{prefix}_focus_width_radians"] = row[
                 "angular_focus_width_error_radians"
             ]
+    source_categories = {
+        "schwarzschild": ("source_width", "width_w0p7"),
+        "sds_L12": ("source_width_sds_L20", "width_sds_L20_w0p7"),
+        "sds_L20": ("source_width_sds_L20", "width_sds_L20_w0p7"),
+        "sds_L40": ("source_width_sds_L20", "width_sds_L20_w0p7"),
+        "sds_L80": ("source_width_sds_L80", "width_sds_L80_w0p7"),
+        "sds_L160": ("source_width_sds_L80", "width_sds_L80_w0p7"),
+    }
+    source_width: dict[tuple[str, int, int], dict[str, float]] = {}
+    for case, (category, setting) in source_categories.items():
+        for row in convergence:
+            if row["category"] != category or row["setting"] != setting:
+                continue
+            source_width[(case, int(row["observer_index"]), int(row["pulse"]))] = {
+                "source_width_timing_over_M": row["arrival_time_error_over_M"],
+                "source_width_relative_amplitude": row["relative_amplitude_error"],
+                "source_width_relative_energy": row["relative_flux_energy_error"],
+                "source_width_phase_radians": row["phase_error_radians"],
+                "source_width_focus_width_radians": row[
+                    "angular_focus_width_error_radians"
+                ],
+            }
     observer_index = {"r8M": 0, "r12M": 1, "outer": 2}
     delay_rows = delay_shift_rows(pulse_rows)
     shifts = {
@@ -359,6 +464,7 @@ def error_budget_rows(
             continue
         key = (observer_index[pulse["observer"]], int(pulse["pulse"]))
         components = numerical.get(key, {})
+        source_components = source_width.get((pulse["case"], *key), {})
         timing_components = [
             pulse["timing_systematic"],
             pulse["cadence_uncertainty"],
@@ -368,7 +474,15 @@ def error_budget_rows(
                 if name.endswith("timing_over_M")
             ],
         ]
-        total_timing = float(np.sqrt(np.sum(np.asarray(timing_components) ** 2)))
+        fixed_source_timing = float(
+            np.sqrt(np.sum(np.asarray(timing_components) ** 2))
+        )
+        total_timing = float(
+            np.hypot(
+                fixed_source_timing,
+                source_components.get("source_width_timing_over_M", 0.0),
+            )
+        )
         length = pulse["cosmological_length_over_M"]
         claimed = shifts.get((length, pulse["observer"]), np.nan)
         target = min(0.01, 0.1 * claimed) if np.isfinite(claimed) else 0.01
@@ -378,10 +492,13 @@ def error_budget_rows(
                 "observer": pulse["observer"],
                 "pulse": pulse["pulse"],
                 **components,
+                **source_components,
                 "estimator_timing_over_M": pulse["timing_systematic"],
                 "cadence_timing_over_M": pulse["cadence_uncertainty"],
+                "fixed_source_timing_uncertainty_over_M": fixed_source_timing,
                 "total_timing_uncertainty_over_M": total_timing,
                 "timing_target_over_M": target,
+                "fixed_source_timing_claim_resolved": fixed_source_timing <= target,
                 "timing_claim_resolved": total_timing <= target,
             }
         )
@@ -395,6 +512,8 @@ def create_report(output_dir: Path) -> list[Path]:
     delay_rows = delay_shift_rows(
         [row for row in pulse_rows if row["case"] != "sds_L12"]
     )
+    fit_rows = scaling_fit_rows(delay_rows)
+    width_delay_rows = source_width_delay_rows(output_dir)
     ray_rows = ray_timing_rows(pulse_rows)
     monopole_rows = monopole_subtracted_rows(output_dir)
     angular_rows, angular_phase_rows = generic_angle_rows(output_dir)
@@ -404,6 +523,8 @@ def create_report(output_dir: Path) -> list[Path]:
         _write_csv(tables / "production_pulses.csv", pulse_rows),
         _write_csv(tables / "production_phase.csv", phase_rows),
         _write_csv(tables / "production_delay_scaling.csv", delay_rows),
+        _write_csv(tables / "production_scaling_fits.csv", fit_rows),
+        _write_csv(tables / "source_width_delay_sensitivity.csv", width_delay_rows),
         _write_csv(tables / "production_null_rays.csv", ray_rows),
         _write_csv(tables / "monopole_subtracted.csv", monopole_rows),
         _write_csv(tables / "production_generic_angles.csv", angular_rows),
@@ -419,6 +540,8 @@ def create_report(output_dir: Path) -> list[Path]:
         "pulses": pulse_rows,
         "phase": phase_rows,
         "delay_scaling": delay_rows,
+        "scaling_fits": fit_rows,
+        "source_width_delay_sensitivity": width_delay_rows,
         "null_rays": ray_rows,
         "monopole_subtracted": monopole_rows,
         "generic_angles": angular_rows,
