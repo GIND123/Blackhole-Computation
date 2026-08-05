@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import warnings
 
 import numpy as np
-from scipy.integrate import quad
+from scipy.integrate import IntegrationWarning, quad
 from scipy.optimize import brentq
 
 from .schwarzschild_scalar import (
@@ -149,7 +150,21 @@ def _turning_integral(
             raise ValueError(f"Unknown ray integral kind {kind!r}.")
         return 2.0 * x * value
 
-    return float(quad(integrand, 0.0, upper, epsabs=2e-10, epsrel=2e-10, limit=500)[0])
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", IntegrationWarning)
+        value = float(
+            quad(
+                integrand,
+                0.0,
+                upper,
+                epsabs=2e-10,
+                epsrel=2e-10,
+                limit=500,
+            )[0]
+        )
+    if not np.isfinite(value):
+        raise FloatingPointError("The null ray integral is not finite.")
+    return value
 
 
 def _impact_parameter(background: _RayBackground, turning_radius: float) -> float:
