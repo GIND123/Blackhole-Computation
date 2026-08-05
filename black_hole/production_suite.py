@@ -233,7 +233,7 @@ def run_named_case(
         background, length = cross_cases[name]
         numerical = replace(
             BASE,
-            radial_resolution=512,
+            radial_resolution=768 if backend == "finite_difference" else 512,
             timestep=0.002,
             signal_dt=0.002,
             end_time=72.0,

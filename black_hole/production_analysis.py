@@ -61,7 +61,13 @@ def sphere_integrated_relative_l2(
 
     candidate_observer = candidate.outer_index() if observer is None else observer
     reference_observer = reference.outer_index() if observer is None else observer
-    grid = np.linspace(window[0], window[1], samples)
+    common_window = (
+        max(window[0], candidate.retarded_time[0], reference.retarded_time[0]),
+        min(window[1], candidate.retarded_time[-1], reference.retarded_time[-1]),
+    )
+    if common_window[1] <= common_window[0]:
+        raise ValueError("The waveform archives have no common analysis interval.")
+    grid = np.linspace(common_window[0], common_window[1], samples)
     candidate_responses = _response_signals(candidate, candidate_observer)
     reference_responses = _response_signals(reference, reference_observer)
     candidate_modes = {
@@ -243,9 +249,15 @@ def compare_observables(
     reference_pulses, reference_phases = pulse_measurements(reference, reference)
     rows: list[dict] = []
     waveform_l2 = sphere_integrated_relative_l2(candidate, reference)
-    grid = np.linspace(18.0, 96.0, 7801)
     candidate_times, candidate_off_axis = direction_waveform(candidate, np.pi / 2.0)
     reference_times, reference_off_axis = direction_waveform(reference, np.pi / 2.0)
+    common_window = (
+        max(18.0, candidate_times[0], reference_times[0]),
+        min(96.0, candidate_times[-1], reference_times[-1]),
+    )
+    if common_window[1] <= common_window[0]:
+        raise ValueError("The waveform archives have no common analysis interval.")
+    grid = np.linspace(common_window[0], common_window[1], 7801)
     reference_grid = np.interp(grid, reference_times, reference_off_axis)
     off_axis_difference = np.interp(
         grid, candidate_times, candidate_off_axis
