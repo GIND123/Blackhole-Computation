@@ -1,0 +1,44 @@
+{
+  "date": "2026-08-05",
+  "repository": "Blackhole-Computation",
+  "git_commit_tested": "36e63dfb226e5dc760029da52917250bafd62329",
+  "overall_status": "passed",
+  "native_windows": {
+    "command": "python -m pytest -q",
+    "python": "3.12.10",
+    "compiler": "MSC v.1943 64 bit AMD64",
+    "operating_system": "Windows 11 build 26200",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "tests_passed": 80,
+    "tests_skipped": 2,
+    "subtests_passed": 12,
+    "wall_time_seconds": 39.83,
+    "skip_reason": "Dedalus is validated in the WSL environment"
+  },
+  "wsl_dedalus": {
+    "command": "python -m pytest -q",
+    "environment": "dedalus3",
+    "python": "3.14.6",
+    "compiler": "GCC 14.3.0",
+    "operating_system": "WSL Linux 6.6.87.2",
+    "dedalus": "3.0.5",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "mpi4py": "4.1.2",
+    "mpi": "Open MPI 4.1.2",
+    "tests_passed": 82,
+    "tests_skipped": 0,
+    "subtests_passed": 14,
+    "wall_time_seconds": 65.12
+  },
+  "production_validation": {
+    "schwarzschild_cross_code_sphere_l2": 0.00005333412385,
+    "sds_L80_cross_code_sphere_l2": 0.0005583992996,
+    "maximum_cross_code_arrival_error_over_M": 0.0002216061805,
+    "maximum_cross_code_relative_amplitude_error": 0.00008216863349,
+    "maximum_cross_code_phase_error_radians": 0.0001991282815,
+    "strict_json": true,
+    "every_signal_timestep_archived": true
+  }
+}

@@ -173,70 +173,41 @@ limitations, and reproduction commands are in
 [`docs/THREE_D_VALIDATION.md`](docs/THREE_D_VALIDATION.md). Mixed angular data
 remain the next stage; they are not conflated with this pure-mode benchmark.
 
-## Retarded Green function: caustic echoes and the mixed-mode SdS flat limit
+## Normalized localized response and caustic echoes
 
-The requested next stage is complete: the pure spherical-harmonic data are
-replaced by a genuinely three-dimensional **localized source** that models the
-retarded Green function. Starting from zero data we solve `Box Phi = S` with a
-smooth emitter at `r = 6M` in the equatorial plane, specified once in the
-background-independent labels `(t, r, theta, phi)` and evaluated on each
-background at `t = tau - h_L(r)`. The same physical emitter therefore acts on
-Schwarzschild and on `L/M = 20, 40, 80, 160`.
+The final caustic study uses a covariantly normalized localized source at
+`r = 6M` with three source widths. Every temporal factor integrates to one,
+every radial factor integrates to one with measure `r^2 dr`, and every angular
+factor integrates to one on the sphere.
 
-![Equatorial wavefront](results/green_function/caustic_field_schwarzschild.png)
+The production sequence contains Schwarzschild and `L/M = 12, 20, 40, 80,
+160`. Every run contains the direct pulse plus three caustic echoes. Local
+pulse timing uses identical windows and tapers with both an analytic signal
+estimator and a matched template estimator.
 
-*The pulse leaves the emitter (star), wraps the photon sphere in both
-directions, and refocuses on the far side of the black hole. Drawn in the
-computational radial coordinate: centre is the horizon, rim is future null
-infinity.*
+![Production timing scaling](results/caustic_production/production_timing_scaling.png)
 
-![Caustic echoes](results/green_function/caustic_waterfall_schwarzschild.png)
+At fixed narrow source width, the measured delay shift powers are `2.066` at
+`r = 8M`, `2.065` at `r = 12M`, and `1.304` at the outer boundary. This
+separates the local order `(M/L)^2` clock correction from the larger outer
+response.
 
-*The waveform at future null infinity against retarded time and equatorial
-angle. The dashed lines are not fits: they are the arrival times of null rays
-winding on the `r = 3M` photon orbit.*
+![Production clock collapse](results/caustic_production/production_clock_collapse.png)
 
-Three parameter-free checks on the Schwarzschild caustic sequence:
+Exact null rays use the actual source radius, observer radius, angular
+separation, winding, and simulation clock normalization. Generic angles test
+the fourfold phase cycle. The caustic axes retain their degenerate twofold
+structure.
 
-| quantity | measured | geometric optics | difference |
-|---|---:|---:|---:|
-| direct arrival `U/M` | 26.85 | 26.614 | `0.9%` |
-| crossing interval `dU/M` | 16.147 | 16.324 | `1.1%` |
-| first caustic / direct signal | 1.872 | amplification | — |
+Finite difference and Dedalus production checks cover Schwarzschild and
+`L=80` through two echoes. Their largest sphere integrated errors are
+`5.33e-5` and `5.58e-4`. Arrival, amplitude, and phase differences satisfy all
+requested tolerances.
 
-The first caustic echo is **larger than the direct signal** even after
-travelling half way around the black hole. The envelope then falls by a
-factor `0.214` per crossing.
-
-The flat limit of the mixed-mode Green function, measured on
-`U = tau - q_L` over the window `[5M, 115M]`:
-
-| `L/M` | `q_L/M` | relative `L2` | relative `Linf` | max constraint |
-|---:|---:|---:|---:|---:|
-| 20  | 2.461850 | 1.1067 | 0.7890 | `2.72e-9` |
-| 40  | 2.597389 | 0.5199 | 0.3456 | `1.76e-9` |
-| 80  | 2.679137 | 0.2529 | 0.1598 | `6.81e-10` |
-| 160 | 2.724272 | 0.1249 | 0.0767 | `5.18e-10` |
-
-Both norms halve at each doubling of `L`; the fitted exponent is `-1.05`,
-that is, `M/L` convergence to the asymptotically flat Green function.
-
-![Flat limit](results/green_function/sds_flat_limit_convergence.png)
-
-The cosmological end state is the expected one. The monopole freezes onto a
-constant proportional to `Lambda` (`Phi L^2/M^2 = -99.1, -94.2, -91.9, -90.8`),
-and the dipole rate approaches `gamma/kappa_c = 1` at every length.
-
-![Late time](results/green_function/sds_late_time.png)
-
-The source term is verified against an **independent static-coordinate
-leapfrog solve** that shares no part of the hyperboloidal machinery — no
-height function, no compactification, no first-order reduction — and the two
-agree to `1e-5` to `5e-4` relative, with the residual falling as the
-reference is refined.
-
-Full formulation, suite definition, refinement ladders, the sharpened-emitter
-follow-up, and an explicit list of what is *not* established are in
+The source width sequence does not establish a point source field limit, so
+the result is called a normalized localized retarded response. No universal
+fixed damping law is claimed. The full methods, error budget, exact values,
+limitations, reproduction commands, and data inventory are in
 [`docs/GREEN_FUNCTION.md`](docs/GREEN_FUNCTION.md).
 
 ## Earlier high-resolution rate figures
@@ -557,6 +528,20 @@ them. Dedalus archives are kept separately under
 finite-difference suite. The report command rebuilds every figure and table
 from the production archives alone and needs no Dedalus installation.
 
+### Final caustic production
+
+```bash
+python -m black_hole.production_suite
+python -m black_hole.production_analysis --output-dir results/caustic_production --include-cross-code
+python -m black_hole.production_report --output-dir results/caustic_production
+```
+
+The first command lists every pilot, width, production, and cross code case.
+Named cases can be run independently. Dedalus cross code cases use `--backend
+dedalus` inside the pinned WSL environment. The analysis commands rebuild all
+strict JSON summaries, machine readable tables, and final figures from the
+archives.
+
 ### Tests
 
 ```bash
@@ -645,6 +630,15 @@ results/green_function/
   green_function_summary.json  Every derived number in one machine-readable file
   dedalus/                  Optional same-schema Dedalus cross-check archives
 
+results/caustic_production/
+  pilots/raw/               Radial, temporal, angular, and source width archives
+  raw/                      Schwarzschild and five de Sitter production archives
+  cross_code/               Finite difference and Dedalus validation archives
+  tables/                   Pulse, ray, phase, scaling, and uncertainty tables
+  *.png                     Scaling, collapse, damping, ray, and convergence figures
+  production_summary.json   Strict machine readable production digest
+  production_analysis.json Strict machine readable convergence digest
+
 results/verification/
   test_summary_2026-08-04.json  Full-suite verification record for this repo
 
@@ -681,6 +675,12 @@ The most useful machine-readable outputs are:
 - [source-term cross-validation](results/green_function/tables/source_validation.csv)
 - [Green-function convergence ladders](results/green_function/tables/convergence.csv)
 - [complete Green-function digest](results/green_function/green_function_summary.json)
+- [production pulse observables](results/caustic_production/tables/production_pulses.csv)
+- [production delay scaling](results/caustic_production/tables/production_delay_scaling.csv)
+- [exact production ray timing](results/caustic_production/tables/production_null_rays.csv)
+- [full production error budget](results/caustic_production/tables/full_error_budget.csv)
+- [observable convergence](results/caustic_production/tables/observable_convergence.csv)
+- [cross code observables](results/caustic_production/tables/cross_code_observables.csv)
 - [verification summary, August 4 2026](results/verification/test_summary_2026-08-04.json)
 
 ## Acknowledgments
