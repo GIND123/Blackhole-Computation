@@ -21,6 +21,7 @@ from .caustic_study import direction_waveform
 from .null_geodesics import generic_target_angle, trace_null_ray
 from .production_analysis import convergence_rows
 from .source_evolution import SourcedSimulationResult, load_sourced_result
+from .tail_analysis import json_safe
 from .three_d_solver import real_spherical_harmonic
 
 
@@ -426,7 +427,10 @@ def create_report(output_dir: Path) -> list[Path]:
         "error_budget": budget_rows,
     }
     path = output_dir / "production_summary.json"
-    path.write_text(json.dumps(summary, indent=2, allow_nan=True), encoding="utf-8")
+    path.write_text(
+        json.dumps(json_safe(summary), indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
     written.append(path)
     return written
 

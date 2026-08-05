@@ -12,6 +12,7 @@ import numpy as np
 from .caustic_analysis import PULSE_WINDOWS, estimate_pulse, local_phase_comparison
 from .caustic_study import direction_waveform, harmonic_matrix
 from .source_evolution import SourcedSimulationResult, load_sourced_result
+from .tail_analysis import json_safe
 
 
 def _write_csv(path: Path, rows: list[dict]) -> Path:
@@ -418,7 +419,10 @@ def create_analysis(output_dir: Path, *, include_cross_code: bool = False) -> li
         written.append(_write_csv(tables / "cross_code_observables.csv", cross_rows))
         summary["cross_code"] = cross_rows
     path = output_dir / "production_analysis.json"
-    path.write_text(json.dumps(summary, indent=2, allow_nan=True), encoding="utf-8")
+    path.write_text(
+        json.dumps(json_safe(summary), indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
     written.append(path)
     return written
 

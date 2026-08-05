@@ -23,6 +23,7 @@ from .localized_source import (
 )
 from .null_geodesics import generic_target_angle, trace_null_ray
 from .reproducibility import reproducibility_metadata
+from .tail_analysis import json_safe
 
 
 GENERIC_WINDOWS = {
@@ -412,7 +413,10 @@ def create_reanalysis(output_dir: Path) -> list[Path]:
         "analysis_environment": reproducibility_metadata(),
     }
     summary_path = output_dir / "caustic_reanalysis_summary.json"
-    summary_path.write_text(json.dumps(summary, indent=2, allow_nan=True), encoding="utf-8")
+    summary_path.write_text(
+        json.dumps(json_safe(summary), indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
     written.append(summary_path)
     return written
 

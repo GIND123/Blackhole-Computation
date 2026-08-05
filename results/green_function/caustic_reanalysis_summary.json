@@ -19,14 +19,14 @@
       "integrated_flux_energy": 107.11752223144003,
       "phi_over_pi": 0.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000047748,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -47,7 +47,7 @@
       "integrated_flux_energy": 24.98401530651448,
       "phi_over_pi": 1.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000047748,
@@ -75,7 +75,7 @@
       "integrated_flux_energy": 0.9362383046826669,
       "phi_over_pi": 0.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000047748,
@@ -103,7 +103,7 @@
       "integrated_flux_energy": 0.038059784748918295,
       "phi_over_pi": 1.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000047748,
@@ -135,10 +135,10 @@
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.09999999999994458,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -247,10 +247,10 @@
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000000009,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -359,10 +359,10 @@
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000012221,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -471,10 +471,10 @@
       "observer": "r8M",
       "observer_radius_over_M": 8.0,
       "output_cadence_over_M": 0.10000000000047748,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -579,14 +579,14 @@
       "integrated_flux_energy": 41.117053810612916,
       "phi_over_pi": 0.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000047748,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -607,7 +607,7 @@
       "integrated_flux_energy": 30.608973046056516,
       "phi_over_pi": 1.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000047748,
@@ -635,7 +635,7 @@
       "integrated_flux_energy": 1.089439904527055,
       "phi_over_pi": 0.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000047748,
@@ -663,7 +663,7 @@
       "integrated_flux_energy": 0.04403755326584284,
       "phi_over_pi": 1.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000047748,
@@ -695,10 +695,10 @@
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.09999999999994458,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -807,10 +807,10 @@
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000000009,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -919,10 +919,10 @@
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000012221,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -1031,10 +1031,10 @@
       "observer": "r12M",
       "observer_radius_over_M": 12.0,
       "output_cadence_over_M": 0.10000000000047748,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -1139,14 +1139,14 @@
       "integrated_flux_energy": 12.149262104831976,
       "phi_over_pi": 0.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "outer",
-      "observer_radius_over_M": Infinity,
+      "observer_radius_over_M": null,
       "output_cadence_over_M": 0.10000000000047748,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -1167,9 +1167,9 @@
       "integrated_flux_energy": 51.15603545196205,
       "phi_over_pi": 1.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "outer",
-      "observer_radius_over_M": Infinity,
+      "observer_radius_over_M": null,
       "output_cadence_over_M": 0.10000000000047748,
       "delay_over_M": 16.042005853407616,
       "delay_uncertainty_over_M": 0.07071067811899383,
@@ -1195,9 +1195,9 @@
       "integrated_flux_energy": 1.6022084572907551,
       "phi_over_pi": 0.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "outer",
-      "observer_radius_over_M": Infinity,
+      "observer_radius_over_M": null,
       "output_cadence_over_M": 0.10000000000047748,
       "delay_over_M": 19.712312153356933,
       "delay_uncertainty_over_M": 0.07071067811899497,
@@ -1223,9 +1223,9 @@
       "integrated_flux_energy": 0.06362701018598067,
       "phi_over_pi": 1.0,
       "case": "schwarzschild",
-      "cosmological_length_over_M": Infinity,
+      "cosmological_length_over_M": null,
       "observer": "outer",
-      "observer_radius_over_M": Infinity,
+      "observer_radius_over_M": null,
       "output_cadence_over_M": 0.10000000000047748,
       "delay_over_M": 14.286358021325583,
       "delay_uncertainty_over_M": 0.07071067811899479,
@@ -1255,10 +1255,10 @@
       "observer": "outer",
       "observer_radius_over_M": 18.912985478471832,
       "output_cadence_over_M": 0.09999999999994458,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -1367,10 +1367,10 @@
       "observer": "outer",
       "observer_radius_over_M": 38.959774129251116,
       "output_cadence_over_M": 0.10000000000000009,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -1479,10 +1479,10 @@
       "observer": "outer",
       "observer_radius_over_M": 78.98059813298828,
       "output_cadence_over_M": 0.10000000000012221,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -1591,10 +1591,10 @@
       "observer": "outer",
       "observer_radius_over_M": 158.99046547057517,
       "output_cadence_over_M": 0.10000000000047748,
-      "delay_over_M": NaN,
-      "delay_uncertainty_over_M": NaN,
-      "amplitude_ratio": NaN,
-      "energy_ratio": NaN
+      "delay_over_M": null,
+      "delay_uncertainty_over_M": null,
+      "amplitude_ratio": null,
+      "energy_ratio": null
     },
     {
       "pulse": 1,
@@ -2271,7 +2271,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.46297734907299,
       "Omega_ph_M": 0.19245008972987526,
@@ -2327,7 +2327,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.476876981270017,
       "Omega_ph_M": 0.18584142981864143,
@@ -2383,7 +2383,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.57097037876722,
       "Omega_ph_M": 0.1908193832843955,
@@ -2439,7 +2439,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.54001699164613,
       "Omega_ph_M": 0.19204371126656825,
@@ -2495,7 +2495,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.507214258953432,
       "Omega_ph_M": 0.19234857560438817,
@@ -2551,7 +2551,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.884419411704297,
       "Omega_ph_M": 0.19245008972987526,
@@ -2607,7 +2607,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.921863641392843,
       "Omega_ph_M": 0.18584142981864143,
@@ -2663,7 +2663,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.99804093835197,
       "Omega_ph_M": 0.1908193832843955,
@@ -2719,7 +2719,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.962850982432446,
       "Omega_ph_M": 0.19204371126656825,
@@ -2775,7 +2775,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 25.929003367187008,
       "Omega_ph_M": 0.19234857560438817,
@@ -2831,7 +2831,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 26.61370563888011,
       "Omega_ph_M": 0.19245008972987526,
@@ -2887,7 +2887,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 26.219519353005452,
       "Omega_ph_M": 0.18584142981864143,
@@ -2943,7 +2943,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 26.523268195226244,
       "Omega_ph_M": 0.1908193832843955,
@@ -2999,7 +2999,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 26.59155084183453,
       "Omega_ph_M": 0.19204371126656825,
@@ -3055,7 +3055,7 @@
     {
       "target_angle_over_pi": 0.0,
       "winding": 0,
-      "turning_radius_over_M": NaN,
+      "turning_radius_over_M": null,
       "impact_parameter_over_M": 0.0,
       "predicted_U_over_M": 26.60819462318042,
       "Omega_ph_M": 0.19234857560438817,
@@ -3135,8 +3135,8 @@
       "target_angle_over_pi": 0.3333333333333333,
       "ray_U_over_M": 29.68793688733636,
       "simulation_minus_ray_over_M": 0.07953119549073762,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3247,8 +3247,8 @@
       "target_angle_over_pi": 0.3333333333333333,
       "ray_U_over_M": 30.407041600460886,
       "simulation_minus_ray_over_M": -0.09657604081591842,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3359,8 +3359,8 @@
       "target_angle_over_pi": 0.3333333333333333,
       "ray_U_over_M": 30.045156182959417,
       "simulation_minus_ray_over_M": -0.014893470439517387,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3471,8 +3471,8 @@
       "target_angle_over_pi": 0.3333333333333333,
       "ray_U_over_M": 29.8698274785805,
       "simulation_minus_ray_over_M": 0.0334130288259864,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3583,8 +3583,8 @@
       "target_angle_over_pi": 0.3333333333333333,
       "ray_U_over_M": 29.780147138375423,
       "simulation_minus_ray_over_M": 0.0567327692471018,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3695,8 +3695,8 @@
       "target_angle_over_pi": 0.5,
       "ray_U_over_M": 32.98424120432105,
       "simulation_minus_ray_over_M": -0.015264516156321406,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3807,8 +3807,8 @@
       "target_angle_over_pi": 0.5,
       "ray_U_over_M": 34.361266972403115,
       "simulation_minus_ray_over_M": -0.05857808322544855,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -3919,8 +3919,8 @@
       "target_angle_over_pi": 0.5,
       "ray_U_over_M": 33.61041620402265,
       "simulation_minus_ray_over_M": -0.046442536110369304,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -4031,8 +4031,8 @@
       "target_angle_over_pi": 0.5,
       "ray_U_over_M": 33.28897294624613,
       "simulation_minus_ray_over_M": -0.033945476894231774,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -4143,8 +4143,8 @@
       "target_angle_over_pi": 0.5,
       "ray_U_over_M": 33.13527111749915,
       "simulation_minus_ray_over_M": -0.02603782926007625,
-      "amplitude_ratio": NaN,
-      "flux_energy_ratio": NaN
+      "amplitude_ratio": null,
+      "flux_energy_ratio": null
     },
     {
       "pulse": 1,
@@ -4704,7 +4704,7 @@
     }
   ],
   "analysis_environment": {
-    "git_commit": "1da59c053339f09d559a5d2451608794f36a90f1",
+    "git_commit": "848d01541420cdc72e69b1f5e3b61649d6633f47",
     "git_worktree_dirty": true,
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "python_implementation": "CPython",
