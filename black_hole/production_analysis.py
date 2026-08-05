@@ -242,6 +242,16 @@ def compare_observables(
     reference_pulses, reference_phases = pulse_measurements(reference, reference)
     rows: list[dict] = []
     waveform_l2 = sphere_integrated_relative_l2(candidate, reference)
+    grid = np.linspace(18.0, 96.0, 7801)
+    candidate_times, candidate_off_axis = direction_waveform(candidate, np.pi / 2.0)
+    reference_times, reference_off_axis = direction_waveform(reference, np.pi / 2.0)
+    reference_grid = np.interp(grid, reference_times, reference_off_axis)
+    off_axis_difference = np.interp(
+        grid, candidate_times, candidate_off_axis
+    ) - reference_grid
+    off_axis_l2 = float(
+        np.linalg.norm(off_axis_difference) / np.linalg.norm(reference_grid)
+    )
     for candidate_row, reference_row in zip(candidate_pulses, reference_pulses):
         rows.append(
             {
@@ -252,6 +262,7 @@ def compare_observables(
                 "observer_radius_over_M": candidate_row["observer_radius_over_M"],
                 "pulse": candidate_row["pulse"],
                 "sphere_integrated_relative_l2": waveform_l2,
+                "off_caustic_relative_l2_at_gamma_pi_over_2": off_axis_l2,
                 "arrival_time_error_over_M": abs(candidate_row["time"] - reference_row["time"]),
                 "delay_error_over_M": abs(
                     candidate_row.get("delay_over_M", np.nan)
