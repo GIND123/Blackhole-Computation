@@ -37,7 +37,9 @@ def reproducibility_metadata() -> dict:
     """Return exact software, operating system, compiler, and Git metadata."""
 
     commit = _command_output(["git", "rev-parse", "HEAD"])
-    status = _command_output(["git", "status", "--porcelain"])
+    status = _command_output(
+        ["git", "status", "--porcelain", "--untracked-files=no"]
+    )
     mpi = _command_output(["mpiexec", "--version"])
     return {
         "git_commit": commit,
