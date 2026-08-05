@@ -40,6 +40,18 @@ class NullRayTests(unittest.TestCase):
         expected = np.pi / first.photon_frequency
         self.assertAlmostEqual(second.arrival_u - first.arrival_u, expected, delta=2e-3)
 
+    def test_direct_generic_ray_uses_inward_branch_when_required(self) -> None:
+        ray = trace_null_ray(
+            source_radius=6.0,
+            observer_radius=None,
+            target_angle=np.pi / 2.0,
+            emission_time=30.0,
+            winding=0,
+        )
+        self.assertTrue(np.isfinite(ray.arrival_u))
+        self.assertTrue(np.isfinite(ray.turning_radius))
+        self.assertGreater(ray.turning_radius, 3.0)
+
     def test_generic_targets_have_alternating_asymptotic_intervals(self) -> None:
         gamma = np.pi / 3.0
         targets = [generic_target_angle(gamma, pulse) for pulse in range(4)]

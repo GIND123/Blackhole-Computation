@@ -260,34 +260,33 @@ def trace_null_ray(
             ) - target_angle
 
         upper_impact = maximum_impact * (1.0 - 1e-10)
-        if angle_residual(upper_impact) < 0.0:
-            raise ValueError("The requested angle is unavailable to an outward ray.")
-        impact = float(brentq(angle_residual, 0.0, upper_impact, xtol=1e-12))
-        if observer_radius is None:
-            arrival = (
-                emission_time
-                + _outward_integral(
-                    background, source_radius, observer, impact, "retarded"
+        if angle_residual(upper_impact) >= 0.0:
+            impact = float(brentq(angle_residual, 0.0, upper_impact, xtol=1e-12))
+            if observer_radius is None:
+                arrival = (
+                    emission_time
+                    + _outward_integral(
+                        background, source_radius, observer, impact, "retarded"
+                    )
+                    - background.tortoise(source_radius)
                 )
-                - background.tortoise(source_radius)
-            )
-        else:
-            arrival = (
-                emission_time
-                + _outward_integral(
-                    background, source_radius, observer, impact, "time"
+            else:
+                arrival = (
+                    emission_time
+                    + _outward_integral(
+                        background, source_radius, observer, impact, "time"
+                    )
+                    + background.height(observer)
+                    - background.q
                 )
-                + background.height(observer)
-                - background.q
+            return RayTiming(
+                target_angle=float(target_angle),
+                winding=winding,
+                turning_radius=np.nan,
+                impact_parameter=impact,
+                arrival_u=float(arrival),
+                photon_frequency=background.photon_frequency,
             )
-        return RayTiming(
-            target_angle=float(target_angle),
-            winding=winding,
-            turning_radius=np.nan,
-            impact_parameter=impact,
-            arrival_u=float(arrival),
-            photon_frequency=background.photon_frequency,
-        )
 
     photon_radius = 3.0 * mass
     upper_endpoint = min(source_radius, observer)
