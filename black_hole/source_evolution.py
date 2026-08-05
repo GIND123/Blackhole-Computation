@@ -95,6 +95,7 @@ from .sds_model import (
     sds_horizons,
 )
 from .three_d_solver import UniformFiniteDifference
+from .reproducibility import reproducibility_metadata
 
 LOGGER = logging.getLogger(__name__)
 
@@ -124,6 +125,7 @@ class SourcedNumericalParameters:
     snapshot_radial_points: int = 200
     finite_difference_order: int = 8
     observer_radii: tuple[float | None, ...] = (8.0, 12.0, None)
+    compact_modal_storage: bool = False
 
     def __post_init__(self) -> None:
         if self.radial_resolution < self.finite_difference_order + 3:
@@ -148,10 +150,12 @@ class SourcedSimulationResult:
     mode_ell: np.ndarray
     mode_m: np.ndarray
     mode_source_amplitude: np.ndarray
+    response_ell: np.ndarray
     signal_times: np.ndarray
     observer_rho: np.ndarray
     observer_areal_radius: np.ndarray
     modal_signals: np.ndarray
+    response_signals: np.ndarray
     diagnostic_times: np.ndarray
     constraint_linf: np.ndarray
     constraint_l2: np.ndarray
@@ -161,6 +165,7 @@ class SourcedSimulationResult:
     snapshot_rho: np.ndarray
     snapshot_areal_radius: np.ndarray
     modal_snapshots: np.ndarray
+    response_snapshots: np.ndarray
     metadata: dict
 
     @property
@@ -177,9 +182,26 @@ class SourcedSimulationResult:
             raise ValueError("This run has no outer-boundary observer.")
         return int(matches[0])
 
+    @property
+    def uses_compact_modal_storage(self) -> bool:
+        return self.modal_signals.shape[-1] == 0 and self.response_signals.size > 0
+
+    def expanded_modal_signals(self) -> np.ndarray:
+        """Return modal signals, expanding compact radial responses if needed."""
+
+        if not self.uses_compact_modal_storage:
+            return self.modal_signals
+        lookup = {int(ell): index for index, ell in enumerate(self.response_ell)}
+        indices = np.asarray([lookup[int(ell)] for ell in self.mode_ell])
+        return (
+            self.response_signals[..., indices]
+            * self.mode_source_amplitude[None, None, :]
+        )
+
     def save(self, path: Path) -> None:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
+        self.metadata["reproducibility"] = reproducibility_metadata()
         np.savez_compressed(
             path,
             rho=self.rho,
@@ -187,10 +209,16 @@ class SourcedSimulationResult:
             mode_ell=self.mode_ell,
             mode_m=self.mode_m,
             mode_source_amplitude=self.mode_source_amplitude,
+            response_ell=self.response_ell,
             signal_times=self.signal_times,
             observer_rho=self.observer_rho,
             observer_areal_radius=self.observer_areal_radius,
             modal_signals=self.modal_signals,
+            response_signals=(
+                self.response_signals.astype(np.float32)
+                if self.uses_compact_modal_storage
+                else self.response_signals
+            ),
             diagnostic_times=self.diagnostic_times,
             constraint_linf=self.constraint_linf,
             constraint_l2=self.constraint_l2,
@@ -200,6 +228,11 @@ class SourcedSimulationResult:
             snapshot_rho=self.snapshot_rho,
             snapshot_areal_radius=self.snapshot_areal_radius,
             modal_snapshots=self.modal_snapshots,
+            response_snapshots=(
+                self.response_snapshots.astype(np.float32)
+                if self.uses_compact_modal_storage
+                else self.response_snapshots
+            ),
             metadata=np.array(json.dumps(self.metadata, sort_keys=True)),
         )
 
@@ -208,16 +241,21 @@ def load_sourced_result(path: Path) -> SourcedSimulationResult:
     """Load a sourced-evolution archive without enabling pickle."""
 
     with np.load(path, allow_pickle=False) as data:
+        response_ell = data["response_ell"] if "response_ell" in data else np.empty(0, dtype=int)
+        response_signals = data["response_signals"] if "response_signals" in data else np.empty((0, 0, 0))
+        response_snapshots = data["response_snapshots"] if "response_snapshots" in data else np.empty((0, 0, 0))
         return SourcedSimulationResult(
             rho=data["rho"],
             areal_radius=data["areal_radius"],
             mode_ell=data["mode_ell"],
             mode_m=data["mode_m"],
             mode_source_amplitude=data["mode_source_amplitude"],
+            response_ell=response_ell,
             signal_times=data["signal_times"],
             observer_rho=data["observer_rho"],
             observer_areal_radius=data["observer_areal_radius"],
             modal_signals=data["modal_signals"],
+            response_signals=response_signals,
             diagnostic_times=data["diagnostic_times"],
             constraint_linf=data["constraint_linf"],
             constraint_l2=data["constraint_l2"],
@@ -227,6 +265,7 @@ def load_sourced_result(path: Path) -> SourcedSimulationResult:
             snapshot_rho=data["snapshot_rho"],
             snapshot_areal_radius=data["snapshot_areal_radius"],
             modal_snapshots=data["modal_snapshots"],
+            response_snapshots=response_snapshots,
             metadata=json.loads(data["metadata"].item()),
         )
 
@@ -387,7 +426,11 @@ def run_sourced_simulation(
             f"time_center (earliest activation tau={earliest_tau:.3f})."
         )
     latest_tau = float(np.max(source.killing_time_support[1] + support_height))
-    mode_kernel = catalogue.amplitude[:, None] * source_kernel[None, :]
+    distinct_ells = np.unique(catalogue.ell)
+    ell_to_response = {int(ell): index for index, ell in enumerate(distinct_ells)}
+    mode_response_index = np.asarray(
+        [ell_to_response[int(ell)] for ell in catalogue.ell], dtype=int
+    )
 
     speeds = np.maximum(
         np.abs(-geometry.coefficient_a * (1.0 + geometry.boost)),
@@ -415,8 +458,8 @@ def run_sourced_simulation(
 
     coefficient_a = geometry.coefficient_a
     coefficient_ab = geometry.coefficient_a * geometry.boost
-    potential = geometry.mode_potential
-    state = np.zeros((3, catalogue.count, numerical.radial_resolution))
+    potential = geometry.potential
+    state = np.zeros((3, distinct_ells.size, numerical.radial_resolution))
 
     def right_hand_side(values: np.ndarray, current_time: float) -> np.ndarray:
         velocity = coefficient_ab * values[1] + coefficient_a * values[2]
@@ -425,7 +468,7 @@ def run_sourced_simulation(
         if earliest_tau <= current_time <= latest_tau:
             temporal = time_profile(current_time - support_height, source)
             if np.any(temporal):
-                momentum[:, window] += mode_kernel * temporal
+                momentum[:, window] += source_kernel * temporal
         return np.stack([velocity, radial.differentiate(velocity), momentum])
 
     def source_strength(current_time: float) -> float:
@@ -450,6 +493,7 @@ def run_sourced_simulation(
 
     signal_times: list[float] = []
     modal_signals: list[np.ndarray] = []
+    response_signals: list[np.ndarray] = []
     diagnostic_times: list[float] = []
     constraint_linf: list[float] = []
     constraint_l2: list[float] = []
@@ -457,24 +501,42 @@ def run_sourced_simulation(
     activity: list[float] = []
     snapshot_times: list[float] = []
     modal_snapshots: list[np.ndarray] = []
+    response_snapshots: list[np.ndarray] = []
 
     def record_signal(current_time: float) -> None:
         signal_times.append(current_time)
-        modal_signals.append(
-            np.stack([radial.interpolate(state[0], point) for point in observer_rho])
+        responses = np.stack(
+            [radial.interpolate(state[0], point) for point in observer_rho]
         )
+        response_signals.append(responses)
+        if not numerical.compact_modal_storage:
+            modal_signals.append(
+                responses[:, mode_response_index] * catalogue.amplitude[None, :]
+            )
 
     def record_diagnostics(current_time: float) -> None:
-        constraint = state[1] - radial.differentiate(state[0])
+        response_constraint = state[1] - radial.differentiate(state[0])
+        constraint = (
+            response_constraint[mode_response_index]
+            * catalogue.amplitude[:, None]
+        )
+        modal_field = (
+            state[0][mode_response_index] * catalogue.amplitude[:, None]
+        )
         diagnostic_times.append(current_time)
         constraint_linf.append(float(np.max(np.abs(constraint))))
         constraint_l2.append(float(np.sqrt(np.mean(constraint**2))))
-        field_linf.append(float(np.max(np.abs(state[0]))))
+        field_linf.append(float(np.max(np.abs(modal_field))))
         activity.append(source_strength(current_time))
 
     def record_snapshot(current_time: float) -> None:
         snapshot_times.append(current_time)
-        modal_snapshots.append(state[0][:, snapshot_indices].copy())
+        response = state[0][:, snapshot_indices]
+        response_snapshots.append(response)
+        if not numerical.compact_modal_storage:
+            modal_snapshots.append(
+                response[mode_response_index] * catalogue.amplitude[:, None]
+            )
 
     current_time = 0.0
     record_signal(current_time)
@@ -525,6 +587,7 @@ def run_sourced_simulation(
         "surface_gravity_cosmological": float(geometry.surface_gravity),
         "source": source.as_dict(),
         "source_modes": catalogue.as_dict(),
+        "evolved_radial_responses": int(distinct_ells.size),
         "angular_expansion_check": verify_angular_expansion(
             source, numerical.angular_ell_max
         ),
@@ -580,10 +643,16 @@ def run_sourced_simulation(
         mode_ell=catalogue.ell,
         mode_m=catalogue.m,
         mode_source_amplitude=catalogue.amplitude,
+        response_ell=distinct_ells,
         signal_times=np.asarray(signal_times),
         observer_rho=observer_rho,
         observer_areal_radius=observer_radius,
-        modal_signals=np.asarray(modal_signals),
+        modal_signals=(
+            np.asarray(modal_signals)
+            if modal_signals
+            else np.empty((len(signal_times), observer_rho.size, 0))
+        ),
+        response_signals=np.asarray(response_signals),
         diagnostic_times=np.asarray(diagnostic_times),
         constraint_linf=np.asarray(constraint_linf),
         constraint_l2=np.asarray(constraint_l2),
@@ -592,6 +661,11 @@ def run_sourced_simulation(
         snapshot_times=np.asarray(snapshot_times),
         snapshot_rho=rho[snapshot_indices],
         snapshot_areal_radius=radius[snapshot_indices],
-        modal_snapshots=np.asarray(modal_snapshots),
+        modal_snapshots=(
+            np.asarray(modal_snapshots)
+            if modal_snapshots
+            else np.empty((len(snapshot_times), 0, snapshot_indices.size))
+        ),
+        response_snapshots=np.asarray(response_snapshots),
         metadata=metadata,
     )

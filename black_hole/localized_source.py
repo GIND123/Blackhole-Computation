@@ -82,10 +82,12 @@ angular bookkeeping.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from functools import lru_cache
 from math import pi
 
 import numpy as np
 from scipy import special
+from scipy.integrate import quad
 
 from .three_d_solver import real_spherical_harmonic
 
@@ -96,10 +98,13 @@ __all__ = [
     "angular_profile",
     "build_mode_catalogue",
     "compact_bump",
+    "minimum_ell_max",
     "radial_profile",
     "retained_angular_fraction",
+    "source_normalizations",
     "time_profile",
     "verify_angular_expansion",
+    "weak_source_integral",
 ]
 
 
@@ -184,15 +189,57 @@ class LocalizedSourceParameters:
         )
 
     def as_dict(self) -> dict:
+        temporal_normalization, radial_normalization = source_normalizations(self)
         return {
-            "profile": "C-infinity compact bumps in Killing time and areal radius",
+            "profile": "covariantly normalized C-infinity compact delta family",
             "angular_profile": "normalized von Mises-Fisher exp[-(1-cos gamma)/sigma^2]",
             "equation": "Box Phi = S with vanishing initial data",
             "angular_width_radians": self.angular_width,
             "radial_support": list(self.radial_support),
             "killing_time_support": list(self.killing_time_support),
+            "temporal_normalization": temporal_normalization,
+            "radial_normalization": radial_normalization,
+            "covariant_integral": self.amplitude,
             **asdict(self),
         }
+
+
+@lru_cache(maxsize=None)
+def _unit_bump_integral() -> float:
+    return float(quad(lambda x: float(compact_bump(np.asarray(x))), -1.0, 1.0)[0])
+
+
+@lru_cache(maxsize=None)
+def _radial_measure_integral(center: float, half_width: float) -> float:
+    left = center - half_width
+    right = center + half_width
+    return float(
+        quad(
+            lambda radius: float(
+                compact_bump(np.asarray((radius - center) / half_width))
+            )
+            * radius**2,
+            left,
+            right,
+            epsabs=1e-13,
+            epsrel=1e-13,
+        )[0]
+    )
+
+
+def source_normalizations(source: LocalizedSourceParameters) -> tuple[float, float]:
+    r"""Return constants that give unit temporal and radial integrals.
+
+    The returned factors enforce ``integral T dt = 1`` and
+    ``integral R r^2 dr = 1``.  Together with the normalized angular profile,
+    this gives ``integral sqrt(-g) S d4x = amplitude``.
+    """
+
+    temporal = 1.0 / (source.time_half_width * _unit_bump_integral())
+    radial = 1.0 / _radial_measure_integral(
+        source.center_radius, source.radial_half_width
+    )
+    return temporal, radial
 
 
 def time_profile(
@@ -201,7 +248,8 @@ def time_profile(
     """Return ``T(t)``, the compact temporal factor in Killing time."""
 
     killing_time = np.asarray(killing_time, dtype=float)
-    return compact_bump(
+    temporal_normalization, _ = source_normalizations(source)
+    return temporal_normalization * compact_bump(
         (killing_time - source.time_center) / source.time_half_width
     )
 
@@ -212,7 +260,10 @@ def radial_profile(
     """Return ``R(r)``, the compact radial factor in areal radius."""
 
     radius = np.asarray(radius, dtype=float)
-    return compact_bump((radius - source.center_radius) / source.radial_half_width)
+    _, radial_normalization = source_normalizations(source)
+    return radial_normalization * compact_bump(
+        (radius - source.center_radius) / source.radial_half_width
+    )
 
 
 def angular_profile(
@@ -273,6 +324,64 @@ def retained_angular_fraction(kappa: float, ell_max: int) -> float:
     kept = float(np.sum(multiplicity * weights**2))
     total = float(np.sum(full_multiplicity * generous**2))
     return kept / total
+
+
+def minimum_ell_max(
+    kappa: float,
+    *,
+    omitted_power_tolerance: float = 1e-10,
+    maximum: int = 512,
+) -> int:
+    """Return the first angular cutoff satisfying an omitted power target."""
+
+    if not 0.0 < omitted_power_tolerance < 1.0:
+        raise ValueError("The omitted power tolerance must lie between zero and one.")
+    for ell_max in range(maximum + 1):
+        if 1.0 - retained_angular_fraction(kappa, ell_max) <= omitted_power_tolerance:
+            return ell_max
+    raise ValueError(
+        f"No ell_max up to {maximum} satisfies the omitted power tolerance."
+    )
+
+
+def weak_source_integral(
+    source: LocalizedSourceParameters,
+    test_function,
+    *,
+    quadrature_order: int = 24,
+) -> float:
+    r"""Integrate the normalized source against a smooth test function.
+
+    ``test_function`` receives arrays ``(t, r, cosine_gamma)``.  Azimuthal
+    symmetry around the source direction has already been integrated out.
+    """
+
+    if quadrature_order < 4:
+        raise ValueError("At least four quadrature points are required.")
+    nodes, weights = np.polynomial.legendre.leggauss(quadrature_order)
+    time = source.time_center + source.time_half_width * nodes
+    radius = source.center_radius + source.radial_half_width * nodes
+    cosine = nodes
+    time_weights = source.time_half_width * weights
+    radial_weights = source.radial_half_width * weights
+    angular_weights = 2.0 * pi * weights
+    temporal = time_profile(time, source)
+    radial = radial_profile(radius, source)
+    angular = angular_profile(cosine, source)
+    values = test_function(
+        time[:, None, None], radius[None, :, None], cosine[None, None, :]
+    )
+    integral = np.einsum(
+        "i,j,k,i,j,k,ijk->",
+        time_weights,
+        radial_weights,
+        angular_weights,
+        temporal,
+        radial * radius**2,
+        angular,
+        np.broadcast_to(values, (nodes.size, nodes.size, nodes.size)),
+    )
+    return float(source.amplitude * integral)
 
 
 def verify_angular_expansion(

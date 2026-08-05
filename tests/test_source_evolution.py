@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import numpy as np
 
@@ -16,8 +18,10 @@ from black_hole.schwarzschild_scalar import (
 )
 from black_hole.source_evolution import (
     SourcedNumericalParameters,
+    load_sourced_result,
     run_sourced_simulation,
 )
+from black_hole.caustic_study import direction_waveform
 from black_hole.static_reference import (
     StaticReferenceGrid,
     reflection_free_time,
@@ -64,6 +68,35 @@ class CausalityTests(unittest.TestCase):
 
 
 class StructureTests(unittest.TestCase):
+    def test_compact_archive_preserves_full_angular_reconstruction(self) -> None:
+        settings = _settings(end_time=10.0, compact_modal_storage=False)
+        expanded = run_sourced_simulation(
+            background="schwarzschild", source=SOURCE, numerical=settings
+        )
+        compact = run_sourced_simulation(
+            background="schwarzschild",
+            source=SOURCE,
+            numerical=_settings(end_time=10.0, compact_modal_storage=True),
+        )
+        self.assertEqual(compact.modal_signals.shape[-1], 0)
+        for angle in (0.0, np.pi / 3.0, np.pi):
+            np.testing.assert_allclose(
+                direction_waveform(compact, angle)[1],
+                direction_waveform(expanded, angle)[1],
+                rtol=0.0,
+                atol=1e-14,
+            )
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "compact.npz"
+            compact.save(path)
+            loaded = load_sourced_result(path)
+            np.testing.assert_allclose(
+                direction_waveform(loaded, np.pi / 3.0)[1],
+                direction_waveform(expanded, np.pi / 3.0)[1],
+                rtol=0.0,
+                atol=1e-14,
+            )
+
     def test_response_is_linear_in_the_source_amplitude(self) -> None:
         settings = _settings()
         single = run_sourced_simulation(
@@ -96,7 +129,7 @@ class StructureTests(unittest.TestCase):
                 cosmological_length=40.0,
             )
             scale = float(np.max(np.abs(result.modal_signals)))
-            self.assertGreater(scale, 0.1)
+            self.assertGreater(scale, 1e-3)
             self.assertLess(float(np.max(result.constraint_linf)), 1e-6 * scale)
 
     def test_schwarzschild_offset_is_the_analytic_value(self) -> None:

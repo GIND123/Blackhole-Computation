@@ -35,6 +35,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy import special
+from scipy.ndimage import correlate1d
 
 from .schwarzschild_scalar import (
     SchwarzschildScalarParameters,
@@ -255,12 +256,12 @@ class UniformFiniteDifference:
         values = np.asarray(values, dtype=float)
         if values.shape[-1] != self.resolution:
             raise ValueError("The last axis must match the radial resolution.")
-        output = np.empty_like(values)
-        interior_size = self.resolution - 2 * self.half_width
-        interior = np.zeros(values.shape[:-1] + (interior_size,))
-        for offset, weight in enumerate(self.center_weights):
-            interior += weight * values[..., offset : offset + interior_size]
-        output[..., self.half_width : -self.half_width] = interior
+        output = correlate1d(
+            values,
+            self.center_weights,
+            axis=-1,
+            mode="nearest",
+        )
         for index, start, weights in self.edge_stencils:
             output[..., index] = np.tensordot(
                 values[..., start : start + self.width],

@@ -249,6 +249,7 @@ def run_sourced_dedalus_simulation(
 
     signal_times: list[float] = []
     modal_signals: list[np.ndarray] = []
+    response_signals: list[np.ndarray] = []
     diagnostic_times: list[float] = []
     constraint_linf: list[float] = []
     constraint_l2: list[float] = []
@@ -256,6 +257,7 @@ def run_sourced_dedalus_simulation(
     activity: list[float] = []
     snapshot_times: list[float] = []
     modal_snapshots: list[np.ndarray] = []
+    response_snapshots: list[np.ndarray] = []
 
     def response_grid() -> np.ndarray:
         return np.stack([np.asarray(field["g"]).ravel() for field in u_fields])
@@ -274,12 +276,14 @@ def run_sourced_dedalus_simulation(
                 for row in observer_operators
             ]
         )
-        modal = (
-            responses[:, mode_response_index]
-            * catalogue.amplitude[np.newaxis, :]
-        )
         signal_times.append(float(solver.sim_time))
-        modal_signals.append(modal)
+        response_signals.append(responses)
+        if not numerical.compact_modal_storage:
+            modal = (
+                responses[:, mode_response_index]
+                * catalogue.amplitude[np.newaxis, :]
+            )
+            modal_signals.append(modal)
 
     def record_diagnostics() -> None:
         response_constraints = np.stack(
@@ -304,12 +308,14 @@ def run_sourced_dedalus_simulation(
 
     def record_snapshot() -> None:
         response = response_grid()[:, snapshot_indices]
-        modal = (
-            response[mode_response_index]
-            * catalogue.amplitude[:, np.newaxis]
-        )
         snapshot_times.append(float(solver.sim_time))
-        modal_snapshots.append(modal)
+        response_snapshots.append(response)
+        if not numerical.compact_modal_storage:
+            modal = (
+                response[mode_response_index]
+                * catalogue.amplitude[:, np.newaxis]
+            )
+            modal_snapshots.append(modal)
 
     record_signal()
     record_diagnostics()
@@ -429,10 +435,16 @@ def run_sourced_dedalus_simulation(
         mode_ell=catalogue.ell,
         mode_m=catalogue.m,
         mode_source_amplitude=catalogue.amplitude,
+        response_ell=distinct_ells,
         signal_times=np.asarray(signal_times),
         observer_rho=observer_rho,
         observer_areal_radius=observer_radius,
-        modal_signals=np.asarray(modal_signals),
+        modal_signals=(
+            np.asarray(modal_signals)
+            if modal_signals
+            else np.empty((len(signal_times), observer_rho.size, 0))
+        ),
+        response_signals=np.asarray(response_signals),
         diagnostic_times=np.asarray(diagnostic_times),
         constraint_linf=np.asarray(constraint_linf),
         constraint_l2=np.asarray(constraint_l2),
@@ -441,6 +453,11 @@ def run_sourced_dedalus_simulation(
         snapshot_times=np.asarray(snapshot_times),
         snapshot_rho=rho[snapshot_indices],
         snapshot_areal_radius=radius[snapshot_indices],
-        modal_snapshots=np.asarray(modal_snapshots),
+        modal_snapshots=(
+            np.asarray(modal_snapshots)
+            if modal_snapshots
+            else np.empty((len(snapshot_times), 0, snapshot_indices.size))
+        ),
+        response_snapshots=np.asarray(response_snapshots),
         metadata=metadata,
     )

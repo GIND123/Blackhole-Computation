@@ -423,7 +423,17 @@ def equatorial_waveform(
     # flags set, which numpy then reports against the following matmul.  The
     # result is checked for finiteness directly instead.
     with np.errstate(all="ignore"):
-        field = result.modal_signals[:, index, :] @ basis
+        if result.uses_compact_modal_storage:
+            angular_weights = result.mode_source_amplitude[:, None] * basis
+            ell_weights = np.stack(
+                [
+                    np.sum(angular_weights[result.mode_ell == ell], axis=0)
+                    for ell in result.response_ell
+                ]
+            )
+            field = result.response_signals[:, index, :] @ ell_weights
+        else:
+            field = result.modal_signals[:, index, :] @ basis
     if not np.isfinite(field).all():
         raise FloatingPointError("The reconstructed waveform is not finite.")
     return result.retarded_time, field
@@ -453,7 +463,17 @@ def equatorial_snapshot(
 
     phi = np.asarray(phi, dtype=float)
     basis = harmonic_matrix(result, np.full_like(phi, 0.5 * np.pi), phi)
-    reduced = np.einsum("tmr,mp->trp", result.modal_snapshots, basis)
+    if result.uses_compact_modal_storage:
+        angular_weights = result.mode_source_amplitude[:, None] * basis
+        ell_weights = np.stack(
+            [
+                np.sum(angular_weights[result.mode_ell == ell], axis=0)
+                for ell in result.response_ell
+            ]
+        )
+        reduced = np.einsum("tlr,lp->trp", result.response_snapshots, ell_weights)
+    else:
+        reduced = np.einsum("tmr,mp->trp", result.modal_snapshots, basis)
     radius = result.snapshot_areal_radius
     scale = np.where(np.isfinite(radius) & (radius > 0.0), radius, np.inf)
     return reduced / scale[None, :, None]
@@ -469,7 +489,7 @@ def modal_energy_spectrum(
     index = result.outer_index() if observer is None else int(observer)
     times = result.retarded_time
     inside = (times >= window[0]) & (times <= window[1])
-    signals = result.modal_signals[inside, index, :]
+    signals = result.expanded_modal_signals()[inside, index, :]
     squared = signals**2
     # Trapezoidal rule written out; ``np.trapz`` has been renamed once and
     # deprecated once across the NumPy versions this project has to run on.

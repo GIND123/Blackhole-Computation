@@ -742,7 +742,7 @@ def plot_source_validation(
             static_signal = reference["signals"][:, 0]
             window = (static_times >= 15.0) & (static_times <= limit)
             hyperboloidal = np.interp(
-                static_times[window], killing_times, result.modal_signals[:, observer_index, index]
+                static_times[window], killing_times, result.expanded_modal_signals()[:, observer_index, index]
             )
             difference = hyperboloidal - static_signal[window]
             relative = float(
@@ -1069,7 +1069,7 @@ def _mode_amplitude(result: SourcedSimulationResult, ell: int) -> np.ndarray:
     """Return the ``m``-summed amplitude of one harmonic at the outer boundary."""
 
     index = result.outer_index()
-    selected = result.modal_signals[:, index, result.mode_ell == ell]
+    selected = result.expanded_modal_signals()[:, index, result.mode_ell == ell]
     return np.sqrt(np.sum(selected**2, axis=1))
 
 
@@ -1086,7 +1086,7 @@ def plot_late_time(output_dir: Path) -> tuple[Path, list[dict]]:
     outer = reference.outer_index()
     # The field vanishes identically before the emitter switches on; those
     # samples are dropped rather than plotted at log of zero.
-    flat_monopole = np.abs(reference.modal_signals[:, outer, monopole_index])
+    flat_monopole = np.abs(reference.expanded_modal_signals()[:, outer, monopole_index])
     axis.semilogy(
         reference.retarded_time,
         np.where(flat_monopole > 0.0, flat_monopole, np.nan),
@@ -1098,7 +1098,7 @@ def plot_late_time(output_dir: Path) -> tuple[Path, list[dict]]:
     for length, result in results.items():
         index = int(np.flatnonzero(result.mode_ell == 0)[0])
         times = result.retarded_time
-        trace = result.modal_signals[:, result.outer_index(), index]
+        trace = result.expanded_modal_signals()[:, result.outer_index(), index]
         magnitude = np.abs(trace)
         axis.semilogy(
             times,
