@@ -164,6 +164,17 @@ def production_cases() -> dict[str, tuple[str, float, tuple[float | None, ...]]]
     }
 
 
+def sds_width_cases() -> dict[str, tuple[float, SourcedNumericalParameters]]:
+    cases: dict[str, tuple[float, SourcedNumericalParameters]] = {}
+    for scale in WIDTH_SCALES:
+        label = str(scale).replace(".", "p")
+        cases[f"width_sds_L80_w{label}"] = (
+            scale,
+            replace(BASE, angular_ell_max=angular_cutoff(scale)),
+        )
+    return cases
+
+
 def cross_code_cases() -> dict[str, tuple[str, float]]:
     return {
         "cross_schwarzschild": ("schwarzschild", 80.0),
@@ -186,6 +197,18 @@ def run_named_case(
             background="schwarzschild",
             source=source_for_width(scale),
             numerical=numerical,
+            backend=backend,
+            force=force,
+        )
+    sds_widths = sds_width_cases()
+    if name in sds_widths:
+        scale, numerical = sds_widths[name]
+        return _run(
+            Path(output_dir) / "pilots" / "raw" / f"{name}.npz",
+            background="sds",
+            source=source_for_width(scale),
+            numerical=numerical,
+            cosmological_length=80.0,
             backend=backend,
             force=force,
         )
@@ -240,7 +263,12 @@ def main() -> None:
     arguments = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     if not arguments.cases:
-        for name in (*pilot_cases(), *production_cases(), *cross_code_cases()):
+        for name in (
+            *pilot_cases(),
+            *sds_width_cases(),
+            *production_cases(),
+            *cross_code_cases(),
+        ):
             print(name)
         return
     for name in arguments.cases:

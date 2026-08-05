@@ -329,6 +329,10 @@ def convergence_rows(output_dir: Path) -> list[dict]:
             f"angular_w{label}_lmax{cutoffs[2]}",
         )
     groups["source_width"] = (["width_w1p0", "width_w0p7"], "width_w0p5")
+    groups["source_width_sds_L80"] = (
+        ["width_sds_L80_w1p0", "width_sds_L80_w0p7"],
+        "width_sds_L80_w0p5",
+    )
     for category, (settings, reference_setting) in groups.items():
         reference = load_sourced_result(raw / f"{reference_setting}.npz")
         for setting in settings:
