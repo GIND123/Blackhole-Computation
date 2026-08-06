@@ -19,6 +19,8 @@ def json_safe(value):
         return [json_safe(item) for item in value.tolist()]
     if isinstance(value, np.integer):
         return int(value)
+    if isinstance(value, np.bool_):
+        return bool(value)
     if isinstance(value, (float, np.floating)):
         return float(value) if np.isfinite(value) else None
     return value

@@ -435,6 +435,40 @@ def plot_production_collapse(path: Path, rows: list[dict]) -> Path:
     return path
 
 
+def plot_d1_convergence(path: Path, rows: list[dict]) -> Path:
+    """Plot direct four time D1 differences for each representative geometry."""
+
+    figure, axes = plt.subplots(1, 2, figsize=(10.5, 4.2), sharey=True)
+    observers = ((0, "r8M"), (1, "r12M"), (2, "outer"))
+    categories = ("spatial", "temporal", "angular")
+    for axis, length in zip(axes, (20, 80)):
+        for observer_index, label in observers:
+            selected = {
+                row["category"]: row["D1_error_over_M"]
+                for row in rows
+                if row["cosmological_length_over_M"] == length
+                and row["observer_index"] == observer_index
+            }
+            axis.plot(
+                categories,
+                [selected[category] for category in categories],
+                marker="o",
+                linewidth=1.5,
+                label=label,
+            )
+        axis.set_yscale("log")
+        axis.set_title(rf"$L/M={length}$")
+        axis.set_xlabel("paired refinement comparison")
+        axis.grid(axis="y", which="both", alpha=0.2)
+    axes[0].set_ylabel(r"direct $D_1$ difference  $(M)$")
+    axes[1].legend()
+    figure.suptitle(r"Correlated four arrival time convergence of $D_1$")
+    figure.tight_layout()
+    figure.savefig(path, dpi=180)
+    plt.close(figure)
+    return path
+
+
 def error_budget_rows(output_dir: Path, pulse_rows: list[dict]) -> list[dict]:
     """Build a D1 budget without decomposing it into independent pulse errors."""
 
@@ -469,7 +503,6 @@ def error_budget_rows(output_dir: Path, pulse_rows: list[dict]) -> list[dict]:
             name in components for name in ("spatial", "temporal", "angular")
         ) and np.isfinite(width)
         values = [
-            measured["estimator_sensitivity_over_M"],
             *components.values(),
             width,
         ]
@@ -481,7 +514,7 @@ def error_budget_rows(output_dir: Path, pulse_rows: list[dict]) -> list[dict]:
                 "temporal_D1_error_over_M": components.get("temporal", np.nan),
                 "angular_D1_error_over_M": components.get("angular", np.nan),
                 "same_L_source_width_D1_sensitivity_over_M": width,
-                "total_D1_uncertainty_over_M": total,
+                "total_primary_D1_uncertainty_over_M": total,
                 "budget_complete": complete,
                 "D1_resolved": bool(
                     complete and abs(measured["delay_shift_over_M"]) > total
@@ -511,7 +544,9 @@ def create_report(output_dir: Path) -> list[Path]:
     }
     for row in delay_rows:
         budget = budget_lookup[(row["cosmological_length_over_M"], row["observer"])]
-        row["total_uncertainty_over_M"] = budget["total_D1_uncertainty_over_M"]
+        row["total_uncertainty_over_M"] = budget[
+            "total_primary_D1_uncertainty_over_M"
+        ]
         row["budget_complete"] = budget["budget_complete"]
     fit_rows = scaling_fit_rows(delay_rows)
     written = [
@@ -527,6 +562,7 @@ def create_report(output_dir: Path) -> list[Path]:
         _write_csv(tables / "full_error_budget.csv", budget_rows),
         _write_csv(tables / "observable_convergence.csv", convergence),
         _write_csv(tables / "D1_convergence.csv", d1_convergence),
+        plot_d1_convergence(output_dir / "D1_convergence.png", d1_convergence),
         plot_delay_scaling(output_dir / "production_timing_scaling.png", delay_rows),
         plot_ray_residuals(output_dir / "production_ray_residuals.png", ray_rows),
         plot_production_collapse(

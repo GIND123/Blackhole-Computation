@@ -26,7 +26,12 @@ def _simulation_command(output_dir: Path, archive: Path) -> str:
         name = f"cross_{name}"
     elif relative.parts[:2] == ("cross_code", "dedalus"):
         name = f"cross_{name}"
-        backend = " --backend dedalus"
+        return (
+            "OMP_NUM_THREADS=1 "
+            "/home/govind/miniforge3/envs/dedalus3/bin/python "
+            f"-m black_hole.production_suite {name} "
+            f"--output-dir {output_dir.as_posix()} --backend dedalus"
+        )
     return (
         f"python -m black_hole.production_suite {name} "
         f"--output-dir {output_dir.as_posix()}{backend}"
@@ -130,6 +135,10 @@ def create_manifest(output_dir: Path) -> Path:
         "raw_archives_are_read_only_inputs": True,
         "archives": archive_rows,
         "derived_artifacts": derived_rows,
+        "recorded_commands": {
+            "path": "logs/commands.txt",
+            "sha256": _sha256(output_dir / "logs" / "commands.txt"),
+        },
         "manifest_command": (
             "python -m black_hole.production_manifest "
             f"--output-dir {output_dir.as_posix()}"

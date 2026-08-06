@@ -180,29 +180,30 @@ The final caustic study uses a covariantly normalized localized source at
 every radial factor integrates to one with measure `r^2 dr`, and every angular
 factor integrates to one on the sphere.
 
-The production sequence contains Schwarzschild and `L/M = 12, 20, 40, 80,
-160`. Every run contains the direct pulse plus three caustic echoes. Local
-pulse timing uses identical windows and tapers with both an analytic signal
-estimator and a matched template estimator.
+The corrected production sequence contains Schwarzschild and `L/M = 12, 20,
+40, 80, 160`. Every primary arrival uses the tapered analytic envelope.
+Matched template timing is retained only as an estimator sensitivity check.
 
-![Production timing scaling](results/caustic_production/production_timing_scaling.png)
+![Production timing scaling](results/caustic_production_v2/production_timing_scaling.png)
 
-At fixed narrow source width, the measured delay shift powers are `2.066` at
-`r = 8M`, `2.065` at `r = 12M`, and `1.304` at the outer boundary. This
-separates the local order `(M/L)^2` clock correction from the larger outer
-response.
+Fixed radius timing is fitted to `a2 (M/L)^2 + a4 (M/L)^4`. Outer timing is
+fitted to `b1 M/L + b2 (M/L)^2`. The outer effective exponent `1.310` is a
+finite interval diagnostic, not an asymptotic claim.
 
-![Production clock collapse](results/caustic_production/production_clock_collapse.png)
+![Production clock collapse](results/caustic_production_v2/production_clock_collapse.png)
 
 Exact null rays use the actual source radius, observer radius, angular
 separation, winding, and simulation clock normalization. Generic angles test
 the fourfold phase cycle. The caustic axes retain their degenerate twofold
 structure.
 
-Finite difference and Dedalus production checks cover Schwarzschild and
-`L=80` through two echoes. Their largest sphere integrated errors are
-`5.33e-5` and `5.58e-4`. Arrival, amplitude, and phase differences satisfy all
-requested tolerances.
+Finite difference and Dedalus checks cover Schwarzschild and `L/M = 80`
+through two echoes. Their maximum direct D1 difference is `2.9720e-4M`.
+
+Direct D1 convergence and same L source width budgets are complete at `L/M =
+20` and `80`. Other lengths are marked incomplete rather than inheriting
+errors from another geometry. Boundary saturated phase fits are unresolved,
+and the earlier `L/M = 12` phase reversal interpretation is withdrawn.
 
 The source width sequence does not establish a point source field limit, so
 the result is called a normalized localized retarded response. No universal
@@ -532,8 +533,9 @@ from the production archives alone and needs no Dedalus installation.
 
 ```bash
 python -m black_hole.production_suite
-python -m black_hole.production_analysis --output-dir results/caustic_production --include-cross-code
-python -m black_hole.production_report --output-dir results/caustic_production
+python -m black_hole.production_analysis --output-dir results/caustic_production_v2 --include-cross-code
+python -m black_hole.production_report --output-dir results/caustic_production_v2
+python -m black_hole.production_manifest --output-dir results/caustic_production_v2
 ```
 
 The first command lists every pilot, width, production, and cross code case.
@@ -630,7 +632,7 @@ results/green_function/
   green_function_summary.json  Every derived number in one machine-readable file
   dedalus/                  Optional same-schema Dedalus cross-check archives
 
-results/caustic_production/
+results/caustic_production_v2/
   pilots/raw/               Radial, temporal, angular, and source width archives
   raw/                      Schwarzschild and five de Sitter production archives
   cross_code/               Finite difference and Dedalus validation archives
@@ -638,6 +640,7 @@ results/caustic_production/
   *.png                     Scaling, collapse, damping, ray, and convergence figures
   production_summary.json   Strict machine readable production digest
   production_analysis.json Strict machine readable convergence digest
+  manifest.json             Archive hashes, commands, and artifact inputs
 
 results/verification/
   test_summary_2026-08-04.json  Full-suite verification record for this repo
@@ -675,12 +678,13 @@ The most useful machine-readable outputs are:
 - [source-term cross-validation](results/green_function/tables/source_validation.csv)
 - [Green-function convergence ladders](results/green_function/tables/convergence.csv)
 - [complete Green-function digest](results/green_function/green_function_summary.json)
-- [production pulse observables](results/caustic_production/tables/production_pulses.csv)
-- [production delay scaling](results/caustic_production/tables/production_delay_scaling.csv)
-- [exact production ray timing](results/caustic_production/tables/production_null_rays.csv)
-- [full production error budget](results/caustic_production/tables/full_error_budget.csv)
-- [observable convergence](results/caustic_production/tables/observable_convergence.csv)
-- [cross code observables](results/caustic_production/tables/cross_code_observables.csv)
+- [production pulse observables](results/caustic_production_v2/tables/production_pulses.csv)
+- [production delay scaling](results/caustic_production_v2/tables/production_delay_scaling.csv)
+- [direct D1 convergence](results/caustic_production_v2/tables/D1_convergence.csv)
+- [full D1 error budget](results/caustic_production_v2/tables/full_error_budget.csv)
+- [source width sensitivity](results/caustic_production_v2/tables/source_width_delay_sensitivity.csv)
+- [cross code D1](results/caustic_production_v2/tables/cross_code_D1.csv)
+- [reproduction manifest](results/caustic_production_v2/manifest.json)
 - [verification summary, August 4 2026](results/verification/test_summary_2026-08-04.json)
 
 ## Acknowledgments

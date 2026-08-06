@@ -12,6 +12,7 @@ from black_hole.tail_analysis import (
     decay_rate_transition_time,
     fit_exponential,
     fit_power_law,
+    json_safe,
     sliding_window_difference,
     select_stable_exponential_fit,
     trust_times,
@@ -23,6 +24,9 @@ from black_hole.tail_rate_figures import (
 
 
 class TailAnalysisTests(unittest.TestCase):
+    def test_json_safe_converts_numpy_boolean(self) -> None:
+        self.assertIs(json_safe(np.bool_(True)), True)
+
     def test_power_fit_recovers_exponent(self) -> None:
         times = np.linspace(10.0, 1000.0, 5000)
         signal = 2.5 * times**-4.0

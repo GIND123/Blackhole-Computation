@@ -2,245 +2,171 @@
 
 ## Scope
 
-This report answers one question. How does a positive cosmological constant change photon sphere caustic echoes near the black hole, and how does that differ from propagation to the cosmological horizon?
+This report records the corrected caustic echo study requested by Professor Zenginoglu. The calculation is a normalized localized retarded response. The source width sequence is a sensitivity study. It does not establish a point source Green function limit.
 
-The calculation supports a sharp answer at fixed normalized source width. Local delay shifts approach Schwarzschild approximately as `(M/L)^2`. The outer delay shift is larger and approaches more slowly, approximately between `M/L` and a steeper finite range correction. The measured powers over `L/M = 20, 40, 80, 160` are `2.066` at `r = 8M`, `2.065` at `r = 12M`, and `1.304` at the outer boundary.
+All final raw archives were generated in a fresh directory from clean Git commit `c0ec6a69c80f69b87c65a51c8e4b77a4760a7af2`. No v1 archive was copied into v2. Postprocessing reads raw NPZ files without saving or modifying them.
 
-The source width study does not establish a point source field limit. The correct name for the result is a normalized localized retarded response. All background comparisons use the same narrow source, so the fixed width local versus outer conclusion remains meaningful. The width dependence is archived and reported rather than hidden.
+The final archive directory is [`results/caustic_production_v2`](../results/caustic_production_v2). The machine readable provenance record is [`manifest.json`](../results/caustic_production_v2/manifest.json).
 
-## Geometry and analytic prediction
+## Primary observable
 
-The metric function is
-
-```text
-f(r) = 1 minus 2M/r minus r^2/L^2
-```
-
-The photon orbit remains at `r = 3M`. Its frequency and Lyapunov exponent are
+The principal observable is
 
 ```text
-Omega_ph = lambda_ph = sqrt(1 minus 27 M^2/L^2) / (3 sqrt(3) M)
+D1(L,w;r_o) = [U1 - U0]_SdS(L,w;r_o) - [U1 - U0]_Schw(w;r_o).
 ```
 
-The geometric half orbit time is
+Every primary arrival time is the maximum of the tapered analytic signal envelope in its fixed local pulse window. This convention is used without alteration in production, source width, convergence, and cross code calculations.
+
+Matched template timing is not averaged with the primary timing. It is reported separately as an estimator sensitivity check. The estimator sensitivity is the absolute difference between analytic envelope D1 and matched template D1.
+
+The complete primary table is [`production_delay_scaling.csv`](../results/caustic_production_v2/tables/production_delay_scaling.csv).
+
+## Central timing results
+
+The analytic envelope values of D1 in units of M are:
 
 ```text
-T_half = pi / Omega_ph
+L/M       r_o=8M             r_o=12M            outer
+20        1.1651680212       1.1015045109        2.0689221905
+40        0.2678177855       0.2520715228        0.7270260932
+80        0.0646050126       0.0605111408        0.2991613043
+160       0.0153330621       0.0146373771        0.1348276073
 ```
 
-Thus the local clock correction begins at order `(M/L)^2`. The eikonal field amplitude reference is `exp(minus pi/2) = 0.2078796`, and the simple caustic phase reference is minus `pi/2`. These are comparison values, not fixed laws imposed on the finite width numerical result.
+The narrow width table reproduces these values exactly at every stored digit for L/M equal to 20 and 80. In particular, the earlier disagreement between `1.18004M` and `1.16517M` is removed. Both analyses now give `1.1651680212M` for L/M equal to 20 at r equal to 8M.
 
-## Covariantly normalized source
+## Direct D1 error budget
 
-The source is centered at Killing time `30M`, areal radius `6M`, and equatorial angle zero. It is written as a temporal factor, a radial factor, and a normalized angular factor. The factors obey
+Errors are evaluated by recomputing the full four arrival time D1 combination at each numerical setting. Arrival errors are not assigned independently to U0 and U1. This preserves cancellation and correlation among the four times.
+
+Representative SdS convergence suites were run independently at L/M equal to 20 and 80. Each suite has its own radial, temporal, and angular comparison paired with the corresponding Schwarzschild comparison. Source width sensitivity is used only at the same L value.
+
+The largest direct D1 convergence differences among the three observers are:
 
 ```text
-integral T dt = 1
-integral R r^2 dr = 1
-integral Omega dOmega = 1
-integral sqrt(minus g) S d4x = A
+L/M       radial             temporal           angular
+20        2.2331e-4 M        7.6058e-4 M        5.6907e-8 M
+80        3.1440e-4 M        4.7617e-4 M        6.8694e-8 M
 ```
 
-Three width scales are used. Their radial half widths are `1.5M`, `1.05M`, and `0.75M`. Their temporal half widths are `4M`, `2.8M`, and `2M`. Their angular widths are `0.25`, `0.175`, and `0.125` radians.
+The resulting complete primary D1 uncertainty totals are:
 
-The minimum angular cutoffs for omitted source power below `1e-10` are `19`, `27`, and `38`. Further cutoff ladders are `(19, 23, 27)`, `(27, 31, 35)`, and `(38, 42, 46)`.
-
-The weak source test uses constant, linear, and quadratic smooth functions. The exact CSV values are reproduced here.
-
-```csv
-width_scale,test_function,integral,delta_limit,absolute_error
-1.0,constant,1.0000000000040983,1.0,4.098277273101303e-12
-1.0,linear,37.05492482324065,37.0,0.05492482324064696
-1.0,quadratic,941.181380691794,937.0,4.181380691793947
-0.7,constant,1.0000000000040328,1.0,4.032774114648419e-12
-0.7,linear,37.027201751042604,37.0,0.027201751042603917
-0.7,quadratic,939.0494182177401,937.0,2.04941821774014
-0.5,constant,1.0000000000039877,1.0,3.987699059848637e-12
-0.5,linear,37.013948245488685,37.0,0.013948245488684563
-0.5,quadratic,938.0457560230874,937.0,1.0457560230873924
+```text
+L/M       r_o=8M             r_o=12M            outer
+20        0.00806893 M       0.00056146 M       0.05007618 M
+80        0.00241237 M       0.00273262 M       0.02006741 M
 ```
 
-The exact source validation data are in `results/green_function/tables/normalized_source_weak_convergence.csv`.
+All six representative D1 values are resolved against these totals. The L/M equal to 40 and 160 rows are marked `budget_complete=False`. No convergence or width error from another L value is assigned to them.
 
-## Local pulse estimators
-
-Every background uses identical pulse windows and identical tapers. Two independent estimators are applied inside each local window.
-
-1. A tapered analytic signal estimator finds the local envelope maximum with interpolation.
-
-2. A complex matched template fit varies amplitude, time shift, constant background, and linear background.
-
-The reported pulse time is the midpoint of the two estimates. Their full difference is recorded as the estimator systematic. Half the output cadence is recorded separately. The production output cadence is `0.001M`, and interpolation is supported by the temporal ladder.
-
-Each pulse row contains arrival time, matched amplitude, integrated field energy, integrated flux energy, delay, amplitude ratio, energy ratio, local phase, cadence uncertainty, and estimator systematic. The sequence is the direct pulse plus three caustic echoes.
-
-## Reanalysis of existing archives
-
-The older archives have cadence `0.1M`, so their local estimator uncertainties prevent subcadence claims. The reanalysis gives the following first delay shifts in units of `M`.
-
-```csv
-L_over_M,r8,r12,outer
-20,1.3369294495,1.2601732808,2.1704442552
-40,0.2913877911,0.2568550461,0.6673344009
-80,0.0656400361,0.0580914894,0.2669277629
-160,0.0175664325,0.0157874894,0.1200504951
-```
-
-The corresponding uncertainty table is in `results/green_function/tables/local_delay_scaling.csv`. The `L=80` and `160` local shifts are unresolved at the old cadence. This is why the high cadence production suite was necessary.
-
-The reanalysis products include identical window local pulse tables, local phase tables, exact ray timing, generic angle reconstruction, weak source convergence, fixed radius versus outer scaling, ray residuals, clock collapse, and damping and phase figures.
-
-## Production suite
-
-The selected narrow production setting is radial resolution `1536`, timestep `0.001M`, signal cadence `0.001M`, and angular cutoff `42`. Every signal timestep is saved. The run ends at `110M`.
-
-The main backgrounds are Schwarzschild and `L/M = 20, 40, 80, 160`. The stronger case `L/M = 12` is also included. For `L=12`, the black hole horizon is `2.0607756558M`, the cosmological horizon is `10.8361577003M`, and the full narrow source support is `5.25M` through `6.75M`. The `r=8M` observer is safe. The invalid `r=12M` observer is excluded.
-
-Three widths are run on Schwarzschild, `L=20`, and `L=80`. The narrow width is run through the complete length sequence. The small length analysis includes full and monopole subtracted signals.
-
-## Observable convergence
-
-The spatial ladder is `N = 768, 1024, 1536, 2048`. The temporal ladder is `0.004M`, `0.002M`, and `0.001M`. Each source width has three angular cutoffs.
-
-For `N=1536` against `2048`, the sphere integrated relative waveform error is `3.573e-6`. The largest relative amplitude error is `1.729e-5`. The largest phase error is `1.971e-4` radians. The largest arrival difference is `9.262e-4 M`.
-
-For timestep `0.002M` against `0.001M`, the sphere integrated error is `1.966e-7`, the amplitude error is `6.515e-6`, and the phase error is `1.747e-4` radians. Arrival interpolation reaches a nonmonotone floor near `0.0026M`. No convergence order is fitted to that floor.
-
-For the narrow source, cutoff `42` against `46` gives sphere integrated error `2.274e-9`, amplitude error `6.763e-10`, phase error `2.787e-8` radians, and arrival difference `6.696e-8 M`.
-
-All fixed source waveform, amplitude, and phase targets are met. The full table is `results/caustic_production/tables/observable_convergence.csv`.
+The detailed records are [`D1_convergence.csv`](../results/caustic_production_v2/tables/D1_convergence.csv), [`D1_convergence.png`](../results/caustic_production_v2/D1_convergence.png), and [`full_error_budget.csv`](../results/caustic_production_v2/tables/full_error_budget.csv).
 
 ## Source width sensitivity
 
-Absolute pulse waveforms change substantially as the normalized source narrows. On Schwarzschild, width `0.7` versus `0.5` changes the generic `gamma = pi/2` waveform norm by `0.272`. At `L=80`, the corresponding value is `0.260`. This is not a numerical failure. It is finite regularization dependence of a singular response.
+The width scale sequence is `1.0`, `0.7`, and `0.5`. Every row uses the analytic envelope timing pipeline. The difference column is measured relative to the narrow `0.5` archive at the same L and observer.
 
-The primary finite cosmological constant delay shift is more stable because it is a within run delay and a same width background difference. Medium versus narrow changes the local shift by `0.00803M` at `L=20`, and by `0.00236M` at `L=80` for `r=8M`. Outer sensitivities are `0.0501M` and `0.0201M`.
+At L/M equal to 20, the intermediate to narrow D1 differences are `0.00803253M`, `0.00047973M`, and `0.05007354M` at r equal to 8M, r equal to 12M, and the outer observer. At L/M equal to 80, they are `0.00236129M`, `0.00271333M`, and `0.02006407M`.
 
-The full data are in `results/caustic_production/tables/source_width_delay_sensitivity.csv`. Absolute pulse error budgets include a conservative source width sensitivity column. Fixed source and source inclusive totals are both retained.
+These values quantify finite source sensitivity only. They do not demonstrate convergence to a point source distribution.
 
-## Local versus outer scaling
+The complete table is [`source_width_delay_sensitivity.csv`](../results/caustic_production_v2/tables/source_width_delay_sensitivity.csv).
 
-The narrow production first delay shifts are
+## Scaling analysis
 
-```csv
-L_over_M,r8,r12,outer
-20,1.1800413776,1.1174635993,2.0955243972
-40,0.2713284854,0.2560657452,0.7395256543
-80,0.0659039400,0.0620446053,0.3060844584
-160,0.0159901628,0.0151963858,0.1383378931
-```
-
-The fitted powers over all four lengths are `2.066`, `2.065`, and `1.304`. Over `L=20` through `80`, they are `2.081`, `2.085`, and `1.388`. Both candidate powers are plotted in each panel of `results/caustic_production/production_timing_scaling.png`.
-
-The `L=160` local correction is shown but is excluded from the preferred precision fit when transferred source width sensitivity is included. The all length fit remains available as a descriptive comparison in `production_scaling_fits.csv`.
-
-## Exact null rays
-
-The separate ray tracer solves the actual source radius, observer radius, angular separation, turning point, impact parameter, and winding. It uses the same retarded clock normalization as the simulation. It selects an outward direct branch when geometrically available and an initially inward branch otherwise.
-
-For Schwarzschild and `L=20` through `160`, simulation minus ray residuals stay within about `0.44M`. At `L=12`, the largest residual is `3.38M`, consistent with strong finite width and cosmological transition effects. These residuals are measured wave effects, not replaced by the asymptotic photon orbit interval.
-
-The exact values are in `production_null_rays.csv` and `production_generic_angles.csv`. The residual figure is `production_ray_residuals.png`.
-
-## Angular structure and phase
-
-Waveforms are reconstructed on both caustic axes and at `gamma = pi/3` and `pi/2`. The axes display the degenerate twofold structure. Generic angles test the fourfold Maslov cycle through local complex comparisons.
-
-For Schwarzschild and `L=20` through `160`, generic consecutive pulse phases remain near minus `pi/2`, with finite width and finite frequency residuals. The `L=12` sequence is strongly deformed and includes a phase reversal in one late pair. Generic amplitude ratios vary by pulse and are not asserted to equal a fixed damping constant.
-
-The rescaled clock is
+Fixed radius data are fitted to the motivated local expansion
 
 ```text
-U_hat = Omega_ph(L) times [U minus U_ref(L)]
+D_local(L) = a2 (M/L)^2 + a4 (M/L)^4.
 ```
 
-The residual collapse is plotted in `production_clock_collapse.png`. Damping and phase are compared with `exp(minus pi/2)` and minus `pi/2` in `production_damping_phase.png`.
+Using L/M equal to 20 through 160 gives
+
+```text
+r_o=8M:     a2 = 415.3041,   a4 = 20307.9010,   RMS residual = 6.2490e-4 M
+r_o=12M:    a2 = 390.1443,   a4 = 20185.8611,   RMS residual = 5.9336e-4 M
+```
+
+Outer data are fitted to
+
+```text
+D_outer(L) = b1 M/L + b2 (M/L)^2.
+```
+
+Using L/M equal to 20 through 160 gives `b1 = 17.4456`, `b2 = 478.0696`, and an RMS residual of `0.0062494M`.
+
+Log power fits are retained only as finite interval diagnostics. The outer effective exponent is `1.3100` over L/M equal to 20 through 160. It is not an established asymptotic power.
+
+The coefficients and finite interval diagnostics are in [`production_scaling_fits.csv`](../results/caustic_production_v2/tables/production_scaling_fits.csv). The requested expansion fits are plotted in [`production_timing_scaling.png`](../results/caustic_production_v2/production_timing_scaling.png).
+
+## Phase analysis
+
+Each phase comparison records whether the optimized lag reaches the permitted lag boundary. Boundary saturation is evaluated with a tolerance tied to the local sample cadence. A saturated fit has `phase_resolved=False`; its primary phase fields are null, while its raw diagnostic phase and lag remain available for audit.
+
+All generic phase fits for Schwarzschild and L/M equal to 20, 40, 80, and 160 are unsaturated. Four L/M equal to 12 fits are unresolved. The apparent phase reversal at gamma equal to pi over 2 for pulse pair 1 to 2 has lag `minus 1.9949999M` against a permitted magnitude of `2M`. It is therefore removed from the physical interpretation.
+
+The corrected phase table is [`production_generic_phase.csv`](../results/caustic_production_v2/tables/production_generic_phase.csv). The phase figure is [`production_damping_phase.png`](../results/caustic_production_v2/production_damping_phase.png).
 
 ## Cross code validation
 
-Finite difference and Dedalus evolve the same narrow source through the direct pulse plus two echoes for Schwarzschild and `L=80`. The timestep and signal cadence are `0.002M`. The angular cutoff is `42`. Finite difference uses converged radial resolution `768`. Dedalus uses Chebyshev resolution `512`.
+Fresh finite difference and Dedalus archives were generated for Schwarzschild and SdS with L/M equal to 80. Primary timing uses the analytic envelope in both backends.
 
-For Schwarzschild, the sphere integrated error is `5.33e-5`, the generic angle error is `3.56e-5`, the maximum arrival error is `1.40e-4 M`, the amplitude error is `8.16e-5`, and the phase error is `1.25e-4` radians.
+The maximum sphere integrated relative L2 disagreement is `5.5840e-4`. The maximum individual arrival difference is `4.1363e-4M`. The maximum relative analytic envelope amplitude difference is `1.2344e-4`. The maximum resolved phase difference is `2.0072e-4` radians.
 
-For `L=80`, the sphere integrated error is `5.58e-4`, the generic angle error is `7.25e-5`, the maximum arrival error is `2.22e-4 M`, the amplitude error is `8.22e-5`, and the phase error is `1.99e-4` radians.
+The direct D1 backend differences are `7.0207e-5M`, `2.9720e-4M`, and `5.3119e-5M` at r equal to 8M, r equal to 12M, and the outer observer.
 
-Every required cross code target is met, including the preferred `1e-3` sphere integrated norm.
+The complete records are [`cross_code_observables.csv`](../results/caustic_production_v2/tables/cross_code_observables.csv) and [`cross_code_D1.csv`](../results/caustic_production_v2/tables/cross_code_D1.csv).
 
-## Physical monopole conversion
+## Other figures
 
-The scalar field convention is
+The null ray residual comparison is [`production_ray_residuals.png`](../results/caustic_production_v2/production_ray_residuals.png).
 
-```text
-Phi = sum_lm u_lm Y_lm / r
-```
+The normalized clock collapse comparison is [`production_clock_collapse.png`](../results/caustic_production_v2/production_clock_collapse.png).
 
-For the monopole at the cosmological horizon,
-
-```text
-Phi_00 = Y_00 u_00 / r_c
-Y_00 = 1 / sqrt(4 pi)
-```
-
-The factor `Y_00` is included in the production monopole subtraction. No conversion uses `u_00/r_c` alone.
+The observable convergence summary is [`observable_convergence.png`](../results/caustic_production_v2/observable_convergence.png).
 
 ## Reproduction
 
-List every production case.
+The runner refuses every existing archive destination. It never silently reuses or overwrites a raw archive. A simulation is first saved with an incomplete suffix and renamed to its final NPZ path only after successful completion.
 
-```powershell
+List all finite difference case names:
+
+```text
 python -m black_hole.production_suite
 ```
 
-Run a named finite difference case.
+Run one finite difference case into a new directory:
 
-```powershell
-python -m black_hole.production_suite sds_L80 --output-dir results/caustic_production
+```text
+python -m black_hole.production_suite sds_L80 --output-dir results/caustic_production_v2
 ```
 
-Run a Dedalus cross case in the pinned WSL environment.
+Run one Dedalus case after activating a Dedalus 3 environment:
 
-```bash
-python -m black_hole.production_suite cross_sds_L80 --output-dir results/caustic_production --backend dedalus
+```text
+OMP_NUM_THREADS=1 python -m black_hole.production_suite cross_sds_L80 --output-dir results/caustic_production_v2 --backend dedalus
 ```
 
-Rebuild convergence and cross code products.
+Generate convergence and cross code tables:
 
-```powershell
-python -m black_hole.production_analysis --output-dir results/caustic_production --include-cross-code
+```text
+python -m black_hole.production_analysis --output-dir results/caustic_production_v2 --include-cross-code
 ```
 
-Rebuild all final tables and figures.
+Generate final tables and figures:
 
-```powershell
-python -m black_hole.production_report --output-dir results/caustic_production
+```text
+python -m black_hole.production_report --output-dir results/caustic_production_v2
 ```
 
-## Reproducibility
+Generate and verify the artifact manifest:
 
-The native environment uses Python `3.12.10`, NumPy `2.5.1`, SciPy `1.18.0`, Microsoft compiler `19.43`, and Windows `11 build 26200`.
+```text
+python -m black_hole.production_manifest --output-dir results/caustic_production_v2
+```
 
-The independent spectral environment uses Python `3.14.6`, Dedalus `3.0.5`, NumPy `2.5.1`, SciPy `1.18.0`, mpi4py `4.1.2`, Open MPI `5.0.10`, GCC `14.3.0`, and WSL Linux `6.6.87.2`.
-
-Every production archive stores Python, package, compiler, operating system, MPI, Git commit, and tracked worktree state. JSON summaries are strict JSON and map unresolved nonfinite values to `null`.
-
-The archive audit retains two historical dirty state records. `radial_N768` was saved while the compact error bound metadata change was pending at revision `724724c`. The de Sitter Dedalus archive at revision `d1e14ad` saw tracked line ending differences under WSL. Their numerical arrays are finite and preserved exactly. The restamp note is stored inside each affected archive, and `archive_audit.json` reports both records.
-
-## Data products
-
-1. `results/green_function` contains the existing archive reanalysis and corrected source validation.
-
-2. `results/caustic_production/pilots/raw` contains radial, temporal, angular, and source width archives.
-
-3. `results/caustic_production/raw` contains Schwarzschild and five de Sitter production archives.
-
-4. `results/caustic_production/cross_code` contains finite difference and Dedalus archives.
-
-5. `results/caustic_production/tables` contains every pulse observable, exact ray timing, phase, scaling, source width sensitivity, convergence, cross code comparison, monopole subtraction, and full error budget.
-
-6. `results/caustic_production/production_summary.json` and `production_analysis.json` contain strict machine readable summaries.
+Every archive records Python, NumPy, SciPy, Dedalus when applicable, operating system, compiler, Git commit, and worktree state. The manifest records SHA256 checksums, exact case commands, and the raw input archives for every final table and figure.
 
 ## Conclusion
 
-At fixed normalized source width, positive cosmological constant preserves the local caustic organization while stretching its clock at order `(M/L)^2`. Propagation to the moving cosmological horizon produces a larger and more slowly converging deformation. Exact rays explain the geometric clock, while residuals isolate finite width and wave effects. Generic observers recover the local Maslov phase pattern except in the strongly deformed `L=12` regime.
-
-The calculation is numerically converged at fixed source and independently validated with Dedalus. The source width study does not establish a point source field limit, so no point source Green function claim or universal fixed damping law is made.
+The corrected primary estimator gives a consistent D1 in production and width analyses. The representative direct D1 convergence checks support the L/M equal to 20 and 80 claims without transferring numerical errors across geometries. The local data support the motivated even power expansion over the simulated interval. The outer data support a mixed first and second order expansion, while the effective exponent is only descriptive. The L/M equal to 12 phase reversal claim is withdrawn because the relevant fit is boundary saturated.
