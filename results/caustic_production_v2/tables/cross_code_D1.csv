@@ -1,0 +1,4 @@
+observer_index,observer_radius_over_M,primary_estimator,D1_over_M,matched_template_D1_over_M,estimator_sensitivity_over_M,case,backend,reference_backend,reference_D1_over_M,D1_error_over_M
+0,8.0,tapered_analytic_envelope,0.06418247860309023,0.06720139664511393,0.0030189180420236994,sds_L80_minus_schwarzschild,dedalus,finite_difference,0.06425268586972521,7.020726663498067e-05
+1,12.0,tapered_analytic_envelope,0.060619419951780884,0.06359425720584255,0.0029748372540616685,sds_L80_minus_schwarzschild,dedalus,finite_difference,0.060322216968440756,0.00029720298334012796
+2,78.98059813298828,tapered_analytic_envelope,0.29900377509476783,0.31275051946534305,0.013746744370575215,sds_L80_minus_schwarzschild,dedalus,finite_difference,0.29905689442202643,5.311932725859947e-05

@@ -1,0 +1,55 @@
+python -m black_hole.production_suite radial_N768 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite radial_N768 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite radial_N1024 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite radial_N1536 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite radial_N2048 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite temporal_dt0.004 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite temporal_dt0.002 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite temporal_dt0.001 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w1p0_lmax19 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w1p0_lmax23 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w1p0_lmax27 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w0p7_lmax27 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w0p7_lmax31 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w0p7_lmax35 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w0p5_lmax38 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w0p5_lmax42 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite angular_w0p5_lmax46 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_w1p0 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_w0p7 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_w0p5 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_sds_L20_w1p0 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_sds_L20_w0p7 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_sds_L20_w0p5 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_sds_L80_w1p0 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_sds_L80_w0p7 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite width_sds_L80_w0p5 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20_radial_N1536 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20_radial_N2048 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20_temporal_dt0.002 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20_temporal_dt0.001 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20_angular_w0p5_lmax42 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20_angular_w0p5_lmax46 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80_radial_N1536 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80_radial_N2048 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80_temporal_dt0.002 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80_temporal_dt0.001 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80_angular_w0p5_lmax42 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80_angular_w0p5_lmax46 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite schwarzschild --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L12 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L20 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L40 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L80 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite sds_L160 --output-dir results/caustic_production_v2
+python -m black_hole.production_suite cross_schwarzschild --output-dir results/caustic_production_v2
+python -m black_hole.production_suite cross_sds_L80 --output-dir results/caustic_production_v2
+wsl -d Ubuntu-22.04 bash -lc 'cd /mnt/e/Blackhole-Computation && OMP_NUM_THREADS=1 /home/govind/miniforge3/envs/dedalus3/bin/python -m black_hole.production_suite cross_schwarzschild --output-dir results/caustic_production_v2 --backend dedalus'
+wsl -d Ubuntu-22.04 bash -lc 'cd /mnt/e/Blackhole-Computation && OMP_NUM_THREADS=1 /home/govind/miniforge3/envs/dedalus3/bin/python -m black_hole.production_suite cross_sds_L80 --output-dir results/caustic_production_v2 --backend dedalus'
+python -m black_hole.production_analysis --output-dir results/caustic_production_v2 --include-cross-code
+python -m black_hole.production_report --output-dir results/caustic_production_v2
+python -m black_hole.production_report --output-dir results/caustic_production_v2
+python -m black_hole.production_report --output-dir results/caustic_production_v2
+python -m black_hole.production_manifest --output-dir results/caustic_production_v2
+python -m black_hole.production_report --output-dir results/caustic_production_v2
+python -m black_hole.production_manifest --output-dir results/caustic_production_v2
