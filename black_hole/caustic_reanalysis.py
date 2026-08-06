@@ -50,6 +50,7 @@ def _write_csv(path: Path, rows: list[dict]) -> Path:
 
 
 def delay_shift_rows(pulse_rows: list[dict]) -> list[dict]:
+    """Evaluate D1 from its four correlated analytic envelope arrival times."""
     lookup = {
         (row["case"], row["observer"], row["pulse"]): row for row in pulse_rows
     }
@@ -63,15 +64,19 @@ def delay_shift_rows(pulse_rows: list[dict]) -> list[dict]:
             candidate_echo = lookup[(case, observer, 1)]
             reference_delay = reference_echo["time"] - reference_direct["time"]
             candidate_delay = candidate_echo["time"] - candidate_direct["time"]
-            uncertainty = float(
-                np.sqrt(
-                    reference_direct["timing_uncertainty"] ** 2
-                    + reference_echo["timing_uncertainty"] ** 2
-                    + candidate_direct["timing_uncertainty"] ** 2
-                    + candidate_echo["timing_uncertainty"] ** 2
-                )
-            )
             shift = candidate_delay - reference_delay
+            matched_reference_delay = (
+                reference_echo["matched_time"] - reference_direct["matched_time"]
+            )
+            matched_candidate_delay = (
+                candidate_echo["matched_time"] - candidate_direct["matched_time"]
+            )
+            matched_shift = matched_candidate_delay - matched_reference_delay
+            estimator_sensitivity = abs(shift - matched_shift)
+            cadence = max(
+                reference_direct["output_cadence_over_M"],
+                candidate_direct["output_cadence_over_M"],
+            )
             rows.append(
                 {
                     "cosmological_length_over_M": length,
@@ -79,8 +84,12 @@ def delay_shift_rows(pulse_rows: list[dict]) -> list[dict]:
                     "schwarzschild_delay_over_M": reference_delay,
                     "sds_delay_over_M": candidate_delay,
                     "delay_shift_over_M": shift,
-                    "uncertainty_over_M": uncertainty,
-                    "resolved_at_existing_cadence": abs(shift) >= uncertainty,
+                    "primary_estimator": "tapered_analytic_envelope",
+                    "matched_template_delay_shift_over_M": matched_shift,
+                    "estimator_sensitivity_over_M": estimator_sensitivity,
+                    "output_cadence_over_M": cadence,
+                    "uncertainty_over_M": np.nan,
+                    "resolved_at_existing_cadence": abs(shift) >= cadence,
                     "M_over_L": 1.0 / length,
                     "M2_over_L2": 1.0 / length**2,
                 }
@@ -95,42 +104,36 @@ def plot_delay_scaling(path: Path, rows: list[dict]) -> Path:
         selected = [row for row in rows if row["observer"] == observer]
         x = np.asarray([row["M2_over_L2"] for row in selected])
         y = np.asarray([row["delay_shift_over_M"] for row in selected])
-        error = np.asarray([row["uncertainty_over_M"] for row in selected])
+        error = np.asarray([row.get("total_uncertainty_over_M", np.nan) for row in selected])
         order = np.argsort(x)
         axes[0].errorbar(x, y, yerr=error, fmt="o", color=color, label=observer)
         grid = np.linspace(0.0, 1.05 * np.max(x), 200)
-        coefficient_two = float(np.dot(x, y) / np.dot(x, x))
-        root = np.sqrt(x)
-        coefficient_one = float(np.dot(root, y) / np.dot(root, root))
-        axes[0].plot(grid, coefficient_two * grid, color=color, linewidth=1.5)
+        design = np.column_stack([x, x**2])
+        coefficients = np.linalg.lstsq(design, y, rcond=None)[0]
         axes[0].plot(
             grid,
-            coefficient_one * np.sqrt(grid),
+            coefficients[0] * grid + coefficients[1] * grid**2,
             color=color,
-            linewidth=1.0,
-            linestyle=":",
+            linewidth=1.5,
         )
     axes[0].set_xlabel(r"$(M/L)^2$")
     axes[0].set_ylabel(r"$\delta\Delta U_1/M$")
-    axes[0].legend(title="solid: $L^{-2}$\ndotted: $L^{-1}$")
+    axes[0].legend(title=r"$a_2(M/L)^2+a_4(M/L)^4$")
     axes[0].set_title("Fixed radius observers")
 
     selected = [row for row in rows if row["observer"] == "outer"]
     x = np.asarray([row["M_over_L"] for row in selected])
     y = np.asarray([row["delay_shift_over_M"] for row in selected])
-    error = np.asarray([row["uncertainty_over_M"] for row in selected])
+    error = np.asarray([row.get("total_uncertainty_over_M", np.nan) for row in selected])
     axes[1].errorbar(x, y, yerr=error, fmt="o", color="#b33b2e", label="archives")
     grid = np.linspace(0.0, 1.05 * np.max(x), 200)
-    coefficient_one = float(np.dot(x, y) / np.dot(x, x))
-    square = x**2
-    coefficient_two = float(np.dot(square, y) / np.dot(square, square))
-    axes[1].plot(grid, coefficient_one * grid, color="#111111", label=r"$L^{-1}$")
+    design = np.column_stack([x, x**2])
+    coefficients = np.linalg.lstsq(design, y, rcond=None)[0]
     axes[1].plot(
         grid,
-        coefficient_two * grid**2,
+        coefficients[0] * grid + coefficients[1] * grid**2,
         color="#111111",
-        linestyle=":",
-        label=r"$L^{-2}$",
+        label=r"$b_1M/L+b_2(M/L)^2$",
     )
     axes[1].set_xlabel(r"$M/L$")
     axes[1].set_ylabel(r"$\delta\Delta U_1/M$")

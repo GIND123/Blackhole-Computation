@@ -31,6 +31,7 @@ class LocalPulseEstimate:
     window_end: float
     analytic_time: float
     matched_time: float
+    matched_time_resolved: bool
     time: float
     timing_systematic: float
     cadence_uncertainty: float
@@ -161,6 +162,9 @@ def matched_template_estimate(
     _, coefficients = solve(float(optimum.x))
     reference = analytic_signal_estimate(reference_times, reference_trace, window)
     scale = float(np.hypot(coefficients[0], coefficients[1]))
+    cadence = float(np.median(np.diff(candidate_times)))
+    boundary_tolerance = max(5.0 * cadence, 0.01 * maximum_shift)
+    lag_at_boundary = abs(float(optimum.x)) >= maximum_shift - boundary_tolerance
     return {
         "time": float(reference["time"] + optimum.x),
         "amplitude": scale * float(reference["amplitude"]),
@@ -169,6 +173,8 @@ def matched_template_estimate(
         "constant_offset": float(coefficients[2]),
         "linear_background": float(coefficients[3]),
         "objective": float(optimum.fun),
+        "lag_at_boundary": bool(lag_at_boundary),
+        "resolved": bool(optimum.success and not lag_at_boundary),
     }
 
 
@@ -198,13 +204,14 @@ def estimate_pulse(
         window_end=window[1],
         analytic_time=float(analytic["time"]),
         matched_time=float(matched["time"]),
-        time=0.5 * float(analytic["time"] + matched["time"]),
+        matched_time_resolved=bool(matched["resolved"]),
+        time=float(analytic["time"]),
         timing_systematic=timing_systematic,
         cadence_uncertainty=cadence_uncertainty,
         timing_uncertainty=timing_uncertainty,
         analytic_amplitude=float(analytic["amplitude"]),
         matched_amplitude=float(matched["amplitude"]),
-        amplitude=0.5 * float(analytic["amplitude"] + matched["amplitude"]),
+        amplitude=float(analytic["amplitude"]),
         amplitude_systematic=amplitude_systematic,
         signed_amplitude=float(analytic["signed_amplitude"]),
         integrated_field_energy=float(analytic["integrated_field_energy"]),
@@ -227,7 +234,7 @@ def local_phase_comparison(
     *,
     half_width: float = 7.0,
     samples: int = 401,
-) -> dict[str, float]:
+) -> dict[str, float | bool]:
     """Measure the complex phase of consecutive pulses using local windows."""
 
     offsets = np.linspace(-half_width, half_width, samples)
@@ -249,10 +256,14 @@ def local_phase_comparison(
     # caustic Maslov factor is exp(-i pi/2).  SciPy's analytic signal uses
     # the opposite Fourier sign, so its fitted phase is negated here.
     maslov_phase = -float(matched["phase"])
+    resolved = bool(matched["resolved"])
     return {
-        "phase_radians": maslov_phase,
-        "phase_over_half_pi": float(maslov_phase / (0.5 * np.pi)),
+        "phase_radians": maslov_phase if resolved else np.nan,
+        "phase_over_half_pi": float(maslov_phase / (0.5 * np.pi)) if resolved else np.nan,
+        "raw_phase_radians": maslov_phase,
         "matched_lag_over_M": float(matched["time_shift"]),
+        "lag_at_boundary": bool(matched["lag_at_boundary"]),
+        "phase_resolved": resolved,
         "coherence": float(coherence),
     }
 

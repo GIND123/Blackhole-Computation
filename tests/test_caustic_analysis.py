@@ -62,6 +62,27 @@ class LocalEstimatorTests(unittest.TestCase):
             measured.timing_uncertainty, measured.cadence_uncertainty
         )
         self.assertAlmostEqual(measured.cadence_uncertainty, 0.01)
+        self.assertEqual(measured.time, measured.analytic_time)
+        self.assertEqual(measured.amplitude, measured.analytic_amplitude)
+
+    def test_lag_at_allowed_boundary_is_unresolved(self) -> None:
+        shifted = np.interp(
+            self.times - 4.0,
+            self.times,
+            self.reference,
+            left=0.0,
+            right=0.0,
+        )
+        measured = matched_template_estimate(
+            self.times,
+            shifted,
+            self.times,
+            self.reference,
+            (8.0, 22.0),
+            maximum_shift=2.0,
+        )
+        self.assertTrue(measured["lag_at_boundary"])
+        self.assertFalse(measured["resolved"])
 
 
 if __name__ == "__main__":

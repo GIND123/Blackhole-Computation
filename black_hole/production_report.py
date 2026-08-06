@@ -19,7 +19,11 @@ from .caustic_reanalysis import (
 )
 from .caustic_study import direction_waveform
 from .null_geodesics import generic_target_angle, trace_null_ray
-from .production_analysis import convergence_rows, pulse_measurements
+from .production_analysis import (
+    convergence_rows,
+    d1_convergence_rows,
+    pulse_measurements,
+)
 from .source_evolution import SourcedSimulationResult, load_sourced_result
 from .tail_analysis import json_safe
 from .three_d_solver import real_spherical_harmonic
@@ -297,24 +301,41 @@ def scaling_fit_rows(delay_rows: list[dict]) -> list[dict]:
         lengths = np.asarray(
             [row["cosmological_length_over_M"] for row in selected], dtype=float
         )
-        shifts = np.abs(
-            np.asarray([row["delay_shift_over_M"] for row in selected], dtype=float)
+        shifts = np.asarray(
+            [row["delay_shift_over_M"] for row in selected], dtype=float
         )
         for fit_range, mask in (
             ("L20_through_L160", np.ones(lengths.size, dtype=bool)),
             ("L20_through_L80", lengths <= 80.0),
         ):
+            x = 1.0 / lengths[mask]
+            y = shifts[mask]
+            if observer == "outer":
+                design = np.column_stack([x, x**2])
+                model = "b1_M_over_L_plus_b2_M2_over_L2"
+                first_name, second_name = "b1", "b2"
+            else:
+                design = np.column_stack([x**2, x**4])
+                model = "a2_M2_over_L2_plus_a4_M4_over_L4"
+                first_name, second_name = "a2", "a4"
+            coefficients = np.linalg.lstsq(design, y, rcond=None)[0]
+            residual = y - design @ coefficients
             slope, intercept = np.polyfit(
-                np.log(lengths[mask]), np.log(shifts[mask]), 1
+                np.log(lengths[mask]), np.log(np.abs(y)), 1
             )
             rows.append(
                 {
                     "observer": observer,
                     "fit_range": fit_range,
-                    "power_in_M_over_L": float(-slope),
-                    "coefficient": float(np.exp(intercept)),
-                    "candidate_local_power": 2.0,
-                    "candidate_outer_power": 1.0,
+                    "motivated_model": model,
+                    first_name: float(coefficients[0]),
+                    second_name: float(coefficients[1]),
+                    "root_mean_square_residual_over_M": float(
+                        np.sqrt(np.mean(residual**2))
+                    ),
+                    "effective_power_over_simulated_interval": float(-slope),
+                    "effective_power_coefficient": float(np.exp(intercept)),
+                    "effective_power_is_asymptotic_claim": False,
                 }
             )
     return rows
@@ -336,7 +357,7 @@ def source_width_delay_rows(output_dir: Path) -> list[dict]:
             schwarzschild_pulses, _ = pulse_measurements(
                 schwarzschild, schwarzschild
             )
-            sds_pulses, _ = pulse_measurements(sds, sds)
+            sds_pulses, _ = pulse_measurements(sds, schwarzschild)
             for observer in range(sds.observer_areal_radius.size):
                 schwarzschild_selected = [
                     row
@@ -352,6 +373,12 @@ def source_width_delay_rows(output_dir: Path) -> list[dict]:
                     - schwarzschild_selected[1]["time"]
                     + schwarzschild_selected[0]["time"]
                 )
+                matched_shift = (
+                    sds_selected[1]["matched_time"]
+                    - sds_selected[0]["matched_time"]
+                    - schwarzschild_selected[1]["matched_time"]
+                    + schwarzschild_selected[0]["matched_time"]
+                )
                 shifts[(width, observer)] = shift
                 rows.append(
                     {
@@ -359,6 +386,9 @@ def source_width_delay_rows(output_dir: Path) -> list[dict]:
                         "width_scale": width.replace("p", "."),
                         "observer": _observer_label(sds, observer),
                         "delay_shift_over_M": shift,
+                        "primary_estimator": "tapered_analytic_envelope",
+                        "matched_template_delay_shift_over_M": matched_shift,
+                        "estimator_sensitivity_over_M": abs(shift - matched_shift),
                         "difference_from_narrow_over_M": np.nan,
                     }
                 )
@@ -405,101 +435,57 @@ def plot_production_collapse(path: Path, rows: list[dict]) -> Path:
     return path
 
 
-def error_budget_rows(
-    pulse_rows: list[dict], convergence: list[dict]
-) -> list[dict]:
-    selected_settings = {
-        "spatial": "radial_N1536",
-        "temporal": "temporal_dt0.002",
-        "angular_width_0.5": "angular_w0p5_lmax42",
-    }
-    numerical: dict[tuple[int, int], dict[str, float]] = {}
-    for category, setting in selected_settings.items():
-        for row in convergence:
-            if row["category"] != category or row["setting"] != setting:
-                continue
-            key = (int(row["observer_index"]), int(row["pulse"]))
-            entry = numerical.setdefault(key, {})
-            prefix = category.split("_")[0]
-            entry[f"{prefix}_timing_over_M"] = row["arrival_time_error_over_M"]
-            entry[f"{prefix}_relative_amplitude"] = row["relative_amplitude_error"]
-            entry[f"{prefix}_relative_energy"] = row["relative_flux_energy_error"]
-            entry[f"{prefix}_phase_radians"] = row["phase_error_radians"]
-            entry[f"{prefix}_focus_width_radians"] = row[
-                "angular_focus_width_error_radians"
-            ]
-    source_categories = {
-        "schwarzschild": ("source_width", "width_w0p7"),
-        "sds_L12": ("source_width_sds_L20", "width_sds_L20_w0p7"),
-        "sds_L20": ("source_width_sds_L20", "width_sds_L20_w0p7"),
-        "sds_L40": ("source_width_sds_L20", "width_sds_L20_w0p7"),
-        "sds_L80": ("source_width_sds_L80", "width_sds_L80_w0p7"),
-        "sds_L160": ("source_width_sds_L80", "width_sds_L80_w0p7"),
-    }
-    source_width: dict[tuple[str, int, int], dict[str, float]] = {}
-    for case, (category, setting) in source_categories.items():
-        for row in convergence:
-            if row["category"] != category or row["setting"] != setting:
-                continue
-            source_width[(case, int(row["observer_index"]), int(row["pulse"]))] = {
-                "source_width_timing_over_M": row["arrival_time_error_over_M"],
-                "source_width_relative_amplitude": row["relative_amplitude_error"],
-                "source_width_relative_energy": row["relative_flux_energy_error"],
-                "source_width_phase_radians": row["phase_error_radians"],
-                "source_width_focus_width_radians": row[
-                    "angular_focus_width_error_radians"
-                ],
-            }
+def error_budget_rows(output_dir: Path, pulse_rows: list[dict]) -> list[dict]:
+    """Build a D1 budget without decomposing it into independent pulse errors."""
+
+    delay_rows = delay_shift_rows(
+        [row for row in pulse_rows if row["case"] != "sds_L12"]
+    )
+    convergence = d1_convergence_rows(output_dir)
+    width_rows = source_width_delay_rows(output_dir)
     observer_index = {"r8M": 0, "r12M": 1, "outer": 2}
-    delay_rows = delay_shift_rows(pulse_rows)
-    shifts = {
-        (row["cosmological_length_over_M"], row["observer"]): abs(
-            row["delay_shift_over_M"]
-        )
-        for row in delay_rows
-    }
     rows: list[dict] = []
-    for pulse in pulse_rows:
-        if pulse["observer"] not in observer_index:
-            continue
-        key = (observer_index[pulse["observer"]], int(pulse["pulse"]))
-        components = numerical.get(key, {})
-        source_components = source_width.get((pulse["case"], *key), {})
-        timing_components = [
-            pulse["timing_systematic"],
-            pulse["cadence_uncertainty"],
-            *[
-                value
-                for name, value in components.items()
-                if name.endswith("timing_over_M")
-            ],
+    for measured in delay_rows:
+        length = int(measured["cosmological_length_over_M"])
+        observer = measured["observer"]
+        index = observer_index[observer]
+        components = {
+            row["category"]: row["D1_error_over_M"]
+            for row in convergence
+            if row["cosmological_length_over_M"] == length
+            and row["observer_index"] == index
+        }
+        width = next(
+            (
+                row["difference_from_narrow_over_M"]
+                for row in width_rows
+                if row["cosmological_length_over_M"] == length
+                and row["observer"] == observer
+                and row["width_scale"] == "0.7"
+            ),
+            np.nan,
+        )
+        complete = all(
+            name in components for name in ("spatial", "temporal", "angular")
+        ) and np.isfinite(width)
+        values = [
+            measured["estimator_sensitivity_over_M"],
+            *components.values(),
+            width,
         ]
-        fixed_source_timing = float(
-            np.sqrt(np.sum(np.asarray(timing_components) ** 2))
-        )
-        total_timing = float(
-            np.hypot(
-                fixed_source_timing,
-                source_components.get("source_width_timing_over_M", 0.0),
-            )
-        )
-        length = pulse["cosmological_length_over_M"]
-        claimed = shifts.get((length, pulse["observer"]), np.nan)
-        target = min(0.01, 0.1 * claimed) if np.isfinite(claimed) else 0.01
+        total = float(np.sqrt(np.sum(np.square(values)))) if complete else np.nan
         rows.append(
             {
-                "case": pulse["case"],
-                "observer": pulse["observer"],
-                "pulse": pulse["pulse"],
-                **components,
-                **source_components,
-                "estimator_timing_over_M": pulse["timing_systematic"],
-                "cadence_timing_over_M": pulse["cadence_uncertainty"],
-                "fixed_source_timing_uncertainty_over_M": fixed_source_timing,
-                "total_timing_uncertainty_over_M": total_timing,
-                "timing_target_over_M": target,
-                "fixed_source_timing_claim_resolved": fixed_source_timing <= target,
-                "timing_claim_resolved": total_timing <= target,
+                **measured,
+                "spatial_D1_error_over_M": components.get("spatial", np.nan),
+                "temporal_D1_error_over_M": components.get("temporal", np.nan),
+                "angular_D1_error_over_M": components.get("angular", np.nan),
+                "same_L_source_width_D1_sensitivity_over_M": width,
+                "total_D1_uncertainty_over_M": total,
+                "budget_complete": complete,
+                "D1_resolved": bool(
+                    complete and abs(measured["delay_shift_over_M"]) > total
+                ),
             }
         )
     return rows
@@ -512,13 +498,22 @@ def create_report(output_dir: Path) -> list[Path]:
     delay_rows = delay_shift_rows(
         [row for row in pulse_rows if row["case"] != "sds_L12"]
     )
-    fit_rows = scaling_fit_rows(delay_rows)
     width_delay_rows = source_width_delay_rows(output_dir)
     ray_rows = ray_timing_rows(pulse_rows)
     monopole_rows = monopole_subtracted_rows(output_dir)
     angular_rows, angular_phase_rows = generic_angle_rows(output_dir)
     convergence = convergence_rows(output_dir)
-    budget_rows = error_budget_rows(pulse_rows, convergence)
+    d1_convergence = d1_convergence_rows(output_dir)
+    budget_rows = error_budget_rows(output_dir, pulse_rows)
+    budget_lookup = {
+        (row["cosmological_length_over_M"], row["observer"]): row
+        for row in budget_rows
+    }
+    for row in delay_rows:
+        budget = budget_lookup[(row["cosmological_length_over_M"], row["observer"])]
+        row["total_uncertainty_over_M"] = budget["total_D1_uncertainty_over_M"]
+        row["budget_complete"] = budget["budget_complete"]
+    fit_rows = scaling_fit_rows(delay_rows)
     written = [
         _write_csv(tables / "production_pulses.csv", pulse_rows),
         _write_csv(tables / "production_phase.csv", phase_rows),
@@ -531,10 +526,15 @@ def create_report(output_dir: Path) -> list[Path]:
         _write_csv(tables / "production_generic_phase.csv", angular_phase_rows),
         _write_csv(tables / "full_error_budget.csv", budget_rows),
         _write_csv(tables / "observable_convergence.csv", convergence),
+        _write_csv(tables / "D1_convergence.csv", d1_convergence),
         plot_delay_scaling(output_dir / "production_timing_scaling.png", delay_rows),
         plot_ray_residuals(output_dir / "production_ray_residuals.png", ray_rows),
-        plot_production_collapse(output_dir / "production_clock_collapse.png", angular_rows),
-        plot_damping_phase(output_dir / "production_damping_phase.png", angular_phase_rows),
+        plot_production_collapse(
+            output_dir / "production_clock_collapse.png", angular_rows
+        ),
+        plot_damping_phase(
+            output_dir / "production_damping_phase.png", angular_phase_rows
+        ),
     ]
     summary = {
         "pulses": pulse_rows,
@@ -547,6 +547,7 @@ def create_report(output_dir: Path) -> list[Path]:
         "generic_angles": angular_rows,
         "generic_phase": angular_phase_rows,
         "convergence": convergence,
+        "D1_convergence": d1_convergence,
         "error_budget": budget_rows,
     }
     path = output_dir / "production_summary.json"

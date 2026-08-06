@@ -74,11 +74,11 @@ def _run(
     numerical: SourcedNumericalParameters,
     cosmological_length: float = 80.0,
     backend: str = "finite_difference",
-    force: bool = False,
 ) -> Path:
-    if path.exists() and not force:
-        LOGGER.info("reusing %s", path)
-        return path
+    if path.exists():
+        raise FileExistsError(
+            f"Refusing to reuse or overwrite production archive: {path}"
+        )
     if background == "sds" and cosmological_length == 12.0 and not l12_safety()["safe"]:
         raise ValueError("The L/M=12 source or observer is not safely inside the horizons.")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -107,7 +107,11 @@ def _run(
         ),
         "l12_safety": l12_safety() if cosmological_length == 12.0 else None,
     }
-    result.save(path)
+    temporary = path.with_suffix(".incomplete.npz")
+    if temporary.exists():
+        raise FileExistsError(f"Remove incomplete archive before retrying: {temporary}")
+    result.save(temporary)
+    temporary.rename(path)
     return path
 
 
@@ -176,6 +180,34 @@ def sds_width_cases() -> dict[str, tuple[float, SourcedNumericalParameters]]:
     return cases
 
 
+def sds_d1_convergence_cases() -> dict[str, tuple[float, SourcedNumericalParameters]]:
+    """Case specific ladders used to evaluate D1 at L/M 20 and 80."""
+
+    cases: dict[str, tuple[float, SourcedNumericalParameters]] = {}
+    settings = {
+        "radial_N1536": replace(BASE, radial_resolution=1536),
+        "radial_N2048": replace(BASE, radial_resolution=2048),
+        "temporal_dt0.002": replace(
+            BASE, radial_resolution=768, timestep=0.002, signal_dt=0.002
+        ),
+        "temporal_dt0.001": replace(
+            BASE, radial_resolution=768, timestep=0.001, signal_dt=0.001
+        ),
+        "angular_w0p5_lmax42": replace(
+            BASE, radial_resolution=1024, timestep=0.002, signal_dt=0.002,
+            angular_ell_max=42,
+        ),
+        "angular_w0p5_lmax46": replace(
+            BASE, radial_resolution=1024, timestep=0.002, signal_dt=0.002,
+            angular_ell_max=46,
+        ),
+    }
+    for length in (20, 80):
+        for setting, numerical in settings.items():
+            cases[f"sds_L{length}_{setting}"] = (float(length), numerical)
+    return cases
+
+
 def cross_code_cases() -> dict[str, tuple[str, float]]:
     return {
         "cross_schwarzschild": ("schwarzschild", 80.0),
@@ -187,7 +219,6 @@ def run_named_case(
     output_dir: Path,
     name: str,
     *,
-    force: bool = False,
     backend: str = "finite_difference",
 ) -> Path:
     pilots = pilot_cases()
@@ -199,7 +230,6 @@ def run_named_case(
             source=source_for_width(scale),
             numerical=numerical,
             backend=backend,
-            force=force,
         )
     sds_widths = sds_width_cases()
     if name in sds_widths:
@@ -212,7 +242,17 @@ def run_named_case(
             numerical=numerical,
             cosmological_length=length,
             backend=backend,
-            force=force,
+        )
+    d1_cases = sds_d1_convergence_cases()
+    if name in d1_cases:
+        length, numerical = d1_cases[name]
+        return _run(
+            Path(output_dir) / "pilots" / "raw" / f"{name}.npz",
+            background="sds",
+            source=source_for_width(0.5),
+            numerical=numerical,
+            cosmological_length=length,
+            backend=backend,
         )
     productions = production_cases()
     if name in productions:
@@ -226,7 +266,6 @@ def run_named_case(
             numerical=numerical,
             cosmological_length=length,
             backend=backend,
-            force=force,
         )
     cross_cases = cross_code_cases()
     if name in cross_cases:
@@ -247,7 +286,6 @@ def run_named_case(
             numerical=numerical,
             cosmological_length=length,
             backend=backend,
-            force=force,
         )
     raise ValueError(f"Unknown production case {name!r}.")
 
@@ -261,13 +299,13 @@ def main() -> None:
     parser.add_argument(
         "--backend", choices=("finite_difference", "dedalus"), default="finite_difference"
     )
-    parser.add_argument("--force", action="store_true")
     arguments = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     if not arguments.cases:
         for name in (
             *pilot_cases(),
             *sds_width_cases(),
+            *sds_d1_convergence_cases(),
             *production_cases(),
             *cross_code_cases(),
         ):
@@ -278,7 +316,6 @@ def main() -> None:
             run_named_case(
                 arguments.output_dir,
                 name,
-                force=arguments.force,
                 backend=arguments.backend,
             )
         )

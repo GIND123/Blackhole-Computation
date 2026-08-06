@@ -237,6 +237,84 @@ def pulse_measurements(
     return pulse_rows, phase_rows
 
 
+def d1_rows(
+    sds: SourcedSimulationResult,
+    schwarzschild: SourcedSimulationResult,
+) -> list[dict]:
+    """Measure D1 directly from paired archives with one timing pipeline."""
+
+    sds_pulses, _ = pulse_measurements(sds, schwarzschild)
+    schwarzschild_pulses, _ = pulse_measurements(schwarzschild, schwarzschild)
+    rows: list[dict] = []
+    for observer in range(sds.observer_areal_radius.size):
+        candidate = [
+            row for row in sds_pulses if row["observer_index"] == observer
+        ]
+        reference = [
+            row for row in schwarzschild_pulses if row["observer_index"] == observer
+        ]
+        analytic = (
+            candidate[1]["analytic_time"]
+            - candidate[0]["analytic_time"]
+            - reference[1]["analytic_time"]
+            + reference[0]["analytic_time"]
+        )
+        matched = (
+            candidate[1]["matched_time"]
+            - candidate[0]["matched_time"]
+            - reference[1]["matched_time"]
+            + reference[0]["matched_time"]
+        )
+        rows.append(
+            {
+                "observer_index": observer,
+                "observer_radius_over_M": float(sds.observer_areal_radius[observer]),
+                "primary_estimator": "tapered_analytic_envelope",
+                "D1_over_M": float(analytic),
+                "matched_template_D1_over_M": float(matched),
+                "estimator_sensitivity_over_M": abs(float(analytic - matched)),
+            }
+        )
+    return rows
+
+
+def d1_convergence_rows(output_dir: Path) -> list[dict]:
+    """Compare paired four time D1 values for representative SdS cases."""
+
+    raw = Path(output_dir) / "pilots" / "raw"
+    rows: list[dict] = []
+    groups = {
+        "spatial": ("radial_N1536", "radial_N2048"),
+        "temporal": ("temporal_dt0.002", "temporal_dt0.001"),
+        "angular": ("angular_w0p5_lmax42", "angular_w0p5_lmax46"),
+    }
+    for length in (20, 80):
+        for category, (setting, reference_setting) in groups.items():
+            schwarzschild = load_sourced_result(raw / f"{setting}.npz")
+            schwarzschild_reference = load_sourced_result(
+                raw / f"{reference_setting}.npz"
+            )
+            sds = load_sourced_result(raw / f"sds_L{length}_{setting}.npz")
+            sds_reference = load_sourced_result(
+                raw / f"sds_L{length}_{reference_setting}.npz"
+            )
+            measured = d1_rows(sds, schwarzschild)
+            reference = d1_rows(sds_reference, schwarzschild_reference)
+            for value, target in zip(measured, reference):
+                rows.append(
+                    {
+                        "cosmological_length_over_M": length,
+                        "category": category,
+                        "setting": setting,
+                        "reference_setting": reference_setting,
+                        **value,
+                        "reference_D1_over_M": target["D1_over_M"],
+                        "D1_error_over_M": abs(value["D1_over_M"] - target["D1_over_M"]),
+                    }
+                )
+    return rows
+
+
 def compare_observables(
     candidate: SourcedSimulationResult,
     reference: SourcedSimulationResult,
@@ -384,6 +462,33 @@ def cross_code_rows(output_dir: Path) -> list[dict]:
     return rows
 
 
+def cross_code_d1_rows(output_dir: Path) -> list[dict]:
+    """Compare the complete D1 observable between numerical backends."""
+
+    root = Path(output_dir) / "cross_code"
+    finite_difference = d1_rows(
+        load_sourced_result(root / "finite_difference" / "sds_L80.npz"),
+        load_sourced_result(root / "finite_difference" / "schwarzschild.npz"),
+    )
+    dedalus = d1_rows(
+        load_sourced_result(root / "dedalus" / "sds_L80.npz"),
+        load_sourced_result(root / "dedalus" / "schwarzschild.npz"),
+    )
+    rows: list[dict] = []
+    for measured, reference in zip(dedalus, finite_difference):
+        rows.append(
+            {
+                **measured,
+                "case": "sds_L80_minus_schwarzschild",
+                "backend": "dedalus",
+                "reference_backend": "finite_difference",
+                "reference_D1_over_M": reference["D1_over_M"],
+                "D1_error_over_M": abs(measured["D1_over_M"] - reference["D1_over_M"]),
+            }
+        )
+    return rows
+
+
 def plot_convergence(path: Path, rows: list[dict]) -> Path:
     figure, axes = plt.subplots(2, 2, figsize=(11.0, 7.5))
     metrics = (
@@ -433,8 +538,11 @@ def create_analysis(output_dir: Path, *, include_cross_code: bool = False) -> li
     summary: dict = {"convergence": rows}
     if include_cross_code:
         cross_rows = cross_code_rows(output_dir)
+        cross_d1 = cross_code_d1_rows(output_dir)
         written.append(_write_csv(tables / "cross_code_observables.csv", cross_rows))
+        written.append(_write_csv(tables / "cross_code_D1.csv", cross_d1))
         summary["cross_code"] = cross_rows
+        summary["cross_code_D1"] = cross_d1
     path = output_dir / "production_analysis.json"
     path.write_text(
         json.dumps(json_safe(summary), indent=2, allow_nan=False),
