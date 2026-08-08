@@ -1,0 +1,39 @@
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_schwarzschild_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L160_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L20_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L320_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L40_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L640_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L80_coarse --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_schwarzschild_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L160_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L20_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L320_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L40_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L640_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L80_fine --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_schwarzschild_medium --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L160_medium --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L20_medium --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L320_medium --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L40_medium --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L640_medium --output-dir results/regulator_production_v3
+OMP_NUM_THREADS=1 python -m black_hole.regulator_suite flat_sds_L80_medium --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_schwarzschild_coarse --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L160_coarse --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L320_coarse --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L640_coarse --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L80_coarse --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_schwarzschild_fine --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L160_fine --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L320_fine --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L640_fine --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L80_fine --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_schwarzschild_medium --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L160_medium --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L320_medium --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L640_medium --output-dir results/regulator_production_v3
+python -m black_hole.regulator_suite source_sds_L80_medium --output-dir results/regulator_production_v3
+python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3
+python -m black_hole.regulator_manifest --output-dir results/regulator_production_v3
+python -m black_hole.regulator_manifest --output-dir results/regulator_production_v3 --verify

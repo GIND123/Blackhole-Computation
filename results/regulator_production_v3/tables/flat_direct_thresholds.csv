@@ -1,0 +1,10 @@
+window,threshold_fraction,smallest_L_over_M,status,criterion
+prompt_and_early_ringdown,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+prompt_and_early_ringdown,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+prompt_and_early_ringdown,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+radiative_signal,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+radiative_signal,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+radiative_signal,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+extended_finite_time,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+extended_finite_time,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+extended_finite_time,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold

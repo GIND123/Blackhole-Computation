@@ -1,0 +1,4 @@
+observer,model,fit_status,input_lengths_over_M,excluded_diagnostic_lengths_over_M,a2,a4,rms_residual_over_M,chi_squared,degrees_of_freedom,fit_weights,b1,b2
+r8M,a2_M2_over_L2_plus_a4_M4_over_L4,quantitative_case_specific_errors,80;160;320,640,423.5323710992949,42665.25538881321,2.602997074783759e-05,0.005505243820618677,1,"case-specific quadrature of separately tabulated discretization, estimator, and window timing terms",,
+r12M,a2_M2_over_L2_plus_a4_M4_over_L4,quantitative_case_specific_errors,80;160;320,640,401.177701603123,36289.262067416814,1.7354512197889455e-05,0.0006211097128178555,1,"case-specific quadrature of separately tabulated discretization, estimator, and window timing terms",,
+outer,b1_M_over_L_plus_b2_M2_over_L2,quantitative_case_specific_errors,80;160;320;640,,,,8.432444515252399e-05,0.0004950139332270709,2,"case-specific quadrature of separately tabulated discretization, estimator, and window timing terms",20.401255317013554,370.4420665541236
