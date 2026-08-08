@@ -12,6 +12,8 @@ from pathlib import Path
 
 import numpy as np
 
+from .reproducibility import reproducibility_metadata
+
 
 @dataclass
 class SdSSimulationResult:
@@ -32,6 +34,7 @@ class SdSSimulationResult:
     def save(self, path: Path) -> None:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
+        self.metadata.setdefault("reproducibility", reproducibility_metadata())
         np.savez_compressed(
             path,
             rho=self.rho,

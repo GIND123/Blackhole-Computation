@@ -138,7 +138,9 @@ def _run_scalar_simulation(
         # variable with the derivative of the represented u itself.  This is
         # the spectrally consistent realization of psi=(du/dr)(dr/d rho) and
         # prevents an avoidable O(truncation) first-order constraint at t=0.
-        psi["g"] = np.asarray(drho(u).evaluate()["g"]).ravel()
+        represented_derivative = drho(u).evaluate()
+        represented_derivative.change_scales(1)
+        psi["g"] = np.asarray(represented_derivative["g"]).ravel()
         if initial.time_symmetric:
             pi["g"] = -np.asarray(coefficient_b["g"]).ravel() * psi["g"]
 
