@@ -60,10 +60,10 @@ stage-accurate Killing-time forcing and archive-compatible modal outputs.
 > diagnostics, figures, and convergence runs are stored together in this
 > repository.
 
-## Artificial-cosmology regulator result
+## Artificial cosmology regulator result
 
-The latest production sequence extends the fixed-data minimal-gauge waveform
-and localized-source calculations through `L/M = 320, 640`, with three fresh
+The latest production sequence extends the fixed data minimal gauge waveform
+and localized source calculations through `L/M = 320, 640`, with three fresh
 resolution levels for every case. The two requested nested extrapolants agree
 with the direct Schwarzschild waveform and with each other to at worst
 `0.0314%` in relative L2 norm over fixed windows through `U/M = 160`; their
@@ -73,9 +73,9 @@ regulator test, so `L/M = 1280` was not run.
 Direct 5% agreement first occurs at `L/M = 320`, direct 2% agreement first
 occurs at `L/M = 640`, and direct 1% agreement is not reached through 640.
 The timing analysis separates discretization, estimator, and window terms,
-excludes source-width dependence from numerical error, and treats both local
+excludes source width dependence from numerical error, and treats both local
 `L/M = 640` timing values as diagnostic. All `L/M = 12` phase pairs that fail
-the null-ray arrival check are excluded.
+the null ray arrival check are excluded.
 
 The full methods, tables, figures, limitations, and reproduction commands are
 in [`docs/REGULATOR.md`](docs/REGULATOR.md).
@@ -198,8 +198,8 @@ remain the next stage; they are not conflated with this pure-mode benchmark.
 ## Normalized localized response and caustic echoes
 
 This section summarizes the historical v2 production study. Its mixed
-source-width error budget and `L/M = 12` phase handling are superseded by the
-separated-error and null-ray-consistency cleanup in
+source width error budget and `L/M = 12` phase handling are superseded by the
+separated error and null ray consistency cleanup in
 [`docs/REGULATOR.md`](docs/REGULATOR.md).
 
 The final caustic study uses a covariantly normalized localized source at
