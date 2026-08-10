@@ -1,26 +1,27 @@
-\begin{table}
+\begin{table*}
 \centering
-\caption{Nested flat-waveform extrapolants. Central residuals are not resolved-accuracy estimates; refinement is the directly observed medium-to-fine residual change.}
+\small
+\caption{Nested extrapolants for the pure $\ell=2$ fixed-data sequence. The central residual, directly observed medium-to-fine change, and propagated Richardson estimate are distinct quantities.}
 \label{tab:flat-extrapolants}
-\begin{tabular}{lllrr}
+\begin{tabular}{llrrrl}
 \toprule
-comparison & window & central residual (\%) & refinement (\%) & status \\
+comparison & interval & central residual (\%) & observed refinement (\%) & Richardson estimate (\%) & status \\
 \midrule
-Winf\_L80\_vs\_Schwarzschild & prompt\_and\_early\_ringdown & 0.0217 & 0.0469 & Q \\
-Winf\_L80\_vs\_Schwarzschild & radiative\_signal & 0.0222 & 0.1124 & Q \\
-Winf\_L80\_vs\_Schwarzschild & extended\_finite\_time & 0.0222 & 0.2666 & Q \\
-Winf\_L80\_vs\_Schwarzschild & early\_ringdown & 0.0957 & 2.1322 & D \\
-Winf\_L80\_vs\_Schwarzschild & late\_time & 0.8518 & 263.6959 & D \\
-Winf\_L160\_vs\_Schwarzschild & prompt\_and\_early\_ringdown & 0.0109 & 0.0190 & Q \\
-Winf\_L160\_vs\_Schwarzschild & radiative\_signal & 0.0142 & 0.0523 & Q \\
-Winf\_L160\_vs\_Schwarzschild & extended\_finite\_time & 0.0265 & 0.1430 & Q \\
-Winf\_L160\_vs\_Schwarzschild & early\_ringdown & 0.1882 & 1.0164 & D \\
-Winf\_L160\_vs\_Schwarzschild & late\_time & 24.3986 & 145.1404 & D \\
-Winf\_L80\_vs\_Winf\_L160 & prompt\_and\_early\_ringdown & 0.0186 & 0.0657 & Q \\
-Winf\_L80\_vs\_Winf\_L160 & radiative\_signal & 0.0211 & 0.1643 & Q \\
-Winf\_L80\_vs\_Winf\_L160 & extended\_finite\_time & 0.0313 & 0.4092 & Q \\
-Winf\_L80\_vs\_Winf\_L160 & early\_ringdown & 0.2105 & 3.1441 & D \\
-Winf\_L80\_vs\_Winf\_L160 & late\_time & 24.6156 & 408.7846 & D \\
+$W_\infty^{(80)}-W_{\rm Schw}$ & $0\leq U/M\leq 40$ & 0.0217 & 0.0469 & 0.0271 & 1\% test \\
+$W_\infty^{(80)}-W_{\rm Schw}$ & $0\leq U/M\leq 80$ & 0.0222 & 0.1124 & 0.0428 & 1\% test \\
+$W_\infty^{(80)}-W_{\rm Schw}$ & $0\leq U/M\leq 160$ & 0.0222 & 0.2666 & 0.0777 & 1\% test \\
+$W_\infty^{(80)}-W_{\rm Schw}$ & $40\leq U/M\leq 80$ & 0.0957 & 2.1322 & 0.7704 & diagnostic \\
+$W_\infty^{(80)}-W_{\rm Schw}$ & $80\leq U/M\leq 160$ & 0.8518 & 263.6959 & 73.7109 & diagnostic \\
+$W_\infty^{(160)}-W_{\rm Schw}$ & $0\leq U/M\leq 40$ & 0.0109 & 0.0190 & 0.0091 & 1\% test \\
+$W_\infty^{(160)}-W_{\rm Schw}$ & $0\leq U/M\leq 80$ & 0.0142 & 0.0523 & 0.0195 & 1\% test \\
+$W_\infty^{(160)}-W_{\rm Schw}$ & $0\leq U/M\leq 160$ & 0.0265 & 0.1430 & 0.0413 & 1\% test \\
+$W_\infty^{(160)}-W_{\rm Schw}$ & $40\leq U/M\leq 80$ & 0.1882 & 1.0164 & 0.3665 & diagnostic \\
+$W_\infty^{(160)}-W_{\rm Schw}$ & $80\leq U/M\leq 160$ & 24.3986 & 145.1404 & 39.9353 & diagnostic \\
+$W_\infty^{(80)}-W_\infty^{(160)}$ & $0\leq U/M\leq 40$ & 0.0186 & 0.0657 & 0.0362 & 1\% test \\
+$W_\infty^{(80)}-W_\infty^{(160)}$ & $0\leq U/M\leq 80$ & 0.0211 & 0.1643 & 0.0623 & 1\% test \\
+$W_\infty^{(80)}-W_\infty^{(160)}$ & $0\leq U/M\leq 160$ & 0.0313 & 0.4092 & 0.1189 & 1\% test \\
+$W_\infty^{(80)}-W_\infty^{(160)}$ & $40\leq U/M\leq 80$ & 0.2105 & 3.1441 & 1.1369 & diagnostic \\
+$W_\infty^{(80)}-W_\infty^{(160)}$ & $80\leq U/M\leq 160$ & 24.6156 & 408.7846 & 113.6462 & diagnostic \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

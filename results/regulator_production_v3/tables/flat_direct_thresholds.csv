@@ -1,16 +1,16 @@
-window,window_family,threshold_fraction,smallest_L_over_M,status,criterion
-prompt_and_early_ringdown,cumulative,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-prompt_and_early_ringdown,cumulative,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-prompt_and_early_ringdown,cumulative,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
-radiative_signal,cumulative,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-radiative_signal,cumulative,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-radiative_signal,cumulative,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
-extended_finite_time,cumulative,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-extended_finite_time,cumulative,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-extended_finite_time,cumulative,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
-early_ringdown,disjoint,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-early_ringdown,disjoint,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
-early_ringdown,disjoint,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
-late_time,disjoint,0.05,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
-late_time,disjoint,0.02,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
-late_time,disjoint,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+waveform_family,threshold_scope,window,window_family,threshold_fraction,smallest_L_over_M,status,criterion
+pure_ell2_fixed_data,pure_ell2_direct_error_only,prompt_and_early_ringdown,cumulative,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,prompt_and_early_ringdown,cumulative,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,prompt_and_early_ringdown,cumulative,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,radiative_signal,cumulative,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,radiative_signal,cumulative,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,radiative_signal,cumulative,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,extended_finite_time,cumulative,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,extended_finite_time,cumulative,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,extended_finite_time,cumulative,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,early_ringdown,disjoint,0.05,320,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,early_ringdown,disjoint,0.02,640,attained_with_numerical_margin,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,early_ringdown,disjoint,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,late_time,disjoint,0.05,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,late_time,disjoint,0.02,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold
+pure_ell2_fixed_data,pure_ell2_direct_error_only,late_time,disjoint,0.01,,not_attained_through_L640,E2 + conservative numerical E2 <= threshold

@@ -1,21 +1,22 @@
-\begin{table}
+\begin{table*}
 \centering
-\caption{Direct fixed-data regulator comparison. Q denotes quantitative; D denotes diagnostic because observed refinement is not subdominant.}
+\small
+\caption{Direct regulator errors for the pure $\ell=2$ fixed-data sequence. These thresholds do not apply to the localized-source calculation.}
 \label{tab:flat-regulator-windows}
-\begin{tabular}{rrrrrr}
+\begin{tabular}{rlrrrl}
 \toprule
-$L/M$ & window & $E_2$ (\%) & $E_\infty$ (\%) & refinement (\%) & status \\
+$L/M$ & interval & $E_2$ (\%) & $E_\infty$ (\%) & observed $N_{\rm med}-N_{\rm fine}$ (\%) & status \\
 \midrule
-320 & prompt\_and\_early\_ringdown & 2.7161 & 2.8160 & 0.0275 & Q \\
-320 & radiative\_signal & 2.7154 & 2.8160 & 0.0643 & Q \\
-320 & extended\_finite\_time & 2.7154 & 2.8160 & 0.1478 & Q \\
-320 & early\_ringdown & 2.4145 & 2.0113 & 1.2126 & D \\
-320 & late\_time & 5.5766 & 1.8859 & 145.1606 & D \\
-640 & prompt\_and\_early\_ringdown & 1.3406 & 1.3937 & 0.0114 & Q \\
-640 & radiative\_signal & 1.3402 & 1.3937 & 0.0239 & Q \\
-640 & extended\_finite\_time & 1.3402 & 1.3937 & 0.0465 & Q \\
-640 & early\_ringdown & 1.1547 & 0.9708 & 0.4380 & D \\
-640 & late\_time & 7.0146 & 2.0280 & 43.4837 & D \\
+320 & $0\leq U/M\leq 40$ & 2.7161 & 2.8160 & 0.0275 & quantitative \\
+320 & $0\leq U/M\leq 80$ & 2.7154 & 2.8160 & 0.0643 & quantitative \\
+320 & $0\leq U/M\leq 160$ & 2.7154 & 2.8160 & 0.1478 & quantitative \\
+320 & $40\leq U/M\leq 80$ & 2.4145 & 2.0113 & 1.2126 & diagnostic \\
+320 & $80\leq U/M\leq 160$ & 5.5766 & 1.8859 & 145.1606 & diagnostic \\
+640 & $0\leq U/M\leq 40$ & 1.3406 & 1.3937 & 0.0114 & quantitative \\
+640 & $0\leq U/M\leq 80$ & 1.3402 & 1.3937 & 0.0239 & quantitative \\
+640 & $0\leq U/M\leq 160$ & 1.3402 & 1.3937 & 0.0465 & quantitative \\
+640 & $40\leq U/M\leq 80$ & 1.1547 & 0.9708 & 0.4380 & diagnostic \\
+640 & $80\leq U/M\leq 160$ & 7.0146 & 2.0280 & 43.4837 & diagnostic \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
