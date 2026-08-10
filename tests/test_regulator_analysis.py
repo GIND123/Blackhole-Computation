@@ -8,6 +8,7 @@ import numpy as np
 from black_hole.regulator_analysis import (
     _effective_order,
     l12_phase_cleanup,
+    sphere_modal_metrics,
     waveform_metrics,
 )
 
@@ -32,6 +33,22 @@ class RegulatorAnalysisTests(unittest.TestCase):
             coarse_medium, medium_fine, *resolutions
         )
         self.assertAlmostEqual(measured, order, places=10)
+
+    def test_sphere_modal_metric_uses_parseval_weights(self) -> None:
+        times = np.linspace(0.0, 10.0, 1001)
+        reference = np.column_stack((np.sin(times), 0.5 * np.cos(2.0 * times)))
+        candidate = 1.1 * reference
+        measured = sphere_modal_metrics(
+            times,
+            candidate,
+            reference,
+            np.asarray([1.0, 7.0]),
+            0.0,
+            10.0,
+        )
+        self.assertAlmostEqual(measured["E2"], 0.1, places=12)
+        self.assertAlmostEqual(measured["sphere_integrated_norm_ratio"], 1.1, places=12)
+        self.assertEqual(measured["primary_measure"], "sphere_integrated_modal_norm_Parseval")
 
     def test_every_L12_phase_pair_is_excluded(self) -> None:
         rows = l12_phase_cleanup(Path.cwd())

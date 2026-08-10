@@ -64,18 +64,28 @@ stage-accurate Killing-time forcing and archive-compatible modal outputs.
 
 The latest production sequence extends the fixed data minimal gauge waveform
 and localized source calculations through `L/M = 320, 640`, with three fresh
-resolution levels for every case. The two requested nested extrapolants agree
-with the direct Schwarzschild waveform and with each other to at worst
-`0.0314%` in relative L2 norm over fixed windows through `U/M = 160`; their
-largest propagated numerical error is `0.119%`. This passes the requested 1%
-regulator test, so `L/M = 1280` was not run.
+resolution levels for every case. For the cumulative, prompt-dominated flat
+norms, `0.0314%` is the largest central extrapolant residual, not a resolved
+accuracy estimate. The directly observed medium-to-fine extrapolant changes
+reach `0.409%`, and the propagated estimated fine-grid scale reaches `0.119%`.
+This supports the conservative 1% regulator conclusion, so `L/M = 1280` was
+not run. Disjoint windows are also reported and do not support a uniform
+late-time 1% claim.
+
+Applying the full extrapolation to the localized-source modal archives gives
+sphere-integrated `E2(320) = 5.2671%`, `E2(640) = 2.6257%`, and a two-
+extrapolant difference of `0.05171%`, with caustic directions retained as
+secondary diagnostics.
 
 Direct 5% agreement first occurs at `L/M = 320`, direct 2% agreement first
 occurs at `L/M = 640`, and direct 1% agreement is not reached through 640.
-The timing analysis separates discretization, estimator, and window terms,
-excludes source width dependence from numerical error, and treats both local
-`L/M = 640` timing values as diagnostic. All `L/M = 12` phase pairs that fail
-the null ray arrival check are excluded.
+The timing analysis separately reports discretization, estimator, window,
+cadence, and physical source-width dependence. When the target fields are
+tested against the combined fixed-source deterministic sensitivity rather
+than PDE discretization alone, none of the requested `L/M = 320, 640` timing
+targets is met. These sensitivities are not interpreted statistically. Both
+local `L/M = 640` timings remain diagnostic, and all `L/M = 12` phase pairs
+that fail the null-ray arrival check are excluded.
 
 The full methods, tables, figures, limitations, and reproduction commands are
 in [`docs/REGULATOR.md`](docs/REGULATOR.md).

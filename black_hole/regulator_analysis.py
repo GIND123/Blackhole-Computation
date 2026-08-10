@@ -15,17 +15,24 @@ from scipy.signal import hilbert
 from scipy.signal.windows import tukey
 
 from .caustic_analysis import estimate_pulse
-from .caustic_study import direction_waveform
+from .caustic_study import direction_waveform, harmonic_matrix
 from .regulator_suite import FLAT_LENGTHS, LEVELS, SOURCE_LENGTHS
 from .sds_result import SdSSimulationResult, load_sds_result
 from .source_evolution import SourcedSimulationResult, load_sourced_result
 
 
-FIXED_WINDOWS = (
+CUMULATIVE_WINDOWS = (
     ("prompt_and_early_ringdown", 0.0, 40.0),
     ("radiative_signal", 0.0, 80.0),
     ("extended_finite_time", 0.0, 160.0),
 )
+DISJOINT_WINDOWS = (
+    ("prompt", 0.0, 40.0),
+    ("early_ringdown", 40.0, 80.0),
+    ("late_time", 80.0, 160.0),
+)
+FIXED_WINDOWS = CUMULATIVE_WINDOWS
+ANALYSIS_WINDOWS = CUMULATIVE_WINDOWS + DISJOINT_WINDOWS[1:]
 WINDOW_VARIANTS = {
     "primary": ((18.0, 35.0), (35.0, 53.0)),
     "inset_0p5M": ((18.5, 34.5), (35.5, 52.5)),
@@ -104,6 +111,10 @@ def _window_mask(times: np.ndarray, start: float, end: float) -> np.ndarray:
     return mask
 
 
+def _window_family(name: str) -> str:
+    return "cumulative" if name in {row[0] for row in CUMULATIVE_WINDOWS} else "disjoint"
+
+
 def waveform_metrics(
     times: np.ndarray,
     candidate: np.ndarray,
@@ -139,6 +150,75 @@ def waveform_metrics(
         "amplitude_difference_fraction": abs(float(np.abs(overlap)) - 1.0),
         "phase_difference_radians": float(np.angle(overlap)),
         "time_translation_fitted": False,
+    }
+
+
+def _sphere_modal_squared_norm(
+    times: np.ndarray,
+    responses: np.ndarray,
+    modal_power_by_ell: np.ndarray,
+    start: float,
+    end: float,
+) -> float:
+    mask = _window_mask(times, start, end)
+    density = np.sum(
+        np.asarray(responses[mask], dtype=float) ** 2
+        * np.asarray(modal_power_by_ell, dtype=float)[None, :],
+        axis=1,
+    )
+    return float(np.trapezoid(density, x=np.asarray(times[mask], dtype=float)))
+
+
+def sphere_modal_metrics(
+    times: np.ndarray,
+    candidate_responses: np.ndarray,
+    reference_responses: np.ndarray,
+    modal_power_by_ell: np.ndarray,
+    start: float,
+    end: float,
+) -> dict[str, float]:
+    r"""Metrics for ``\int dU dOmega |u|^2`` using modal orthogonality.
+
+    The compact source archives store one radial response per ``ell``.  The
+    factor supplied in ``modal_power_by_ell`` is ``sum_m |A_lm|^2``.  Thus
+    this evaluates the sphere-integrated norm without angular quadrature or
+    construction of the much larger expanded modal array.
+    """
+
+    mask = _window_mask(times, start, end)
+    local_times = np.asarray(times[mask], dtype=float)
+    candidate = np.asarray(candidate_responses[mask], dtype=float)
+    reference = np.asarray(reference_responses[mask], dtype=float)
+    weights = np.asarray(modal_power_by_ell, dtype=float)
+    difference = candidate - reference
+
+    reference_squared = _sphere_modal_squared_norm(
+        local_times, reference, weights, local_times[0], local_times[-1]
+    )
+    difference_squared = _sphere_modal_squared_norm(
+        local_times, difference, weights, local_times[0], local_times[-1]
+    )
+    candidate_squared = _sphere_modal_squared_norm(
+        local_times, candidate, weights, local_times[0], local_times[-1]
+    )
+    reference_instantaneous = np.sqrt(
+        np.sum(reference**2 * weights[None, :], axis=1)
+    )
+    difference_instantaneous = np.sqrt(
+        np.sum(difference**2 * weights[None, :], axis=1)
+    )
+    return {
+        "sphere_integrated_reference_l2": float(np.sqrt(reference_squared)),
+        "sphere_integrated_difference_l2": float(np.sqrt(difference_squared)),
+        "E2": float(np.sqrt(difference_squared / reference_squared)),
+        "Einf": float(
+            np.max(difference_instantaneous) / np.max(reference_instantaneous)
+        ),
+        "sphere_integrated_norm_ratio": float(
+            np.sqrt(candidate_squared / reference_squared)
+        ),
+        "time_translation_fitted": False,
+        "primary_measure": "sphere_integrated_modal_norm_Parseval",
     }
 
 
@@ -240,7 +320,7 @@ def flat_analysis(output_dir: Path) -> dict:
             level_candidate = _align_flat(level_results[float(length)], times)
             level_reference = _align_flat(level_results[None], times)
             paired_residuals[level] = level_candidate - level_reference
-        for window, start, end in FIXED_WINDOWS:
+        for window, start, end in ANALYSIS_WINDOWS:
             mask = _window_mask(times, start, end)
             denominator = _l2(reference[mask], times[mask])
             coarse_medium = _l2(
@@ -277,6 +357,7 @@ def flat_analysis(output_dir: Path) -> dict:
                 {
                     "cosmological_length_over_M": length,
                     "window": window,
+                    "window_family": _window_family(window),
                     "window_start_U_over_M": start,
                     "window_end_U_over_M": end,
                     "coarse_medium_paired_E2": coarse_medium,
@@ -293,23 +374,29 @@ def flat_analysis(output_dir: Path) -> dict:
 
     metric_rows: list[dict] = []
     for length in FLAT_LENGTHS:
-        for window, start, end in FIXED_WINDOWS:
+        for window, start, end in ANALYSIS_WINDOWS:
             metric_rows.append(
                 {
                     "cosmological_length_over_M": length,
                     "window": window,
+                    "window_family": _window_family(window),
                     "window_start_U_over_M": start,
                     "window_end_U_over_M": end,
                     **waveform_metrics(
                         times, fine_signals[length], reference, start, end
                     ),
                     "case_specific_numerical_E2": numerical_lookup[(length, window)],
+                    "analysis_status": (
+                        "quantitative"
+                        if numerical_lookup[(length, window)] < 0.002
+                        else "diagnostic_numerical_refinement_not_subdominant"
+                    ),
                 }
             )
 
     successive_rows: list[dict] = []
     for lower, upper in zip(FLAT_LENGTHS, FLAT_LENGTHS[1:]):
-        for window, start, end in FIXED_WINDOWS:
+        for window, start, end in ANALYSIS_WINDOWS:
             metrics = waveform_metrics(
                 times, fine_signals[upper], fine_signals[lower], start, end
             )
@@ -328,6 +415,7 @@ def flat_analysis(output_dir: Path) -> dict:
                     "lower_L_over_M": lower,
                     "upper_L_over_M": upper,
                     "window": window,
+                    "window_family": _window_family(window),
                     "window_start_U_over_M": start,
                     "window_end_U_over_M": end,
                     "successive_difference_E2_over_schwarzschild": successive,
@@ -384,7 +472,7 @@ def flat_analysis(output_dir: Path) -> dict:
         ("Winf_L80_vs_Winf_L160", extrapolants[80], extrapolants[160]),
     )
     for comparison, candidate, target in comparisons:
-        for window, start, end in FIXED_WINDOWS:
+        for window, start, end in ANALYSIS_WINDOWS:
             metrics = waveform_metrics(times, candidate, target, start, end)
             mask = _window_mask(times, start, end)
             denominator = _l2(reference[mask], times[mask])
@@ -408,20 +496,31 @@ def flat_analysis(output_dir: Path) -> dict:
                 {
                     "comparison": comparison,
                     "window": window,
+                    "window_family": _window_family(window),
                     "window_start_U_over_M": start,
                     "window_end_U_over_M": end,
                     **metrics,
                     "paired_medium_fine_numerical_E2": numerical,
                     "propagated_estimated_fine_numerical_E2": propagated_fine_error,
+                    "directly_observed_medium_fine_change_E2": numerical,
+                    "central_residual_is_resolved_accuracy": False,
+                    "central_residual_interpretation": (
+                        "central extrapolant residual; not a resolved accuracy estimate"
+                    ),
                     "agreement_within_1_percent": metrics["E2"] <= 0.01,
                     "numerical_below_0p2_percent": propagated_fine_error < 0.002,
                     "regulator_success": metrics["E2"] <= 0.01
                     and propagated_fine_error < 0.002,
+                    "analysis_status": (
+                        "quantitative"
+                        if propagated_fine_error < 0.002
+                        else "diagnostic_numerical_refinement_not_subdominant"
+                    ),
                 }
             )
 
     threshold_rows: list[dict] = []
-    for window, _, _ in FIXED_WINDOWS:
+    for window, _, _ in ANALYSIS_WINDOWS:
         selected = [row for row in metric_rows if row["window"] == window]
         for threshold in (0.05, 0.02, 0.01):
             qualified = [
@@ -432,6 +531,7 @@ def flat_analysis(output_dir: Path) -> dict:
             threshold_rows.append(
                 {
                     "window": window,
+                    "window_family": _window_family(window),
                     "threshold_fraction": threshold,
                     "smallest_L_over_M": (
                         min(row["cosmological_length_over_M"] for row in qualified)
@@ -492,17 +592,408 @@ def load_source_archives(
     return results
 
 
+def _source_modal_power_by_ell(
+    result: SourcedSimulationResult, maximum_ell: int
+) -> np.ndarray:
+    weights = np.zeros(maximum_ell + 1, dtype=float)
+    for ell in range(maximum_ell + 1):
+        weights[ell] = float(
+            np.sum(result.mode_source_amplitude[result.mode_ell == ell] ** 2)
+        )
+    return weights
+
+
+def _align_source_responses(
+    result: SourcedSimulationResult,
+    times: np.ndarray,
+    maximum_ell: int,
+) -> np.ndarray:
+    """Align compact outer-boundary responses onto one fixed ``U`` grid."""
+
+    aligned = np.zeros((times.size, maximum_ell + 1), dtype=np.float32)
+    observer = result.outer_index()
+    for source_index, ell in enumerate(result.response_ell):
+        ell = int(ell)
+        if ell <= maximum_ell:
+            aligned[:, ell] = np.interp(
+                times,
+                result.retarded_time,
+                result.response_signals[:, observer, source_index],
+            )
+    return aligned
+
+
+def _source_direction_coefficients(
+    result: SourcedSimulationResult, maximum_ell: int, phi: float
+) -> np.ndarray:
+    basis = harmonic_matrix(
+        result,
+        np.asarray([0.5 * np.pi]),
+        np.asarray([phi]),
+    )[:, 0]
+    coefficients = np.zeros(maximum_ell + 1, dtype=float)
+    for ell in range(maximum_ell + 1):
+        selected = result.mode_ell == ell
+        coefficients[ell] = float(
+            np.sum(result.mode_source_amplitude[selected] * basis[selected])
+        )
+    return coefficients
+
+
+def localized_waveform_analysis(
+    archives: dict[str, dict[float | None, SourcedSimulationResult]],
+) -> dict:
+    """Full fixed-source waveform extrapolation on existing raw archives."""
+
+    fine = archives["fine"]
+    reference_result = fine[None]
+    maximum_ell = int(np.max(reference_result.response_ell))
+    common_end = min(
+        float(result.retarded_time[-1])
+        for level in LEVELS
+        for result in archives[level].values()
+    )
+    reference_times = reference_result.retarded_time
+    inside = (reference_times >= 0.0) & (reference_times <= common_end)
+    times = reference_times[inside]
+    start, end = float(times[0]), float(times[-1])
+    weights = _source_modal_power_by_ell(reference_result, maximum_ell)
+    fine_responses = {
+        length: _align_source_responses(result, times, maximum_ell)
+        for length, result in fine.items()
+    }
+    reference = fine_responses[None]
+    reference_squared = _sphere_modal_squared_norm(
+        times, reference, weights, start, end
+    )
+
+    numerical_rows: list[dict] = []
+    numerical_lookup: dict[int, float] = {}
+    estimated_fine_lookup: dict[int, float] = {}
+    resolution = {"coarse": 1024, "medium": 1536, "fine": 2048}
+    for length in SOURCE_LENGTHS:
+        paired_residuals = {}
+        for level in LEVELS:
+            candidate = _align_source_responses(
+                archives[level][float(length)], times, maximum_ell
+            )
+            level_reference = _align_source_responses(
+                archives[level][None], times, maximum_ell
+            )
+            paired_residuals[level] = candidate - level_reference
+        coarse_medium = np.sqrt(
+            _sphere_modal_squared_norm(
+                times,
+                paired_residuals["coarse"] - paired_residuals["medium"],
+                weights,
+                start,
+                end,
+            )
+            / reference_squared
+        )
+        medium_fine = np.sqrt(
+            _sphere_modal_squared_norm(
+                times,
+                paired_residuals["medium"] - paired_residuals["fine"],
+                weights,
+                start,
+                end,
+            )
+            / reference_squared
+        )
+        order = _effective_order(
+            coarse_medium,
+            medium_fine,
+            resolution["coarse"],
+            resolution["medium"],
+            resolution["fine"],
+        )
+        richardson = (
+            medium_fine / ((2048.0 / 1536.0) ** order - 1.0)
+            if np.isfinite(order) and order > 0.0
+            else np.nan
+        )
+        estimated = richardson if np.isfinite(richardson) else medium_fine
+        conservative = max(medium_fine, estimated)
+        numerical_lookup[length] = conservative
+        estimated_fine_lookup[length] = estimated
+        numerical_rows.append(
+            {
+                "cosmological_length_over_M": length,
+                "observer": "outer",
+                "window": "full_available_signal",
+                "window_start_U_over_M": start,
+                "window_end_U_over_M": end,
+                "coarse_medium_paired_sphere_E2": coarse_medium,
+                "medium_fine_paired_sphere_E2": medium_fine,
+                "directly_observed_refinement_change_E2": medium_fine,
+                "observed_coupled_order": order,
+                "richardson_fine_sphere_E2": richardson,
+                "estimated_fine_numerical_E2": estimated,
+                "conservative_numerical_E2": conservative,
+                "case_specific": True,
+            }
+        )
+
+    metric_rows = []
+    for length in SOURCE_LENGTHS:
+        metric_rows.append(
+            {
+                "cosmological_length_over_M": length,
+                "observer": "outer",
+                "window": "full_available_signal",
+                "window_start_U_over_M": start,
+                "window_end_U_over_M": end,
+                **sphere_modal_metrics(
+                    times,
+                    fine_responses[float(length)],
+                    reference,
+                    weights,
+                    start,
+                    end,
+                ),
+                "case_specific_numerical_E2": numerical_lookup[length],
+                "analysis_status": "quantitative_case_specific_refinement",
+            }
+        )
+
+    extrapolants = {
+        80: (
+            fine_responses[80.0]
+            - 6.0 * fine_responses[160.0]
+            + 8.0 * fine_responses[320.0]
+        )
+        / 3.0,
+        160: (
+            fine_responses[160.0]
+            - 6.0 * fine_responses[320.0]
+            + 8.0 * fine_responses[640.0]
+        )
+        / 3.0,
+    }
+    medium_responses = {
+        length: _align_source_responses(
+            archives["medium"][length], times, maximum_ell
+        )
+        for length in (None, 80.0, 160.0, 320.0, 640.0)
+    }
+    medium_extrapolants = {
+        80: (
+            medium_responses[80.0]
+            - 6.0 * medium_responses[160.0]
+            + 8.0 * medium_responses[320.0]
+        )
+        / 3.0,
+        160: (
+            medium_responses[160.0]
+            - 6.0 * medium_responses[320.0]
+            + 8.0 * medium_responses[640.0]
+        )
+        / 3.0,
+    }
+    coefficients = {
+        "Winf_L80_vs_Schwarzschild": {80: 1.0 / 3.0, 160: -2.0, 320: 8.0 / 3.0},
+        "Winf_L160_vs_Schwarzschild": {160: 1.0 / 3.0, 320: -2.0, 640: 8.0 / 3.0},
+        "Winf_L80_vs_Winf_L160": {
+            80: 1.0 / 3.0,
+            160: -7.0 / 3.0,
+            320: 14.0 / 3.0,
+            640: -8.0 / 3.0,
+        },
+    }
+    comparisons = (
+        (
+            "Winf_L80_vs_Schwarzschild",
+            extrapolants[80],
+            reference,
+            medium_extrapolants[80],
+            medium_responses[None],
+        ),
+        (
+            "Winf_L160_vs_Schwarzschild",
+            extrapolants[160],
+            reference,
+            medium_extrapolants[160],
+            medium_responses[None],
+        ),
+        (
+            "Winf_L80_vs_Winf_L160",
+            extrapolants[80],
+            extrapolants[160],
+            medium_extrapolants[80],
+            medium_extrapolants[160],
+        ),
+    )
+    extrapolation_rows = []
+    for comparison, candidate, target, medium_candidate, medium_target in comparisons:
+        observed_refinement = np.sqrt(
+            _sphere_modal_squared_norm(
+                times,
+                (candidate - target) - (medium_candidate - medium_target),
+                weights,
+                start,
+                end,
+            )
+            / reference_squared
+        )
+        propagated = sum(
+            abs(coefficient) * estimated_fine_lookup[length]
+            for length, coefficient in coefficients[comparison].items()
+        )
+        extrapolation_rows.append(
+            {
+                "comparison": comparison,
+                "observer": "outer",
+                "window": "full_available_signal",
+                "window_start_U_over_M": start,
+                "window_end_U_over_M": end,
+                **sphere_modal_metrics(
+                    times, candidate, target, weights, start, end
+                ),
+                "directly_observed_medium_fine_change_E2": observed_refinement,
+                "propagated_estimated_fine_numerical_E2": propagated,
+                "central_residual_is_resolved_accuracy": False,
+                "central_residual_interpretation": (
+                    "central extrapolant residual; not a resolved accuracy estimate"
+                ),
+                "agreement_within_1_percent": bool(
+                    sphere_modal_metrics(
+                        times, candidate, target, weights, start, end
+                    )["E2"]
+                    <= 0.01
+                ),
+            }
+        )
+
+    direction_rows = []
+    direction_plot = {}
+    for phi, label in ((0.0, "gamma_0"), (np.pi, "gamma_pi")):
+        direction_weights = _source_direction_coefficients(
+            reference_result, maximum_ell, phi
+        )
+        reference_trace = reference @ direction_weights
+        traces = {
+            length: responses @ direction_weights
+            for length, responses in fine_responses.items()
+        }
+        extrapolated_traces = {
+            length: response @ direction_weights
+            for length, response in extrapolants.items()
+        }
+        for length in SOURCE_LENGTHS:
+            direction_rows.append(
+                {
+                    "diagnostic": "direct",
+                    "direction": label,
+                    "gamma_over_pi": phi / np.pi,
+                    "cosmological_length_over_M": length,
+                    "window_start_U_over_M": start,
+                    "window_end_U_over_M": end,
+                    **waveform_metrics(
+                        times,
+                        traces[float(length)],
+                        reference_trace,
+                        start,
+                        end,
+                    ),
+                    "analysis_status": "secondary_direction_diagnostic",
+                }
+            )
+        for length in (80, 160):
+            direction_rows.append(
+                {
+                    "diagnostic": "extrapolant_vs_schwarzschild",
+                    "direction": label,
+                    "gamma_over_pi": phi / np.pi,
+                    "base_L_over_M": length,
+                    "window_start_U_over_M": start,
+                    "window_end_U_over_M": end,
+                    **waveform_metrics(
+                        times,
+                        extrapolated_traces[length],
+                        reference_trace,
+                        start,
+                        end,
+                    ),
+                    "analysis_status": "secondary_direction_diagnostic",
+                }
+            )
+        direction_rows.append(
+            {
+                "diagnostic": "extrapolant_difference",
+                "direction": label,
+                "gamma_over_pi": phi / np.pi,
+                "window_start_U_over_M": start,
+                "window_end_U_over_M": end,
+                **waveform_metrics(
+                    times,
+                    extrapolated_traces[80],
+                    extrapolated_traces[160],
+                    start,
+                    end,
+                ),
+                "analysis_status": "secondary_direction_diagnostic",
+            }
+        )
+        direction_plot[label] = {
+            "reference": reference_trace,
+            "L320": traces[320.0],
+            "L640": traces[640.0],
+            "Winf80": extrapolated_traces[80],
+            "Winf160": extrapolated_traces[160],
+        }
+
+    instantaneous_reference = np.sqrt(
+        np.sum(reference.astype(float) ** 2 * weights[None, :], axis=1)
+    )
+    sphere_plot = {
+        "reference": instantaneous_reference,
+        "L320_residual": np.sqrt(
+            np.sum(
+                (fine_responses[320.0] - reference).astype(float) ** 2
+                * weights[None, :],
+                axis=1,
+            )
+        ),
+        "L640_residual": np.sqrt(
+            np.sum(
+                (fine_responses[640.0] - reference).astype(float) ** 2
+                * weights[None, :],
+                axis=1,
+            )
+        ),
+        "extrapolant_difference": np.sqrt(
+            np.sum(
+                (extrapolants[80] - extrapolants[160]).astype(float) ** 2
+                * weights[None, :],
+                axis=1,
+            )
+        ),
+    }
+    return {
+        "times": times,
+        "window": (start, end),
+        "metrics": metric_rows,
+        "numerical": numerical_rows,
+        "extrapolation": extrapolation_rows,
+        "directions": direction_rows,
+        "sphere_plot": sphere_plot,
+        "direction_plot": direction_plot,
+    }
+
+
 def _d1_variant_rows(
     sds: SourcedSimulationResult,
     schwarzschild: SourcedSimulationResult,
     windows: tuple[tuple[float, float], tuple[float, float]],
+    analysis_cadence: float = D1_ANALYSIS_CADENCE_M,
 ) -> list[dict]:
     """Measure correlated D1 values on one resolution-independent U grid."""
 
     analysis_times = np.arange(
         min(window[0] for window in windows) - 0.5,
-        max(window[1] for window in windows) + 0.5 + 0.5 * D1_ANALYSIS_CADENCE_M,
-        D1_ANALYSIS_CADENCE_M,
+        max(window[1] for window in windows) + 0.5 + 0.5 * analysis_cadence,
+        analysis_cadence,
     )
     rows: list[dict] = []
     for observer in range(sds.observer_areal_radius.size):
@@ -548,7 +1039,7 @@ def _d1_variant_rows(
                 # three PDE refinements.  The full difference between the two
                 # estimators remains a separately reported timing systematic.
                 "primary_estimator": "matched_template_lag",
-                "analysis_cadence_over_M": D1_ANALYSIS_CADENCE_M,
+                "analysis_cadence_over_M": analysis_cadence,
                 "D1_over_M": float(matched),
                 "analytic_envelope_D1_over_M": float(analytic),
                 "matched_template_D1_over_M": float(matched),
@@ -567,8 +1058,14 @@ def _d1_window_variant(
     sds: SourcedSimulationResult,
     schwarzschild: SourcedSimulationResult,
     windows: tuple[tuple[float, float], tuple[float, float]],
+    analysis_cadence: float = D1_ANALYSIS_CADENCE_M,
 ) -> list[float]:
-    return [row["D1_over_M"] for row in _d1_variant_rows(sds, schwarzschild, windows)]
+    return [
+        row["D1_over_M"]
+        for row in _d1_variant_rows(
+            sds, schwarzschild, windows, analysis_cadence
+        )
+    ]
 
 
 def _observer_label(result: SourcedSimulationResult, index: int) -> str:
@@ -577,10 +1074,14 @@ def _observer_label(result: SourcedSimulationResult, index: int) -> str:
     return f"r{result.observer_areal_radius[index]:g}M"
 
 
-def source_analysis(output_dir: Path) -> dict:
+def source_analysis(output_dir: Path, repository_root: Path | None = None) -> dict:
     archives = load_source_archives(output_dir)
     contract = validate_contracts(
         [item for values in archives.values() for item in values.values()], "source"
+    )
+    waveform = localized_waveform_analysis(archives)
+    source_width_lookup = _source_width_sensitivity_lookup(
+        Path(repository_root or Path.cwd())
     )
     measurements: dict[tuple[int, str], list[dict]] = {}
     for level in LEVELS:
@@ -603,6 +1104,15 @@ def source_analysis(output_dir: Path) -> dict:
                 fine_result, archives["fine"][None], windows
             )
             for name, windows in WINDOW_VARIANTS.items()
+        }
+        cadence_values = {
+            cadence: _d1_window_variant(
+                fine_result,
+                archives["fine"][None],
+                WINDOW_VARIANTS["primary"],
+                cadence,
+            )
+            for cadence in (0.0005, 0.002)
         }
         for observer in range(fine_result.observer_areal_radius.size):
             label = _observer_label(fine_result, observer)
@@ -635,9 +1145,14 @@ def source_analysis(output_dir: Path) -> dict:
                 if name != "primary"
             )
             estimator = primary["estimator_sensitivity_over_M"]
-            combined = float(
-                np.sqrt(numerical**2 + estimator**2 + window_sensitivity**2)
+            cadence_sensitivity = max(
+                abs(values[observer] - primary_window)
+                for values in cadence_values.values()
             )
+            combined = float(
+                numerical + estimator + window_sensitivity + cadence_sensitivity
+            )
+            source_width_sensitivity = source_width_lookup.get((length, label), np.nan)
             signal_to_uncertainty = (
                 abs(primary["D1_over_M"]) / combined if combined > 0.0 else np.inf
             )
@@ -658,18 +1173,38 @@ def source_analysis(output_dir: Path) -> dict:
                 "discretization_D1_uncertainty_over_M": numerical,
                 "estimator_sensitivity_over_M": estimator,
                 "window_sensitivity_over_M": window_sensitivity,
+                "cadence_sensitivity_over_M": cadence_sensitivity,
+                "source_width_sensitivity_over_M": source_width_sensitivity,
+                "source_width_sensitivity_available": bool(
+                    np.isfinite(source_width_sensitivity)
+                ),
+                "source_width_sensitivity_classification": (
+                    "physical_source_dependence_not_numerical_error"
+                ),
+                "combined_fixed_source_timing_sensitivity_over_M": combined,
                 "combined_timing_uncertainty_over_M": combined,
+                "combination_rule": (
+                    "linear sum of absolute discretization, estimator, window, "
+                    "and cadence sensitivities; deterministic bound, not a statistical error"
+                ),
+                "deterministic_sensitivities_are_statistical_errors": False,
                 "signal_to_combined_uncertainty": signal_to_uncertainty,
                 "source_width_dependence_included_as_error": False,
                 "genuinely_resolved": resolved,
                 "genuinely_resolved_criterion": (
                     "all matched-template arrivals interior and "
-                    "abs(D1)/quadrature(discretization,estimator,window) >= 3"
+                    "abs(D1)/combined fixed-source deterministic sensitivity >= 3"
                 ),
                 "diagnostic_only": diagnostic,
                 "target_applies": target_applies,
                 "target_uncertainty_over_M": numerical_target if target_applies else np.nan,
-                "meets_target": numerical < numerical_target if target_applies else np.nan,
+                "meets_target": combined < numerical_target if target_applies else np.nan,
+                "meets_combined_timing_sensitivity_target": (
+                    combined < numerical_target if target_applies else np.nan
+                ),
+                "target_test_basis": (
+                    "combined fixed-source deterministic timing sensitivity, not PDE discretization alone"
+                ),
                 "case_specific_error": True,
             }
             measurement_rows.append(measurement_row)
@@ -711,6 +1246,31 @@ def source_analysis(output_dir: Path) -> dict:
                     "difference_from_primary_over_M": estimator,
                 }
             )
+            for cadence, values in cadence_values.items():
+                sensitivity_rows.append(
+                    {
+                        "cosmological_length_over_M": length,
+                        "observer": label,
+                        "category": "cadence",
+                        "setting": f"analysis_cadence_{cadence:g}M",
+                        "D1_over_M": values[observer],
+                        "difference_from_primary_over_M": abs(
+                            values[observer] - primary_window
+                        ),
+                    }
+                )
+            if np.isfinite(source_width_sensitivity):
+                sensitivity_rows.append(
+                    {
+                        "cosmological_length_over_M": length,
+                        "observer": label,
+                        "category": "source_width",
+                        "setting": "historical_fixed_background_width_variation",
+                        "D1_over_M": np.nan,
+                        "difference_from_primary_over_M": source_width_sensitivity,
+                        "classification": "physical dependence; excluded from fixed-source timing target",
+                    }
+                )
 
     fit_rows: list[dict] = []
     for observer in ("r8M", "r12M", "outer"):
@@ -727,7 +1287,7 @@ def source_analysis(output_dir: Path) -> dict:
         )
         values = np.asarray([row["D1_over_M"] for row in eligible], dtype=float)
         sigma = np.asarray(
-            [row["combined_timing_uncertainty_over_M"] for row in eligible],
+            [row["combined_fixed_source_timing_sensitivity_over_M"] for row in eligible],
             dtype=float,
         )
         sigma = np.maximum(sigma, np.finfo(float).eps)
@@ -744,7 +1304,7 @@ def source_analysis(output_dir: Path) -> dict:
         weighted_values = values / sigma
         coefficients = np.linalg.lstsq(weighted_design, weighted_values, rcond=None)[0]
         residual = values - design @ coefficients
-        chi2 = float(np.sum((residual / sigma) ** 2))
+        scaled_residual_sum = float(np.sum((residual / sigma) ** 2))
         fit_rows.append(
             {
                 "observer": observer,
@@ -759,11 +1319,12 @@ def source_analysis(output_dir: Path) -> dict:
                 names[0]: float(coefficients[0]),
                 names[1]: float(coefficients[1]),
                 "rms_residual_over_M": float(np.sqrt(np.mean(residual**2))),
-                "chi_squared": chi2,
+                "scaled_residual_sum_squares": scaled_residual_sum,
+                "chi_squared_interpretation": False,
                 "degrees_of_freedom": int(len(values) - len(coefficients)),
                 "fit_weights": (
-                    "case-specific quadrature of separately tabulated "
-                    "discretization, estimator, and window timing terms"
+                    "inverse squared case-specific deterministic sensitivity scale; "
+                    "not inverse statistical variance"
                 ),
             }
         )
@@ -775,6 +1336,7 @@ def source_analysis(output_dir: Path) -> dict:
         "numerical": numerical_rows,
         "sensitivity": sensitivity_rows,
         "fits": fit_rows,
+        "waveform": waveform,
     }
 
 
@@ -842,6 +1404,170 @@ def _source_width_classification(repository_root: Path) -> list[dict]:
     ]
 
 
+def _source_width_sensitivity_lookup(
+    repository_root: Path,
+) -> dict[tuple[int, str], float]:
+    """Historical width variation, retained only as physical dependence."""
+
+    rows = _source_width_classification(repository_root)
+    grouped: dict[tuple[int, str], list[float]] = {}
+    for row in rows:
+        length = int(float(row["cosmological_length_over_M"]))
+        observer = str(row["observer"])
+        grouped.setdefault((length, observer), []).append(
+            abs(float(row["difference_from_narrow_over_M"]))
+        )
+    return {key: max(values) for key, values in grouped.items()}
+
+
+def _save_publication_figure(
+    figure: plt.Figure, output_dir: Path, stem: str
+) -> list[Path]:
+    png = Path(output_dir) / f"{stem}.png"
+    pdf = Path(output_dir) / f"{stem}.pdf"
+    figure.savefig(png, dpi=320, bbox_inches="tight")
+    figure.savefig(pdf, bbox_inches="tight")
+    return [png, pdf]
+
+
+def _write_latex_table(
+    path: Path,
+    *,
+    caption: str,
+    label: str,
+    columns: str,
+    header: tuple[str, ...],
+    rows: list[tuple[str, ...]],
+) -> Path:
+    lines = [
+        r"\begin{table}",
+        r"\centering",
+        rf"\caption{{{caption}}}",
+        rf"\label{{{label}}}",
+        rf"\begin{{tabular}}{{{columns}}}",
+        r"\toprule",
+        " & ".join(header) + r" \\",
+        r"\midrule",
+    ]
+    lines.extend(" & ".join(row) + r" \\" for row in rows)
+    lines.extend((r"\bottomrule", r"\end{tabular}", r"\end{table}"))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+    return path
+
+
+def write_paper_tables(output_dir: Path, flat: dict, source: dict) -> list[Path]:
+    tables = Path(output_dir) / "tables"
+    direct_rows = []
+    for row in flat["metrics"]:
+        if row["cosmological_length_over_M"] not in (320, 640):
+            continue
+        direct_rows.append(
+            (
+                f"{row['cosmological_length_over_M']:g}",
+                row["window"].replace("_", r"\_"),
+                f"{100.0 * row['E2']:.4f}",
+                f"{100.0 * row['Einf']:.4f}",
+                f"{100.0 * row['case_specific_numerical_E2']:.4f}",
+                "Q" if row["analysis_status"] == "quantitative" else "D",
+            )
+        )
+    flat_table = _write_latex_table(
+        tables / "paper_flat_windows.tex",
+        caption=(
+            "Direct fixed-data regulator comparison. Q denotes quantitative; "
+            "D denotes diagnostic because observed refinement is not subdominant."
+        ),
+        label="tab:flat-regulator-windows",
+        columns="rrrrrr",
+        header=(r"$L/M$", "window", r"$E_2$ (\%)", r"$E_\infty$ (\%)", r"refinement (\%)", "status"),
+        rows=direct_rows,
+    )
+
+    extrapolation_rows = [
+        (
+            row["comparison"].replace("_", r"\_"),
+            row["window"].replace("_", r"\_"),
+            f"{100.0 * row['E2']:.4f}",
+            f"{100.0 * row['directly_observed_medium_fine_change_E2']:.4f}",
+            "Q" if row["analysis_status"] == "quantitative" else "D",
+        )
+        for row in flat["extrapolation"]
+    ]
+    extrapolation_table = _write_latex_table(
+        tables / "paper_flat_extrapolants.tex",
+        caption=(
+            "Nested flat-waveform extrapolants. Central residuals are not "
+            "resolved-accuracy estimates; refinement is the directly observed "
+            "medium-to-fine residual change."
+        ),
+        label="tab:flat-extrapolants",
+        columns="lllrr",
+        header=("comparison", "window", r"central residual (\%)", r"refinement (\%)", "status"),
+        rows=extrapolation_rows,
+    )
+
+    localized = source["waveform"]
+    localized_rows = [
+        (
+            "direct",
+            f"{row['cosmological_length_over_M']:g}",
+            f"{100.0 * row['E2']:.5f}",
+            f"{100.0 * row['case_specific_numerical_E2']:.5f}",
+        )
+        for row in localized["metrics"]
+    ]
+    localized_rows.extend(
+        (
+            row["comparison"].replace("_", r"\_"),
+            "--",
+            f"{100.0 * row['E2']:.5f}",
+            f"{100.0 * row['directly_observed_medium_fine_change_E2']:.5f}",
+        )
+        for row in localized["extrapolation"]
+    )
+    localized_table = _write_latex_table(
+        tables / "paper_localized_source.tex",
+        caption=(
+            "Full localized-source waveform comparison using the "
+            "sphere-integrated modal norm as the primary measure."
+        ),
+        label="tab:localized-source-regulator",
+        columns="llrr",
+        header=("comparison", r"$L/M$", r"$E_2$ (\%)", r"observed refinement (\%)"),
+        rows=localized_rows,
+    )
+
+    target_rows = []
+    for row in source["measurements"]:
+        if not row["target_applies"]:
+            continue
+        target_rows.append(
+            (
+                f"{row['cosmological_length_over_M']:g}",
+                row["observer"],
+                f"{row['discretization_D1_uncertainty_over_M']:.2e}",
+                f"{row['estimator_sensitivity_over_M']:.2e}",
+                f"{row['window_sensitivity_over_M']:.2e}",
+                f"{row['cadence_sensitivity_over_M']:.2e}",
+                f"{row['combined_fixed_source_timing_sensitivity_over_M']:.2e}",
+                "yes" if row["meets_target"] else "no",
+            )
+        )
+    timing_table = _write_latex_table(
+        tables / "paper_timing_sensitivities.tex",
+        caption=(
+            "Deterministic timing sensitivities in units of M. The combined "
+            "column is a conservative linear sum, not a statistical error."
+        ),
+        label="tab:timing-sensitivities",
+        columns="llrrrrrl",
+        header=(r"$L/M$", "observer", "PDE", "estimator", "window", "cadence", "combined", "target"),
+        rows=target_rows,
+    )
+    return [flat_table, extrapolation_table, localized_table, timing_table]
+
+
 def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict]) -> list[Path]:
     output_dir = Path(output_dir)
     paths: list[Path] = []
@@ -866,35 +1592,48 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.set_xlim(0, 80)
     fig.suptitle("Fixed-data artificial-cosmology waveform sequence")
     fig.tight_layout()
-    path = output_dir / "flat_waveform_sequence.png"
-    fig.savefig(path, dpi=240)
+    paths.extend(_save_publication_figure(fig, output_dir, "flat_waveform_sequence"))
     plt.close(fig)
-    paths.append(path)
 
-    fig, axis = plt.subplots(figsize=(8.5, 5.2))
-    for window, _, _ in FIXED_WINDOWS:
-        selected = [row for row in flat["metrics"] if row["window"] == window]
-        axis.loglog(
-            [row["cosmological_length_over_M"] for row in selected],
-            [row["E2"] for row in selected],
-            "o-",
-            label=window.replace("_", " "),
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 4.8), sharey=True)
+    for axis, family, windows in (
+        (axes[0], "Cumulative", CUMULATIVE_WINDOWS),
+        (axes[1], "Disjoint", DISJOINT_WINDOWS),
+    ):
+        for window, _, _ in windows:
+            selected = [row for row in flat["metrics"] if row["window"] == window]
+            (line,) = axis.loglog(
+                [row["cosmological_length_over_M"] for row in selected],
+                [row["E2"] for row in selected],
+                "o-",
+                label=window.replace("_", " "),
+            )
+            axis.loglog(
+                [row["cosmological_length_over_M"] for row in selected],
+                [row["case_specific_numerical_E2"] for row in selected],
+                "x--",
+                color=line.get_color(),
+                linewidth=0.9,
+                alpha=0.75,
+            )
+        for value, label in ((0.05, "5%"), (0.02, "2%"), (0.01, "1%")):
+            axis.axhline(value, color="0.5", linestyle="--", linewidth=0.8)
+            axis.text(21, value * 1.05, label, color="0.35", fontsize=8)
+        axis.set(
+            xscale="log",
+            yscale="log",
+            xlabel=r"cosmological length $L/M$",
+            title=f"{family} windows",
         )
-    for value, label in ((0.05, "5%"), (0.02, "2%"), (0.01, "1%")):
-        axis.axhline(value, color="0.5", linestyle="--", linewidth=0.8)
-        axis.text(21, value * 1.05, label, color="0.35", fontsize=8)
-    axis.set(
-        xlabel=r"cosmological length $L/M$",
-        ylabel=r"direct $E_2(L)$",
-        title="Direct agreement on predeclared fixed windows",
-    )
-    axis.grid(which="both", alpha=0.2)
-    axis.legend()
+        axis.grid(which="both", alpha=0.2)
+        axis.legend(fontsize=8)
+    axes[1].plot([], [], "kx--", linewidth=0.9, label="observed refinement scale")
+    axes[1].legend(fontsize=8)
+    axes[0].set_ylabel(r"direct $E_2(L)$")
+    fig.suptitle("Direct waveform agreement: cumulative and disjoint windows")
     fig.tight_layout()
-    path = output_dir / "flat_window_errors.png"
-    fig.savefig(path, dpi=240)
+    paths.extend(_save_publication_figure(fig, output_dir, "flat_window_errors"))
     plt.close(fig)
-    paths.append(path)
 
     fig, axes = plt.subplots(2, 1, figsize=(10.5, 7.5), sharex=True)
     axes[0].plot(times, reference, color="black", linewidth=2, label="Schwarzschild")
@@ -910,10 +1649,8 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.legend()
     fig.suptitle("Nested regulator extrapolants and direct Schwarzschild waveform")
     fig.tight_layout()
-    path = output_dir / "nested_extrapolants.png"
-    fig.savefig(path, dpi=240)
+    paths.extend(_save_publication_figure(fig, output_dir, "nested_extrapolants"))
     plt.close(fig)
-    paths.append(path)
 
     fig, axes = plt.subplots(1, 3, figsize=(13, 4.4), sharex=True)
     for axis, observer in zip(axes, ("r8M", "r12M", "outer")):
@@ -923,6 +1660,8 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.loglog(lengths, [row["discretization_D1_uncertainty_over_M"] for row in selected], "s--", label="discretization")
         axis.loglog(lengths, [row["estimator_sensitivity_over_M"] for row in selected], "^--", label="estimator")
         axis.loglog(lengths, [row["window_sensitivity_over_M"] for row in selected], "d--", label="window")
+        axis.loglog(lengths, [row["cadence_sensitivity_over_M"] for row in selected], "v--", label="cadence")
+        axis.loglog(lengths, [row["combined_fixed_source_timing_sensitivity_over_M"] for row in selected], "k-", label="combined fixed source")
         axis.set_title(observer)
         axis.grid(which="both", alpha=0.2)
         axis.set_xlabel(r"$L/M$")
@@ -930,10 +1669,8 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[-1].legend(fontsize=8)
     fig.suptitle(r"Separated $D_1$ discretization and analysis sensitivities")
     fig.tight_layout()
-    path = output_dir / "D1_error_separation.png"
-    fig.savefig(path, dpi=240)
+    paths.extend(_save_publication_figure(fig, output_dir, "D1_error_separation"))
     plt.close(fig)
-    paths.append(path)
 
     fig, axes = plt.subplots(1, 3, figsize=(13, 4.4), sharex=True)
     fit_lookup = {row["observer"]: row for row in source["fits"]}
@@ -984,10 +1721,8 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[0].set_ylabel(r"$|D_1|/M$")
     fig.suptitle(r"Caustic timing sequence with case-specific uncertainties")
     fig.tight_layout()
-    path = output_dir / "D1_scaling.png"
-    fig.savefig(path, dpi=240)
+    paths.extend(_save_publication_figure(fig, output_dir, "D1_scaling"))
     plt.close(fig)
-    paths.append(path)
 
     fig, axis = plt.subplots(figsize=(8.5, 4.8))
     x = np.arange(len(l12_rows))
@@ -1006,10 +1741,65 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axis.grid(axis="y", which="both", alpha=0.2)
     axis.legend()
     fig.tight_layout()
-    path = output_dir / "L12_phase_exclusion.png"
-    fig.savefig(path, dpi=240)
+    paths.extend(_save_publication_figure(fig, output_dir, "L12_phase_exclusion"))
     plt.close(fig)
-    paths.append(path)
+
+    waveform = source["waveform"]
+    source_times = waveform["times"]
+    source_metrics = waveform["metrics"]
+    source_extrapolation = waveform["extrapolation"]
+    fig, axes = plt.subplots(2, 2, figsize=(12.2, 8.2))
+    axes[0, 0].loglog(
+        [row["cosmological_length_over_M"] for row in source_metrics],
+        [row["E2"] for row in source_metrics],
+        "o-",
+        color="#16697a",
+        label="sphere-integrated direct",
+    )
+    axes[0, 0].axhline(0.01, color="0.45", linestyle="--", linewidth=0.9, label="1%")
+    axes[0, 0].set(
+        xlabel=r"$L/M$",
+        ylabel=r"sphere-integrated $E_2$",
+        title="Full localized-source waveform",
+    )
+    axes[0, 0].legend(fontsize=8)
+    labels = [
+        r"$W_\infty^{(80)}-W_{\rm Schw}$",
+        r"$W_\infty^{(160)}-W_{\rm Schw}$",
+        r"$W_\infty^{(80)}-W_\infty^{(160)}$",
+    ]
+    axes[0, 1].bar(
+        np.arange(3),
+        [row["E2"] for row in source_extrapolation],
+        color=("#4c78a8", "#f58518", "#54a24b"),
+    )
+    axes[0, 1].set_yscale("log")
+    axes[0, 1].axhline(0.01, color="0.45", linestyle="--", linewidth=0.9)
+    axes[0, 1].set_xticks(np.arange(3), labels, rotation=12, ha="right")
+    axes[0, 1].set(ylabel=r"sphere-integrated $E_2$", title="Nested extrapolants")
+    sphere_plot = waveform["sphere_plot"]
+    axes[1, 0].semilogy(source_times, sphere_plot["reference"], color="black", label="Schwarzschild norm")
+    axes[1, 0].semilogy(source_times, sphere_plot["L320_residual"], label=r"$L/M=320$ residual")
+    axes[1, 0].semilogy(source_times, sphere_plot["L640_residual"], label=r"$L/M=640$ residual")
+    axes[1, 0].semilogy(source_times, sphere_plot["extrapolant_difference"], label="extrapolant difference")
+    axes[1, 0].set(xlabel=r"$U/M$", ylabel=r"instantaneous $L^2(S^2)$ norm", title="Modal residual history")
+    axes[1, 0].set_xlim(23.0, source_times[-1])
+    axes[1, 0].set_ylim(1e-7, None)
+    axes[1, 0].legend(fontsize=7)
+    direction = waveform["direction_plot"]["gamma_pi"]
+    axes[1, 1].plot(source_times, direction["reference"], color="black", linewidth=1.5, label="Schwarzschild")
+    axes[1, 1].plot(source_times, direction["L320"], linewidth=1.0, label=r"$L/M=320$")
+    axes[1, 1].plot(source_times, direction["L640"], linewidth=1.0, label=r"$L/M=640$")
+    axes[1, 1].plot(source_times, direction["Winf160"], linestyle="--", linewidth=1.0, label=r"$W_\infty^{(160)}$")
+    axes[1, 1].set(xlabel=r"$U/M$", ylabel="directional waveform", title=r"Secondary caustic diagnostic ($\gamma=\pi$)")
+    axes[1, 1].set_xlim(35.0, source_times[-1])
+    axes[1, 1].legend(fontsize=7)
+    for axis in axes.flat:
+        axis.grid(alpha=0.2)
+    fig.suptitle("Localized-source regulator: primary modal norm and caustic diagnostic")
+    fig.tight_layout()
+    paths.extend(_save_publication_figure(fig, output_dir, "localized_source_regulator"))
+    plt.close(fig)
     return paths
 
 
@@ -1019,7 +1809,7 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
     tables = output_dir / "tables"
     tables.mkdir(parents=True, exist_ok=True)
     flat = flat_analysis(output_dir)
-    source = source_analysis(output_dir)
+    source = source_analysis(output_dir, repository_root)
     l12_rows = l12_phase_cleanup(repository_root)
     width_rows = _source_width_classification(repository_root)
     written = [
@@ -1028,6 +1818,22 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
         _write_csv(tables / "flat_successive_L.csv", flat["successive"]),
         _write_csv(tables / "flat_extrapolant_comparisons.csv", flat["extrapolation"]),
         _write_csv(tables / "flat_direct_thresholds.csv", flat["thresholds"]),
+        _write_csv(
+            tables / "localized_source_waveform_metrics.csv",
+            source["waveform"]["metrics"],
+        ),
+        _write_csv(
+            tables / "localized_source_numerical_errors.csv",
+            source["waveform"]["numerical"],
+        ),
+        _write_csv(
+            tables / "localized_source_extrapolant_comparisons.csv",
+            source["waveform"]["extrapolation"],
+        ),
+        _write_csv(
+            tables / "localized_source_direction_diagnostics.csv",
+            source["waveform"]["directions"],
+        ),
         _write_csv(tables / "D1_measurements.csv", source["measurements"]),
         _write_csv(tables / "D1_numerical_errors.csv", source["numerical"]),
         _write_csv(tables / "D1_estimator_window_sensitivity.csv", source["sensitivity"]),
@@ -1035,15 +1841,21 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
         _write_csv(tables / "L12_phase_cleanup.csv", l12_rows),
         _write_csv(tables / "source_width_dependence.csv", width_rows),
     ]
+    written.extend(write_paper_tables(output_dir, flat, source))
     written.extend(create_plots(output_dir, flat, source, l12_rows))
     summary = {
         "purpose": "Test artificial cosmology as a regulator for asymptotically flat waveforms.",
-        "fixed_windows": FIXED_WINDOWS,
+        "cumulative_windows": CUMULATIVE_WINDOWS,
+        "disjoint_windows": DISJOINT_WINDOWS,
         "flat_contract": flat["contract"],
         "source_contract": source["contract"],
         "flat_metrics": flat["metrics"],
         "flat_numerical_errors": flat["numerical"],
         "nested_extrapolants": flat["extrapolation"],
+        "localized_source_waveform_metrics": source["waveform"]["metrics"],
+        "localized_source_numerical_errors": source["waveform"]["numerical"],
+        "localized_source_nested_extrapolants": source["waveform"]["extrapolation"],
+        "localized_source_direction_diagnostics": source["waveform"]["directions"],
         "direct_thresholds": flat["thresholds"],
         "D1_measurements": source["measurements"],
         "D1_scaling_fits": source["fits"],
@@ -1052,6 +1864,14 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
             "physical dependence, excluded from numerical uncertainty and regulator comparison"
         ),
         "L1280_run": False,
+        "supported_claim": (
+            "agreement within 1% for the cumulative prompt-dominated flat-waveform "
+            "norms and the full sphere-integrated localized-source extrapolation; "
+            "disjoint flat windows are diagnostic and do not support a uniform "
+            "late-time 1% claim"
+        ),
+        "central_extrapolant_residual_is_resolved_accuracy": False,
+        "deterministic_timing_sensitivities_are_statistical_errors": False,
     }
     written.append(_strict_json(output_dir / "analysis_summary.json", summary))
     return written
