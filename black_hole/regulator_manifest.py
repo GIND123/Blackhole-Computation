@@ -12,7 +12,7 @@ from .sds_result import load_sds_result
 from .source_evolution import load_sourced_result
 
 
-TEXT_SUFFIXES = {".csv", ".json", ".md", ".txt", ".out", ".err"}
+TEXT_SUFFIXES = {".csv", ".json", ".md", ".tex", ".txt", ".out", ".err"}
 
 
 def sha256_bytes(path: Path) -> str:
@@ -85,6 +85,12 @@ def _input_group(relative: str, groups: dict[str, list[dict]]) -> list[dict]:
         return groups["flat"]
     if relative.startswith("tables/D1_") or relative.startswith("D1_"):
         return groups["source"]
+    if relative.startswith("tables/localized_source_") or relative.startswith("localized_source_"):
+        return groups["source"]
+    if relative.startswith("tables/paper_localized_source") or relative.startswith("tables/paper_timing"):
+        return groups["source"]
+    if relative.startswith("tables/paper_flat_"):
+        return groups["flat"]
     if "L12_phase" in relative:
         return groups["l12"]
     if "source_width" in relative:
@@ -100,9 +106,19 @@ def create_manifest(output_dir: Path, repository_root: Path | None = None) -> Pa
     if not archives:
         raise FileNotFoundError("No v3 raw archives were found.")
     analysis_commit = _git_output("rev-parse", "HEAD")
-    tracked_status = _git_output("status", "--porcelain", "--untracked-files=no")
+    tracked_status = _git_output(
+        "status",
+        "--porcelain",
+        "--untracked-files=no",
+        "--",
+        ".",
+        f":(exclude){output_label}/**",
+    )
     if tracked_status:
-        raise ValueError("Analysis artifacts must be generated from a clean analysis commit.")
+        raise ValueError(
+            "Analysis source and external inputs must be clean; only regenerated "
+            "artifacts inside the output directory may differ from the analysis commit."
+        )
 
     archive_rows = []
     simulation_commits = set()

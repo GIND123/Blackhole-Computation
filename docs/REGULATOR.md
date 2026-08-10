@@ -1,33 +1,40 @@
-# Artificial-cosmology regulator test
+# Artificial-cosmology regulator: final analysis
 
-## Scope and decision
+## Supported conclusion
 
-This production stage tests whether Schwarzschild--de Sitter (SdS) can be used
-as an artificial-cosmology regulator for fixed-time, asymptotically flat
-waveform physics. It implements the requested `L/M = 320, 640` extensions of
-both the minimal-gauge flat-limit sequence and the fixed localized-source
-calculation.
+Schwarzschild--de Sitter (SdS) is supported as an artificial-cosmology
+regulator for the fixed-data and fixed localized-source waveform observables
+tested here, at a conservative **1% extrapolated-waveform level**. This claim
+applies to the cumulative, prompt-dominated flat-waveform norms and to the
+full available localized-source signal in the sphere-integrated modal norm.
+It is not a claim of uniform 1% late-time accuracy.
 
-The regulator test succeeds at the requested 1% extrapolated-waveform level.
-Both nested extrapolants agree with the directly evolved Schwarzschild
-waveform and with each other by at most `0.0314%` in relative L2 norm over all
-three predeclared windows. Their largest propagated fine-grid numerical error
-is `0.119%`, well below the 1% acceptance scale. Therefore `L/M = 1280` was not
-run.
+For the flat sequence, `0.0314%` is the largest **central cumulative
+extrapolant residual**. It is not a resolved-accuracy estimate. The directly
+observed medium-to-fine changes and the propagated fine-grid estimates are
+reported beside every central value. Across the cumulative extrapolant
+comparisons these ranges are:
 
-Direct agreement is less stringent: the smallest length giving 5% agreement
-is `L/M = 320`, the smallest giving 2% is `L/M = 640`, and direct 1% agreement
-is not attained through `L/M = 640`. These thresholds require the measured
-E2 plus the case-specific conservative numerical margin to pass.
+| quantity | range |
+|---|---:|
+| central extrapolant residual | 0.0109--0.0314% |
+| directly observed medium-to-fine change | 0.0190--0.4092% |
+| propagated estimated fine-grid scale | 0.00914--0.1189% |
 
-## Frozen physical contract
+The numerical scales are below the 1% acceptance scale, but they do not
+resolve the central residual as an accuracy measurement. No `L/M = 1280`
+simulation was run because the two extrapolants agree within 1% in the
+declared cumulative test and in the independent localized-source norm.
 
-Every finite-L member and its Schwarzschild reference uses `M = 1`, the
+## Frozen physical contract and archives
+
+Every finite-`L` case and its Schwarzschild reference uses `M = 1`, the
 minimal gauge, the same physical datum or source, the same compactification
-family, the same height normalization at `r/M = 4`, and the analytic retarded
-time `U = tau - q`. The flat sequence uses the same time-symmetric `ell = 2`
-areal bump centered at `r/M = 4` with half-width `1.5M`. The source sequence
-uses vanishing initial field and velocity and one fixed normalized source:
+family, height normalization at `r/M = 4`, and analytic retarded time
+`U = tau - q`. The flat sequence uses the same time-symmetric `ell = 2`
+areal bump centered at `r/M = 4` with half-width `1.5M`. The localized-source
+sequence uses vanishing initial field and velocity and one fixed normalized
+source:
 
 ```text
 r_source/M = 6
@@ -37,51 +44,30 @@ time half-width/M = 2
 angular concentration = 64
 ```
 
-Source width is not varied in the regulator comparison. The historical width
-sequence is retained only as a physical source-dependence diagnostic and is
-explicitly excluded from numerical uncertainty.
-
-The machine-readable contract hashes and archive provenance are in
+Source width is not varied in the regulator comparison. Historical width
+variation is retained as physical source dependence, never as numerical
+error. All 36 raw archives were produced from the clean simulation-only
+commit `2460d976fd023f7bcae892d760436248d32d0290`; analysis does not modify
+them. The physical-contract hashes and provenance are in
 [`manifest.json`](../results/regulator_production_v3/manifest.json).
 
-## Simulation and refinement design
+The flat refinement ladder is `(N, dt/M) = (384, 0.005), (512, 0.00375),
+(768, 0.0025)`. The localized-source ladder is `(N_r, dt/M, ell_max) =
+(1024, 0.001, 42), (1536, 1/1500, 46), (2048, 0.0005, 50)`.
 
-All 36 raw archives were produced afresh from simulation-only commit
-`2460d976fd023f7bcae892d760436248d32d0290`. No raw archive is overwritten or
-modified by analysis.
+## Direct flat-waveform comparison
 
-The boundary-waveform ladder is:
-
-| level | Chebyshev modes | timestep/M | signal cadence/M |
-|---|---:|---:|---:|
-| coarse | 384 | 0.005 | 0.03 |
-| medium | 512 | 0.00375 | 0.03 |
-| fine | 768 | 0.0025 | 0.03 |
-
-It covers Schwarzschild and `L/M = 20, 40, 80, 160, 320, 640` through
-`U/M = 160`. The fixed-source ladder is:
-
-| level | radial points | timestep/M | ell_max |
-|---|---:|---:|---:|
-| coarse | 1024 | 0.001 | 42 |
-| medium | 1536 | 1/1500 | 46 |
-| fine | 2048 | 0.0005 | 50 |
-
-It covers Schwarzschild and `L/M = 80, 160, 320, 640`. All timing levels are
-interpolated to one fixed `0.001M` analysis grid before arrival extraction, so
-output sampling is not conflated with PDE discretization.
-
-## Direct fixed-window waveform comparison
-
-For each predeclared window,
+For every window,
 
 ```text
 E2(L) = ||W_L - W_Schw||_2 / ||W_Schw||_2.
 ```
 
-No relative time translation is fitted. Amplitude and phase come from the
-zero-lag complex analytic-signal overlap. `Einf` is normalized by the maximum
-absolute Schwarzschild signal in the same window.
+No relative time translation is fitted. `Einf` is normalized by the maximum
+Schwarzschild amplitude in the same window; amplitude and phase are computed
+from the zero-lag analytic-signal overlap.
+
+### Cumulative windows
 
 | L/M | U/M window | E2 | Einf | amplitude difference | phase difference |
 |---:|---:|---:|---:|---:|---:|
@@ -92,111 +78,150 @@ absolute Schwarzschild signal in the same window.
 | 640 | 0--80 | 1.3402% | 1.3937% | 0.0682% | -0.01400 rad |
 | 640 | 0--160 | 1.3402% | 1.3937% | 0.0837% | -0.01382 rad |
 
-The complete table, including every smaller L and a case-specific numerical
-margin for every point, is
-[`flat_waveform_metrics.csv`](../results/regulator_production_v3/tables/flat_waveform_metrics.csv).
-Successive-L norm, maximum norm, amplitude, and phase differences are in
+Using `E2 +` the case-specific conservative numerical margin, direct 5%
+agreement first occurs at `L/M = 320`, direct 2% agreement first occurs at
+`L/M = 640`, and direct 1% agreement is not attained through 640.
+
+For the representative endpoints, the largest cumulative medium-to-fine
+paired change is `0.1478%` at `L/M = 320` and `0.04648%` at `L/M = 640`;
+the corresponding Richardson estimates are `0.01384%` and `0.00347%`.
+
+### Disjoint windows and late-time limitation
+
+The disjoint `40--80M` and `80--160M` norms are reported separately because
+the cumulative norms are dominated by the prompt waveform.
+
+| L/M | disjoint window | E2 | observed refinement change | status |
+|---:|---:|---:|---:|---|
+| 320 | 40--80 | 2.4145% | 1.2126% | diagnostic |
+| 640 | 40--80 | 1.1547% | 0.4380% | diagnostic |
+| 320 | 80--160 | 5.5766% | 145.16% | diagnostic |
+| 640 | 80--160 | 7.0146% | 43.48% | diagnostic |
+
+The nested-extrapolant central residuals are `0.0957--0.2105%` on `40--80M`,
+but their observed refinement changes are `1.016--3.144%`. On `80--160M`,
+the central residuals span `0.852--24.616%` and refinement dominates. These
+disjoint results are therefore diagnostics, not resolved accuracy claims.
+The analysis supports no uniform late-time 1% statement.
+
+Complete values are in
+[`flat_waveform_metrics.csv`](../results/regulator_production_v3/tables/flat_waveform_metrics.csv),
+[`flat_numerical_errors.csv`](../results/regulator_production_v3/tables/flat_numerical_errors.csv),
+and
 [`flat_successive_L.csv`](../results/regulator_production_v3/tables/flat_successive_L.csv).
 
-The raw medium-to-fine boundary error at the representative endpoints stays
-below 0.2% in every window. Its worst value is `0.1478%` for `L/M = 320` on
-`0 <= U/M <= 160`; the corresponding Richardson fine-grid estimate is
-`0.01384%`. For `L/M = 640`, the worst values are `0.04648%` and `0.00347%`.
-Thus the conservative check meets 0.2%, and the estimated fine error meets the
-preferred 0.1% target.
+## Tested expansion and flat nested extrapolants
 
-## Tested expansion and nested extrapolants
-
-The expansion is tested with exactly the requested combinations
+The requested expansion is tested, not assumed, with
 
 ```text
-W_inf^(L) = (W_L - 6 W_2L + 8 W_4L) / 3,
+W_inf^(L) = (W_L - 6 W_2L + 8 W_4L) / 3
 ```
 
-for base lengths 80 and 160. The comparison is:
-
-| comparison | E2 range over the three windows | propagated numerical E2 range |
-|---|---:|---:|
-| W_inf^(80) vs Schwarzschild | 0.0217--0.0222% | 0.0271--0.0777% |
-| W_inf^(160) vs Schwarzschild | 0.0109--0.0265% | 0.00914--0.0413% |
-| W_inf^(80) vs W_inf^(160) | 0.0186--0.0314% | 0.0362--0.1189% |
-
-All nine comparisons are below 1%, and all nine propagated numerical bounds
-are below 0.2%. The detailed L2, Linf, amplitude, phase, and refinement fields
-are in
+at base lengths 80 and 160. All nine cumulative central comparisons are
+below 1%. Their observed refinement changes and propagated fine-grid scales
+are separately recorded in
 [`flat_extrapolant_comparisons.csv`](../results/regulator_production_v3/tables/flat_extrapolant_comparisons.csv).
+The disjoint rows in the same table are explicitly marked diagnostic where
+refinement is not subdominant.
 
-## Caustic timing and separated uncertainties
+## Full localized-source waveform extrapolation
 
-The primary `D1` estimator is the matched-template lag because it converges
-cleanly across the three PDE levels. The tapered analytic-envelope maximum is
-retained as an independent estimator choice, not averaged into the central
-value. The uncertainty table keeps three separate case-specific terms:
+The full waveform extrapolation is applied directly to the existing compact
+modal archives. The primary norm uses Parseval orthogonality,
 
-1. PDE discretization from the three-level paired SdS-minus-Schwarzschild
-   refinement;
-2. estimator sensitivity, the matched-template/envelope difference; and
-3. fixed-window sensitivity under inset, expansion, and left/right shifts.
+```text
+||W||^2 = integral dU sum_(ell,m) |u_ellm(U)|^2,
+```
 
-Their quadrature is used only for fit weights and for the explicit resolution
-test. Source-width dependence is a separate physical dependence and is never
-included in this uncertainty.
+at the outer boundary on the common fixed `U` grid, from `U/M = 0` through
+the common archive endpoint `57.2274`. No time translation is fitted.
 
-| L/M | observer | D1/M | discretization/M | estimator/M | window/M | status |
-|---:|---|---:|---:|---:|---:|---|
-| 320 | r=8M | 0.00412123 | 6.80e-8 | 3.24e-4 | 2.52e-5 | quantitative |
-| 320 | r=12M | 0.00390526 | 7.86e-7 | 7.83e-4 | 1.59e-5 | quantitative |
-| 320 | outer | 0.06736804 | 3.83e-9 | 4.03e-3 | 2.45e-4 | quantitative |
-| 640 | r=8M | 0.00101275 | 1.74e-7 | 4.09e-4 | 1.37e-5 | diagnostic |
-| 640 | r=12M | 0.00096203 | 1.76e-6 | 3.45e-4 | 9.60e-6 | diagnostic |
-| 640 | outer | 0.03280627 | 1.04e-8 | 2.11e-3 | 1.27e-4 | quantitative |
+| comparison | sphere-integrated E2 | observed medium-to-fine change |
+|---|---:|---:|
+| direct L/M = 320 vs Schwarzschild | 5.26710% | 0.0000110% |
+| direct L/M = 640 vs Schwarzschild | 2.62569% | 0.0000374% |
+| W_inf^(80) vs Schwarzschild | 0.058378% | 0.0000278% |
+| W_inf^(160) vs Schwarzschild | 0.006720% | 0.0000972% |
+| W_inf^(80) vs W_inf^(160) | 0.051706% | 0.0001012% |
 
-The requested numerical targets are met: both local `L/M = 320` errors are
-below `1e-4M`, and both outer `L/M = 320, 640` errors are below `5e-4M`.
-The two local `L/M = 640` values are deliberately diagnostic: their signal is
-less than three times the combined timing uncertainty, even though their PDE
-refinement differences are small.
+This verifies the professor's approximate `5.26%`, `2.62%`, and `0.052%`
+checks with the full modal pipeline. The sphere-integrated norm is the
+primary result. The `gamma = 0` and `gamma = pi` caustic directions are
+secondary diagnostics only; the extrapolant differences there are `0.0186%`
+and `0.1184%`, respectively.
 
-The local weighted fits therefore use `L/M = 80, 160, 320` and explicitly
-exclude diagnostic `L/M = 640`. The outer fit uses all four lengths. Every fit
-point has its own combined error assembled from the three separately recorded
-terms. See
+See
+[`localized_source_waveform_metrics.csv`](../results/regulator_production_v3/tables/localized_source_waveform_metrics.csv),
+[`localized_source_extrapolant_comparisons.csv`](../results/regulator_production_v3/tables/localized_source_extrapolant_comparisons.csv),
+and
+[`localized_source_direction_diagnostics.csv`](../results/regulator_production_v3/tables/localized_source_direction_diagnostics.csv).
+
+## Caustic timing: deterministic sensitivities
+
+The primary `D1` estimator is the matched-template lag. Five effects remain
+separate:
+
+1. PDE discretization from the three-level paired refinement;
+2. estimator sensitivity from matched-template versus analytic-envelope
+   arrivals;
+3. fixed-window sensitivity;
+4. analysis-cadence sensitivity from `0.0005M`, `0.001M`, and `0.002M` grids;
+5. source-width dependence, classified as physical dependence and available
+   only in the historical `L/M = 80` width study.
+
+The combined fixed-source sensitivity is the conservative linear sum of the
+first four absolute sensitivities. It is a deterministic sensitivity bound,
+not a standard deviation, confidence interval, or other statistical error.
+Source-width dependence is not included in that fixed-source target test.
+
+| L/M | observer | D1/M | PDE | estimator | window | cadence | combined | target | met? |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 320 | r=8M | 0.00412123 | 6.80e-8 | 3.24e-4 | 2.52e-5 | 3.04e-7 | 3.49e-4 | 1e-4 | no |
+| 320 | r=12M | 0.00390526 | 7.86e-7 | 7.83e-4 | 1.59e-5 | 4.47e-8 | 8.00e-4 | 1e-4 | no |
+| 320 | outer | 0.06736804 | 3.83e-9 | 4.03e-3 | 2.45e-4 | 2.21e-6 | 4.28e-3 | 5e-4 | no |
+| 640 | outer | 0.03280627 | 1.04e-8 | 2.11e-3 | 1.27e-4 | 1.56e-6 | 2.24e-3 | 5e-4 | no |
+
+Thus the PDE-discretization components alone meet the requested values, but
+the requested **combined timing-sensitivity targets do not**. Both local
+`L/M = 640` timings remain diagnostic because `|D1|` is below three times
+the combined deterministic sensitivity. Sensitivity-weighted scaling fits
+use inverse squared deterministic sensitivity scales only as numerical
+weights; their residual sums are not chi-squared statistics.
+
+See
 [`D1_measurements.csv`](../results/regulator_production_v3/tables/D1_measurements.csv),
-[`D1_numerical_errors.csv`](../results/regulator_production_v3/tables/D1_numerical_errors.csv),
+[`D1_estimator_window_sensitivity.csv`](../results/regulator_production_v3/tables/D1_estimator_window_sensitivity.csv),
 and
 [`D1_scaling_fits.csv`](../results/regulator_production_v3/tables/D1_scaling_fits.csv).
 
 ## Phase cleanup
 
 All six `L/M = 12` generic-angle phase pairs are excluded from quantitative
-phase analysis. For every pair, at least one extracted pulse differs from its
-null-ray arrival by more than the declared `1M` consistency tolerance. The
-largest residual is `15.666M`. No corrected phase value is emitted for an
-excluded pair. The complete audit is
+phase analysis. At least one extracted pulse in each pair differs from its
+null-ray arrival by more than the declared `1M` tolerance; the largest
+residual is `15.666M`. No corrected phase value is emitted. The audit is
 [`L12_phase_cleanup.csv`](../results/regulator_production_v3/tables/L12_phase_cleanup.csv).
 
-## Figures and reproduction
+## Paper-ready artifacts
 
-- [`flat_waveform_sequence.png`](../results/regulator_production_v3/flat_waveform_sequence.png)
-- [`flat_window_errors.png`](../results/regulator_production_v3/flat_window_errors.png)
-- [`nested_extrapolants.png`](../results/regulator_production_v3/nested_extrapolants.png)
-- [`D1_scaling.png`](../results/regulator_production_v3/D1_scaling.png)
-- [`D1_error_separation.png`](../results/regulator_production_v3/D1_error_separation.png)
-- [`L12_phase_exclusion.png`](../results/regulator_production_v3/L12_phase_exclusion.png)
+Raster previews and vector PDFs are regenerated together:
 
-List simulation cases:
+- [`flat_window_errors.pdf`](../results/regulator_production_v3/flat_window_errors.pdf)
+- [`nested_extrapolants.pdf`](../results/regulator_production_v3/nested_extrapolants.pdf)
+- [`localized_source_regulator.pdf`](../results/regulator_production_v3/localized_source_regulator.pdf)
+- [`D1_error_separation.pdf`](../results/regulator_production_v3/D1_error_separation.pdf)
+- [`D1_scaling.pdf`](../results/regulator_production_v3/D1_scaling.pdf)
+- [`L12_phase_exclusion.pdf`](../results/regulator_production_v3/L12_phase_exclusion.pdf)
 
-```text
-python -m black_hole.regulator_suite
-```
+Booktabs-ready tables are
+[`paper_flat_windows.tex`](../results/regulator_production_v3/tables/paper_flat_windows.tex),
+[`paper_flat_extrapolants.tex`](../results/regulator_production_v3/tables/paper_flat_extrapolants.tex),
+[`paper_localized_source.tex`](../results/regulator_production_v3/tables/paper_localized_source.tex),
+and
+[`paper_timing_sensitivities.tex`](../results/regulator_production_v3/tables/paper_timing_sensitivities.tex).
 
-Run one case into a fresh output directory:
-
-```text
-python -m black_hole.regulator_suite flat_sds_L640_fine --output-dir <new-directory>
-```
-
-Generate the analysis and verify its manifest:
+## Reproduction
 
 ```text
 python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3
@@ -204,7 +229,7 @@ python -m black_hole.regulator_manifest --output-dir results/regulator_productio
 python -m black_hole.regulator_manifest --output-dir results/regulator_production_v3 --verify
 ```
 
-The manifest hashes UTF-8 text after canonical CRLF/CR-to-LF conversion and
-also records byte hashes. It records distinct simulation and analysis commits,
-the exact command and physical-contract hash for every archive, and the raw
-inputs for every derived artifact.
+The manifest canonicalizes CRLF/CR to LF before hashing UTF-8 text while
+also retaining byte hashes. It records distinct simulation and analysis
+commits, every case command, the physical-contract hash, and the raw inputs
+for each derived artifact.

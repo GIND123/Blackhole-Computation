@@ -62,25 +62,47 @@ stage-accurate Killing-time forcing and archive-compatible modal outputs.
 
 ## Artificial cosmology regulator result
 
-The latest production sequence extends the fixed data minimal gauge waveform
-and localized source calculations through `L/M = 320, 640`, with three fresh
-resolution levels for every case. The two requested nested extrapolants agree
-with the direct Schwarzschild waveform and with each other to at worst
-`0.0314%` in relative L2 norm over fixed windows through `U/M = 160`; their
-largest propagated numerical error is `0.119%`. This passes the requested 1%
-regulator test, so `L/M = 1280` was not run.
+The final production sequence extends the fixed data minimal gauge waveform
+and localized source calculations through `L/M = 320, 640`, with three
+resolution levels for every case. For the cumulative prompt dominated flat
+norms, `0.0314%` is the largest central extrapolant residual. It is not a
+resolved accuracy estimate. The directly observed medium to fine
+extrapolant changes reach `0.409%`, and the propagated estimated fine grid
+scale reaches `0.119%`. These results support the conservative 1% regulator
+conclusion, so `L/M = 1280` was not run.
+
+The disjoint window analysis shows that the cumulative result must not be
+interpreted as uniform late time accuracy. The `40M` to `80M` and `80M` to
+`160M` results are diagnostic because numerical refinement is not
+subdominant.
+
+Applying the full extrapolation to the localized source modal archives gives
+sphere integrated `E2(320) = 5.2671%`, `E2(640) = 2.6257%`, and a two
+extrapolant difference of `0.05171%`. Representative caustic directions are
+retained as secondary diagnostics.
 
 Direct 5% agreement first occurs at `L/M = 320`, direct 2% agreement first
 occurs at `L/M = 640`, and direct 1% agreement is not reached through 640.
-The timing analysis separates discretization, estimator, and window terms,
-excludes source width dependence from numerical error, and treats both local
-`L/M = 640` timing values as diagnostic. All `L/M = 12` phase pairs that fail
-the null ray arrival check are excluded.
+The timing analysis separately reports discretization, estimator, window,
+cadence, and physical source width dependence. When the target fields are
+tested against the combined fixed source deterministic sensitivity rather
+than PDE discretization alone, none of the requested `L/M = 320, 640` timing
+targets is met. These sensitivities are not interpreted statistically. Both
+local `L/M = 640` timings remain diagnostic, and all `L/M = 12` phase pairs
+that fail the null ray arrival check are excluded.
 
-The full methods, tables, figures, limitations, and reproduction commands are
-in [`docs/REGULATOR.md`](docs/REGULATOR.md).
+The complete final package is organized here:
 
-![Nested regulator extrapolants](results/regulator_production_v3/nested_extrapolants.png)
+1. [Final report and supported claims](docs/REGULATOR.md)
+2. [Localized source regulator figure](results/regulator_production_v3/localized_source_regulator.pdf)
+3. [Cumulative and disjoint window figure](results/regulator_production_v3/flat_window_errors.pdf)
+4. [Separated timing sensitivity figure](results/regulator_production_v3/D1_error_separation.pdf)
+5. [Localized source paper table](results/regulator_production_v3/tables/paper_localized_source.tex)
+6. [Flat extrapolant paper table](results/regulator_production_v3/tables/paper_flat_extrapolants.tex)
+7. [Timing sensitivity paper table](results/regulator_production_v3/tables/paper_timing_sensitivities.tex)
+8. [Verified reproduction manifest](results/regulator_production_v3/manifest.json)
+
+![Localized source regulator summary](results/regulator_production_v3/localized_source_regulator.png)
 
 ## Main numerical findings
 
