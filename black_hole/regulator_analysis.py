@@ -33,6 +33,19 @@ DISJOINT_WINDOWS = (
 )
 FIXED_WINDOWS = CUMULATIVE_WINDOWS
 ANALYSIS_WINDOWS = CUMULATIVE_WINDOWS + DISJOINT_WINDOWS[1:]
+WINDOW_LATEX_LABELS = {
+    "prompt_and_early_ringdown": r"$0\leq U/M\leq 40$",
+    "radiative_signal": r"$0\leq U/M\leq 80$",
+    "extended_finite_time": r"$0\leq U/M\leq 160$",
+    "prompt": r"$0\leq U/M\leq 40$",
+    "early_ringdown": r"$40\leq U/M\leq 80$",
+    "late_time": r"$80\leq U/M\leq 160$",
+}
+COMPARISON_LATEX_LABELS = {
+    "Winf_L80_vs_Schwarzschild": r"$W_\infty^{(80)}-W_{\rm Schw}$",
+    "Winf_L160_vs_Schwarzschild": r"$W_\infty^{(160)}-W_{\rm Schw}$",
+    "Winf_L80_vs_Winf_L160": r"$W_\infty^{(80)}-W_\infty^{(160)}$",
+}
 WINDOW_VARIANTS = {
     "primary": ((18.0, 35.0), (35.0, 53.0)),
     "inset_0p5M": ((18.5, 34.5), (35.5, 52.5)),
@@ -42,6 +55,7 @@ WINDOW_VARIANTS = {
 }
 RAY_CONSISTENCY_TOLERANCE_M = 1.0
 D1_ANALYSIS_CADENCE_M = 0.001
+LOCALIZED_SOURCE_INTERVAL = "common_archived_interval"
 
 
 def _write_csv(path: Path, rows: list[dict]) -> Path:
@@ -530,6 +544,8 @@ def flat_analysis(output_dir: Path) -> dict:
             ]
             threshold_rows.append(
                 {
+                    "waveform_family": "pure_ell2_fixed_data",
+                    "threshold_scope": "pure_ell2_direct_error_only",
                     "window": window,
                     "window_family": _window_family(window),
                     "threshold_fraction": threshold,
@@ -721,7 +737,9 @@ def localized_waveform_analysis(
             {
                 "cosmological_length_over_M": length,
                 "observer": "outer",
-                "window": "full_available_signal",
+                "window": LOCALIZED_SOURCE_INTERVAL,
+                "interval_classification": "common archived interval across all source archives",
+                "complete_late_time_signal": False,
                 "window_start_U_over_M": start,
                 "window_end_U_over_M": end,
                 "coarse_medium_paired_sphere_E2": coarse_medium,
@@ -741,7 +759,9 @@ def localized_waveform_analysis(
             {
                 "cosmological_length_over_M": length,
                 "observer": "outer",
-                "window": "full_available_signal",
+                "window": LOCALIZED_SOURCE_INTERVAL,
+                "interval_classification": "common archived interval across all source archives",
+                "complete_late_time_signal": False,
                 "window_start_U_over_M": start,
                 "window_end_U_over_M": end,
                 **sphere_modal_metrics(
@@ -844,7 +864,9 @@ def localized_waveform_analysis(
             {
                 "comparison": comparison,
                 "observer": "outer",
-                "window": "full_available_signal",
+                "window": LOCALIZED_SOURCE_INTERVAL,
+                "interval_classification": "common archived interval across all source archives",
+                "complete_late_time_signal": False,
                 "window_start_U_over_M": start,
                 "window_end_U_over_M": end,
                 **sphere_modal_metrics(
@@ -885,6 +907,8 @@ def localized_waveform_analysis(
                 {
                     "diagnostic": "direct",
                     "direction": label,
+                    "window": LOCALIZED_SOURCE_INTERVAL,
+                    "complete_late_time_signal": False,
                     "gamma_over_pi": phi / np.pi,
                     "cosmological_length_over_M": length,
                     "window_start_U_over_M": start,
@@ -904,6 +928,8 @@ def localized_waveform_analysis(
                 {
                     "diagnostic": "extrapolant_vs_schwarzschild",
                     "direction": label,
+                    "window": LOCALIZED_SOURCE_INTERVAL,
+                    "complete_late_time_signal": False,
                     "gamma_over_pi": phi / np.pi,
                     "base_L_over_M": length,
                     "window_start_U_over_M": start,
@@ -922,6 +948,8 @@ def localized_waveform_analysis(
             {
                 "diagnostic": "extrapolant_difference",
                 "direction": label,
+                "window": LOCALIZED_SOURCE_INTERVAL,
+                "complete_late_time_signal": False,
                 "gamma_over_pi": phi / np.pi,
                 "window_start_U_over_M": start,
                 "window_end_U_over_M": end,
@@ -1309,7 +1337,11 @@ def source_analysis(output_dir: Path, repository_root: Path | None = None) -> di
             {
                 "observer": observer,
                 "model": model,
-                "fit_status": "quantitative_case_specific_errors",
+                "fit_status": "consistency_evidence_only",
+                "scientific_interpretation": (
+                    "scaling consistency evidence; not a precision coefficient measurement "
+                    "or independent regulator claim"
+                ),
                 "input_lengths_over_M": ";".join(f"{value:g}" for value in lengths),
                 "excluded_diagnostic_lengths_over_M": ";".join(
                     f"{row['cosmological_length_over_M']:g}"
@@ -1438,10 +1470,13 @@ def _write_latex_table(
     columns: str,
     header: tuple[str, ...],
     rows: list[tuple[str, ...]],
+    wide: bool = False,
 ) -> Path:
+    environment = "table*" if wide else "table"
     lines = [
-        r"\begin{table}",
+        rf"\begin{{{environment}}}",
         r"\centering",
+        r"\small",
         rf"\caption{{{caption}}}",
         rf"\label{{{label}}}",
         rf"\begin{{tabular}}{{{columns}}}",
@@ -1450,7 +1485,7 @@ def _write_latex_table(
         r"\midrule",
     ]
     lines.extend(" & ".join(row) + r" \\" for row in rows)
-    lines.extend((r"\bottomrule", r"\end{tabular}", r"\end{table}"))
+    lines.extend((r"\bottomrule", r"\end{tabular}", rf"\end{{{environment}}}"))
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     return path
@@ -1458,6 +1493,10 @@ def _write_latex_table(
 
 def write_paper_tables(output_dir: Path, flat: dict, source: dict) -> list[Path]:
     tables = Path(output_dir) / "tables"
+    flat_numerical = {
+        (row["cosmological_length_over_M"], row["window"]): row
+        for row in flat["numerical"]
+    }
     direct_rows = []
     for row in flat["metrics"]:
         if row["cosmological_length_over_M"] not in (320, 640):
@@ -1465,61 +1504,86 @@ def write_paper_tables(output_dir: Path, flat: dict, source: dict) -> list[Path]
         direct_rows.append(
             (
                 f"{row['cosmological_length_over_M']:g}",
-                row["window"].replace("_", r"\_"),
+                WINDOW_LATEX_LABELS[row["window"]],
                 f"{100.0 * row['E2']:.4f}",
                 f"{100.0 * row['Einf']:.4f}",
-                f"{100.0 * row['case_specific_numerical_E2']:.4f}",
-                "Q" if row["analysis_status"] == "quantitative" else "D",
+                f"{100.0 * flat_numerical[(row['cosmological_length_over_M'], row['window'])]['medium_fine_paired_E2']:.4f}",
+                (
+                    "quantitative"
+                    if row["analysis_status"] == "quantitative"
+                    else "diagnostic"
+                ),
             )
         )
     flat_table = _write_latex_table(
         tables / "paper_flat_windows.tex",
         caption=(
-            "Direct fixed-data regulator comparison. Q denotes quantitative; "
-            "D denotes diagnostic because observed refinement is not subdominant."
+            r"Direct regulator errors for the pure $\ell=2$ fixed-data sequence. "
+            "These thresholds do not apply to the localized-source calculation."
         ),
         label="tab:flat-regulator-windows",
-        columns="rrrrrr",
-        header=(r"$L/M$", "window", r"$E_2$ (\%)", r"$E_\infty$ (\%)", r"refinement (\%)", "status"),
+        columns="rlrrrl",
+        header=(
+            r"$L/M$",
+            r"interval",
+            r"$E_2$ (\%)",
+            r"$E_\infty$ (\%)",
+            r"observed $N_{\rm med}-N_{\rm fine}$ (\%)",
+            "status",
+        ),
         rows=direct_rows,
+        wide=True,
     )
 
     extrapolation_rows = [
         (
-            row["comparison"].replace("_", r"\_"),
-            row["window"].replace("_", r"\_"),
+            COMPARISON_LATEX_LABELS[row["comparison"]],
+            WINDOW_LATEX_LABELS[row["window"]],
             f"{100.0 * row['E2']:.4f}",
             f"{100.0 * row['directly_observed_medium_fine_change_E2']:.4f}",
-            "Q" if row["analysis_status"] == "quantitative" else "D",
+            f"{100.0 * row['propagated_estimated_fine_numerical_E2']:.4f}",
+            r"1\% test" if row["regulator_success"] else "diagnostic",
         )
         for row in flat["extrapolation"]
     ]
     extrapolation_table = _write_latex_table(
         tables / "paper_flat_extrapolants.tex",
         caption=(
-            "Nested flat-waveform extrapolants. Central residuals are not "
-            "resolved-accuracy estimates; refinement is the directly observed "
-            "medium-to-fine residual change."
+            r"Nested extrapolants for the pure $\ell=2$ fixed-data sequence. "
+            "The central residual, directly observed medium-to-fine change, and "
+            "propagated Richardson estimate are distinct quantities."
         ),
         label="tab:flat-extrapolants",
-        columns="lllrr",
-        header=("comparison", "window", r"central residual (\%)", r"refinement (\%)", "status"),
+        columns="llrrrl",
+        header=(
+            "comparison",
+            "interval",
+            r"central residual (\%)",
+            r"observed refinement (\%)",
+            r"Richardson estimate (\%)",
+            "status",
+        ),
         rows=extrapolation_rows,
+        wide=True,
     )
 
     localized = source["waveform"]
+    localized_start, localized_end = localized["window"]
+    localized_numerical = {
+        row["cosmological_length_over_M"]: row for row in localized["numerical"]
+    }
     localized_rows = [
         (
-            "direct",
+            r"$W_L-W_{\rm Schw}$",
             f"{row['cosmological_length_over_M']:g}",
             f"{100.0 * row['E2']:.5f}",
-            f"{100.0 * row['case_specific_numerical_E2']:.5f}",
+            f"{100.0 * localized_numerical[row['cosmological_length_over_M']]['medium_fine_paired_sphere_E2']:.5f}",
         )
         for row in localized["metrics"]
     ]
     localized_rows.extend(
         (
-            row["comparison"].replace("_", r"\_"),
+            COMPARISON_LATEX_LABELS[row["comparison"]],
             "--",
             f"{100.0 * row['E2']:.5f}",
             f"{100.0 * row['directly_observed_medium_fine_change_E2']:.5f}",
@@ -1529,8 +1593,10 @@ def write_paper_tables(output_dir: Path, flat: dict, source: dict) -> list[Path]
     localized_table = _write_latex_table(
         tables / "paper_localized_source.tex",
         caption=(
-            "Full localized-source waveform comparison using the "
-            "sphere-integrated modal norm as the primary measure."
+            "Localized-source comparison on the common archived interval "
+            rf"${localized_start:.6g}\leq U/M\leq {localized_end:.4f}$, "
+            "using the sphere-integrated modal norm. "
+            "The interval is not a complete late-time signal."
         ),
         label="tab:localized-source-regulator",
         columns="llrr",
@@ -1551,6 +1617,7 @@ def write_paper_tables(output_dir: Path, flat: dict, source: dict) -> list[Path]
                 f"{row['window_sensitivity_over_M']:.2e}",
                 f"{row['cadence_sensitivity_over_M']:.2e}",
                 f"{row['combined_fixed_source_timing_sensitivity_over_M']:.2e}",
+                f"{row['target_uncertainty_over_M']:.1e}",
                 "yes" if row["meets_target"] else "no",
             )
         )
@@ -1558,12 +1625,24 @@ def write_paper_tables(output_dir: Path, flat: dict, source: dict) -> list[Path]
         tables / "paper_timing_sensitivities.tex",
         caption=(
             "Deterministic timing sensitivities in units of M. The combined "
-            "column is a conservative linear sum, not a statistical error."
+            "column is a conservative linear sum, not a statistical error. "
+            "The associated $D_1$ scaling is used only as consistency evidence."
         ),
         label="tab:timing-sensitivities",
-        columns="llrrrrrl",
-        header=(r"$L/M$", "observer", "PDE", "estimator", "window", "cadence", "combined", "target"),
+        columns="llrrrrrrl",
+        header=(
+            r"$L/M$",
+            "observer",
+            "PDE",
+            "estimator",
+            "window",
+            "cadence",
+            "combined",
+            "target",
+            "met?",
+        ),
         rows=target_rows,
+        wide=True,
     )
     return [flat_table, extrapolation_table, localized_table, timing_table]
 
@@ -1590,7 +1669,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     for axis in axes:
         axis.grid(alpha=0.2)
         axis.set_xlim(0, 80)
-    fig.suptitle("Fixed-data artificial-cosmology waveform sequence")
+    fig.suptitle(r"Pure $\ell=2$ fixed-data regulator sequence")
     fig.tight_layout()
     paths.extend(_save_publication_figure(fig, output_dir, "flat_waveform_sequence"))
     plt.close(fig)
@@ -1600,13 +1679,13 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         (axes[0], "Cumulative", CUMULATIVE_WINDOWS),
         (axes[1], "Disjoint", DISJOINT_WINDOWS),
     ):
-        for window, _, _ in windows:
+        for window, start, end in windows:
             selected = [row for row in flat["metrics"] if row["window"] == window]
             (line,) = axis.loglog(
                 [row["cosmological_length_over_M"] for row in selected],
                 [row["E2"] for row in selected],
                 "o-",
-                label=window.replace("_", " "),
+                label=rf"${start:g}\leq U/M\leq {end:g}$",
             )
             axis.loglog(
                 [row["cosmological_length_over_M"] for row in selected],
@@ -1630,7 +1709,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[1].plot([], [], "kx--", linewidth=0.9, label="observed refinement scale")
     axes[1].legend(fontsize=8)
     axes[0].set_ylabel(r"direct $E_2(L)$")
-    fig.suptitle("Direct waveform agreement: cumulative and disjoint windows")
+    fig.suptitle(r"Pure $\ell=2$ direct errors: cumulative and disjoint intervals")
     fig.tight_layout()
     paths.extend(_save_publication_figure(fig, output_dir, "flat_window_errors"))
     plt.close(fig)
@@ -1647,7 +1726,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.set_xlim(0, 80)
         axis.grid(alpha=0.2)
         axis.legend()
-    fig.suptitle("Nested regulator extrapolants and direct Schwarzschild waveform")
+    fig.suptitle(r"Pure $\ell=2$ nested extrapolants and Schwarzschild reference")
     fig.tight_layout()
     paths.extend(_save_publication_figure(fig, output_dir, "nested_extrapolants"))
     plt.close(fig)
@@ -1666,9 +1745,17 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.grid(which="both", alpha=0.2)
         axis.set_xlabel(r"$L/M$")
     axes[0].set_ylabel(r"timing scale $(M)$")
-    axes[-1].legend(fontsize=8)
-    fig.suptitle(r"Separated $D_1$ discretization and analysis sensitivities")
-    fig.tight_layout()
+    handles, legend_labels = axes[-1].get_legend_handles_labels()
+    fig.legend(
+        handles,
+        legend_labels,
+        loc="lower center",
+        ncol=6,
+        fontsize=8,
+        bbox_to_anchor=(0.5, -0.02),
+    )
+    fig.suptitle(r"Deterministic $D_1$ sensitivity audit")
+    fig.tight_layout(rect=(0.0, 0.08, 1.0, 0.94))
     paths.extend(_save_publication_figure(fig, output_dir, "D1_error_separation"))
     plt.close(fig)
 
@@ -1685,7 +1772,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
             yerr=[row["combined_timing_uncertainty_over_M"] for row in quantitative],
             fmt="o",
             capsize=3,
-            label="quantitative",
+            label="retained measurement",
         )
         if diagnostic:
             axis.plot(
@@ -1706,7 +1793,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
             np.abs(fitted),
             "--",
             linewidth=1.2,
-            label="weighted fit",
+            label="scaling consistency guide",
         )
         axis.set(
             title=observer,
@@ -1717,10 +1804,23 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.set_xticklabels(("80", "160", "320", "640"))
         axis.tick_params(axis="x", which="minor", labelbottom=False)
         axis.grid(which="both", alpha=0.2)
-        axis.legend(fontsize=8)
+    handles, legend_labels = axes[0].get_legend_handles_labels()
+    outer_handles, outer_labels = axes[-1].get_legend_handles_labels()
+    for handle, label in zip(outer_handles, outer_labels):
+        if label not in legend_labels:
+            handles.append(handle)
+            legend_labels.append(label)
     axes[0].set_ylabel(r"$|D_1|/M$")
-    fig.suptitle(r"Caustic timing sequence with case-specific uncertainties")
-    fig.tight_layout()
+    fig.legend(
+        handles,
+        legend_labels,
+        loc="lower center",
+        ncol=3,
+        fontsize=8,
+        bbox_to_anchor=(0.5, -0.02),
+    )
+    fig.suptitle(r"$D_1$ scaling as consistency evidence only")
+    fig.tight_layout(rect=(0.0, 0.08, 1.0, 0.94))
     paths.extend(_save_publication_figure(fig, output_dir, "D1_scaling"))
     plt.close(fig)
 
@@ -1731,7 +1831,13 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axis.bar(x - 0.18, first, width=0.36, label="first pulse")
     axis.bar(x + 0.18, second, width=0.36, label="second pulse")
     axis.axhline(RAY_CONSISTENCY_TOLERANCE_M, color="red", linestyle="--", label="consistency tolerance")
-    axis.set_xticks(x, [f"{float(row['gamma_over_pi']):.3g}π\n{row['pulse_pair']}" for row in l12_rows])
+    axis.set_xticks(
+        x,
+        [
+            rf"${float(row['gamma_over_pi']):.3g}\pi$" + "\n" + row["pulse_pair"]
+            for row in l12_rows
+        ],
+    )
     axis.set(
         ylabel=r"absolute simulation-minus-ray arrival $(M)$",
         xlabel=r"angle and pulse pair",
@@ -1754,13 +1860,13 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         [row["E2"] for row in source_metrics],
         "o-",
         color="#16697a",
-        label="sphere-integrated direct",
+        label="localized source direct error",
     )
     axes[0, 0].axhline(0.01, color="0.45", linestyle="--", linewidth=0.9, label="1%")
     axes[0, 0].set(
         xlabel=r"$L/M$",
         ylabel=r"sphere-integrated $E_2$",
-        title="Full localized-source waveform",
+        title="Direct error on common archived interval",
     )
     axes[0, 0].legend(fontsize=8)
     labels = [
@@ -1782,7 +1888,11 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[1, 0].semilogy(source_times, sphere_plot["L320_residual"], label=r"$L/M=320$ residual")
     axes[1, 0].semilogy(source_times, sphere_plot["L640_residual"], label=r"$L/M=640$ residual")
     axes[1, 0].semilogy(source_times, sphere_plot["extrapolant_difference"], label="extrapolant difference")
-    axes[1, 0].set(xlabel=r"$U/M$", ylabel=r"instantaneous $L^2(S^2)$ norm", title="Modal residual history")
+    axes[1, 0].set(
+        xlabel=r"$U/M$",
+        ylabel=r"instantaneous $L^2(S^2)$ norm",
+        title="Archived interval modal residuals",
+    )
     axes[1, 0].set_xlim(23.0, source_times[-1])
     axes[1, 0].set_ylim(1e-7, None)
     axes[1, 0].legend(fontsize=7)
@@ -1796,7 +1906,9 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[1, 1].legend(fontsize=7)
     for axis in axes.flat:
         axis.grid(alpha=0.2)
-    fig.suptitle("Localized-source regulator: primary modal norm and caustic diagnostic")
+    fig.suptitle(
+        "Localized source on the common archived interval: primary modal norm and supporting caustic diagnostic"
+    )
     fig.tight_layout()
     paths.extend(_save_publication_figure(fig, output_dir, "localized_source_regulator"))
     plt.close(fig)
@@ -1844,7 +1956,13 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
     written.extend(write_paper_tables(output_dir, flat, source))
     written.extend(create_plots(output_dir, flat, source, l12_rows))
     summary = {
-        "purpose": "Test artificial cosmology as a regulator for asymptotically flat waveforms.",
+        "purpose": (
+            "Primary result: quantitative artificial-cosmology regulator test and "
+            "controlled Schwarzschild waveform recovery. Supporting result: SdS "
+            "wave propagation and caustic echoes."
+        ),
+        "paper_target": "Physical Review D",
+        "production_archives_modified": False,
         "cumulative_windows": CUMULATIVE_WINDOWS,
         "disjoint_windows": DISJOINT_WINDOWS,
         "flat_contract": flat["contract"],
@@ -1857,8 +1975,19 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
         "localized_source_nested_extrapolants": source["waveform"]["extrapolation"],
         "localized_source_direction_diagnostics": source["waveform"]["directions"],
         "direct_thresholds": flat["thresholds"],
+        "direct_threshold_scope": "pure ell=2 fixed-data sequence only",
+        "localized_source_interval": {
+            "classification": "common archived interval",
+            "complete_late_time_signal": False,
+            "start_U_over_M": source["waveform"]["window"][0],
+            "end_U_over_M": source["waveform"]["window"][1],
+        },
         "D1_measurements": source["measurements"],
         "D1_scaling_fits": source["fits"],
+        "D1_scaling_interpretation": (
+            "consistency evidence only; not a precision coefficient measurement "
+            "or independent regulator claim"
+        ),
         "L12_phase_cleanup": l12_rows,
         "source_width_classification": (
             "physical dependence, excluded from numerical uncertainty and regulator comparison"
@@ -1866,7 +1995,8 @@ def create_analysis(output_dir: Path, repository_root: Path | None = None) -> li
         "L1280_run": False,
         "supported_claim": (
             "agreement within 1% for the cumulative prompt-dominated flat-waveform "
-            "norms and the full sphere-integrated localized-source extrapolation; "
+            "norms and the sphere-integrated localized-source extrapolation on the "
+            "common archived interval; "
             "disjoint flat windows are diagnostic and do not support a uniform "
             "late-time 1% claim"
         ),

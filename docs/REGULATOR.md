@@ -1,13 +1,19 @@
 # Artificial-cosmology regulator: final analysis
 
-## Supported conclusion
+## Paper framing and supported conclusion
 
-Schwarzschild--de Sitter (SdS) is supported as an artificial-cosmology
-regulator for the fixed-data and fixed localized-source waveform observables
-tested here, at a conservative **1% extrapolated-waveform level**. This claim
-applies to the cumulative, prompt-dominated flat-waveform norms and to the
-full available localized-source signal in the sphere-integrated modal norm.
-It is not a claim of uniform 1% late-time accuracy.
+The Physical Review D paper will center on the quantitative demonstration of
+Misner's artificial cosmology regulator in a black hole spacetime, including
+controlled recovery of Schwarzschild waveforms as `L` increases. The
+Schwarzschild de Sitter propagation and caustic echo results provide
+supporting physical evidence and do not constitute a competing main claim.
+
+Schwarzschild de Sitter is supported as an artificial cosmology regulator
+for the fixed data and localized source observables tested here, at a
+conservative **1% extrapolated waveform level**. This statement applies to
+the cumulative prompt dominated pure `ell = 2` norms and to the localized
+source sphere integrated modal norm on the common archived interval. It is
+not a claim of uniform 1% late time accuracy.
 
 For the flat sequence, `0.0314%` is the largest **central cumulative
 extrapolant residual**. It is not a resolved-accuracy estimate. The directly
@@ -18,11 +24,13 @@ comparisons these ranges are:
 | quantity | range |
 |---|---:|
 | central extrapolant residual | 0.0109--0.0314% |
-| directly observed medium-to-fine change | 0.0190--0.4092% |
-| propagated estimated fine-grid scale | 0.00914--0.1189% |
+| directly observed medium to fine change | 0.0190 to 0.4092% |
+| propagated Richardson fine grid estimate | 0.00914 to 0.1189% |
 
-The numerical scales are below the 1% acceptance scale, but they do not
-resolve the central residual as an accuracy measurement. No `L/M = 1280`
+The `0.409%` value is the observed refinement change. The `0.119%` value is a
+separate propagated Richardson estimate. Neither value is a relabeling of
+the other. Both numerical scales are below the 1% acceptance scale, but they
+do not resolve the central residual as an accuracy measurement. No `L/M = 1280`
 simulation was run because the two extrapolants agree within 1% in the
 declared cumulative test and in the independent localized-source norm.
 
@@ -55,7 +63,7 @@ The flat refinement ladder is `(N, dt/M) = (384, 0.005), (512, 0.00375),
 (768, 0.0025)`. The localized-source ladder is `(N_r, dt/M, ell_max) =
 (1024, 0.001, 42), (1536, 1/1500, 46), (2048, 0.0005, 50)`.
 
-## Direct flat-waveform comparison
+## Direct pure ell equals 2 fixed data comparison
 
 For every window,
 
@@ -78,9 +86,11 @@ from the zero-lag analytic-signal overlap.
 | 640 | 0--80 | 1.3402% | 1.3937% | 0.0682% | -0.01400 rad |
 | 640 | 0--160 | 1.3402% | 1.3937% | 0.0837% | -0.01382 rad |
 
-Using `E2 +` the case-specific conservative numerical margin, direct 5%
+These thresholds apply only to the pure `ell = 2` fixed data sequence. Using
+`E2 +` the case specific conservative numerical margin, direct 5%
 agreement first occurs at `L/M = 320`, direct 2% agreement first occurs at
-`L/M = 640`, and direct 1% agreement is not attained through 640.
+`L/M = 640`, and direct 1% agreement is not attained through 640. They do not
+apply to the localized source values reported below.
 
 For the representative endpoints, the largest cumulative medium-to-fine
 paired change is `0.1478%` at `L/M = 320` and `0.04648%` at `L/M = 640`;
@@ -125,17 +135,20 @@ are separately recorded in
 The disjoint rows in the same table are explicitly marked diagnostic where
 refinement is not subdominant.
 
-## Full localized-source waveform extrapolation
+## Localized source extrapolation on the common archived interval
 
-The full waveform extrapolation is applied directly to the existing compact
-modal archives. The primary norm uses Parseval orthogonality,
+The waveform extrapolation is applied directly to the existing compact modal
+archives on their common interval. The primary norm uses Parseval
+orthogonality,
 
 ```text
 ||W||^2 = integral dU sum_(ell,m) |u_ellm(U)|^2,
 ```
 
-at the outer boundary on the common fixed `U` grid, from `U/M = 0` through
-the common archive endpoint `57.2274`. No time translation is fitted.
+at the outer boundary on the common fixed `U` grid, from the first
+nonnegative stored sample `U/M = 0.000411` through the common archive endpoint
+`57.2274`. This is the common archived interval, not a complete late time
+signal. No time translation is fitted.
 
 | comparison | sphere-integrated E2 | observed medium-to-fine change |
 |---|---:|---:|
@@ -146,7 +159,7 @@ the common archive endpoint `57.2274`. No time translation is fitted.
 | W_inf^(80) vs W_inf^(160) | 0.051706% | 0.0001012% |
 
 This verifies the professor's approximate `5.26%`, `2.62%`, and `0.052%`
-checks with the full modal pipeline. The sphere-integrated norm is the
+checks with the archived modal pipeline. The sphere integrated norm is the
 primary result. The `gamma = 0` and `gamma = pi` caustic directions are
 secondary diagnostics only; the extrapolant differences there are `0.0186%`
 and `0.1184%`, respectively.
@@ -185,9 +198,12 @@ Source-width dependence is not included in that fixed-source target test.
 Thus the PDE-discretization components alone meet the requested values, but
 the requested **combined timing-sensitivity targets do not**. Both local
 `L/M = 640` timings remain diagnostic because `|D1|` is below three times
-the combined deterministic sensitivity. Sensitivity-weighted scaling fits
-use inverse squared deterministic sensitivity scales only as numerical
-weights; their residual sums are not chi-squared statistics.
+the combined deterministic sensitivity. The `D1` scaling curves are
+presented only as consistency evidence for the expected local and outer
+orders. They are not precision coefficient measurements and do not provide
+an independent regulator claim. The consistency guides use inverse squared
+deterministic sensitivity scales only as numerical weights; their residual
+sums are not chi squared statistics.
 
 See
 [`D1_measurements.csv`](../results/regulator_production_v3/tables/D1_measurements.csv),

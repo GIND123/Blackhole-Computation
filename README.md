@@ -62,34 +62,46 @@ stage-accurate Killing-time forcing and archive-compatible modal outputs.
 
 ## Artificial cosmology regulator result
 
+The Physical Review D paper will center on the quantitative demonstration of
+Misner's artificial cosmology regulator in a black hole spacetime and the
+controlled recovery of Schwarzschild waveforms as `L` increases. The
+Schwarzschild de Sitter propagation and caustic echo study is supporting
+physical evidence for that primary regulator result.
+
 The final production sequence extends the fixed data minimal gauge waveform
 and localized source calculations through `L/M = 320, 640`, with three
 resolution levels for every case. For the cumulative prompt dominated flat
 norms, `0.0314%` is the largest central extrapolant residual. It is not a
-resolved accuracy estimate. The directly observed medium to fine
-extrapolant changes reach `0.409%`, and the propagated estimated fine grid
-scale reaches `0.119%`. These results support the conservative 1% regulator
-conclusion, so `L/M = 1280` was not run.
+resolved accuracy estimate. The largest directly observed medium to fine
+extrapolant change is `0.409%`. Separately, `0.119%` is the largest propagated
+Richardson fine grid estimate. These quantities are reported in distinct
+columns and are not interchangeable. They support the conservative 1%
+regulator conclusion, so `L/M = 1280` was not run.
 
 The disjoint window analysis shows that the cumulative result must not be
 interpreted as uniform late time accuracy. The `40M` to `80M` and `80M` to
 `160M` results are diagnostic because numerical refinement is not
 subdominant.
 
-Applying the full extrapolation to the localized source modal archives gives
-sphere integrated `E2(320) = 5.2671%`, `E2(640) = 2.6257%`, and a two
-extrapolant difference of `0.05171%`. Representative caustic directions are
-retained as secondary diagnostics.
+Applying the extrapolation to the localized source modal archives on their
+common sampled interval, `0.000411 <= U/M <= 57.2274`, gives sphere integrated
+`E2(320) = 5.2671%`, `E2(640) = 2.6257%`, and a two extrapolant difference of
+`0.05171%`. This interval is not a complete late time signal. Representative
+caustic directions are retained as secondary diagnostics.
 
-Direct 5% agreement first occurs at `L/M = 320`, direct 2% agreement first
-occurs at `L/M = 640`, and direct 1% agreement is not reached through 640.
+For the pure `ell = 2` fixed data sequence only, direct 5% agreement first
+occurs at `L/M = 320`, direct 2% agreement first occurs at `L/M = 640`, and
+direct 1% agreement is not reached through 640. These thresholds do not
+describe the localized source values quoted above.
 The timing analysis separately reports discretization, estimator, window,
 cadence, and physical source width dependence. When the target fields are
 tested against the combined fixed source deterministic sensitivity rather
 than PDE discretization alone, none of the requested `L/M = 320, 640` timing
 targets is met. These sensitivities are not interpreted statistically. Both
 local `L/M = 640` timings remain diagnostic, and all `L/M = 12` phase pairs
-that fail the null ray arrival check are excluded.
+that fail the null ray arrival check are excluded. The `D1` scaling curves
+are used only as consistency evidence, not as precision coefficient
+measurements or as a separate regulator claim.
 
 The complete final package is organized here:
 
