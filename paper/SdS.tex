@@ -1,0 +1,908 @@
+\documentclass[
+ aps,
+ prd,
+ reprint,
+ superscriptaddress,
+ nofootinbib,
+ longbibliography
+]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{placeins}
+\usepackage[hidelinks]{hyperref}
+
+% WORKING MANUSCRIPT SCAFFOLD
+% ---------------------------
+% The geometric motivation and regulator construction below provide the
+% starting point supplied by A.Z.  Govind should use paper/README.md as the
+% work plan for completing the methods, results, figures, and appendices.
+% Do not broaden the claims beyond the scope stated in the abstract and in
+% paper/README.md without discussing the change first.
+\newcommand{\draftgraphic}[2][\linewidth]{%
+  \IfFileExists{#2}{\includegraphics[width=#1]{#2}}{%
+    \fbox{\parbox[c][1.15in][c]{0.85\linewidth}{\centering
+      Figure placeholder\\[-0.2ex]\footnotesize\texttt{\detokenize{#2}}}}}}
+
+\newcommand{\scri}{\mathscr{I}}
+\newcommand{\hc}{\mathcal{H}_{c}^{+}}
+\newcommand{\hb}{\mathcal{H}_{b}^{+}}
+
+\begin{document}
+
+\title{Artificial cosmology as a regulator for hyperboloidal black-hole
+evolution: Controlled recovery of Schwarzschild waveforms}
+
+\author{Govind Arun Kumar}
+\email{govind02@umd.edu}
+\affiliation{Institute for Physical Science and Technology, University of
+Maryland, College Park, Maryland 20742, USA}
+
+\author{An\i l Zengino\u{g}lu}
+\email{anil@umd.edu}
+\affiliation{Institute for Physical Science and Technology, University of
+Maryland, College Park, Maryland 20742, USA}
+
+\date{\today}
+
+\begin{abstract}
+Conformal compactification of asymptotically flat evolution equations can
+introduce formally singular terms at future null infinity.  Misner proposed
+regulating those terms with a small positive cosmological constant, replacing
+null infinity by a cosmological horizon where the conformal factor remains
+nonzero.  We give a quantitative black-hole proof of principle using scalar
+waves on Schwarzschild--de Sitter spacetime.  A useful regulator is not
+specified by the metric alone: its foliation, compactification, initial-data
+map, and waveform clock must approach a common Schwarzschild problem as the
+cosmological length $L=\sqrt{3/\Lambda}$ grows.  We identify a bridge
+foliation with this global limit and test the resulting family against an
+independent Schwarzschild evolution.  Direct finite-$L$ waveform errors
+decrease but remain observable dependent.  Two nested extrapolants formed
+from $L/M=80,160,320,640$ recover the independent Schwarzschild waveform at
+a conservative one-percent level for the cumulative, prompt-dominated
+fixed-mode test and for a localized multimode response on its common
+archived interval.  The latter provides a nontrivial angular and caustic
+stress test.  We make no claim of uniform one-percent late-time accuracy.
+Caustic-echo timing supplies supporting Schwarzschild--de Sitter physics and
+is consistent with a local $\mathcal O((M/L)^2)$ correction and a larger
+outer $\mathcal O(M/L)$ response, but its deterministic sensitivities do not
+support precision fit coefficients.  The calculation establishes a scalar
+regulator protocol and target accuracy for a future application to the full
+Einstein equations; it is not itself an Einstein evolution.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Radiation from isolated systems has a  clean definition at future null
+infinity, $\scri^+$.  Hyperboloidal evolution brings this clean definition
+onto the computational domain through spacelike slices that approach
+outgoing null hypersurfaces.  After spatial compactification places infinity
+at a finite coordinate location, waves leave the grid through a
+characteristic, pure outflow boundary.  Friedrich's conformal field equations regularize
+the asymptotic problem \cite{friedrich1983cauchy}.  Applying scri fixing
+directly to the Einstein equations exposes formally singular conformal
+source terms whose limits must preserve the constraints in the chosen gauge
+\cite{zenginoglu_hyperboloidal_2008,Zenginoglu:2008pw,
+Moncrief:2008ie}.  Stable calculations now include Einstein evolution in
+axisymmetry and spherical symmetry
+\cite{Rinne:2009qx,Vano-Vinuales:2014koa,Vano-Vinuales:2017qij}.
+Three-dimensional test fields and asymptotic model systems extend those
+tests \cite{Zenginoglu:2010zm,Peterson:2023bha}.
+
+Misner introduced artificial cosmology
+\cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006}.
+A small positive cosmological constant serves there as a regulator.
+It replaces future null infinity with a distant cosmological horizon, so the
+grid terminates in the pure-outflow region beyond it.  Black-hole excision
+uses the same causal mechanism inside an event horizon.  Misner and
+collaborators tested parts of this idea with Maxwell fields on de Sitter
+backgrounds.  Scalar waves on Schwarzschild--de Sitter (SdS) provide a
+black-hole model with a strong-field scattering region between the future
+black-hole horizon $\hb$ and the future cosmological horizon $\hc$.
+
+For $\Lambda>0$, the future conformal boundary is spacelike.  Its asymptotic
+symmetries and radiative degrees of freedom differ from those at
+$\scri^+$, as do the associated fluxes.  Ashtekar et al. developed this
+structure for linear fields and derived a
+positive-$\Lambda$ quadrupole formula
+\cite{Ashtekar:2014zfa,Ashtekar:2015lla,Ashtekar:2015lxa}.  Here $\Lambda$
+acts as a numerical regulator for scalar evolution.  We determine the
+region over which that evolution approximates a specified asymptotically
+flat solution, with the conformal boundary confining the comparison to a
+finite spacetime region.
+
+Regularity at $\hb$ and $\hc$ fixes the leading behavior of a bridge near
+each horizon.  Its continuation into the expanding region beyond $\hc$
+selects the asymptotic end.  Horizon crossings leave enough freedom for a
+one-parameter family to approach a Cauchy-like Schwarzschild end.  The
+regulator family includes its foliation and compactification along with the
+data map and waveform clock.  Scalar observables remain invariant under
+coordinate changes.  Our analysis tracks the limiting coordinates and the
+conditioning they induce in the numerical equations.
+
+Writing $\Lambda=3/L^2$, the SdS metric approaches Schwarzschild on every
+fixed near-zone interval as $L/M\to\infty$.  Each finite value of $L$ keeps
+the SdS global causal structure.  Schwarzschild fields develop inverse-power
+tails
+\cite{price1972nonspherical,zengin2008hyperboloidal,
+Angelopoulos:2016wcv}.  SdS fields eventually display cosmological decay
+\cite{Brady:1996za,brady_radiative_1999,Molina:2003dc}.  A finite-$L$
+calculation approximates the asymptotically flat waveform over a finite
+interval.  Cosmological decay sets its later behavior.
+
+Using the bridge constructions and conformal geometry developed in
+Ref.~\cite{zenginoglu_bridge_2025}, we form a one-parameter regulator family
+on a fixed compact domain.  Analytic large-$L$ limits follow the slices to
+their asymptotic ends.  Retarded-time offsets set a common clock, and the
+compactified coefficients expose the conditioning of each choice.  We then
+evolve a regular first-order scalar system in the minimal gauge and compare
+each finite-$L$ waveform with an independently evolved Schwarzschild
+reference without fitting a relative time translation.
+
+The paper has two goals.  The primary goal is to test Misner's proposal as a
+controlled regulator: we determine both the direct finite-$L$ error and the
+accuracy of an $L\to\infty$ extrapolation.  A fixed pure-$\ell=2$ datum tests
+the waveform limit cleanly, while a localized source excites many angular
+modes and stresses the construction through caustics.  The secondary goal is
+to study physical finite-$\Lambda$ effects, including caustic echoes and the
+eventual departure from Schwarzschild late-time behavior.  Those effects
+support the regulator analysis but do not constitute a second headline.
+
+Section~\ref{sec:bridges} gives the global foliation criterion and identifies
+the regulator gauge.  Section~\ref{sec:scalar} defines the scalar model,
+matched data, clock, numerical methods, and comparison measures.
+Section~\ref{sec:results} presents direct and extrapolated Schwarzschild
+recovery followed by the localized-source test and supporting SdS physics.
+The appendices collect convergence, sensitivity, and reproducibility details.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Bridge foliations and the regulator limit}
+\label{sec:bridges}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Schwarzschild--de Sitter static patch}
+
+The SdS metric in static coordinates is
+\begin{align}
+ ds^2&=-f(r)dt^2+\frac{dr^2}{f(r)}+r^2d\omega^2,
+ \label{eq:sds_metric}\\
+ f(r)&=1-\frac{2M}{r}-\frac{r^2}{L^2},
+ \qquad d\omega^2=d\theta^2+\sin^2\theta\,d\varphi^2.
+ \label{eq:f}
+\end{align}
+We use geometrized units $G_{\rm N}=c=1$.  The simulations set $M=1$ and
+restore factors of $M$ in reported coordinates and dimensionless
+diagnostics.
+For $0<M<L/(3\sqrt{3})$, $f$ has a black-hole root $r_b$, a
+cosmological root $r_c$, and a negative root $r_u=-(r_b+r_c)$.  They obey
+\begin{align}
+ L^2&=r_b^2+r_br_c+r_c^2,
+ &2ML^2&=r_br_c(r_b+r_c),
+ \label{eq:root_relations}\\
+ f(r)&=\frac{(r-r_b)(r_c-r)(r-r_u)}{L^2r}.
+ \label{eq:f_factorized}
+\end{align}
+For $i=b,c$, the positive surface gravities follow from
+Eq.~\eqref{eq:kappa}.  The partial-fraction formulas use the positive
+algebraic coefficient $\kappa_u:=|f'(r_u)|/2$ at the negative root:
+\begin{equation}
+ \kappa_i=\frac12\left|f'(r_i)\right|
+ =\frac12\left|\frac{1}{r_i}-\frac{3r_i}{L^2}\right|,
+ \qquad i\in\{b,c,u\}.
+ \label{eq:kappa}
+\end{equation}
+With an arbitrary reference radius $r_0\in(r_b,r_c)$, the normalized
+tortoise coordinate is
+\begin{align}
+r_{*,L}(r)={}&\frac{1}{2\kappa_b}
+ \ln\frac{r-r_b}{r_0-r_b}
+-\frac{1}{2\kappa_c}
+ \ln\frac{r_c-r}{r_c-r_0}
+\notag\\
+&+\frac{1}{2\kappa_u}
+ \ln\frac{r-r_u}{r_0-r_u}.
+\label{eq:tortoise}
+\end{align}
+The tortoise coordinate tends to $-\infty$ at $r_b$ and to $+\infty$ at
+$r_c$.  Its flat limit has
+\begin{equation}
+ r_b\to2M,\qquad r_c=L-M+\mathcal{O}(M^2/L),
+ \label{eq:horizon_flat_limit}
+\end{equation}
+and the static patch expands to the Schwarzschild exterior.
+
+\subsection{The global criterion beyond the horizons}
+
+We introduce a stationary height function,
+\begin{equation}
+ \tau=t+h(r),\qquad B(r):=f(r)h'(r),
+ \label{eq:height}
+\end{equation}
+where $B$ is the boost relative to $r_*$.  For a radial coordinate
+$\rho=g(r)$ and $G=d\rho/dr$, the metric becomes
+\begin{equation}
+ ds^2=-f\,d\tau^2+\frac{2B}{G}\,d\tau d\rho
+ +\frac{1-B^2}{fG^2}\,d\rho^2+r^2d\omega^2.
+ \label{eq:transformed_metric}
+\end{equation}
+A future-directed spacelike bridge within the static patch satisfies
+\begin{equation}
+ |B|<1,\qquad B(r_b)=+1,\qquad B(r_c)=-1,
+\label{eq:boost_conditions}
+\end{equation}
+where $(1-B^2)/f$ must tend to a finite positive nonzero value at each
+horizon for a radial map with finite nonzero endpoint values of $G$.
+Equivalently, $h\sim+r_*$ at $\hb$ and $h\sim-r_*$ at $\hc$.  The leaves
+are null-transverse and the transformed coefficients have regular horizon
+limits \cite{zenginoglu_bridge_2025}.  Beyond $\hc$, where $f<0$, spacelike
+continuation on the future branch requires $B<-1$.  The value $B(r_c)=-1$
+supplies the local crossing data.  The behavior of $B$ beyond that point
+determines how the leaves approach the spacelike future boundary.  This
+expanding region supports forward and scattering problems
+\cite{Schlue:2012pq,Bernhardt:2024hfs}.
+
+Two heights normalized by $h(r_0)=0$ carry the same endpoint data:
+\begin{align}
+h_{\rm min}(r)={}&
+\frac{1}{2\kappa_b}\ln\left|\frac{r-r_b}{r_0-r_b}\right|
++\frac{1}{2\kappa_c}\ln\left|\frac{r_c-r}{r_c-r_0}\right|,
+\label{eq:minimum_height}\\
+h_{\rm mg}(r)={}&
+\frac{1}{2\kappa_b}
+\ln\left|\frac{(r-r_b)r_0}{(r_0-r_b)r}\right|
++\frac{1}{2\kappa_c}
+\ln\left|\frac{(r_c-r)r_0}{(r_c-r_0)r}\right|
+\notag\\
+&-\frac{1}{2\kappa_u}
+\ln\left|\frac{(r-r_u)r_0}{(r_0-r_u)r}\right|.
+\label{eq:minimal_height}
+\end{align}
+Local horizon regularity supplies the two logarithms in the minimum height.
+The minimal gauge adds the third-root term and radial factors
+\cite{PanossoMacedo:2023qzp,zenginoglu_bridge_2025}.  Equation
+\eqref{eq:boost_conditions} holds for both families.  Figure
+\ref{fig:bridge_foliations} follows their leaves beyond $\hc$.  As
+$L\to\infty$, the minimum-height family closes toward a Cauchy-like
+asymptotic end.  Minimal-gauge leaves open toward Schwarzschild $\scri^+$,
+as seen in the two conformal diagrams.
+
+\begin{figure*}[t]
+ \centering
+ \draftgraphic[0.49\textwidth]{figs/minimalAnil.pdf}
+ \draftgraphic[0.49\textwidth]{figs/minimalRodrigo.pdf}
+ \caption{Conformal diagrams of two SdS bridge families from \cite{zenginoglu_bridge_2025}.  Each family crosses the
+ future horizons regularly.  The minimum-height leaves
+ in the left panel close toward a Cauchy-like end as $L$ grows.  In the
+ right panel, minimal-gauge leaves open toward Schwarzschild $\scri^+$.
+ Solid and dashed curves belong to the separate horizon-regular conformal
+ charts used to construct the diagrams.}
+ \label{fig:bridge_foliations}
+\end{figure*}
+
+For a bridge normalized by $h(r_0)=0$ and $r_{*,L}(r_0)=0$, the boost gives
+the clock diagnostic
+\begin{equation}
+ q_B(L;r_0):=\lim_{r\to r_c}(h+r_{*,L})
+ =\int_{r_0}^{r_c}\frac{1+B}{f}\,dr.
+ \label{eq:general_q}
+\end{equation}
+The integrand is regular at $r_c$.  A divergent $q_B$ sends the origin of
+the source clock to infinity as the outer null surface recedes.  A finite
+$q_B$ supplies the required clock limit.
+
+\subsection{Six bridges and a fixed compactification}
+
+In addition to Eqs.~\eqref{eq:minimum_height} and
+\eqref{eq:minimal_height}, we consider four boosts specified directly:
+\begin{align}
+B_{\rm lin}&=-1+2\frac{r_c-r}{r_c-r_b},
+\label{eq:linear_boost}\\
+B_{\rm fl}&=-1+2\frac{r_c-r}{r_c-r_b}\frac{r_b^2}{r^2},
+\label{eq:flat_linear_boost}\\
+B_{\rm Mav}&=-\frac{1-3M/r}{\sqrt{1-9M^2\Lambda}}
+ \sqrt{1+\frac{6M}{r}},
+\label{eq:mav_boost}\\
+B_{\rm sr}&=-\gamma r+\frac{\beta}{r^2},
+\label{eq:slow_roll_boost}\\
+\gamma&=\frac{r_c^2+r_b^2}{r_c^3-r_b^3},\qquad
+\beta=\frac{r_c^2r_b^2(r_c+r_b)}{r_c^3-r_b^3}.
+\label{eq:slow_roll_parameters}
+\end{align}
+The Mavrogiannis boost is motivated by wave estimates on SdS and turns at the
+photon sphere $r=3M$
+\cite{mavrogiannis2024quasilinear,mavrogiannis2023morawetz}.
+
+At fixed areal radius, with $x=M/r$, the six boosts have the limits
+\begin{equation}
+\begin{array}{lcc}
+\text{bridge}&B_0(r)&B_0(\infty)\\
+\hline
+\text{minimum height}&3x-\tfrac12&-\tfrac12\\
+\text{minimal gauge}&-1+8x^2&-1\\
+\text{linear}&+1&+1\\
+\text{modified linear}&-1+8x^2&-1\\
+\text{Mavrogiannis}&-(1-3x)\sqrt{1+6x}&-1\\
+\text{slow roll}&4x^2&0
+\end{array}
+\label{eq:boost_limits}
+\end{equation}
+An outgoing Schwarzschild hyperboloidal slice necessarily has $B_0\to-1$ at
+$r\to\infty$.  With the compactification \eqref{eq:compactification}, a
+regular null-infinity limit further requires
+$1+B_0=\mathcal{O}(M^2/r^2)$ with a finite positive leading coefficient.
+The minimum-height, linear, and slow-roll limits fall outside this
+asymptotic-nullness condition.  Minimal, modified-linear, and Mavrogiannis
+slices satisfy it.  A full regulator limit also requires uniform
+compactified coefficients through the expanding region.  For the
+modified-linear boost, an outer layer breaks uniformity near $\rho=1$.
+
+We place both horizons at fixed coordinate locations using
+\begin{align}
+ \rho&=\frac{1-r_b/r}{1-r_b/r_c},
+ &r(\rho)&=\frac{r_b}{1-(1-r_b/r_c)\rho},
+ \label{eq:compactification}\\
+ G(r)&=\frac{d\rho}{dr}
+ =\frac{r_b}{(1-r_b/r_c)r^2}.
+ \label{eq:G}
+\end{align}
+The black-hole and cosmological horizons are at $\rho=0$ and $1$,
+respectively.  At fixed $r$,
+\begin{equation}
+ \rho\to\rho_0:=1-\frac{2M}{r},
+ \label{eq:rho_limit}
+\end{equation}
+which is also the compactification used by the independent Schwarzschild
+solver.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scalar evolution and comparison protocol}
+\label{sec:scalar}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Regular first-order system}
+
+For a minimally coupled massless scalar field, write
+\begin{equation}
+ \Phi(t,r,\theta,\varphi)=\frac{1}{r}
+ \sum_{\ell m}u_{\ell m}(t,r)Y_{\ell m}(\theta,\varphi).
+ \label{eq:scalar_decomposition}
+\end{equation}
+Each mode satisfies
+\begin{align}
+ \left(-\partial_t^2+\partial_{r_*}^2-V_\ell\right)u&=0,
+ \label{eq:wave_equation}\\
+ V_\ell&=f\left[\frac{\ell(\ell+1)}{r^2}
+ +\frac{f'(r)}{r}\right].
+ \label{eq:scalar_potential}
+\end{align}
+We suppress the mode labels below and introduce
+\begin{equation}
+ p:=\frac{d\rho}{dr_*}=fG,\qquad
+ A:=\frac{p}{1-B^2},\qquad P:=\frac{V_\ell}{p},
+ \label{eq:coefficients}
+\end{equation}
+The first-order fields are
+\begin{equation}
+ \psi:=\partial_\rho u,\qquad
+ \pi:=\frac{1-B^2}{p}\partial_\tau u-B\psi.
+ \label{eq:first_order_variables}
+\end{equation}
+The evolution system is
+\begin{align}
+ \partial_\tau u&=A(B\psi+\pi),
+ \label{eq:evolve_u}\\
+ \partial_\tau\psi&=\partial_\rho\!\left[A(B\psi+\pi)\right],
+ \label{eq:evolve_psi}\\
+ \partial_\tau\pi&=\partial_\rho\!\left[A(\psi+B\pi)\right]-Pu.
+ \label{eq:evolve_pi}
+\end{align}
+We monitor the reduction constraint
+\begin{equation}
+ C:=\psi-\partial_\rho u.
+ \label{eq:constraint}
+\end{equation}
+
+The radial characteristic speeds are
+\begin{align}
+ c_-&=-A(1+B)=-\frac{p}{1-B},
+\notag\\
+ c_+&= A(1-B)= \frac{p}{1+B}.
+\label{eq:characteristic_speeds}
+\end{align}
+The endpoint speeds are $(c_+,c_-)=(0,c_-<0)$ at $\rho=0$ and
+$(c_+,c_-)=(c_+>0,0)$ at $\rho=1$.  The characteristic flow determines all
+endpoint values.  For a
+simple crossing with $B'(r_h)\ne0$, analytic cancellation gives
+\begin{equation}
+ A_h=\frac{f'(r_h)G(r_h)}{-2s_hB'(r_h)},\qquad
+ s_b=+1,\quad s_c=-1.
+ \label{eq:A_endpoint}
+\end{equation}
+We cancel every height-function pole algebraically and assign
+Eq.~\eqref{eq:A_endpoint} directly at each endpoint.
+
+The evolution domain ends on $\hc$.  The analytic continuation of the height
+function beyond that horizon is nevertheless essential: it selects the
+asymptotic end approached by the family as $L/M\to\infty$.  The finite-$L$
+evolutions test the regular crossing coefficients and extract the outer
+waveform on the cosmological horizon.
+
+For the minimal gauge, the limiting Schwarzschild coefficients are
+\begin{align}
+ B_0&=-1+2(1-\rho_0)^2,
+ &A_0&=\frac{1}{8M(2-\rho_0)},
+ \label{eq:schwarz_coefficients}\\
+ P_0&=\frac{\ell(\ell+1)+(1-\rho_0)}{2M}.
+ \label{eq:schwarz_potential}
+\end{align}
+The Schwarzschild code implements these expressions independently of the
+finite-$L$ code.
+
+\subsection{Numerical method}
+
+We solve Eqs.~\eqref{eq:evolve_u}--\eqref{eq:evolve_pi} with Dedalus~3
+\cite{burns_dedalus_2020}.  The radial direction uses a Chebyshev-$T$
+collocation basis on $0\leq\rho\leq1$, with the second-order RK222 method
+advancing time in double precision.  Fields at finite-radius
+observers are evaluated directly by spectral interpolation.
+
+% GOVIND TODO (production method): Replace this comment with the complete
+% frozen-v3 method.  Give the flat and localized-source resolution triplets,
+% time integrators and output cadence, angular truncation, independent
+% Schwarzschild construction, finite-difference/Dedalus cross-check, and
+% convergence protocol.  Distinguish PDE discretization from estimator,
+% window, cadence, and physical source-width dependence.  The exact values
+% and provenance are in docs/REGULATOR.md and the v3 manifest.
+
+The production campaign uses case-specific three-level refinement ladders
+for the fixed-mode and localized-source families and evolves independent
+Schwarzschild references under the same physical comparison contract.  The
+raw archives, commands, code identities, and derived artifacts are recorded
+in a hash-verified manifest.  Appendix~\ref{app:convergence} will summarize
+the numerical and cross-code checks needed for the claims below.
+
+\subsection{Geometrically matched data and clocks}
+\label{sec:protocol}
+
+\paragraph{Fixed-window data.}
+For the finite-time flat limit, the reduced field is the same smooth compact
+profile in areal radius on every background:
+\begin{equation}
+x=\frac{r-4M}{1.5M},
+\label{eq:displacement_x}
+\end{equation}
+\begin{equation}
+u(0,r)=
+\begin{cases}
+\displaystyle\exp\left(1-\frac{1}{1-x^2}\right),& |x|<1,\\
+0,&|x|\geq1.
+\end{cases}
+\label{eq:displacement_data}
+\end{equation}
+The support is $2.5M<r<5.5M$.  We initialize
+$\psi=D_\rho u$, where $D_\rho$ is the Chebyshev differentiation operator in
+the finite spectral representation, and
+\begin{equation}
+ \pi=-B\psi,
+\label{eq:killing_stationary_data}
+\end{equation}
+so that $\partial_\tau u=\partial_tu=0$ initially.  The data are momentarily
+stationary with respect to the static Killing field and retain a nonzero
+normal derivative on the bridge.  Their support in areal radius stays fixed
+across $L$.
+
+\paragraph{Tail data.}
+For the late-time study,
+\begin{equation}
+ u=\psi=0,\qquad \partial_\tau u=G_{\rm v}(r),\qquad
+ \pi=\frac{G_{\rm v}(r)}{A},
+\label{eq:velocity_data}
+\end{equation}
+where $x_{\rm v}=(r-6M)/(3M)$ and the peak-normalized $C^\infty$ profile is
+\begin{equation}
+ G_{\rm v}(r)=
+ \begin{cases}
+ \displaystyle\exp\left(1-\frac{1}{1-x_{\rm v}^2}\right),
+   & |x_{\rm v}|<1,\\
+ 0,& |x_{\rm v}|\geq1.
+ \end{cases}
+\label{eq:velocity_profile}
+\end{equation}
+Its support is $3M<r<9M$.  Dividing by the background-dependent $A$ fixes
+the prescribed Killing-time derivative profile across backgrounds.  The
+momentum array changes with $A$.  Since the $\tau=0$ bridge hypersurfaces
+vary with $L$, Eqs.~\eqref{eq:displacement_data}--\eqref{eq:velocity_profile}
+define a geometric map among their data.
+
+\paragraph{Retarded time.}
+We set $r_0=4M$ and normalize
+\begin{equation}
+ h_L(r_0)=0,\qquad r_{*,L}(r_0)=0.
+\end{equation}
+For the minimal gauge, the cosmological-horizon logarithms in
+$h_L+r_{*,L}$ cancel exactly, giving
+\begin{align}
+q_L={}&\frac{1}{2\kappa_b}
+\ln\frac{(r_c-r_b)^2r_0}{r_c(r_0-r_b)^2}
+\notag\\
+&+\left(\frac{1}{2\kappa_u}-\frac{1}{2\kappa_c}\right)
+\ln\frac{r_c}{r_0}.
+\label{eq:q_L}
+\end{align}
+The independent Schwarzschild value is
+\begin{equation}
+ q_0=4M\ln\frac{r_0}{r_0-2M}=4M\ln2.
+ \label{eq:q_zero}
+\end{equation}
+Waveforms are compared at the geometric retarded time
+\begin{equation}
+ U=\tau-q_L.
+\label{eq:retarded_time}
+\end{equation}
+At $\hc$ this is the outgoing retarded-time coordinate.  The same
+normalization reaches Schwarzschild $\scri^+$ in the limit.  At finite
+radius, $U$ is a stationary clock normalized at the outer boundary.  Its
+relation to the local outgoing coordinate is
+\begin{equation}
+ U-(t-r_{*,L})=h_L(r)+r_{*,L}(r)-q_L.
+\label{eq:finite_radius_clock}
+\end{equation}
+Since the constant drops out of a decay rate, reported transition times keep
+the geometric origin in Eq.~\eqref{eq:retarded_time}.
+
+\subsection{Localized source and regulator observables}
+\label{sec:localized_protocol}
+
+The fixed-mode calculation isolates the radial and temporal regulator limit.
+A second family uses a normalized source localized in radius, time, and
+angle.  Its spherical-harmonic decomposition excites a multimode response,
+including propagation through caustics.  The physical source prescription is
+held fixed across the SdS and Schwarzschild backgrounds; source width is
+therefore a property of the chosen response, not a numerical error bar.
+
+% GOVIND TODO (localized source): Give the complete source formula and
+% normalization, radial/temporal/angular profiles, modal truncation, zero
+% initial data, reconstruction convention, and outer/finite-radius extraction
+% prescription.  State unambiguously which fields are evolved mode by mode
+% and which quantities are reconstructed on the sphere.
+
+For a common time interval $\mathcal J$, the direct fixed-mode waveform error
+is
+\begin{equation}
+ E_2(L;\mathcal J)=
+ \frac{\|W_L-W_0\|_{L^2(\mathcal J)}}
+      {\|W_0\|_{L^2(\mathcal J)}},
+ \label{eq:regulator_E2}
+\end{equation}
+where $W_0$ is the independently computed Schwarzschild waveform.  No
+relative time translation is fitted.  The localized-source comparison uses
+the sphere-integrated Parseval norm
+\begin{equation}
+ \|W\|_{\mathcal J,S^2}^2=
+ \int_{\mathcal J}dU\sum_{\ell m}|u_{\ell m}(U)|^2.
+ \label{eq:parseval_norm}
+\end{equation}
+Assuming the finite-$L$ observable admits the tested expansion
+\begin{equation}
+ W_L=W_0+c_1\frac{M}{L}+c_2\left(\frac{M}{L}\right)^2
+ +\mathcal O\!\left((M/L)^3\right),
+ \label{eq:regulator_expansion}
+\end{equation}
+the three-level combination
+\begin{equation}
+ W_\infty^{(L)}=
+ \frac{W_L-6W_{2L}+8W_{4L}}{3}
+ \label{eq:nested_extrapolant}
+\end{equation}
+cancels the displayed finite-$L$ terms.  We test the extrapolation rather
+than assume it by comparing the nested triples based at $L/M=80$ and $160$
+with one another and with $W_0$.
+
+% GOVIND TODO (diagnostics): Add the exact cumulative/disjoint intervals,
+% amplitude and phase definitions, interpolation treatment, and numerical
+% error propagation used in the frozen analysis.  Explain why the cumulative
+% norm is prompt dominated and why the late disjoint intervals are diagnostic.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\label{sec:results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Foliation classes and numerical conditioning}
+\label{sec:foliation_results}
+
+At $L/M=10$, all six bridges evolve an $\ell=2$ pulse to $200M$ with
+characteristic outflow at the endpoints.  Their turning radii, defined by
+$B(r_t)=0$, appear in Table~\ref{tab:gauges} beside the largest norms of the
+reduction constraint.  Each bridge gives regular evolution at this value of
+$L$.  Since the $\tau=0$ hypersurfaces vary among gauges, the waveforms
+serve as feasibility data for the coordinates.
+
+\begin{table}[t]
+ \caption{Six-bridge feasibility test at $L/M=10$.  The calculation used
+ 192 modes and $\Delta\tau=0.02M$ on an affine radial coordinate between the
+ horizons.}
+\label{tab:gauges}
+\begin{ruledtabular}
+\begin{tabular}{lcc}
+Bridge & $r_t/M$ & $\max_\tau\|C\|_\infty$\\
+\colrule
+Minimum height & 3.8673 & $2.37\times10^{-9}$\\
+Minimal gauge & 2.8637 & $1.79\times10^{-11}$\\
+Linear & 5.4402 & $1.47\times10^{-11}$\\
+Modified linear & 2.7974 & $6.27\times10^{-9}$\\
+Mavrogiannis & 3.0000 & $2.48\times10^{-11}$\\
+Slow roll & 3.5579 & $5.03\times10^{-9}$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Figure~\ref{fig:foliation_limit} tests the stronger large-$L$ requirement
+under the fixed compactification \eqref{eq:compactification}.  Panel (a)
+plots the exact fixed-$r$ limits in Eq.~\eqref{eq:boost_limits}.  Panel (b)
+evaluates Eq.~\eqref{eq:general_q} with $r_0=4M$.  The offset set
+$\{q_{\rm min},q_{\rm lin},q_{\rm sr}\}$ diverges with $L$ according to
+\begin{equation}
+\begin{split}
+ q_{\rm min}&=\tfrac12L\ln2+\mathcal O\!\left[M\ln(L/M)\right],\\
+ q_{\rm lin}&=2L\ln2+\mathcal O\!\left[M\ln(L/M)\right],\\
+ q_{\rm sr}&=L\ln2+\mathcal O\!\left[M\ln(L/M)\right].
+\end{split}
+\label{eq:offset_asymptotics}
+\end{equation}
+Across $20\leq L/M\leq160$, the minimal-gauge offset moves from
+$2.4619M$ to $2.7243M$ on its way to $q_0=2.7726M$.  Modified-linear
+slices approach the same $q_0$.  The finite Mavrogiannis offset belongs to
+its distinct Schwarzschild hyperboloidal clock.
+
+\begin{figure*}[t]
+ \centering
+ \draftgraphic[\textwidth]{figs/foliation_flat_limit.pdf}
+ \caption{Large-$L$ foliation and coefficient diagnostics.  (a) Fixed-$r$
+ boost limits, with the outgoing Schwarzschild hyperboloidal target
+ $1+B_0=\mathcal O(M^2/r^2)$ at $\scri^+$.  (b) Offsets from the source to
+ the outer horizon,
+ $q_B(L;4M)$.  The dotted line is the minimal-gauge Schwarzschild value.
+ (c) $M\max_\rho|c_\pm|$ and (d) $M\min_\rho A$ on the compact interval.
+ Visual encodings identify each family.  The minimal and modified-linear
+ limits coincide in panel (a).}
+ \label{fig:foliation_limit}
+\end{figure*}
+
+Panels (c) and (d) connect each asymptotic limit to the numerical
+coefficients.  For the linear boost at $L/M=160$,
+$M\max|c_\pm|=19.86$ and $M\min A=3.88\times10^{-5}$, with maximum speed
+growing linearly in $L/M$.  The minimum of $MA$ falls as $(M/L)^2$ for the
+minimum-height and slow-roll families.  Linear slices share this decay in
+$A$.  All these values refer to the fixed compactification
+\eqref{eq:compactification} and change under a new radial coordinate.  The
+minimal and Mavrogiannis gauges keep coefficients of order $M^{-1}$ across
+the compact domain.  At $L/M=160$ their
+$(M\max|c_\pm|,M\min A)$ pairs are $(0.2498,0.06324)$ and
+$(0.1499,0.07495)$.  For the modified-linear family, the desired pointwise
+boost limit accompanies a nonuniform outer propagation coefficient:
+\begin{equation}
+ \lim_{L\to\infty}M A_{\rm fl}(1)=\frac14
+ \ne
+ \lim_{\rho\to1^-}\lim_{L\to\infty}M A_{\rm fl}(\rho)=\frac18.
+\label{eq:modified_linear_layer}
+\end{equation}
+This mismatch occupies an outer layer that shrinks as $L$ grows.  The
+endpoint has $Mc_{+,\rm fl}(1)\to1/2$.  Taking the Schwarzschild limit in the
+interior gives $Mc_{+,0}(\scri^+)=1/4$.
+
+We use the minimal gauge below because its hyperboloidal limit carries the
+finite clock in Eq.~\eqref{eq:q_zero}.  Its coefficients stay bounded across
+the compact domain.  An independent closed-form Schwarzschild
+implementation supplies the reference.
+
+\subsection{Direct finite-\texorpdfstring{$L$}{L} recovery}
+\label{sec:direct_recovery}
+
+The direct comparison answers the practical regulator question: how large
+must $L/M$ be before a finite cosmological calculation approximates the
+chosen Schwarzschild observable?  The answer depends on the observable and
+accuracy threshold.  For the cumulative, prompt-dominated pure-$\ell=2$
+sequence, agreement including the case-specific numerical margin first
+reaches $5\%$ at $L/M=320$ and $2\%$ at $L/M=640$; direct $1\%$ agreement is
+not reached through $L/M=640$.  These thresholds do not apply to the
+localized-source response.
+
+% GOVIND TODO (direct regulator result):
+% - Add the physical interpretation of the waveform sequence.
+% - Import or adapt flat_waveform_sequence.pdf and a compact PRD table.
+% - Define every reported interval and numerical margin in the text.
+% - Use flat_window_errors.pdf to show that cumulative norms are prompt
+%   dominated.  State that the 40--80M and 80--160M disjoint intervals are
+%   diagnostic because refinement is not subdominant.
+% - Do not claim uniform late-time accuracy.
+
+\subsection{Nested recovery of the Schwarzschild waveform}
+\label{sec:extrapolated_recovery}
+
+The primary regulator test is the agreement among
+$W_\infty^{(80M)}$, $W_\infty^{(160M)}$, and the independent Schwarzschild
+waveform.  Across the declared cumulative windows, the largest central
+extrapolant residual is $0.0314\%$.  That small central value is not a
+resolved accuracy measurement: the largest directly observed
+medium-to-fine change of a derived extrapolant is $0.409\%$, while the
+largest propagated Richardson fine-grid estimate is $0.119\%$.  We therefore
+state the result conservatively as recovery of the tested Schwarzschild
+waveform within $1\%$.
+
+% GOVIND TODO (nested extrapolation):
+% - Derive Eq. (nested_extrapolant) in the methods discussion.
+% - Add nested_extrapolants.pdf and explain both base triples.
+% - Give a compact headline table; move the long paper_flat_extrapolants.tex
+%   audit table to an appendix.
+% - Keep central residuals, observed refinement changes, and Richardson
+%   estimates in distinct columns and describe their different meanings.
+
+\subsection{Localized multimode response}
+\label{sec:localized_results}
+
+The localized-source family tests the regulator beyond a single spherical
+harmonic.  In the sphere-integrated norm \eqref{eq:parseval_norm}, the direct
+differences are $E_2(320)=5.26710\%$ and
+$E_2(640)=2.62569\%$.  The two extrapolants differ by $0.051706\%$ and each
+agrees with the independent Schwarzschild response well inside the
+conservative $1\%$ level.  These statements apply only to the common archived
+interval, $0.000411\lesssim U/M\leq57.2274$, not to a complete late-time
+signal.  Representative caustic directions are secondary diagnostics; the
+sphere-integrated modal norm is the primary comparison.
+
+% GOVIND TODO (localized-source result):
+% - Add localized_source_regulator.pdf and paper_localized_source.tex.
+% - Explain the Parseval comparison and why no angular direction is privileged.
+% - State the medium-to-fine changes and the fixed source contract.
+% - Describe the representative caustic directions without promoting them
+%   above the sphere-integrated result.
+
+\subsection{Supporting Schwarzschild--de Sitter physics}
+\label{sec:sds_physics}
+
+Finite $L$ is not merely a numerical nuisance.  The localized response
+contains caustic echoes whose arrival times, amplitudes, and phase structure
+probe the global SdS geometry.  A first-echo-spacing observable $D_1$ is
+consistent with a local correction of order $(M/L)^2$ at fixed areal radius
+and a parametrically larger outer response approaching order $M/L$.  The
+combined deterministic timing sensitivities do not meet the requested
+precision targets, however, so these curves are consistency evidence rather
+than precision measurements of expansion coefficients.  Local $L/M=640$
+timings and all phase pairs that fail the null-ray arrival check remain
+diagnostic and are excluded from quantitative interpretation.
+
+The older late-time decay calculation provides complementary evidence for
+the finite interval over which SdS follows Schwarzschild before cosmological
+decay dominates.  Its detailed estimator study should not obscure the
+regulator result and may be condensed or moved to an appendix.
+
+% GOVIND TODO (supporting physics):
+% - Define D1 and the null-ray comparison, then add one concise D1_scaling
+%   figure.  Do not quote fit coefficients as precision measurements.
+% - Put D1_error_separation and the phase-exclusion audit in an appendix.
+% - Decide which late-time result materially supports the regulator narrative;
+%   retain one concise result in the main text and move its estimator sweep.
+% - Keep the source-width study as physical source dependence, separate from
+%   fixed-source numerical and extraction sensitivities.
+
+\subsection{Scope of the demonstration}
+\label{sec:scope}
+
+The calculation tests the complete regulator protocol for a linear scalar
+field on fixed black-hole backgrounds.  It does not evolve the full Einstein
+equations and does not demonstrate regularization of their conformal source
+terms.  Its contribution is a quantitative target and validation strategy:
+choose a globally compatible regulator family, keep the physical comparison
+contract fixed, measure direct finite-$L$ errors, and verify nested
+extrapolation against an independent asymptotically flat reference.
+
+\FloatBarrier
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+\label{sec:conclusions}
+
+An artificial-cosmology regulator is a coherent limiting construction, not
+only a choice of positive cosmological constant.  The metric, foliation,
+compactification, initial-data map, and waveform clock must all select the
+same asymptotically flat problem.  Local regularity at the cosmological
+horizon does not ensure this limit: the continuation of the slices beyond
+that horizon determines which Schwarzschild end is recovered.  The minimal
+gauge used here has the required global end, a finite limiting clock, and
+well-conditioned compactified evolution coefficients.
+
+For the tested scalar observables, direct SdS waveforms approach their
+Schwarzschild counterparts as $L/M$ grows, but a single finite-$L$ run is not
+uniformly an effectively Schwarzschild calculation.  The two nested
+extrapolants provide the more useful regulator protocol.  Their agreement
+with one another and with an independent Schwarzschild calculation supports
+controlled recovery at a conservative $1\%$ level for the cumulative
+prompt-dominated fixed-mode test and for the localized multimode response on
+its common archived interval.  No corresponding claim is made for the
+unresolved disjoint late-time windows.
+
+The localized response also exposes genuine finite-$\Lambda$ physics.
+Caustic timing is consistent with a near-zone correction of order
+$(M/L)^2$ and a slower outer response approaching order $M/L$, although
+deterministic extraction sensitivities preclude precision coefficient
+claims.  Together these calculations establish a reproducible scalar
+black-hole proof of principle for Misner's proposal.  Applying the protocol
+to the full Einstein equations remains the central future test, where the
+formally singular conformal source terms and the coupled gauge and constraint
+systems must be treated directly.
+
+% GOVIND TODO (conclusion): Expand only after the methods and results are
+% complete.  Preserve this order: global regulator criterion; direct finite-L
+% behavior; conservative nested recovery; localized-source validation;
+% supporting SdS physics; precise scalar/full-Einstein limitation.  Do not
+% introduce new numerical claims here that are absent from the results.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+\section{Numerical verification and deterministic sensitivities}
+\label{app:convergence}
+
+% GOVIND TODO (verification appendix):
+% - State both three-level production ladders and give observed medium-to-fine
+%   changes separately from Richardson fine-grid estimates.
+% - Summarize the independent finite-difference/Dedalus comparison.
+% - Define the timing estimator, window, cadence, and fixed-source
+%   discretization sensitivities.  Source-width dependence is physical and
+%   belongs in a separate column/discussion.
+% - Import paper_timing_sensitivities.tex after correcting its final layout.
+% - State that all requested combined D1 sensitivity targets fail and that
+%   local L/M=640 timings are diagnostic.
+% - Document the L/M=12 null-ray validity exclusion without assigning physical
+%   meaning to the rejected phase fits.
+
+This appendix will collect the checks needed to distinguish a reproducible
+central value from resolved accuracy.  Refinement changes and Richardson
+estimates are reported separately; deterministic extraction sensitivities
+are neither statistical standard deviations nor fit weights with a
+chi-squared interpretation.
+
+\section{Reproducibility record}
+\label{app:reproducibility}
+
+% GOVIND TODO (reproducibility):
+% Summarize the frozen simulation and analysis commits, the physical-contract
+% hashes, the 36 raw archives, the commands and environment, manifest
+% verification, and the relevant automated and cross-code tests.  Cite the
+% permanent DOI archive when it exists; do not rely only on a mutable branch.
+
+The public result package separates immutable raw simulations from derived
+analysis artifacts and records their cryptographic hashes and code
+provenance.  The manuscript will quote the frozen identifiers after the
+archival DOI has been minted.
+
+\begin{acknowledgments}
+A.Z. thanks Ted Jacobson, Rodrigo Panosso Macedo, and Alex
+Va\~n\'o-Vi\~nuales for discussions.  This work was inspired by Charles
+Misner's investigations of artificial cosmology and by the memorial
+symposium held at the University of Maryland in 2023.  This material is
+supported by NSF Grant No.~2309084.
+\end{acknowledgments}
+
+\section*{Data Availability}
+The code and simulation data underlying the numerical results are publicly
+available in
+Ref.~\cite{blackhole_computation_2026}.  The manuscript source package
+contains the additional scripts and local processed data used to assemble
+the published figures.
+
+\bibliographystyle{apsrev4-2}
+\makeatletter
+\immediate\write\@auxout{\string\citation{apsrev42Control}}
+\makeatother
+\bibliography{SdS_refs}
+
+\end{document}
