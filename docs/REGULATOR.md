@@ -15,7 +15,7 @@ the cumulative prompt dominated pure `ell = 2` norms and to the localized
 source sphere integrated modal norm on the common archived interval. It is
 not a claim of uniform 1% late time accuracy.
 
-For the flat sequence, `0.0314%` is the largest **central cumulative
+For the flat sequence, `0.0313%` is the largest **central cumulative
 extrapolant residual**. It is not a resolved-accuracy estimate. The directly
 observed medium-to-fine changes and the propagated fine-grid estimates are
 reported beside every central value. Across the cumulative extrapolant
@@ -23,7 +23,7 @@ comparisons these ranges are:
 
 | quantity | range |
 |---|---:|
-| central extrapolant residual | 0.0109--0.0314% |
+| central extrapolant residual | 0.0109--0.0313% |
 | directly observed medium to fine change | 0.0190 to 0.4092% |
 | propagated Richardson fine grid estimate | 0.00914 to 0.1189% |
 
@@ -158,9 +158,8 @@ signal. No time translation is fitted.
 | W_inf^(160) vs Schwarzschild | 0.006720% | 0.0000972% |
 | W_inf^(80) vs W_inf^(160) | 0.051706% | 0.0001012% |
 
-This verifies the professor's approximate `5.26%`, `2.62%`, and `0.052%`
-checks with the archived modal pipeline. The sphere integrated norm is the
-primary result. The `gamma = 0` and `gamma = pi` caustic directions are
+The archived modal pipeline reproduces the `5.26%`, `2.62%`, and `0.052%`
+values independently. The sphere integrated norm is the primary result. The `gamma = 0` and `gamma = pi` caustic directions are
 secondary diagnostics only; the extrapolant differences there are `0.0186%`
 and `0.1184%`, respectively.
 
@@ -223,6 +222,7 @@ residual is `15.666M`. No corrected phase value is emitted. The audit is
 
 Raster previews and vector PDFs are regenerated together:
 
+- [`flat_waveform_sequence.pdf`](../results/regulator_production_v3/flat_waveform_sequence.pdf)
 - [`flat_window_errors.pdf`](../results/regulator_production_v3/flat_window_errors.pdf)
 - [`nested_extrapolants.pdf`](../results/regulator_production_v3/nested_extrapolants.pdf)
 - [`localized_source_regulator.pdf`](../results/regulator_production_v3/localized_source_regulator.pdf)

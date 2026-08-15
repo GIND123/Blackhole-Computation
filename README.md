@@ -71,7 +71,7 @@ physical evidence for that primary regulator result.
 The final production sequence extends the fixed data minimal gauge waveform
 and localized source calculations through `L/M = 320, 640`, with three
 resolution levels for every case. For the cumulative prompt dominated flat
-norms, `0.0314%` is the largest central extrapolant residual. It is not a
+norms, `0.0313%` is the largest central extrapolant residual. It is not a
 resolved accuracy estimate. The largest directly observed medium to fine
 extrapolant change is `0.409%`. Separately, `0.119%` is the largest propagated
 Richardson fine grid estimate. These quantities are reported in distinct

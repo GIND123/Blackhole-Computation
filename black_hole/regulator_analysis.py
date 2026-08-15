@@ -1269,8 +1269,18 @@ def source_analysis(output_dir: Path, repository_root: Path | None = None) -> di
                     "cosmological_length_over_M": length,
                     "observer": label,
                     "category": "estimator",
-                    "setting": "matched_template_vs_analytic_envelope",
+                    "setting": "matched_template_primary",
                     "D1_over_M": primary["matched_template_D1_over_M"],
+                    "difference_from_primary_over_M": 0.0,
+                }
+            )
+            sensitivity_rows.append(
+                {
+                    "cosmological_length_over_M": length,
+                    "observer": label,
+                    "category": "estimator",
+                    "setting": "analytic_envelope_alternate",
+                    "D1_over_M": primary["analytic_envelope_D1_over_M"],
                     "difference_from_primary_over_M": estimator,
                 }
             )
@@ -1703,10 +1713,18 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
             yscale="log",
             xlabel=r"cosmological length $L/M$",
             title=f"{family} windows",
+            xlim=(18.0, 760.0),
+            xticks=(20, 40, 80, 160, 320, 640),
         )
+        axis.set_xticklabels(("20", "40", "80", "160", "320", "640"))
+        axis.tick_params(axis="x", which="minor", labelbottom=False)
+        axis.tick_params(axis="y", which="minor", labelleft=False)
         axis.grid(which="both", alpha=0.2)
         axis.legend(fontsize=8)
-    axes[1].plot([], [], "kx--", linewidth=0.9, label="observed refinement scale")
+    # The dashed curves carry the conservative case-specific numerical scale,
+    # which is the larger of the observed refinement change and the Richardson
+    # estimate; the legend must not name only one of the two.
+    axes[1].plot([], [], "kx--", linewidth=0.9, label="case-specific numerical scale")
     axes[1].legend(fontsize=8)
     axes[0].set_ylabel(r"direct $E_2(L)$")
     fig.suptitle(r"Pure $\ell=2$ direct errors: cumulative and disjoint intervals")
@@ -1744,6 +1762,10 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.set_title(observer)
         axis.grid(which="both", alpha=0.2)
         axis.set_xlabel(r"$L/M$")
+        axis.set(xlim=(70.0, 720.0), xticks=(80, 160, 320, 640))
+        axis.set_xticklabels(("80", "160", "320", "640"))
+        axis.tick_params(axis="x", which="minor", labelbottom=False)
+        axis.tick_params(axis="y", which="minor", labelleft=False)
     axes[0].set_ylabel(r"timing scale $(M)$")
     handles, legend_labels = axes[-1].get_legend_handles_labels()
     fig.legend(
