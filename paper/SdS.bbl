@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{67}%
+\begin{thebibliography}{70}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -842,6 +842,42 @@
   {2}},\ \bibinfo {pages} {023068} (\bibinfo {year} {2020})},\ \Eprint
   {https://arxiv.org/abs/1905.10388} {arXiv:1905.10388 [physics.comp-ph]}
   \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Dolan}\ and\ \citenamefont
+  {Ottewill}(2011)}]{DolanOttewill:2011}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.~R.}\ \bibnamefont
+  {Dolan}}\ and\ \bibinfo {author} {\bibfnamefont {A.~C.}\ \bibnamefont
+  {Ottewill}},\ }\bibfield  {title} {\bibinfo {title} {Wave propagation and
+  quasinormal mode excitation on {Schwarzschild} spacetime},\ }\href
+  {https://doi.org/10.1103/PhysRevD.84.104002} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {84}},\ \bibinfo
+  {pages} {104002} (\bibinfo {year} {2011})},\ \Eprint
+  {https://arxiv.org/abs/1106.4318} {arXiv:1106.4318 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
+  {Galley}(2012)}]{ZenginogluGalley:2012}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}\ and\ \bibinfo {author} {\bibfnamefont {C.~R.}\
+  \bibnamefont {Galley}},\ }\bibfield  {title} {\bibinfo {title} {Caustic
+  echoes from a {Schwarzschild} black hole},\ }\href
+  {https://doi.org/10.1103/PhysRevD.86.064030} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {86}},\ \bibinfo
+  {pages} {064030} (\bibinfo {year} {2012})},\ \Eprint
+  {https://arxiv.org/abs/1206.1109} {arXiv:1206.1109 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Casals}\ and\ \citenamefont
+  {Nolan}(2023)}]{CasalsNolan:2023}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Casals}}\ and\ \bibinfo {author} {\bibfnamefont {B.~C.}\ \bibnamefont
+  {Nolan}},\ }\bibfield  {title} {\bibinfo {title} {Global {Hadamard} form for
+  the green function in {Schwarzschild} spacetime},\ }\href
+  {https://doi.org/10.1103/PhysRevD.108.044033} {\bibfield  {journal} {\bibinfo
+   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo
+  {pages} {044033} (\bibinfo {year} {2023})},\ \Eprint
+  {https://arxiv.org/abs/1606.03075} {arXiv:1606.03075 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Kumar}\ and\ \citenamefont
   {Zengino{\u{g}}lu}(2026)}]{blackhole_computation_2026}%
   \BibitemOpen

@@ -12,6 +12,12 @@
 \usepackage{graphicx}
 \usepackage{mathrsfs}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{
+ pdftitle={Testing artificial cosmology as a regulator with Schwarzschild--de Sitter scalar waves},
+ pdfauthor={Govind Arun Kumar and Anil Zenginoglu},
+ pdfsubject={Scalar-wave evolution on Schwarzschild--de Sitter and Schwarzschild spacetimes},
+ pdfkeywords={general relativity, black holes, numerical relativity, null infinity, wave propagation}
+}
 
 \newcommand{\scri}{\mathscr{I}}
 \newcommand{\hc}{\mathcal{H}_{c}^{+}}
@@ -28,7 +34,7 @@ Schwarzschild--de Sitter scalar waves}
 Maryland, College Park, Maryland 20742, USA}
 
 \author{An\i l Zengino\u{g}lu}
-\email{anil@umd.edu}
+\email[Corresponding author: ]{anil@umd.edu}
 \affiliation{Institute for Physical Science and Technology, University of
 Maryland, College Park, Maryland 20742, USA}
 
@@ -263,7 +269,7 @@ constitute a second headline.
 Section~\ref{sec:bridges} gives the global foliation criterion and identifies
 the benchmark gauge.  Section~\ref{sec:scalar} defines the scalar model,
 matched data, clock, numerical methods, and comparison measures.
-Section~\ref{sec:results} presents direct and extrapolated Schwarzschild
+Section~\ref{sec:results} gives direct and extrapolated Schwarzschild
 recovery followed by the localized-source test and supporting SdS physics.
 The appendices collect convergence, sensitivity, and reproducibility details.
 
@@ -520,7 +526,7 @@ We suppress the mode labels below and introduce
  p:=\frac{d\rho}{dr_*}=fG,\qquad
  A:=\frac{p}{1-B^2},\qquad P:=\frac{V_\ell}{p},
  \label{eq:coefficients}
-\end{equation}
+\end{equation}.
 The first-order fields are
 \begin{equation}
  \psi:=\partial_\rho u,\qquad
@@ -711,8 +717,10 @@ transition times using the geometric origin in Eq.~\eqref{eq:retarded_time}.
 The fixed-mode calculation isolates the radial and temporal scalar-wave limit.
 A second family uses a normalized source localized in radius, time, and
 angle.  Its spherical-harmonic decomposition excites a multimode response,
-including propagation through caustics.  The physical source prescription is
-held fixed across the SdS and Schwarzschild backgrounds; source width is
+including propagation through caustics
+\cite{DolanOttewill:2011,ZenginogluGalley:2012,CasalsNolan:2023}.
+The physical source prescription is held fixed across the SdS and
+Schwarzschild backgrounds; source width is
 therefore a property of the chosen response, not a numerical error bar.
 This is a fully angle-dependent $3+1$ field calculation in a
 spherical-harmonic spectral representation.  Because the background is
@@ -1127,8 +1135,8 @@ shows the $\gamma=\pi$ waveform only to illustrate the modal result.
  \label{fig:localized}
 \end{figure*}
 
-The medium-to-fine changes in Table~\ref{tab:localized} are at most
-$10^{-4}\%$, more than a factor of $60$ below the smallest difference; they
+The medium-to-fine changes in Table~\ref{tab:localized} are at the
+$10^{-4}\%$ level, more than a factor of $60$ below the smallest difference; they
 establish subdominant refinement, not digit-level accuracy.  The source
 parameters in Eqs.~\eqref{eq:source_product}--\eqref{eq:source_angular} are
 identical in SdS and Schwarzschild, so emitter width belongs to the physical
@@ -1161,19 +1169,8 @@ geometry.  We study the shift $D_1$ in the direct-to-first-echo spacing.  Its
 scaling is compatible with a local correction of order $(M/L)^2$ at fixed
 areal radius and a larger outer response approaching order $M/L$.  The
 combined deterministic timing sensitivities exceed the specified tolerance
-in all four tested cases, so the fits test these powers but do not determine
-precise coefficients.
-
-\begin{figure*}[t]
- \centering
- \includegraphics[width=\textwidth]{figs/D1_scaling.pdf}
- \caption{Absolute shift $|D_1|$ in the direct-to-first-echo spacing at
- $r=8M$, $r=12M$, and the outer boundary.  Bars show combined deterministic
- sensitivities.  Open markers fail the $|D_1|\geq3\,\delta D_1$ selection
- condition.  Dashed curves show the sensitivity-weighted fits in
- Eq.~\eqref{eq:d1_scaling_models}.}
- \label{fig:d1}
-\end{figure*}
+in all four target-bearing cases, so the fits test these powers but do not
+determine precise coefficients.
 
 At a given extraction radius, let $U_{\rm dir}$ denote the arrival of the
 direct pulse reconstructed at $\gamma=0$ and let $U_{\rm echo}$ denote the
@@ -1381,10 +1378,10 @@ source target by construction.
 \begin{tabular}{rlrrrrrr}
 $L/M$ & observer & PDE & estimator & window & cadence & combined & target\\
 \colrule
-320 & $r=8M$ & 6.80e-08 & 3.24e-04 & 2.52e-05 & 3.04e-07 & 3.49e-04 & 1.0e-04\\
-320 & $r=12M$ & 7.86e-07 & 7.83e-04 & 1.59e-05 & 4.47e-08 & 8.00e-04 & 1.0e-04\\
-320 & outer & 3.83e-09 & 4.03e-03 & 2.45e-04 & 2.21e-06 & 4.28e-03 & 5.0e-04\\
-640 & outer & 1.04e-08 & 2.11e-03 & 1.27e-04 & 1.56e-06 & 2.24e-03 & 5.0e-04\\
+320 & $r=8M$ & $6.80\times10^{-8}$ & $3.24\times10^{-4}$ & $2.52\times10^{-5}$ & $3.04\times10^{-7}$ & $3.49\times10^{-4}$ & $1.0\times10^{-4}$\\
+320 & $r=12M$ & $7.86\times10^{-7}$ & $7.83\times10^{-4}$ & $1.59\times10^{-5}$ & $4.47\times10^{-8}$ & $8.00\times10^{-4}$ & $1.0\times10^{-4}$\\
+320 & outer & $3.83\times10^{-9}$ & $4.03\times10^{-3}$ & $2.45\times10^{-4}$ & $2.21\times10^{-6}$ & $4.28\times10^{-3}$ & $5.0\times10^{-4}$\\
+640 & outer & $1.04\times10^{-8}$ & $2.11\times10^{-3}$ & $1.27\times10^{-4}$ & $1.56\times10^{-6}$ & $2.24\times10^{-3}$ & $5.0\times10^{-4}$\\
 \end{tabular}
 \end{ruledtabular}
 \end{table*}
@@ -1397,6 +1394,17 @@ least one extracted pulse in each pair differs from its null geodesic
 arrival by more than the $1M$ tolerance, the largest residual being
 $15.666M$.  No phase estimate is reported for those pairs, and their
 rejection carries no physical interpretation.
+
+\begin{figure*}[t]
+ \centering
+ \includegraphics[width=\textwidth]{figs/D1_scaling.pdf}
+ \caption{Absolute shift $|D_1|$ in the direct-to-first-echo spacing at
+ $r=8M$, $r=12M$, and the outer boundary.  Bars show combined deterministic
+ sensitivities.  Open markers fail the $|D_1|\geq3\,\delta D_1$ selection
+ condition.  Dashed curves show the sensitivity-weighted fits in
+ Eq.~\eqref{eq:d1_scaling_models}.}
+ \label{fig:d1}
+\end{figure*}
 
 \begin{figure*}[t]
  \centering
