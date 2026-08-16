@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{57}%
+\begin{thebibliography}{67}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -58,6 +58,25 @@
   {journal} {\bibinfo  {journal} {Living Rev. Relativ.}\ }\textbf {\bibinfo
   {volume} {15}},\ \bibinfo {pages} {2} (\bibinfo {year} {2012})},\ \Eprint
   {https://arxiv.org/abs/0810.1903} {arXiv:0810.1903 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Ma}\ \emph {et~al.}(2025)\citenamefont {Ma},
+  \citenamefont {Scheel}, \citenamefont {Moxon}, \citenamefont {Nelli},
+  \citenamefont {Deppe}, \citenamefont {Kidder}, \citenamefont {Throwe},\ and\
+  \citenamefont {Vu}}]{MaEtAl:2025CCM}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Ma}}, \bibinfo {author} {\bibfnamefont {M.~A.}\ \bibnamefont {Scheel}},
+  \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Moxon}}, \bibinfo
+  {author} {\bibfnamefont {K.~C.}\ \bibnamefont {Nelli}}, \bibinfo {author}
+  {\bibfnamefont {N.}~\bibnamefont {Deppe}}, \bibinfo {author} {\bibfnamefont
+  {L.~E.}\ \bibnamefont {Kidder}}, \bibinfo {author} {\bibfnamefont
+  {W.}~\bibnamefont {Throwe}},\ and\ \bibinfo {author} {\bibfnamefont {N.~L.}\
+  \bibnamefont {Vu}},\ }\bibfield  {title} {\bibinfo {title} {Merging black
+  holes with {Cauchy--characteristic} matching: Computation of late-time
+  tails},\ }\href {https://doi.org/10.1103/jd26-8q5w} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {112}},\
+  \bibinfo {pages} {024003} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2412.06906} {arXiv:2412.06906 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Friedrich}(1983)}]{friedrich1983cauchy}%
   \BibitemOpen
@@ -231,6 +250,17 @@
   {25}},\ \bibinfo {pages} {195025} (\bibinfo {year} {2008}{\natexlab{b}})},\
   \Eprint {https://arxiv.org/abs/0808.0810} {arXiv:0808.0810 [gr-qc]}
   \BibitemShut {NoStop}%
+\bibitem [{\citenamefont
+  {Zengino{\u{g}}lu}(2008{\natexlab{c}})}]{zengin2008hyperboloidal}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}},\ }\bibfield  {title} {\bibinfo {title} {A hyperboloidal
+  study of tail decay rates for scalar and {Yang--Mills} fields},\ }\href
+  {https://doi.org/10.1088/0264-9381/25/17/175013} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {25}},\ \bibinfo {pages} {175013} (\bibinfo {year} {2008}{\natexlab{c}})},\
+  \Eprint {https://arxiv.org/abs/0803.2018} {arXiv:0803.2018 [gr-qc]}
+  \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Zengino{\u{g}}lu}\ \emph {et~al.}(2009)\citenamefont
   {Zengino{\u{g}}lu}, \citenamefont {N{\'u}{\~n}ez},\ and\ \citenamefont
   {Husa}}]{ZenginogluNunezHusa:2009}%
@@ -245,6 +275,29 @@
   {\bibinfo {volume} {26}},\ \bibinfo {pages} {035009} (\bibinfo {year}
   {2009})},\ \Eprint {https://arxiv.org/abs/0810.1929} {arXiv:0810.1929
   [gr-qc]} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
+  {Tiglio}(2009)}]{ZenginogluTiglio:2009}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Tiglio}},\ }\bibfield  {title} {\bibinfo {title} {Spacelike matching to null
+  infinity},\ }\href {https://doi.org/10.1103/PhysRevD.80.024044} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {80}},\ \bibinfo {pages} {024044} (\bibinfo {year} {2009})},\ \Eprint
+  {https://arxiv.org/abs/0906.3342} {arXiv:0906.3342 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {R{\'a}cz}\ and\ \citenamefont
+  {T{\'o}th}(2011)}]{RaczToth:2011}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {I.}~\bibnamefont
+  {R{\'a}cz}}\ and\ \bibinfo {author} {\bibfnamefont {G.~Z.}\ \bibnamefont
+  {T{\'o}th}},\ }\bibfield  {title} {\bibinfo {title} {Numerical investigation
+  of the late-time {Kerr} tails},\ }\href
+  {https://doi.org/10.1088/0264-9381/28/19/195003} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {28}},\ \bibinfo {pages} {195003} (\bibinfo {year} {2011})},\ \Eprint
+  {https://arxiv.org/abs/1104.4199} {arXiv:1104.4199 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Bernuzzi}\ \emph {et~al.}(2011)\citenamefont
   {Bernuzzi}, \citenamefont {Nagar},\ and\ \citenamefont
   {Zengino{\u{g}}lu}}]{Bernuzzi:2011aj}%
@@ -258,6 +311,18 @@
   {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
   {84}},\ \bibinfo {pages} {084026} (\bibinfo {year} {2011})},\ \Eprint
   {https://arxiv.org/abs/1107.5402} {arXiv:1107.5402 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
+  {Khanna}(2011)}]{ZenginogluKhanna:2011}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}\ and\ \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Khanna}},\ }\bibfield  {title} {\bibinfo {title} {Null infinity waveforms
+  from extreme-mass-ratio inspirals in {Kerr} spacetime},\ }\href
+  {https://doi.org/10.1103/PhysRevX.1.021017} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. X}\ }\textbf {\bibinfo {volume} {1}},\ \bibinfo {pages}
+  {021017} (\bibinfo {year} {2011})},\ \Eprint
+  {https://arxiv.org/abs/1108.1816} {arXiv:1108.1816 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Harms}\ \emph {et~al.}(2014)\citenamefont {Harms},
   \citenamefont {Bernuzzi}, \citenamefont {Nagar},\ and\ \citenamefont
@@ -273,6 +338,96 @@
   {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
   {31}},\ \bibinfo {pages} {245004} (\bibinfo {year} {2014})},\ \Eprint
   {https://arxiv.org/abs/1406.5983} {arXiv:1406.5983 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Ansorg}\ and\ \citenamefont
+  {Panosso~Macedo}(2016)}]{AnsorgMacedo:2016}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Ansorg}}\ and\ \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}},\ }\bibfield  {title} {\bibinfo {title} {Spectral
+  decomposition of black-hole perturbations on hyperboloidal slices},\ }\href
+  {https://doi.org/10.1103/PhysRevD.93.124016} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {93}},\ \bibinfo
+  {pages} {124016} (\bibinfo {year} {2016})},\ \Eprint
+  {https://arxiv.org/abs/1604.02261} {arXiv:1604.02261 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Panosso~Macedo}(2020)}]{Macedo:2020}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}},\ }\bibfield  {title} {\bibinfo {title} {Hyperboloidal
+  framework for the {Kerr} spacetime},\ }\href
+  {https://doi.org/10.1088/1361-6382/ab6e3e} {\bibfield  {journal} {\bibinfo
+  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {37}},\ \bibinfo
+  {pages} {065019} (\bibinfo {year} {2020})},\ \Eprint
+  {https://arxiv.org/abs/1910.13452} {arXiv:1910.13452 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Panosso~Macedo}\ \emph {et~al.}(2022)\citenamefont
+  {Panosso~Macedo}, \citenamefont {Leather}, \citenamefont {Warburton},
+  \citenamefont {Wardell},\ and\ \citenamefont
+  {Zengino{\u{g}}lu}}]{MacedoEtAl:2022}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
+  {Leather}}, \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Warburton}},
+  \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Wardell}},\ and\ \bibinfo
+  {author} {\bibfnamefont {A.}~\bibnamefont {Zengino{\u{g}}lu}},\ }\bibfield
+  {title} {\bibinfo {title} {Hyperboloidal method for frequency-domain
+  self-force calculations},\ }\href
+  {https://doi.org/10.1103/PhysRevD.105.104033} {\bibfield  {journal} {\bibinfo
+   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {105}},\ \bibinfo
+  {pages} {104033} (\bibinfo {year} {2022})},\ \Eprint
+  {https://arxiv.org/abs/2202.01794} {arXiv:2202.01794 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
+  {Kidder}(2010)}]{ZenginogluKidder:2010}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}\ and\ \bibinfo {author} {\bibfnamefont {L.~E.}\
+  \bibnamefont {Kidder}},\ }\bibfield  {title} {\bibinfo {title} {Hyperboloidal
+  evolution of test fields in three spatial dimensions},\ }\href
+  {https://doi.org/10.1103/PhysRevD.81.124010} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {81}},\ \bibinfo
+  {pages} {124010} (\bibinfo {year} {2010})},\ \Eprint
+  {https://arxiv.org/abs/1004.0760} {arXiv:1004.0760 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2023)\citenamefont
+  {Peterson}, \citenamefont {Gautam}, \citenamefont {Rainho}, \citenamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
+  {Hilditch}}]{Peterson:2023bha}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Peterson}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Gautam}},
+  \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Rainho}}, \bibinfo
+  {author} {\bibfnamefont {A.}~\bibnamefont {Va{\~n}{\'o}-Vi{\~n}uales}},\ and\
+  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Hilditch}},\ }\bibfield
+  {title} {\bibinfo {title} {{3D evolution of a semilinear wave model for the
+  Einstein field equations on compactified hyperboloidal slices}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.108.024067} {\bibfield  {journal} {\bibinfo
+   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo
+  {pages} {024067} (\bibinfo {year} {2023})},\ \Eprint
+  {https://arxiv.org/abs/2303.16190} {arXiv:2303.16190 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Rinne}(2025)}]{Rinne:2025nonlinear}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {A hyperboloidal method for
+  numerical simulations of multidimensional nonlinear wave equations: nonlinear
+  tails},\ }\href {https://doi.org/10.1088/1361-6544/ae153e} {\bibfield
+  {journal} {\bibinfo  {journal} {Nonlinearity}\ }\textbf {\bibinfo {volume}
+  {38}},\ \bibinfo {pages} {105026} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2507.00674} {arXiv:2507.00674 [math.NA]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ \emph {et~al.}(2026)\citenamefont
+  {Zengino{\u{g}}lu}, \citenamefont {Bernuzzi},\ and\ \citenamefont
+  {N{\"u}tzi}}]{ZenginogluBernuzziNutzi:2026}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Bernuzzi}},\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {N{\"u}tzi}},\ }\href {https://doi.org/10.48550/arXiv.2608.08863} {\bibinfo
+  {title} {Semilinear wave equations in homothetic hyperboloidal coordinates
+  and tail decay}} (\bibinfo {year} {2026}),\ \Eprint
+  {https://arxiv.org/abs/2608.08863} {arXiv:2608.08863 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}\ \emph
   {et~al.}(2015)\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}, \citenamefont
@@ -424,23 +579,6 @@
   {pages} {025011} (\bibinfo {year} {2023})},\ \Eprint
   {https://arxiv.org/abs/2206.13661} {arXiv:2206.13661 [gr-qc]} \BibitemShut
   {NoStop}%
-\bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2023)\citenamefont
-  {Peterson}, \citenamefont {Gautam}, \citenamefont {Rainho}, \citenamefont
-  {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
-  {Hilditch}}]{Peterson:2023bha}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
-  {Peterson}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Gautam}},
-  \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Rainho}}, \bibinfo
-  {author} {\bibfnamefont {A.}~\bibnamefont {Va{\~n}{\'o}-Vi{\~n}uales}},\ and\
-  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Hilditch}},\ }\bibfield
-  {title} {\bibinfo {title} {{3D evolution of a semilinear wave model for the
-  Einstein field equations on compactified hyperboloidal slices}},\ }\href
-  {https://doi.org/10.1103/PhysRevD.108.024067} {\bibfield  {journal} {\bibinfo
-   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo
-  {pages} {024067} (\bibinfo {year} {2023})},\ \Eprint
-  {https://arxiv.org/abs/2303.16190} {arXiv:2303.16190 [gr-qc]} \BibitemShut
-  {NoStop}%
 \bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2024)\citenamefont
   {Peterson}, \citenamefont {Gautam}, \citenamefont
   {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
@@ -572,17 +710,6 @@
   {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
   {5}},\ \bibinfo {pages} {2419} (\bibinfo {year} {1972})}\BibitemShut
   {NoStop}%
-\bibitem [{\citenamefont
-  {Zengino{\u{g}}lu}(2008{\natexlab{c}})}]{zengin2008hyperboloidal}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Zengino{\u{g}}lu}},\ }\bibfield  {title} {\bibinfo {title} {A hyperboloidal
-  study of tail decay rates for scalar and {Yang--Mills} fields},\ }\href
-  {https://doi.org/10.1088/0264-9381/25/17/175013} {\bibfield  {journal}
-  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
-  {25}},\ \bibinfo {pages} {175013} (\bibinfo {year} {2008}{\natexlab{c}})},\
-  \Eprint {https://arxiv.org/abs/0803.2018} {arXiv:0803.2018 [gr-qc]}
-  \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Angelopoulos}\ \emph {et~al.}(2018)\citenamefont
   {Angelopoulos}, \citenamefont {Aretakis},\ and\ \citenamefont
   {Gajic}}]{Angelopoulos:2016wcv}%

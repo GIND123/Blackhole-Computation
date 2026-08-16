@@ -51,7 +51,8 @@ finite-$L$ waveform errors decrease but remain observable dependent.  Two
 nested extrapolants formed from $L/M=80,160,320,640$ support agreement with
 the Schwarzschild waveform within a conservative one percent for the
 cumulative, prompt-dominated fixed-mode test and for a localized multimode
-response on its common simulated interval.  We make no claim of uniform
+response representing an angle-dependent $3+1$ field on its common simulated
+interval.  We make no claim of uniform
 one-percent late-time accuracy.  Caustic-echo timing supplies supporting
 Schwarzschild--de Sitter physics and is consistent with a local
 $\mathcal O((M/L)^2)$ correction and a larger outer $\mathcal O(M/L)$
@@ -70,160 +71,133 @@ the formally singular conformal Einstein equations remains an open question.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Radiation from isolated systems has a clean definition at future null
-infinity, $\scri^+$.  Hyperboloidal evolution brings this clean definition
-onto the computational domain through spacelike slices that approach
+infinity, $\scri^+$.  Hyperboloidal evolution brings this boundary onto the
+computational domain through spacelike slices that approach
 outgoing null hypersurfaces.  After spatial compactification places infinity
 at a finite coordinate location, waves leave the grid through a
-characteristic, pure-outflow boundary.  The effort to combine these advantages
-with the nonlinear Einstein equations has followed several distinct routes.
-The following brief history concerns spacelike hyperboloidal Cauchy evolution;
-characteristic evolution and Cauchy--characteristic matching form a separate,
-complementary program \cite{Winicour:2012characteristic}.
+characteristic, pure-outflow boundary.  Several programs have pursued this
+goal for the nonlinear Einstein equations.  Characteristic evolution and
+Cauchy--characteristic matching form a complementary line of work
+\cite{Winicour:2012characteristic}.  Recent work applied matching to nine
+fully nonlinear binary-black-hole merger simulations and used it to resolve
+late-time tails \cite{MaEtAl:2025CCM}.
 
-\emph{Regular conformal field equations.---}
-Friedrich's conformal field equations remove the singular conformal
-transformation of the vacuum Einstein equations by enlarging the set of
-evolved variables to a regular first-order system
-\cite{friedrich1983cauchy}.  Early numerical implementations by H\"ubner and
-Frauendiener evolved hyperboloidal data through $\scri^+$, including a
-three-dimensional evolution of weak radiative data through a regular future
-timelike infinity and axisymmetric evolutions of isolated systems
+Two conformal-field-equation programs avoid directly evolving the formally
+singular conformally rescaled metric equations by enlarging the regular
+variable set.  Friedrich's conformal field equations give a first-order
+formulation \cite{friedrich1983cauchy}; early
+implementations evolved weak radiative data in three dimensions through
+regular future timelike infinity and isolated systems in axisymmetry
 \cite{Frauendiener:1998II,Hubner:1999scheme,Hubner:2001timelike,
-FrauendienerHein:2002}.  They also exposed enduring difficulties: a large
-constrained variable set, delicate initial data and constraint propagation,
-strong gauge dependence, and loss of physical resolution as the coordinate
-domain representing the physical spacetime contracts toward timelike
-infinity \cite{Husa:2002problems}.  In the standard reductions used in much
-of this early work the conformal factor is evolved, so $\scri^+$ is generally
-not tied to one grid surface, although suitable gauges can freeze its
-location \cite{Husa:2002problems}.
-
-\emph{Generalized conformal field equations.---}
-Friedrich's generalized conformal field equations take a geometrically
-different route.  They introduce a Weyl connection and use conformal
-geodesics to construct conformal Gauss coordinates
-\cite{Friedrich:1995general,Friedrich:2003geodesics}.  In this gauge the
-conformal factor is known explicitly---it is quadratic in the
-conformal-geodesic parameter with coefficients fixed by the initial gauge
-data---rather than evolved as an independent field.  Numerical
-initial-boundary formulations have led to fully nonlinear black-hole
-scattering calculations, including evolutions from past to future null
+FrauendienerHein:2002}.  They also exposed the costs: many variables and
+constraints, delicate initial data, and gauge sensitivity.  In standard early
+reductions, $\scri^+$ was an inward-moving null hypersurface ending at
+$i^+$ unless a gauge froze its coordinate location.  As $\scri^+$ crossed the
+grid, the coordinate region representing the physical spacetime contracted
+and progressively lost resolution, which obstructed accurate long-time
+waveform evolution \cite{Husa:2002problems}.  Friedrich's generalized
+equations instead use a Weyl connection and conformal geodesics
+\cite{Friedrich:1995general,Friedrich:2003geodesics}.  In conformal Gauss
+gauge, the initial gauge data determine the conformal factor explicitly.  The
+method has enabled nonlinear black-hole scattering from past to future null
 infinity \cite{BeyerEtAl:2017GCFE,FrauendienerStevens:2021massloss,
-FrauendienerStevensThwala:2025}.  Although the conformal factor, and hence
-its zero set, is known a priori, the current initial-boundary construction is
-not hyperboloidal scri-fixing with $\scri^+$ at a time-independent outer
-spatial coordinate: the finite timelike boundary expands until it meets
-$\scri^+$, after which $\scri^+$ lies inside the computational domain
-\cite{CamdenEtAl:2025}.  Moreover, the rapid time compactification of the
-conformal Gauss gauge can erase physical-time resolution of late dynamics
+FrauendienerStevensThwala:2025}.  The current initial-boundary framework
+does not keep $\scri^+$ at a fixed outer spatial coordinate
+\cite{CamdenEtAl:2025}, and conformal-Gauss compactification can degrade
+resolution in physical time at late times
 \cite{FrauendienerStevens:2023compactification}.
 
-\emph{Prescribed-factor metric evolution.---}
-A direct metric approach combines a coordinate-prescribed conformal factor
-with a scri-fixing gauge and places $\scri^+$ at a fixed coordinate location
-\cite{zenginoglu_hyperboloidal_2008,Zenginoglu:2008pw}.  The conformally
-rescaled metric Einstein equations then contain formally singular terms whose
-finite limits are obtained using the constraints and an appropriate conformal
-gauge.
-On fixed black-hole backgrounds this strategy became highly effective in
-black-hole perturbation theory, from Schwarzschild perturbations to
-large-mass-ratio and Kerr calculations with radiation evaluated directly at
-$\scri^+$ \cite{ZenginogluNunezHusa:2009,Bernuzzi:2011aj,Harms:2014dqa}.
-Nonlinear free evolution with prescribed conformal factor has subsequently
-been achieved in spherical symmetry with conformal BSSN/Z4 systems.  The
-development includes self-gravitating scalar dynamics
-\cite{Vano-Vinuales:2014koa,Vano-Vinuales:2017qij}, nonlinear vacuum
-reference-metric and hyperboloidal-layer tests about Minkowski spacetime
-\cite{VanoVinuales:2024reference}, and the coupled
-Einstein--Maxwell--Klein--Gordon system with charged collapse and black-hole
-evolution \cite{Alvares:2025emkg}.
+Scri fixing removes this particular loss mechanism by holding $\scri^+$ at a
+fixed spatial boundary.  On fixed black-hole backgrounds it also places the
+event horizon and $\scri^+$ at characteristic outflow boundaries, eliminates
+artificial outer boundary data and finite-radius waveform extrapolation, and
+leaves a time-independent compact domain
+\cite{zenginoglu_hyperboloidal_2008,Zenginoglu:2008pw}.  Time-domain
+black-hole perturbation calculations established the accuracy and efficiency
+of this gauge for Schwarzschild and Kerr, including direct waveforms for
+mass-ratio systems and long evolutions that resolve power-law tails at
+$\scri^+$
+\cite{zengin2008hyperboloidal,ZenginogluNunezHusa:2009,
+ZenginogluTiglio:2009,RaczToth:2011,Bernuzzi:2011aj,
+ZenginogluKhanna:2011,Harms:2014dqa}.  Frequency-domain formulations later
+used the same horizon-to-$\scri^+$ regularity to avoid asymptotic boundary
+conditions and to build accurate spectral decompositions and efficient
+self-force solvers
+\cite{AnsorgMacedo:2016,Macedo:2020,MacedoEtAl:2022}.  These results motivate
+our standpoint: scri fixing is a desirable numerical gauge, not merely a
+choice of compactifying coordinates.  The finite-$L$ family below preserves
+this fixed-endpoint structure and approaches a scri-fixed Schwarzschild gauge
+as $L\to\infty$.
 
-\emph{Constrained constant-mean-curvature evolution.---}
-A separate program combines conformal compactification with
-constant-mean-curvature (CMC) slices and constrained evolution.  Moncrief and
-Rinne showed how the constraints and the shear-free condition determine
-regular boundary values for apparently singular terms
-\cite{Moncrief:2008ie}.  Rinne then obtained stable twist-free axisymmetric
-evolutions of Schwarzschild spacetime and a gravitational perturbation with
-$\scri^+$ fixed on the grid and with the Bondi news computed there
-\cite{Rinne:2009qx}; the framework was also extended to nonlinear
-Einstein--matter systems in spherical symmetry \cite{RinneMoncrief:2013}.
-Related work constructed three-dimensional single- and binary-black-hole CMC
-initial data and formulated a general first-order constrained
-symmetric-hyperbolic tetrad system coupled to elliptic gauge equations
-\cite{BuchmanPfeifferBardeen:2009,BardeenSarbachBuchman:2011}.  Thus the
-initial-data and formulation work is fully three-dimensional, whereas the
-dynamical vacuum implementation reached twist-free axisymmetry.  The
-constrained elliptic sector and relatively rigid gauges nevertheless
-complicate integration with generic binary-black-hole free-evolution
-infrastructure.
+Model fields also allow asymptotic formulations to be tested in full $3+1$
+codes before they are used for the Einstein equations.  An early calculation
+evolved nonsymmetric scalar data on Minkowski and Schwarzschild backgrounds
+with $\scri^+$ as a fixed outflow boundary \cite{ZenginogluKidder:2010}.
+Recent work has evolved three-dimensional nonlinear wave models on
+compactified Minkowski hyperboloids without imposing symmetry
+\cite{Peterson:2023bha,Rinne:2025nonlinear,
+ZenginogluBernuzziNutzi:2026}.  The present calculation complements those
+tests with an angle-dependent scalar field on black-hole backgrounds: the
+outer boundary is the cosmological horizon at finite $L$ and $\scri^+$ for
+the separately evolved Schwarzschild reference.  Such multidimensional tests
+expose issues of angular resolution, spherical boundaries, and long-time
+evolution that a $1+1$ reduction cannot reveal.  They are important
+preparation for a nonlinear Einstein implementation.
 
-\emph{Dual-foliation generalized harmonic evolution.---}
-Dual foliation separates the coordinates natural for strong-field evolution
-from a compactified hyperboloidal target system.  In generalized harmonic
-gauge this realizes a philosophy close to prescribed-factor scri-fixing while
-retaining the freedom of an interior numerical-relativity coordinate system.
-The foundational formulation and three-dimensional flat-space scalar-wave
-tests established the basic construction
-\cite{Hilditch:2015aba,HilditchEtAl:2018}, while gauge and constraint
-additions were designed to exclude leading logarithms and leave a controlled
-set of formally singular terms \cite{DuarteEtAl:2023}.  The program has
-progressed from a three-dimensional semilinear asymptotic model system---not
-the full Einstein equations---to nonlinear generalized-harmonic Einstein
-evolution in spherical symmetry
-\cite{Peterson:2023bha,Peterson:2024spherical}.  The strongly compactified
-full-GR formulation is likewise currently spherical; its constraint
-additions, gauge choices, and reduction fields minimize the number of
-formally singular terms \cite{Peterson:2025strong}.  As in the prescribed-factor
-full-Einstein demonstrations, spherical symmetry provides important nonlinear
-gauge and constraint tests but carries no radiative gravitational degree of
-freedom.
+The corresponding prescribed-factor metric equations retain familiar
+evolution variables and obtain finite limits of formally singular terms from
+the constraints and conformal gauge
+\cite{zenginoglu_hyperboloidal_2008,Zenginoglu:2008pw}.  Nonlinear conformal
+BSSN/Z4 demonstrations remain spherical: self-gravitating scalar fields
+\cite{Vano-Vinuales:2014koa,Vano-Vinuales:2017qij}, vacuum Minkowski
+reference-metric and layer tests \cite{VanoVinuales:2024reference}, and
+charged Einstein--Maxwell--Klein--Gordon collapse \cite{Alvares:2025emkg}.
+A constrained CMC route instead derives regular boundary values from the
+constraints and shear-free condition \cite{Moncrief:2008ie}.  It has produced
+twist-free axisymmetric vacuum evolutions with Bondi news at fixed $\scri^+$
+\cite{Rinne:2009qx} and spherical Einstein--matter evolutions
+\cite{RinneMoncrief:2013}.  Three-dimensional CMC black-hole initial data and
+a general constrained tetrad formulation also exist
+\cite{BuchmanPfeifferBardeen:2009,BardeenSarbachBuchman:2011}, but the
+dynamical vacuum evolutions have so far reached only twist-free axisymmetry,
+and the approach's elliptic sector is not yet integrated with generic
+binary-black-hole free evolution.
 
-\emph{Small-data scri-fixed formulations.---}
-N\"utzi introduced a formulation of the nonlinear vacuum Einstein equations
-about Minkowski spacetime whose gauge-fixed evolution is quasilinear
-symmetric hyperbolic, regular at null and timelike infinity, and keeps null
-infinity at a fixed locus \cite{Nutzi:2023,Nutzi:2025}.  This is a nonlinear
-small-data construction, not a linearized perturbation system.  A subsequent
-work supplies compatible small solutions of the nonlinear constraint
-equations \cite{Nutzi:2026}.  The cited works are analytical and do not
-present a numerical implementation, and their small-data assumptions do not
-cover a generic strong-field interior.  We therefore speculate that
-strong-field applications might couple this weak-field exterior formulation
-to a conventional interior numerical-relativity evolution across a
-multidomain interface; such a coupling has not yet been demonstrated.
+Dual-foliation generalized harmonic evolution separates strong-field
+coordinates from a compactified hyperboloidal target system.  Its formulation
+and three-dimensional flat-space scalar tests established the construction
+\cite{Hilditch:2015aba,HilditchEtAl:2018}; later gauge and constraint additions
+controlled logarithms and formally singular terms \cite{DuarteEtAl:2023}.
+The program has since advanced to full Einstein evolution in spherical
+symmetry \cite{Peterson:2024spherical,Peterson:2025strong}.  The
+full-Einstein demonstrations are therefore still spherical and contain no
+radiative gravitational degree of freedom.  Separately, N\"utzi constructed a
+quasilinear symmetric-hyperbolic vacuum system about Minkowski spacetime with
+fixed null infinity
+\cite{Nutzi:2023,Nutzi:2025}, together with compatible nonlinear constraint
+solutions \cite{Nutzi:2026}.  This genuinely nonlinear result remains
+analytical and restricted to small data; it does not yet cover a generic
+strong-field interior.
 
-These approaches regularize different parts of the problem in different
-ways: the conformal field equations enlarge the regular variable set, the
-generalized equations add a Weyl connection and conformal-geodesic gauge,
-constrained CMC evolution uses the constraints at $\scri^+$, and
-prescribed-factor and dual-foliation systems use asymptotic rescalings, gauge
-and constraint additions, and explicit limiting procedures to control
-formally singular metric equations.  Despite substantial progress, a robust
-generic three-dimensional metric free-evolution scheme with $\scri^+$ fixed
-as the outer grid boundary and compatible with binary-black-hole
-infrastructure remains open.  Misner's construction is closest in spirit to
-the prescribed-factor metric approach, but changes the treatment of its
-troublesome terms: it replaces the $\Omega_0=0$ endpoint of the chosen
-asymptotically flat compactification by a cosmological-horizon endpoint where
-the conformal factor used below obeys $\Omega_L=r_b/r_c>0$, with $r_b$ and
-$r_c$ the black-hole and cosmological horizon radii.  Artificial cosmology
-thereby trades the direct conformal limit for a finite-$L$ physical bias and
-extrapolation problem.  It may offer a complementary route, but only a
-nonlinear Einstein calculation can show whether it improves regularity,
-constraint behavior, and conditioning in practice.
-
-Misner introduced artificial cosmology
-\cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006}.
-A small positive cosmological constant serves there as a regulator.
-It replaces future null infinity with a distant cosmological horizon.  A grid
-may end on that characteristic horizon, as it does here, or continue to a
-pure-outflow boundary beyond it.  Black-hole excision uses the same causal
-mechanism inside an event horizon.  Misner and collaborators tested parts of
-this idea with Maxwell fields on de Sitter backgrounds.  Scalar waves on
-Schwarzschild--de Sitter (SdS) provide a black-hole model with a strong-field
-scattering region between the future black-hole horizon $\hb$ and the future
-cosmological horizon $\hc$.
+To our knowledge, a robust, generic three-dimensional metric free-evolution
+code that fixes $\scri^+$ at the outer boundary while supporting binary black
+holes remains to be demonstrated.  Misner's artificial cosmology
+\cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006} is
+closest in spirit to prescribed-factor evolution, but replaces the
+$\Omega_0=0$ endpoint by a cosmological horizon where
+$\Omega_L=r_b/r_c>0$.  It thereby trades the direct conformal limit for a
+finite-$L$ physical bias and an extrapolation problem.  This scalar model
+measures that bias and tests the extrapolation; only a nonlinear Einstein
+evolution can determine whether it improves regularity, constraint behavior,
+and conditioning.
+At finite $L$, the cosmological horizon provides a characteristic outer
+boundary; the grid may end there, as ours does, or extend into a pure-outflow
+region.  The black-hole horizon similarly supports inner excision.  Misner
+and collaborators tested the idea with Maxwell fields on de Sitter
+backgrounds.  Scalar waves
+on Schwarzschild--de Sitter (SdS) provide a black-hole model with a
+strong-field scattering region between the future black-hole horizon $\hb$
+and the future cosmological horizon $\hc$.
 
 For $\Lambda>0$, the future conformal boundary is spacelike.  Its asymptotic
 symmetries and radiative degrees of freedom differ from those at
@@ -743,6 +717,13 @@ angle.  Its spherical-harmonic decomposition excites a multimode response,
 including propagation through caustics.  The physical source prescription is
 held fixed across the SdS and Schwarzschild backgrounds; source width is
 therefore a property of the chosen response, not a numerical error bar.
+This is a $3+1$ field calculation implemented by harmonic reduction: the
+spherical background decouples the radial evolution by $\ell$, while the
+source and reconstructed field retain their dependence on
+$(r,\theta,\varphi)$.  Thus the calculation keeps the full angular dependence
+without using a grid-based angular discretization.  Its outer endpoint is
+$\hc$ for every finite-$L$ run and $\scri^+$ for the separately evolved
+Schwarzschild reference.
 This family solves
 \begin{equation}
  \Box_g\Phi=S,
@@ -1332,7 +1313,10 @@ agreement with one another and with a separately evolved Schwarzschild
 calculation supports agreement at a conservative $1\%$ level for the cumulative
 prompt-dominated fixed-mode test and for the localized multimode response on
 its common simulated interval.  No corresponding claim is made for the
-unresolved disjoint late-time windows.
+unresolved disjoint late-time windows.  The localized calculation also gives
+an angle-dependent $3+1$ black-hole field benchmark for the outer-boundary
+geometry, although the spherical background permits a reduction to radial
+modes.
 
 The localized response also exposes genuine finite-$\Lambda$ physics.
 Caustic timing is consistent with a near-zone correction of order
