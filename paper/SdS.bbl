@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{33}%
+\begin{thebibliography}{57}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -50,6 +50,15 @@
 \providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
 \let\auto@bib@innerbib\@empty
 %</preamble>
+\bibitem [{\citenamefont {Winicour}(2012)}]{Winicour:2012characteristic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Winicour}},\ }\bibfield  {title} {\bibinfo {title} {Characteristic evolution
+  and matching},\ }\href {https://doi.org/10.12942/lrr-2012-2} {\bibfield
+  {journal} {\bibinfo  {journal} {Living Rev. Relativ.}\ }\textbf {\bibinfo
+  {volume} {15}},\ \bibinfo {pages} {2} (\bibinfo {year} {2012})},\ \Eprint
+  {https://arxiv.org/abs/0810.1903} {arXiv:0810.1903 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Friedrich}(1983)}]{friedrich1983cauchy}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
@@ -58,6 +67,148 @@
   {https://doi.org/10.1007/BF01206015} {\bibfield  {journal} {\bibinfo
   {journal} {Commun. Math. Phys.}\ }\textbf {\bibinfo {volume} {91}},\ \bibinfo
   {pages} {445} (\bibinfo {year} {1983})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Frauendiener}(1998)}]{Frauendiener:1998II}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Frauendiener}},\ }\bibfield  {title} {\bibinfo {title} {Numerical treatment
+  of the hyperboloidal initial value problem for the vacuum {Einstein}
+  equations. {II}. the evolution equations},\ }\href
+  {https://doi.org/10.1103/PhysRevD.58.064003} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {58}},\ \bibinfo
+  {pages} {064003} (\bibinfo {year} {1998})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/9712052} {arXiv:gr-qc/9712052} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {H{\"u}bner}(1999)}]{Hubner:1999scheme}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
+  {H{\"u}bner}},\ }\bibfield  {title} {\bibinfo {title} {A scheme to
+  numerically evolve data for the conformal {Einstein} equation},\ }\href
+  {https://doi.org/10.1088/0264-9381/16/9/302} {\bibfield  {journal} {\bibinfo
+  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {16}},\ \bibinfo
+  {pages} {2823} (\bibinfo {year} {1999})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/9903088} {arXiv:gr-qc/9903088} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {H{\"u}bner}(2001)}]{Hubner:2001timelike}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
+  {H{\"u}bner}},\ }\bibfield  {title} {\bibinfo {title} {From now to timelike
+  infinity on a finite grid},\ }\href
+  {https://doi.org/10.1088/0264-9381/18/10/305} {\bibfield  {journal} {\bibinfo
+   {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {18}},\
+  \bibinfo {pages} {1871} (\bibinfo {year} {2001})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/0010069} {arXiv:gr-qc/0010069} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Frauendiener}\ and\ \citenamefont
+  {Hein}(2002)}]{FrauendienerHein:2002}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Frauendiener}}\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Hein}},\ }\bibfield  {title} {\bibinfo {title} {Numerical evolution of
+  axisymmetric, isolated systems in general relativity},\ }\href
+  {https://doi.org/10.1103/PhysRevD.66.124004} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {66}},\ \bibinfo
+  {pages} {124004} (\bibinfo {year} {2002})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/0207094} {arXiv:gr-qc/0207094} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Husa}(2002)}]{Husa:2002problems}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Husa}},\ }\bibfield  {title} {\bibinfo {title} {Problems and successes in
+  the numerical approach to the conformal field equations},\ }in\ \href
+  {https://doi.org/10.1007/3-540-45818-2_12} {\emph {\bibinfo {booktitle} {The
+  Conformal Structure of Space-Time: Geometry, Analysis, Numerics}}},\ \bibinfo
+  {series} {Lecture Notes in Physics}, Vol.\ \bibinfo {volume} {604}\ (\bibinfo
+   {publisher} {Springer},\ \bibinfo {year} {2002})\ pp.\ \bibinfo {pages}
+  {239--260},\ \Eprint {https://arxiv.org/abs/gr-qc/0204043}
+  {arXiv:gr-qc/0204043} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Friedrich}(1995)}]{Friedrich:1995general}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
+  {Friedrich}},\ }\bibfield  {title} {\bibinfo {title} {Einstein equations and
+  conformal structure: Existence of anti-de sitter-type space-times},\ }\href
+  {https://doi.org/10.1016/0393-0440(94)00042-3} {\bibfield  {journal}
+  {\bibinfo  {journal} {J. Geom. Phys.}\ }\textbf {\bibinfo {volume} {17}},\
+  \bibinfo {pages} {125} (\bibinfo {year} {1995})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Friedrich}(2003)}]{Friedrich:2003geodesics}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
+  {Friedrich}},\ }\bibfield  {title} {\bibinfo {title} {Conformal geodesics on
+  vacuum space-times},\ }\href {https://doi.org/10.1007/s00220-003-0794-8}
+  {\bibfield  {journal} {\bibinfo  {journal} {Commun. Math. Phys.}\ }\textbf
+  {\bibinfo {volume} {235}},\ \bibinfo {pages} {513} (\bibinfo {year}
+  {2003})},\ \Eprint {https://arxiv.org/abs/gr-qc/0201006}
+  {arXiv:gr-qc/0201006} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Beyer}\ \emph {et~al.}(2017)\citenamefont {Beyer},
+  \citenamefont {Frauendiener}, \citenamefont {Stevens},\ and\ \citenamefont
+  {Whale}}]{BeyerEtAl:2017GCFE}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {F.}~\bibnamefont
+  {Beyer}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Frauendiener}},
+  \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Stevens}},\ and\ \bibinfo
+  {author} {\bibfnamefont {B.}~\bibnamefont {Whale}},\ }\bibfield  {title}
+  {\bibinfo {title} {The numerical initial boundary value problem for the
+  generalized conformal field equations},\ }\href
+  {https://doi.org/10.1103/PhysRevD.96.084020} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {96}},\ \bibinfo
+  {pages} {084020} (\bibinfo {year} {2017})},\ \Eprint
+  {https://arxiv.org/abs/1706.01416} {arXiv:1706.01416 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Frauendiener}\ and\ \citenamefont
+  {Stevens}(2021)}]{FrauendienerStevens:2021massloss}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Frauendiener}}\ and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Stevens}},\ }\bibfield  {title} {\bibinfo {title} {The non-linear
+  perturbation of a black hole by gravitational waves. {I}. the {Bondi--Sachs}
+  mass loss},\ }\href {https://doi.org/10.1088/1361-6382/ac1be3} {\bibfield
+  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo
+  {volume} {38}},\ \bibinfo {pages} {194002} (\bibinfo {year} {2021})},\
+  \Eprint {https://arxiv.org/abs/2105.09515} {arXiv:2105.09515 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Frauendiener}\ \emph {et~al.}(2025)\citenamefont
+  {Frauendiener}, \citenamefont {Stevens},\ and\ \citenamefont
+  {Thwala}}]{FrauendienerStevensThwala:2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Frauendiener}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Stevens}},\ and\ \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Thwala}},\ }\bibfield  {title} {\bibinfo {title} {Fully nonlinear
+  gravitational wave simulations from past to future null infinity},\ }\href
+  {https://doi.org/10.1103/PhysRevLett.134.161401} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {134}},\
+  \bibinfo {pages} {161401} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2504.02188} {arXiv:2504.02188 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Camden}\ \emph {et~al.}(2025)\citenamefont {Camden},
+  \citenamefont {Frauendiener}, \citenamefont {Galinski}, \citenamefont
+  {Pillay}, \citenamefont {Stevens},\ and\ \citenamefont
+  {Thwala}}]{CamdenEtAl:2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
+  {Camden}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Frauendiener}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Galinski}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Pillay}},
+  \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Stevens}},\ and\ \bibinfo
+  {author} {\bibfnamefont {S.}~\bibnamefont {Thwala}},\ }\bibfield  {title}
+  {\bibinfo {title} {A numerical framework for studying asymptotic
+  quantities},\ }\href {https://doi.org/10.1007/s10714-025-03399-w} {\bibfield
+  {journal} {\bibinfo  {journal} {Gen. Relativ. Gravit.}\ }\textbf {\bibinfo
+  {volume} {57}},\ \bibinfo {pages} {64} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2503.17631} {arXiv:2503.17631 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Frauendiener}\ and\ \citenamefont
+  {Stevens}(2023)}]{FrauendienerStevens:2023compactification}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Frauendiener}}\ and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Stevens}},\ }\bibfield  {title} {\bibinfo {title} {The non-linear
+  perturbation of a black hole by gravitational waves. {II}. quasinormal modes
+  and the compactification problem},\ }\href
+  {https://doi.org/10.1088/1361-6382/acd4b1} {\bibfield  {journal} {\bibinfo
+  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {40}},\ \bibinfo
+  {pages} {125006} (\bibinfo {year} {2023})},\ \Eprint
+  {https://arxiv.org/abs/2211.13276} {arXiv:2211.13276 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont
   {Zengino{\u{g}}lu}(2008{\natexlab{a}})}]{zenginoglu_hyperboloidal_2008}%
   \BibitemOpen
@@ -80,27 +231,48 @@
   {25}},\ \bibinfo {pages} {195025} (\bibinfo {year} {2008}{\natexlab{b}})},\
   \Eprint {https://arxiv.org/abs/0808.0810} {arXiv:0808.0810 [gr-qc]}
   \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Moncrief}\ and\ \citenamefont
-  {Rinne}(2009)}]{Moncrief:2008ie}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ \emph {et~al.}(2009)\citenamefont
+  {Zengino{\u{g}}lu}, \citenamefont {N{\'u}{\~n}ez},\ and\ \citenamefont
+  {Husa}}]{ZenginogluNunezHusa:2009}%
   \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
-  {Moncrief}}\ and\ \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
-  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {{Regularity of the Einstein
-  Equations at Future Null Infinity}},\ }\href
-  {https://doi.org/10.1088/0264-9381/26/12/125010} {\bibfield  {journal}
-  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
-  {26}},\ \bibinfo {pages} {125010} (\bibinfo {year} {2009})},\ \Eprint
-  {https://arxiv.org/abs/0811.4109} {arXiv:0811.4109 [gr-qc]} \BibitemShut
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {N{\'u}{\~n}ez}},\ and\ \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Husa}},\ }\bibfield  {title} {\bibinfo {title} {Gravitational perturbations
+  of {Schwarzschild} spacetime at null infinity and the hyperboloidal initial
+  value problem},\ }\href {https://doi.org/10.1088/0264-9381/26/3/035009}
+  {\bibfield  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf
+  {\bibinfo {volume} {26}},\ \bibinfo {pages} {035009} (\bibinfo {year}
+  {2009})},\ \Eprint {https://arxiv.org/abs/0810.1929} {arXiv:0810.1929
+  [gr-qc]} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Bernuzzi}\ \emph {et~al.}(2011)\citenamefont
+  {Bernuzzi}, \citenamefont {Nagar},\ and\ \citenamefont
+  {Zengino{\u{g}}lu}}]{Bernuzzi:2011aj}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Bernuzzi}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Nagar}},\
+  and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Zengino{\u{g}}lu}},\
+  }\bibfield  {title} {\bibinfo {title} {Binary black hole coalescence in the
+  large-mass-ratio limit: The hyperboloidal layer method and waveforms at null
+  infinity},\ }\href {https://doi.org/10.1103/PhysRevD.84.084026} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {84}},\ \bibinfo {pages} {084026} (\bibinfo {year} {2011})},\ \Eprint
+  {https://arxiv.org/abs/1107.5402} {arXiv:1107.5402 [gr-qc]} \BibitemShut
   {NoStop}%
-\bibitem [{\citenamefont {Rinne}(2010)}]{Rinne:2009qx}%
+\bibitem [{\citenamefont {Harms}\ \emph {et~al.}(2014)\citenamefont {Harms},
+  \citenamefont {Bernuzzi}, \citenamefont {Nagar},\ and\ \citenamefont
+  {Zengino{\u{g}}lu}}]{Harms:2014dqa}%
   \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
-  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {{An Axisymmetric evolution
-  code for the Einstein equations on hyperboloidal slices}},\ }\href
-  {https://doi.org/10.1088/0264-9381/27/3/035014} {\bibfield  {journal}
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
+  {Harms}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Bernuzzi}},
+  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Nagar}},\ and\ \bibinfo
+  {author} {\bibfnamefont {A.}~\bibnamefont {Zengino{\u{g}}lu}},\ }\bibfield
+  {title} {\bibinfo {title} {A new gravitational wave generation algorithm for
+  particle perturbations of the {Kerr} spacetime},\ }\href
+  {https://doi.org/10.1088/0264-9381/31/24/245004} {\bibfield  {journal}
   {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
-  {27}},\ \bibinfo {pages} {035014} (\bibinfo {year} {2010})},\ \Eprint
-  {https://arxiv.org/abs/0910.0139} {arXiv:0910.0139 [gr-qc]} \BibitemShut
+  {31}},\ \bibinfo {pages} {245004} (\bibinfo {year} {2014})},\ \Eprint
+  {https://arxiv.org/abs/1406.5983} {arXiv:1406.5983 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}\ \emph
   {et~al.}(2015)\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}, \citenamefont
@@ -128,23 +300,6 @@
   {volume} {35}},\ \bibinfo {pages} {045014} (\bibinfo {year} {2018})},\
   \Eprint {https://arxiv.org/abs/1705.06298} {arXiv:1705.06298 [gr-qc]}
   \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2024)\citenamefont
-  {Peterson}, \citenamefont {Gautam}, \citenamefont
-  {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
-  {Hilditch}}]{Peterson:2024spherical}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
-  {Peterson}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Gautam}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Va{\~n}{\'o}-Vi{\~n}uales}},\ and\ \bibinfo {author} {\bibfnamefont
-  {D.}~\bibnamefont {Hilditch}},\ }\bibfield  {title} {\bibinfo {title}
-  {{Spherical evolution of the generalized harmonic gauge formulation of
-  general relativity on compactified hyperboloidal slices}},\ }\href
-  {https://doi.org/10.1103/PhysRevD.110.124033} {\bibfield  {journal} {\bibinfo
-   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {110}},\ \bibinfo
-  {pages} {124033} (\bibinfo {year} {2024})},\ \Eprint
-  {https://arxiv.org/abs/2409.02994} {arXiv:2409.02994 [gr-qc]} \BibitemShut
-  {NoStop}%
 \bibitem [{\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}\ and\ \citenamefont
   {Valente}(2024)}]{VanoVinuales:2024reference}%
   \BibitemOpen
@@ -156,18 +311,6 @@
   {\bibinfo  {journal} {Gen. Relativ. Gravit.}\ }\textbf {\bibinfo {volume}
   {56}},\ \bibinfo {pages} {135} (\bibinfo {year} {2024})},\ \Eprint
   {https://arxiv.org/abs/2408.08952} {arXiv:2408.08952 [gr-qc]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Peterson}\ and\ \citenamefont
-  {Hilditch}(2025)}]{Peterson:2025strong}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
-  {Peterson}}\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
-  {Hilditch}},\ }\bibfield  {title} {\bibinfo {title} {{Strong hyperboloidal
-  compactification for the spherical dual-foliation-generalized harmonic gauge
-  formulation of {GR}}},\ }\href {https://doi.org/10.1103/5wvv-dhkb} {\bibfield
-   {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
-  {112}},\ \bibinfo {pages} {024078} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2506.03078} {arXiv:2506.03078 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {{\'A}lvares}\ and\ \citenamefont
   {Va{\~n}{\'o}-Vi{\~n}uales}(2025)}]{Alvares:2025emkg}%
@@ -181,17 +324,105 @@
   {42}},\ \bibinfo {pages} {155018} (\bibinfo {year} {2025})},\ \Eprint
   {https://arxiv.org/abs/2505.17176} {arXiv:2505.17176 [gr-qc]} \BibitemShut
   {NoStop}%
-\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
-  {Kidder}(2010)}]{Zenginoglu:2010zm}%
+\bibitem [{\citenamefont {Moncrief}\ and\ \citenamefont
+  {Rinne}(2009)}]{Moncrief:2008ie}%
   \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Zengino{\u{g}}lu}}\ and\ \bibinfo {author} {\bibfnamefont {L.~E.}\
-  \bibnamefont {Kidder}},\ }\bibfield  {title} {\bibinfo {title}
-  {{Hyperboloidal evolution of test fields in three spatial dimensions}},\
-  }\href {https://doi.org/10.1103/PhysRevD.81.124010} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {81}},\
-  \bibinfo {pages} {124010} (\bibinfo {year} {2010})},\ \Eprint
-  {https://arxiv.org/abs/1004.0760} {arXiv:1004.0760 [gr-qc]} \BibitemShut
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
+  {Moncrief}}\ and\ \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {{Regularity of the Einstein
+  Equations at Future Null Infinity}},\ }\href
+  {https://doi.org/10.1088/0264-9381/26/12/125010} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {26}},\ \bibinfo {pages} {125010} (\bibinfo {year} {2009})},\ \Eprint
+  {https://arxiv.org/abs/0811.4109} {arXiv:0811.4109 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Rinne}(2010)}]{Rinne:2009qx}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {{An Axisymmetric evolution
+  code for the Einstein equations on hyperboloidal slices}},\ }\href
+  {https://doi.org/10.1088/0264-9381/27/3/035014} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {27}},\ \bibinfo {pages} {035014} (\bibinfo {year} {2010})},\ \Eprint
+  {https://arxiv.org/abs/0910.0139} {arXiv:0910.0139 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Rinne}\ and\ \citenamefont
+  {Moncrief}(2013)}]{RinneMoncrief:2013}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Rinne}}\ and\ \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
+  {Moncrief}},\ }\bibfield  {title} {\bibinfo {title} {Hyperboloidal
+  {Einstein--matter} evolution and tails for scalar and {Yang--Mills} fields},\
+  }\href {https://doi.org/10.1088/0264-9381/30/9/095009} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {30}},\ \bibinfo {pages} {095009} (\bibinfo {year} {2013})},\ \Eprint
+  {https://arxiv.org/abs/1301.6174} {arXiv:1301.6174 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Buchman}\ \emph {et~al.}(2009)\citenamefont
+  {Buchman}, \citenamefont {Pfeiffer},\ and\ \citenamefont
+  {Bardeen}}]{BuchmanPfeifferBardeen:2009}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.~T.}\ \bibnamefont
+  {Buchman}}, \bibinfo {author} {\bibfnamefont {H.~P.}\ \bibnamefont
+  {Pfeiffer}},\ and\ \bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont
+  {Bardeen}},\ }\bibfield  {title} {\bibinfo {title} {Black hole initial data
+  on hyperboloidal slices},\ }\href
+  {https://doi.org/10.1103/PhysRevD.80.084024} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {80}},\ \bibinfo
+  {pages} {084024} (\bibinfo {year} {2009})},\ \Eprint
+  {https://arxiv.org/abs/0907.3163} {arXiv:0907.3163 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Bardeen}\ \emph {et~al.}(2011)\citenamefont
+  {Bardeen}, \citenamefont {Sarbach},\ and\ \citenamefont
+  {Buchman}}]{BardeenSarbachBuchman:2011}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont
+  {Bardeen}}, \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Sarbach}},\
+  and\ \bibinfo {author} {\bibfnamefont {L.~T.}\ \bibnamefont {Buchman}},\
+  }\bibfield  {title} {\bibinfo {title} {Tetrad formalism for numerical
+  relativity on conformally compactified constant mean curvature
+  hypersurfaces},\ }\href {https://doi.org/10.1103/PhysRevD.83.104045}
+  {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo
+  {volume} {83}},\ \bibinfo {pages} {104045} (\bibinfo {year} {2011})},\
+  \Eprint {https://arxiv.org/abs/1101.5479} {arXiv:1101.5479 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Hilditch}(2015)}]{Hilditch:2015aba}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Hilditch}},\ }\href@noop {} {\bibinfo {title} {Dual foliation formulations
+  of general relativity}} (\bibinfo {year} {2015}),\ \Eprint
+  {https://arxiv.org/abs/1509.02071} {arXiv:1509.02071 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Hilditch}\ \emph {et~al.}(2018)\citenamefont
+  {Hilditch}, \citenamefont {Harms}, \citenamefont {Bugner}, \citenamefont
+  {R{\"u}ter},\ and\ \citenamefont {Br{\"u}gmann}}]{HilditchEtAl:2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Hilditch}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Harms}},
+  \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Bugner}}, \bibinfo
+  {author} {\bibfnamefont {H.}~\bibnamefont {R{\"u}ter}},\ and\ \bibinfo
+  {author} {\bibfnamefont {B.}~\bibnamefont {Br{\"u}gmann}},\ }\bibfield
+  {title} {\bibinfo {title} {The evolution of hyperboloidal data with the dual
+  foliation formalism: Mathematical analysis and wave equation tests},\ }\href
+  {https://doi.org/10.1088/1361-6382/aaa4ac} {\bibfield  {journal} {\bibinfo
+  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {35}},\ \bibinfo
+  {pages} {055003} (\bibinfo {year} {2018})},\ \Eprint
+  {https://arxiv.org/abs/1609.08949} {arXiv:1609.08949 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Duarte}\ \emph {et~al.}(2023)\citenamefont {Duarte},
+  \citenamefont {Gasper{\'i}n}, \citenamefont {Feng},\ and\ \citenamefont
+  {Hilditch}}]{DuarteEtAl:2023}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Duarte}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
+  {Gasper{\'i}n}}, \bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont
+  {Feng}},\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Hilditch}},\ }\bibfield  {title} {\bibinfo {title} {Regularizing dual-frame
+  generalized harmonic gauge at null infinity},\ }\href
+  {https://doi.org/10.1088/1361-6382/aca383} {\bibfield  {journal} {\bibinfo
+  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {40}},\ \bibinfo
+  {pages} {025011} (\bibinfo {year} {2023})},\ \Eprint
+  {https://arxiv.org/abs/2206.13661} {arXiv:2206.13661 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2023)\citenamefont
   {Peterson}, \citenamefont {Gautam}, \citenamefont {Rainho}, \citenamefont
@@ -209,6 +440,58 @@
    {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo
   {pages} {024067} (\bibinfo {year} {2023})},\ \Eprint
   {https://arxiv.org/abs/2303.16190} {arXiv:2303.16190 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2024)\citenamefont
+  {Peterson}, \citenamefont {Gautam}, \citenamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
+  {Hilditch}}]{Peterson:2024spherical}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Peterson}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Gautam}},
+  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}},\ and\ \bibinfo {author} {\bibfnamefont
+  {D.}~\bibnamefont {Hilditch}},\ }\bibfield  {title} {\bibinfo {title}
+  {{Spherical evolution of the generalized harmonic gauge formulation of
+  general relativity on compactified hyperboloidal slices}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.110.124033} {\bibfield  {journal} {\bibinfo
+   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {110}},\ \bibinfo
+  {pages} {124033} (\bibinfo {year} {2024})},\ \Eprint
+  {https://arxiv.org/abs/2409.02994} {arXiv:2409.02994 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Peterson}\ and\ \citenamefont
+  {Hilditch}(2025)}]{Peterson:2025strong}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Peterson}}\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Hilditch}},\ }\bibfield  {title} {\bibinfo {title} {{Strong hyperboloidal
+  compactification for the spherical dual-foliation-generalized harmonic gauge
+  formulation of {GR}}},\ }\href {https://doi.org/10.1103/5wvv-dhkb} {\bibfield
+   {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {112}},\ \bibinfo {pages} {024078} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2506.03078} {arXiv:2506.03078 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {N{\"u}tzi}(2023)}]{Nutzi:2023}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {N{\"u}tzi}},\ }\emph {\bibinfo {title} {Maurer--Cartan perturbation theory
+  and scattering amplitudes in general relativity}},\ \href
+  {https://doi.org/10.3929/ethz-b-000625781} {Ph.D. thesis},\ \bibinfo
+  {school} {ETH Zurich} (\bibinfo {year} {2023})\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {N{\"u}tzi}(2025)}]{Nutzi:2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {N{\"u}tzi}},\ }\href {https://doi.org/10.48550/arXiv.2510.01964} {\bibinfo
+  {title} {Perturbations of {Minkowski} spacetime with regular conformal
+  compactification}} (\bibinfo {year} {2025}),\ \Eprint
+  {https://arxiv.org/abs/2510.01964} {arXiv:2510.01964 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {N{\"u}tzi}(2026)}]{Nutzi:2026}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {N{\"u}tzi}},\ }\href {https://doi.org/10.48550/arXiv.2603.23484} {\bibinfo
+  {title} {Solutions of the constraints with controlled decay to {Kerr},
+  including {Schwartz} decay}} (\bibinfo {year} {2026}),\ \Eprint
+  {https://arxiv.org/abs/2603.23484} {arXiv:2603.23484 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Misner}(2004)}]{misner_hyperboloidal_2006}%
   \BibitemOpen
