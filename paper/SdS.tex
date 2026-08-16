@@ -19,8 +19,8 @@
 
 \begin{document}
 
-\title{Artificial cosmology as a regulator for hyperboloidal black-hole
-evolution: Controlled recovery of Schwarzschild waveforms}
+\title{Testing artificial cosmology as a regulator with
+Schwarzschild--de Sitter scalar waves}
 
 \author{Govind Arun Kumar}
 \email{govind02@umd.edu}
@@ -39,25 +39,27 @@ Conformal compactification of asymptotically flat evolution equations can
 introduce formally singular terms at future null infinity.  Misner proposed
 regulating those terms with a small positive cosmological constant, replacing
 null infinity by a cosmological horizon where the conformal factor remains
-nonzero.  We give a quantitative black-hole proof of principle using scalar
-waves on Schwarzschild--de Sitter spacetime.  A useful regulator is not
-specified by the metric alone: its foliation, compactification, initial-data
-map, and waveform clock must approach a common Schwarzschild problem as the
-cosmological length $L=\sqrt{3/\Lambda}$ grows.  We identify a bridge
-foliation with this global limit and test the resulting family against an
-independent Schwarzschild evolution.  Direct finite-$L$ waveform errors
-decrease but remain observable dependent.  Two nested extrapolants formed
-from $L/M=80,160,320,640$ recover the independent Schwarzschild waveform at
-a conservative one-percent level for the cumulative, prompt-dominated
-fixed-mode test and for a localized multimode response on its common
-archived interval.  The latter provides a nontrivial angular and caustic
-stress test.  We make no claim of uniform one-percent late-time accuracy.
-Caustic-echo timing supplies supporting Schwarzschild--de Sitter physics and
-is consistent with a local $\mathcal O((M/L)^2)$ correction and a larger
-outer $\mathcal O(M/L)$ response, but its deterministic sensitivities do not
-support precision fit coefficients.  The calculation establishes a scalar
-regulator protocol and target accuracy for a future application to the full
-Einstein equations; it is not itself an Einstein evolution.
+nonzero.  We do not test that proposed regularization in the conformal
+Einstein equations.  Instead, using scalar waves on Schwarzschild--de Sitter
+spacetime, we establish a necessary fixed-background benchmark.  A meaningful
+benchmark is not specified by the metric alone: its foliation,
+compactification, initial-data map, and waveform clock must approach a common
+Schwarzschild problem as the cosmological length $L=\sqrt{3/\Lambda}$ grows.
+We identify a bridge foliation with this global limit and test the resulting
+family against a separately evolved Schwarzschild reference.  Direct
+finite-$L$ waveform errors decrease but remain observable dependent.  Two
+nested extrapolants formed from $L/M=80,160,320,640$ support agreement with
+the Schwarzschild waveform within a conservative one percent for the
+cumulative, prompt-dominated fixed-mode test and for a localized multimode
+response on its common simulated interval.  We make no claim of uniform
+one-percent late-time accuracy.  Caustic-echo timing supplies supporting
+Schwarzschild--de Sitter physics and is consistent with a local
+$\mathcal O((M/L)^2)$ correction and a larger outer $\mathcal O(M/L)$
+response, but its deterministic sensitivities do not support precision fit
+coefficients.  The calculation provides a scalar-wave comparison and
+extrapolation protocol, together with target accuracies for a future
+nonlinear Einstein implementation.  Whether artificial cosmology regularizes
+the formally singular conformal Einstein equations remains an open question.
 \end{abstract}
 
 \maketitle
@@ -72,7 +74,7 @@ infinity, $\scri^+$.  Hyperboloidal evolution brings this clean definition
 onto the computational domain through spacelike slices that approach
 outgoing null hypersurfaces.  After spatial compactification places infinity
 at a finite coordinate location, waves leave the grid through a
-characteristic, pure outflow boundary.  Friedrich's conformal field equations regularize
+characteristic, pure-outflow boundary.  Friedrich's conformal field equations regularize
 the asymptotic problem \cite{friedrich1983cauchy}.  Applying scri fixing
 directly to the Einstein equations exposes formally singular conformal
 source terms whose limits must preserve the constraints in the chosen gauge
@@ -80,39 +82,57 @@ source terms whose limits must preserve the constraints in the chosen gauge
 Moncrief:2008ie}.  Stable calculations now include Einstein evolution in
 axisymmetry and spherical symmetry
 \cite{Rinne:2009qx,Vano-Vinuales:2014koa,Vano-Vinuales:2017qij}.
-Three-dimensional test fields and asymptotic model systems extend those
-tests \cite{Zenginoglu:2010zm,Peterson:2023bha}.
+Recent work has advanced direct compactified hyperboloidal evolution of the
+nonlinear Einstein equations in spherical symmetry in both generalized
+harmonic and conformal BSSN/Z4 formulations
+\cite{Peterson:2024spherical,VanoVinuales:2024reference}.  In the strongly
+compactified generalized harmonic system, constraint additions, gauge
+choices, and reduction fields have been used to minimize the number of
+formally singular terms \cite{Peterson:2025strong}, and
+fully coupled Einstein--Maxwell--Klein--Gordon evolutions extend the
+conformal BSSN/Z4 program to charged matter and black-hole formation
+\cite{Alvares:2025emkg}.  Three-dimensional test fields and asymptotic model
+systems have also been evolved
+\cite{Zenginoglu:2010zm,Peterson:2023bha}.  In these compactified
+free-evolution programs, however, a robust three-dimensional scri-fixed
+evolution of generic black-hole spacetimes with the full Einstein equations
+remains open.  Artificial cosmology may offer a complementary route to that
+goal by replacing evaluation at $\Omega=0$ with a finite cosmological horizon,
+but only a nonlinear Einstein calculation can determine whether this helps in
+practice.
 
 Misner introduced artificial cosmology
 \cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006}.
 A small positive cosmological constant serves there as a regulator.
-It replaces future null infinity with a distant cosmological horizon, so the
-grid terminates in the pure-outflow region beyond it.  Black-hole excision
-uses the same causal mechanism inside an event horizon.  Misner and
-collaborators tested parts of this idea with Maxwell fields on de Sitter
-backgrounds.  Scalar waves on Schwarzschild--de Sitter (SdS) provide a
-black-hole model with a strong-field scattering region between the future
-black-hole horizon $\hb$ and the future cosmological horizon $\hc$.
+It replaces future null infinity with a distant cosmological horizon.  A grid
+may end on that characteristic horizon, as it does here, or continue to a
+pure-outflow boundary beyond it.  Black-hole excision uses the same causal
+mechanism inside an event horizon.  Misner and collaborators tested parts of
+this idea with Maxwell fields on de Sitter backgrounds.  Scalar waves on
+Schwarzschild--de Sitter (SdS) provide a black-hole model with a strong-field
+scattering region between the future black-hole horizon $\hb$ and the future
+cosmological horizon $\hc$.
 
 For $\Lambda>0$, the future conformal boundary is spacelike.  Its asymptotic
 symmetries and radiative degrees of freedom differ from those at
 $\scri^+$, as do the associated fluxes.  Ashtekar et al. developed this
 structure for linear fields and derived a
 positive-$\Lambda$ quadrupole formula
-\cite{Ashtekar:2014zfa,Ashtekar:2015lla,Ashtekar:2015lxa}.  Here $\Lambda$
-acts as a numerical regulator for scalar evolution.  We determine the
-region over which that evolution approximates a specified asymptotically
-flat solution, with the conformal boundary confining the comparison to a
-finite spacetime region.
+\cite{Ashtekar:2014zfa,Ashtekar:2015lla,Ashtekar:2015lxa}.  Here we study
+only the finite-$L$ bias and large-$L$ limit of scalar evolution on fixed
+backgrounds.  We determine the region over which that evolution approximates
+a specified asymptotically flat solution, with the cosmological horizon
+confining the comparison to a finite spacetime region.
 
 Regularity at $\hb$ and $\hc$ fixes the leading behavior of a bridge near
 each horizon.  Its continuation into the expanding region beyond $\hc$
 selects the asymptotic end.  Horizon crossings leave enough freedom for a
 one-parameter family to approach a Cauchy-like Schwarzschild end.  The
-regulator family includes its foliation and compactification along with the
-data map and waveform clock.  Scalar observables remain invariant under
-coordinate changes.  Our analysis tracks the limiting coordinates and the
-conditioning they induce in the numerical equations.
+candidate artificial-cosmology family includes its foliation and
+compactification along with the data map and waveform clock.  Scalar
+observables remain invariant under coordinate changes.  Our analysis tracks
+the limiting coordinates and the conditioning they induce in the scalar
+evolution equations.
 
 Writing $\Lambda=3/L^2$, the SdS metric approaches Schwarzschild on every
 fixed near-zone interval as $L/M\to\infty$.  Each finite value of $L$ keeps
@@ -125,32 +145,43 @@ calculation approximates the asymptotically flat waveform over a finite
 interval.  Cosmological decay sets its later behavior.
 
 Using the bridge constructions and conformal geometry developed in
-Ref.~\cite{zenginoglu_bridge_2025}, we form a one-parameter regulator family
-on a fixed compact domain.  Analytic large-$L$ limits follow the slices to
-their asymptotic ends.  Retarded-time offsets set a common clock, and the
-compactified coefficients expose the conditioning of each choice.  We then
-evolve a regular first-order scalar system in the minimal gauge and compare
-each finite-$L$ waveform with an independently evolved Schwarzschild
-reference without fitting a relative time translation.
+Ref.~\cite{zenginoglu_bridge_2025}, we form a one-parameter family of
+candidate artificial-cosmology backgrounds on a fixed compact domain.
+Analytic large-$L$ limits follow the slices to their asymptotic ends.
+Retarded-time offsets set a common clock, and the compactified coefficients
+expose the conditioning of each choice.  We then evolve a regular first-order
+scalar system in the minimal gauge and compare each finite-$L$ waveform with
+a separately evolved Schwarzschild reference without fitting a relative time
+translation.
 
-The paper has two goals.  The primary goal is to test Misner's proposal as a
-controlled regulator: we determine both the direct finite-$L$ error and the
-accuracy of an $L\to\infty$ extrapolation.  A fixed pure-$\ell=2$ datum tests
-the waveform limit cleanly, while a localized source excites many angular
-modes and stresses the construction through caustics.  The secondary goal is
-to study physical finite-$\Lambda$ effects, including caustic echoes and the
-eventual departure from Schwarzschild late-time behavior.  Those effects
-support the regulator analysis but do not constitute a second headline.
+Three logically distinct questions should be separated.  First, can one
+construct a finite-$L$ metric, foliation, and compactification with a global
+Schwarzschild limit?  Second, do matched observables admit useful direct or
+extrapolated recovery as $L\to\infty$?  Third, does finite $L$ actually
+regularize and condition the formally singular terms in a nonlinear conformal
+Einstein evolution?  This paper addresses only the first two questions on
+fixed black-hole backgrounds using scalar waves.  The third requires a
+nonlinear Einstein evolution code and is left for future work.
+
+Within that scope, the primary goal is to quantify the direct finite-$L$
+error and the accuracy of an $L\to\infty$ scalar-wave extrapolation.  A fixed
+pure-$\ell=2$ datum tests the waveform limit cleanly, while a localized source
+excites many angular modes and probes the construction through caustics.  A
+supporting physics goal is to study finite-$\Lambda$ effects, including
+caustic echoes and the eventual departure from Schwarzschild late-time
+behavior.  Those effects support the scalar-wave benchmark but do not
+constitute a second headline.
 
 Section~\ref{sec:bridges} gives the global foliation criterion and identifies
-the regulator gauge.  Section~\ref{sec:scalar} defines the scalar model,
+the benchmark gauge.  Section~\ref{sec:scalar} defines the scalar model,
 matched data, clock, numerical methods, and comparison measures.
 Section~\ref{sec:results} presents direct and extrapolated Schwarzschild
 recovery followed by the localized-source test and supporting SdS physics.
 The appendices collect convergence, sensitivity, and reproducibility details.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Bridge foliations and the regulator limit}
+\section{Bridge foliations and the scalar-wave
+large-\texorpdfstring{$L$}{L} limit}
 \label{sec:bridges}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -326,9 +357,10 @@ regular null-infinity limit further requires
 $1+B_0=\mathcal{O}(M^2/r^2)$ with a finite positive leading coefficient.
 The minimum-height, linear, and slow-roll limits fall outside this
 asymptotic-nullness condition.  Minimal, modified-linear, and Mavrogiannis
-slices satisfy it.  A full regulator limit also requires uniform
-compactified coefficients through the expanding region.  For the
-modified-linear boost, an outer layer breaks uniformity near $\rho=1$.
+slices satisfy it.  A globally consistent scalar-wave comparison also
+requires uniform compactified coefficients through the expanding region.
+For the modified-linear boost, an outer layer breaks uniformity near
+$\rho=1$.
 
 We place both horizons at fixed coordinate locations using
 \begin{align}
@@ -345,8 +377,8 @@ respectively.  At fixed $r$,
  \rho\to\rho_0:=1-\frac{2M}{r},
  \label{eq:rho_limit}
 \end{equation}
-which is also the compactification used by the independent Schwarzschild
-solver.
+which is also the compactification used by the separate Schwarzschild
+implementation.
 
 The corresponding dimensionless spacetime conformal factor may be chosen as
 \begin{equation}
@@ -361,12 +393,15 @@ At every finite $L$ the outer endpoint is the cosmological horizon and
 \end{equation}
 In the Schwarzschild limit,
 $\Omega_L\to\Omega_0=1-\rho$ and $\Omega_0(1)=0$, so the same endpoint becomes
-$\scri^+$.  Equation~\eqref{eq:finite_L_conformal_factor} is the regulator
-mechanism in Misner's proposal: terms that are formally singular because the
-asymptotically flat conformal factor vanishes would be evaluated at nonzero
-$\Omega_L$ in a finite-$L$ Einstein problem.  The question addressed below is
-whether the associated finite-$L$ observables can nevertheless be used to
-recover the $\Omega_0=0$ problem in a controlled limit.
+$\scri^+$.  Equation~\eqref{eq:finite_L_conformal_factor} is the geometric
+premise of the regulator mechanism in Misner's proposal: in a finite-$L$
+Einstein problem, factors that become formally singular when $\Omega_0=0$
+would instead be evaluated at nonzero $\Omega_L$.  Nonvanishing $\Omega_L$
+alone does not establish regularity or good conditioning as $L$ grows.  The
+scalar equation evolved here contains none of the conformal Einstein source
+terms and therefore cannot test their regularization.  It tests only whether
+matched scalar observables on this background and foliation family recover
+their Schwarzschild counterparts in a controlled large-$L$ limit.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Scalar evolution and comparison protocol}
@@ -449,8 +484,8 @@ For the minimal gauge, the limiting Schwarzschild coefficients are
  P_0&=\frac{\ell(\ell+1)+(1-\rho_0)}{2M}.
  \label{eq:schwarz_potential}
 \end{align}
-The Schwarzschild code implements these expressions independently of the
-finite-$L$ code.
+The Schwarzschild code implements these closed-form expressions separately
+from the finite-$L$ geometry.
 
 \subsection{Numerical method}
 
@@ -480,8 +515,8 @@ cadence and observers at $r=8M$, $r=12M$, and the outer boundary.  Radial
 resolution, time step, and angular truncation are refined together, so a
 level-to-level change measures the combined refinement sensitivity of a case
 instead of isolating one operator.  Every finite $L$ case has a
-Schwarzschild reference evolved at the same level by the independent
-implementation of
+Schwarzschild reference evolved at the same level using the separate
+closed-form implementation of
 Eqs.~\eqref{eq:schwarz_coefficients}--\eqref{eq:schwarz_potential}.  The
 $\ell=2$ angular index is exact for the fixed-mode family, so $\ell_{\max}$
 enters only through the localized source.
@@ -563,7 +598,7 @@ q_L={}&\frac{1}{2\kappa_b}
 \ln\frac{r_c}{r_0}.
 \label{eq:q_L}
 \end{align}
-The independent Schwarzschild value is
+The corresponding Schwarzschild value is
 \begin{equation}
  q_0=4M\ln\frac{r_0}{r_0-2M}=4M\ln2.
  \label{eq:q_zero}
@@ -584,10 +619,10 @@ relation to the local outgoing coordinate is
 Since the constant drops out of a decay rate, reported transition times keep
 the geometric origin in Eq.~\eqref{eq:retarded_time}.
 
-\subsection{Localized source and regulator observables}
+\subsection{Localized source and comparison observables}
 \label{sec:localized_protocol}
 
-The fixed-mode calculation isolates the radial and temporal regulator limit.
+The fixed-mode calculation isolates the radial and temporal scalar-wave limit.
 A second family uses a normalized source localized in radius, time, and
 angle.  Its spherical-harmonic decomposition excites a multimode response,
 including propagation through caustics.  The physical source prescription is
@@ -728,7 +763,7 @@ with one another and with $W_0$.
 The fixed-mode comparison uses three cumulative intervals,
 $0\leq U/M\leq40$, $80$, and $160$, and the two disjoint intervals
 $40\leq U/M\leq80$ and $80\leq U/M\leq160$.  The localized source comparison
-uses the common archived interval $0.000411\leq U/M\leq57.2274$, which runs
+uses the common simulated interval $0.000411\leq U/M\leq57.2274$, which runs
 from the first stored nonnegative sample to the last sample held by every
 member of the family.  Stored samples are mapped onto one fixed grid in $U$
 by linear interpolation before any norm is formed, and no relative time
@@ -773,10 +808,11 @@ as diagnostics and carry no accuracy claim.
 \subsection{Foliation classes and numerical conditioning}
 \label{sec:foliation_results}
 
-Local horizon regularity alone does not select a regulator gauge.  The
-relevant criterion is the behavior of the same geometric construction as
-$L/M$ grows under a fixed compactification.  We therefore compare the exact
-large-$L$ limits and the resulting compactified evolution coefficients.
+Local horizon regularity alone does not select a background family suitable
+for the benchmark.  The relevant criterion is the behavior of the same
+geometric construction as $L/M$ grows under a fixed compactification.  We
+therefore compare the exact large-$L$ limits and the resulting compactified
+evolution coefficients.
 
 Figure~\ref{fig:foliation_limit} tests the stronger large-$L$ requirement
 under the fixed compactification \eqref{eq:compactification}.  Panel (a)
@@ -834,8 +870,8 @@ interior gives $Mc_{+,0}(\scri^+)=1/4$.
 
 We use the minimal gauge below because its hyperboloidal limit carries the
 finite clock in Eq.~\eqref{eq:q_zero}.  Its coefficients stay bounded across
-the compact domain.  An independent closed-form Schwarzschild
-implementation supplies the reference.  The processed conditioning data and
+the compact domain.  A separate closed-form Schwarzschild implementation
+supplies the reference.  The processed conditioning data and
 the script that generates Fig.~\ref{fig:foliation_limit} are supplied with the
 paper source; this analytic-coefficient study is distinct from the frozen
 waveform campaign described in Appendix~\ref{app:reproducibility}.
@@ -843,7 +879,7 @@ waveform campaign described in Appendix~\ref{app:reproducibility}.
 \subsection{Direct finite-\texorpdfstring{$L$}{L} recovery}
 \label{sec:direct_recovery}
 
-The direct comparison answers the practical regulator question: how large
+The direct comparison answers the practical scalar-wave question: how large
 must $L/M$ be before a finite cosmological calculation approximates the
 chosen Schwarzschild observable?  The answer depends on the observable and
 accuracy threshold.  For the cumulative, prompt-dominated pure-$\ell=2$
@@ -864,7 +900,7 @@ explicit expansion in Eq.~\eqref{eq:regulator_expansion}.
  \centering
  \includegraphics[width=\textwidth]{../results/regulator_production_v3/flat_waveform_sequence.pdf}
  \caption{Fixed-data, pure-$\ell=2$ sequence at the outer boundary.  Upper
- panel: waveforms for $L/M=20$ to $640$ against the independently evolved
+ panel: waveforms for $L/M=20$ to $640$ against the separately evolved
  Schwarzschild reference.  Lower panel: the residual $W_L-W_{\rm Schw}$ on
  the same retarded time $U=\tau-q_L$, with no relative time translation
  fitted.  The residual amplitude falls with $L$ while its prompt-interval
@@ -879,14 +915,14 @@ Sec.~\ref{sec:localized_protocol}: the interval grows by a factor of four
 while the norm does not move.  Figure~\ref{fig:flat_windows} shows the same
 data against $L/M$ together with the case-specific numerical scale.  For the
 cumulative intervals that scale sits far below the difference itself, so the
-$5\%$ and $2\%$ crossings are properties of the regulator rather than of the
-grid.  For $40\leq U/M\leq80$ and $80\leq U/M\leq160$ the two curves
+$5\%$ and $2\%$ crossings are properties of the finite-$L$ sequence rather
+than of the grid.  For $40\leq U/M\leq80$ and $80\leq U/M\leq160$ the two curves
 approach and then cross, which is why those intervals appear in the table
 as diagnostics.  No claim of uniform late-time accuracy follows from any of
 these entries.
 
 \begin{table*}[t]
- \caption{Direct regulator errors for the fixed-data, pure-$\ell=2$
+ \caption{Direct finite-$L$ scalar-wave errors for the fixed-data, pure-$\ell=2$
  sequence.  $E_\infty$ is normalized by the largest Schwarzschild amplitude
  in the same interval.  The refinement column is the directly observed
  medium-to-fine paired-residual change in
@@ -927,9 +963,9 @@ $L/M$ & interval & $E_2$ (\%) & $E_\infty$ (\%) & observed refinement (\%) & sta
 \subsection{Nested recovery of the Schwarzschild waveform}
 \label{sec:extrapolated_recovery}
 
-The primary regulator test is the agreement among
-$W_\infty^{(80)}$, $W_\infty^{(160)}$, and the independent Schwarzschild
-waveform.  Across the declared cumulative windows, the largest central
+The primary scalar-wave benchmark is the agreement among
+$W_\infty^{(80)}$, $W_\infty^{(160)}$, and the separately evolved
+Schwarzschild waveform.  Across the declared cumulative windows, the largest central
 extrapolant residual is $0.0313\%$.  That small central value is not a
 resolved accuracy measurement: the largest directly observed
 medium-to-fine change of a derived extrapolant is $0.409\%$, while the
@@ -937,7 +973,7 @@ largest propagated Richardson fine-grid estimate is $0.119\%$.  We therefore
 state the result conservatively as recovery of the tested Schwarzschild
 waveform within $1\%$.
 
-Figure~\ref{fig:nested} places both extrapolants against the independent
+Figure~\ref{fig:nested} places both extrapolants against the separately evolved
 Schwarzschild waveform.  The overlapping triples are
 $(80,160,320)$ and $(160,320,640)$ in units of $L/M$; they share the $160$
 and $320$ calculations.  Their difference is therefore a correlated test of
@@ -951,7 +987,7 @@ largest-$L$ member by a factor between approximately $50$ and $125$.
  \includegraphics[width=\textwidth]{../results/regulator_production_v3/nested_extrapolants.pdf}
  \caption{Nested extrapolants for the fixed-data, pure-$\ell=2$ sequence.
  Upper panel: $W_\infty^{(80)}$ and $W_\infty^{(160)}$ against the
- independently evolved Schwarzschild waveform.  Lower panel: the two
+ separately evolved Schwarzschild waveform.  Lower panel: the two
  residuals and the difference between the overlapping extrapolants, which is
  a correlated diagnostic of omitted higher-order terms.}
  \label{fig:nested}
@@ -994,12 +1030,12 @@ $W_\infty^{(80)}-W_\infty^{(160)}$ & 160 & 0.0313 & 0.4092 & 0.1189\\
 \subsection{Localized multimode response}
 \label{sec:localized_results}
 
-The localized-source family tests the regulator beyond a single spherical
-harmonic.  In the sphere-integrated norm \eqref{eq:parseval_norm}, the direct
+The localized-source family extends the scalar-wave benchmark beyond a single
+spherical harmonic.  In the sphere-integrated norm \eqref{eq:parseval_norm}, the direct
 differences are $E_{2,S^2}(320)=5.26710\%$ and
 $E_{2,S^2}(640)=2.62569\%$.  The two extrapolants differ by $0.051706\%$ and each
-agrees with the independent Schwarzschild response well inside the
-conservative $1\%$ level.  These statements apply only to the common archived
+agrees with the separately evolved Schwarzschild response well inside the
+conservative $1\%$ level.  These statements apply only to the common simulated
 interval, $0.000411\lesssim U/M\leq57.2274$, not to a complete late-time
 signal.  Representative caustic directions are secondary diagnostics; the
 sphere-integrated modal norm is the primary comparison.
@@ -1016,7 +1052,7 @@ only to show what the modal statement means in a waveform.
 \begin{figure*}[t]
  \centering
  \includegraphics[width=\textwidth]{../results/regulator_production_v3/localized_source_regulator.pdf}
- \caption{Localized source on the common archived interval.  Top left:
+ \caption{Localized source on the common simulated interval.  Top left:
  direct sphere-integrated error against $L/M$.  Top right: the three nested
  extrapolant comparisons.  Bottom left: instantaneous $L^2(S^2)$ norms of
  the Schwarzschild response and of the residuals.  Bottom right: the
@@ -1037,7 +1073,7 @@ the chosen physical problem and never enters as an error estimate.
 
 \begin{table}[t]
  \caption{Localized source comparison in the sphere-integrated modal norm on
- the common archived interval $0.000411\leq U/M\leq57.2274$.  The interval
+ the common simulated interval $0.000411\leq U/M\leq57.2274$.  The interval
  ends where the archives end and is not a complete late-time signal.}
 \label{tab:localized}
 \begin{ruledtabular}
@@ -1131,7 +1167,7 @@ Entry into cosmological decay occurs at $\kappa_cU=2.83$ and $2.94$; its
 approximate constancy in cosmological units is consistent with a scale tied
 to $\kappa_c^{-1}$.  The transition interval consequently widens with $L$
 from both sides.  Departure is not the end of a Price tail: the
-independent Schwarzschild reference does not settle within $5\%$ of its own
+separate Schwarzschild reference does not settle within $5\%$ of its own
 $\ell=1$ power law until $U=220.3M$ at the same radius, so both finite $L$
 solutions leave the Schwarzschild waveform before the Schwarzschild power
 law is established.  A finite $L$ evolution of this kind contains a
@@ -1140,49 +1176,64 @@ cosmological decay, and not a power law plateau followed by a cosmological
 tail.  Appendix~\ref{app:latetime} carries the rate estimator sweep and the
 radius dependence.
 
-\subsection{Scope of the demonstration}
+\subsection{Scope and limitations}
 \label{sec:scope}
 
-The calculation tests the complete regulator protocol for a linear scalar
-field on fixed black-hole backgrounds.  It does not evolve the full Einstein
-equations and does not demonstrate regularization of their conformal source
-terms.  Its contribution is a quantitative target and validation strategy:
-choose a globally compatible regulator family, keep the physical comparison
-contract fixed, measure direct finite-$L$ errors, and verify nested
-extrapolation against an independent asymptotically flat reference.
+The calculation tests the background selection, data matching, clock
+alignment, waveform comparison, and extrapolation needed for a scalar-wave
+benchmark on fixed black-hole backgrounds.  It neither evolves the nonlinear
+Einstein equations nor tests the regularization or conditioning of their
+formally singular conformal source terms.  The fact that $\Omega_L$ remains
+nonzero at finite $L$ is the geometric premise of Misner's proposal, not by
+itself a numerical regularity result.  The contribution here is a quantitative
+prerequisite and validation strategy: choose a globally compatible finite-$L$
+family, keep the physical comparison contract fixed, measure direct errors,
+and test nested extrapolation against a separately evolved asymptotically flat
+reference.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 \label{sec:conclusions}
 
-An artificial-cosmology regulator is a coherent limiting construction, not
-only a choice of positive cosmological constant.  The metric, foliation,
+For the scalar benchmark, artificial cosmology must be treated as a coherent
+limiting construction, not only as a choice of positive cosmological
+constant.  The metric, foliation,
 compactification, initial-data map, and waveform clock must all select the
 same asymptotically flat problem.  Local regularity at the cosmological
 horizon does not ensure this limit: the continuation of the slices beyond
 that horizon determines which Schwarzschild end is recovered.  The minimal
 gauge used here has the required global end, a finite limiting clock, and
-well-conditioned compactified evolution coefficients.
+well-conditioned compactified scalar-wave coefficients.
 
 For the tested scalar observables, direct SdS waveforms approach their
 Schwarzschild counterparts as $L/M$ grows, but a single finite-$L$ run is not
 uniformly an effectively Schwarzschild calculation.  The two nested
-extrapolants provide the more useful regulator protocol.  Their agreement
-with one another and with an independent Schwarzschild calculation supports
-controlled recovery at a conservative $1\%$ level for the cumulative
+extrapolants provide the more useful scalar-wave comparison protocol.  Their
+agreement with one another and with a separately evolved Schwarzschild
+calculation supports agreement at a conservative $1\%$ level for the cumulative
 prompt-dominated fixed-mode test and for the localized multimode response on
-its common archived interval.  No corresponding claim is made for the
+its common simulated interval.  No corresponding claim is made for the
 unresolved disjoint late-time windows.
 
 The localized response also exposes genuine finite-$\Lambda$ physics.
 Caustic timing is consistent with a near-zone correction of order
 $(M/L)^2$ and a slower outer response approaching order $M/L$, although
 deterministic extraction sensitivities preclude precision coefficient
-claims.  Together these calculations establish a reproducible scalar
-black-hole proof of principle for Misner's proposal.  Applying the protocol
-to the full Einstein equations remains the central future test, where the
-formally singular conformal source terms and the coupled gauge and constraint
-systems must be treated directly.
+claims.  Together these calculations provide a reproducible fixed-background
+scalar-wave benchmark for necessary ingredients of Misner's proposal.  They
+do not establish that artificial cosmology regularizes the conformal Einstein
+equations.
+
+The decisive next step is a nonlinear Einstein evolution at finite $L$,
+followed by the same controlled large-$L$ comparison.  Such a calculation
+must assess how finite $L$ treats the formally singular source terms, monitor
+constraint behavior and gauge conditioning, and compare waveform accuracy and
+computational cost with direct-$\scri^+$ formulations.  Full-GR hyperboloidal
+evolution at $\scri^+$ has advanced substantially in spherical symmetry, but
+a robust three-dimensional scri-fixed evolution of generic black-hole
+spacetimes remains open.  Artificial cosmology may help to overcome that
+obstacle; establishing whether it does requires the nonlinear Einstein code
+that lies beyond the present scalar study.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
@@ -1332,7 +1383,7 @@ interpretation.
 The main text quotes the $r=8M$ transition because it is the cleanest
 supporting case.  This separate crossover study treats the $\ell=1$ response
 for $L/M=20$, $40$, $80$, and $160$ at $r=4M$, $8M$, $16M$, and $\hc$.
-Finite-radius observations are compared with an independent Schwarzschild
+Finite-radius observations are compared with a separate Schwarzschild
 run at the same areal radius, while $\hc$ is compared with Schwarzschild
 $\scri^+$.  An additional $\ell=2$, $L/M=80$ calculation checks the
 mode dependence.
@@ -1372,17 +1423,17 @@ both later than the corresponding finite-$L$ departures.  For $\ell=2$ the
 Price value is not attained at $r=4M$ within the evolved interval.  Thus the
 tested finite-$L$ solutions leave the Schwarzschild waveform before a clean
 Schwarzschild power-law regime is established.  This supplies physical
-context for the finite regulator interval; the production disjoint windows in
-Sec.~\ref{sec:direct_recovery} are labeled diagnostic for the separate
+context for the finite-$L$ comparison interval; the production disjoint
+windows in Sec.~\ref{sec:direct_recovery} are labeled diagnostic for the separate
 numerical reason that their refinement change is not subdominant.
 
 \section{Reproducibility record}
 \label{app:reproducibility}
 
-The frozen regulator campaign separates simulation from analysis at the
+The frozen scalar-wave campaign separates simulation from analysis at the
 level of the repository history.  All $36$ raw archives, $21$ for the fixed
 mode family and $15$ for the localized source family, were produced from the
-single clean simulation commit \texttt{2460d976}.  Every regulator table
+single clean simulation commit \texttt{2460d976}.  Every production table
 and figure was then generated at analysis commit \texttt{de3a3d5}, which does
 not modify the raw archives.  The manifest records the full identifiers.  At
 creation it requires all tracked analysis sources and external inputs outside
@@ -1405,7 +1456,7 @@ than as products of this campaign.
 The localized response signals are stored compactly as per-response
 \texttt{int32} delta sequences, with a reconstruction scale chosen for a
 maximum relative peak error of $10^{-7}$.  This storage scale is negligible
-for the percent-level regulator comparisons.  The very small localized
+for the percent-level waveform comparisons.  The very small localized
 medium-to-fine values in Table~\ref{tab:localized} are therefore used only to
 establish that refinement is subdominant, not to resolve additional digits.
 
