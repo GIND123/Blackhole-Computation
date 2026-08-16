@@ -1,0 +1,445 @@
+%apsrev4-2.bst 2019-01-14 (MD) hand-edited version of apsrev4-1.bst
+%Control: key (0)
+%Control: author (8) initials jnrlst
+%Control: editor formatted (1) identically to author
+%Control: production of article title (0) allowed
+%Control: page (0) single
+%Control: year (1) truncated
+%Control: production of eprint (0) enabled
+\begin{thebibliography}{33}%
+\makeatletter
+\providecommand \@ifxundefined [1]{%
+ \@ifx{#1\undefined}
+}%
+\providecommand \@ifnum [1]{%
+ \ifnum #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \@ifx [1]{%
+ \ifx #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \natexlab [1]{#1}%
+\providecommand \enquote  [1]{``#1''}%
+\providecommand \bibnamefont  [1]{#1}%
+\providecommand \bibfnamefont [1]{#1}%
+\providecommand \citenamefont [1]{#1}%
+\providecommand \href@noop [0]{\@secondoftwo}%
+\providecommand \href [0]{\begingroup \@sanitize@url \@href}%
+\providecommand \@href[1]{\@@startlink{#1}\@@href}%
+\providecommand \@@href[1]{\endgroup#1\@@endlink}%
+\providecommand \@sanitize@url [0]{\catcode `\\12\catcode `\$12\catcode
+  `\&12\catcode `\#12\catcode `\^12\catcode `\_12\catcode `\%12\relax}%
+\providecommand \@@startlink[1]{}%
+\providecommand \@@endlink[0]{}%
+\providecommand \url  [0]{\begingroup\@sanitize@url \@url }%
+\providecommand \@url [1]{\endgroup\@href {#1}{\urlprefix }}%
+\providecommand \urlprefix  [0]{URL }%
+\providecommand \Eprint [0]{\href }%
+\providecommand \doibase [0]{https://doi.org/}%
+\providecommand \selectlanguage [0]{\@gobble}%
+\providecommand \bibinfo  [0]{\@secondoftwo}%
+\providecommand \bibfield  [0]{\@secondoftwo}%
+\providecommand \translation [1]{[#1]}%
+\providecommand \BibitemOpen [0]{}%
+\providecommand \bibitemStop [0]{}%
+\providecommand \bibitemNoStop [0]{.\EOS\space}%
+\providecommand \EOS [0]{\spacefactor3000\relax}%
+\providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
+\let\auto@bib@innerbib\@empty
+%</preamble>
+\bibitem [{\citenamefont {Friedrich}(1983)}]{friedrich1983cauchy}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
+  {Friedrich}},\ }\bibfield  {title} {\bibinfo {title} {{Cauchy} problems for
+  the conformal vacuum field equations in general relativity},\ }\href
+  {https://doi.org/10.1007/BF01206015} {\bibfield  {journal} {\bibinfo
+  {journal} {Commun. Math. Phys.}\ }\textbf {\bibinfo {volume} {91}},\ \bibinfo
+  {pages} {445} (\bibinfo {year} {1983})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont
+  {Zengino{\u{g}}lu}(2008{\natexlab{a}})}]{zenginoglu_hyperboloidal_2008}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}},\ }\bibfield  {title} {\bibinfo {title} {Hyperboloidal
+  foliations and scri-fixing},\ }\href
+  {https://doi.org/10.1088/0264-9381/25/14/145002} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {25}},\ \bibinfo {pages} {145002} (\bibinfo {year} {2008}{\natexlab{a}})},\
+  \Eprint {https://arxiv.org/abs/0712.4333} {arXiv:0712.4333 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont
+  {Zengino{\u{g}}lu}(2008{\natexlab{b}})}]{Zenginoglu:2008pw}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}},\ }\bibfield  {title} {\bibinfo {title} {{Hyperboloidal
+  evolution with the Einstein equations}},\ }\href
+  {https://doi.org/10.1088/0264-9381/25/19/195025} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {25}},\ \bibinfo {pages} {195025} (\bibinfo {year} {2008}{\natexlab{b}})},\
+  \Eprint {https://arxiv.org/abs/0808.0810} {arXiv:0808.0810 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Moncrief}\ and\ \citenamefont
+  {Rinne}(2009)}]{Moncrief:2008ie}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
+  {Moncrief}}\ and\ \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {{Regularity of the Einstein
+  Equations at Future Null Infinity}},\ }\href
+  {https://doi.org/10.1088/0264-9381/26/12/125010} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {26}},\ \bibinfo {pages} {125010} (\bibinfo {year} {2009})},\ \Eprint
+  {https://arxiv.org/abs/0811.4109} {arXiv:0811.4109 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Rinne}(2010)}]{Rinne:2009qx}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Rinne}},\ }\bibfield  {title} {\bibinfo {title} {{An Axisymmetric evolution
+  code for the Einstein equations on hyperboloidal slices}},\ }\href
+  {https://doi.org/10.1088/0264-9381/27/3/035014} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {27}},\ \bibinfo {pages} {035014} (\bibinfo {year} {2010})},\ \Eprint
+  {https://arxiv.org/abs/0910.0139} {arXiv:0910.0139 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}\ \emph
+  {et~al.}(2015)\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}, \citenamefont
+  {Husa},\ and\ \citenamefont {Hilditch}}]{Vano-Vinuales:2014koa}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}}, \bibinfo {author} {\bibfnamefont
+  {S.}~\bibnamefont {Husa}},\ and\ \bibinfo {author} {\bibfnamefont
+  {D.}~\bibnamefont {Hilditch}},\ }\bibfield  {title} {\bibinfo {title}
+  {{Spherical symmetry as a test case for unconstrained hyperboloidal
+  evolution}},\ }\href {https://doi.org/10.1088/0264-9381/32/17/175010}
+  {\bibfield  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf
+  {\bibinfo {volume} {32}},\ \bibinfo {pages} {175010} (\bibinfo {year}
+  {2015})},\ \Eprint {https://arxiv.org/abs/1412.3827} {arXiv:1412.3827
+  [gr-qc]} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}\ and\ \citenamefont
+  {Husa}(2018)}]{Vano-Vinuales:2017qij}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}}\ and\ \bibinfo {author} {\bibfnamefont
+  {S.}~\bibnamefont {Husa}},\ }\bibfield  {title} {\bibinfo {title} {{Spherical
+  symmetry as a test case for unconstrained hyperboloidal evolution II: gauge
+  conditions}},\ }\href {https://doi.org/10.1088/1361-6382/aaa4e2} {\bibfield
+  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo
+  {volume} {35}},\ \bibinfo {pages} {045014} (\bibinfo {year} {2018})},\
+  \Eprint {https://arxiv.org/abs/1705.06298} {arXiv:1705.06298 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2024)\citenamefont
+  {Peterson}, \citenamefont {Gautam}, \citenamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
+  {Hilditch}}]{Peterson:2024spherical}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Peterson}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Gautam}},
+  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}},\ and\ \bibinfo {author} {\bibfnamefont
+  {D.}~\bibnamefont {Hilditch}},\ }\bibfield  {title} {\bibinfo {title}
+  {{Spherical evolution of the generalized harmonic gauge formulation of
+  general relativity on compactified hyperboloidal slices}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.110.124033} {\bibfield  {journal} {\bibinfo
+   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {110}},\ \bibinfo
+  {pages} {124033} (\bibinfo {year} {2024})},\ \Eprint
+  {https://arxiv.org/abs/2409.02994} {arXiv:2409.02994 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Va{\~n}{\'o}-Vi{\~n}uales}\ and\ \citenamefont
+  {Valente}(2024)}]{VanoVinuales:2024reference}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}}\ and\ \bibinfo {author} {\bibfnamefont
+  {T.}~\bibnamefont {Valente}},\ }\bibfield  {title} {\bibinfo {title}
+  {{Height-function-based 4D reference metrics for hyperboloidal evolution}},\
+  }\href {https://doi.org/10.1007/s10714-024-03323-8} {\bibfield  {journal}
+  {\bibinfo  {journal} {Gen. Relativ. Gravit.}\ }\textbf {\bibinfo {volume}
+  {56}},\ \bibinfo {pages} {135} (\bibinfo {year} {2024})},\ \Eprint
+  {https://arxiv.org/abs/2408.08952} {arXiv:2408.08952 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Peterson}\ and\ \citenamefont
+  {Hilditch}(2025)}]{Peterson:2025strong}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Peterson}}\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Hilditch}},\ }\bibfield  {title} {\bibinfo {title} {{Strong hyperboloidal
+  compactification for the spherical dual-foliation-generalized harmonic gauge
+  formulation of {GR}}},\ }\href {https://doi.org/10.1103/5wvv-dhkb} {\bibfield
+   {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {112}},\ \bibinfo {pages} {024078} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2506.03078} {arXiv:2506.03078 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {{\'A}lvares}\ and\ \citenamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}(2025)}]{Alvares:2025emkg}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~D.}\ \bibnamefont
+  {{\'A}lvares}}\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales}},\ }\bibfield  {title} {\bibinfo {title} {{Free
+  hyperboloidal evolution of the Einstein--Maxwell--Klein--Gordon system}},\
+  }\href {https://doi.org/10.1088/1361-6382/adf0b9} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {42}},\ \bibinfo {pages} {155018} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2505.17176} {arXiv:2505.17176 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
+  {Kidder}(2010)}]{Zenginoglu:2010zm}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}}\ and\ \bibinfo {author} {\bibfnamefont {L.~E.}\
+  \bibnamefont {Kidder}},\ }\bibfield  {title} {\bibinfo {title}
+  {{Hyperboloidal evolution of test fields in three spatial dimensions}},\
+  }\href {https://doi.org/10.1103/PhysRevD.81.124010} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {81}},\
+  \bibinfo {pages} {124010} (\bibinfo {year} {2010})},\ \Eprint
+  {https://arxiv.org/abs/1004.0760} {arXiv:1004.0760 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Peterson}\ \emph {et~al.}(2023)\citenamefont
+  {Peterson}, \citenamefont {Gautam}, \citenamefont {Rainho}, \citenamefont
+  {Va{\~n}{\'o}-Vi{\~n}uales},\ and\ \citenamefont
+  {Hilditch}}]{Peterson:2023bha}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Peterson}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Gautam}},
+  \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Rainho}}, \bibinfo
+  {author} {\bibfnamefont {A.}~\bibnamefont {Va{\~n}{\'o}-Vi{\~n}uales}},\ and\
+  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Hilditch}},\ }\bibfield
+  {title} {\bibinfo {title} {{3D evolution of a semilinear wave model for the
+  Einstein field equations on compactified hyperboloidal slices}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.108.024067} {\bibfield  {journal} {\bibinfo
+   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo
+  {pages} {024067} (\bibinfo {year} {2023})},\ \Eprint
+  {https://arxiv.org/abs/2303.16190} {arXiv:2303.16190 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Misner}(2004)}]{misner_hyperboloidal_2006}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.~W.}\ \bibnamefont
+  {Misner}},\ }\href@noop {} {\bibinfo {title} {Hyperboloidal slices and
+  artificial cosmology for numerical relativity}} (\bibinfo {year} {2004}),\
+  \Eprint {https://arxiv.org/abs/gr-qc/0409073} {arXiv:gr-qc/0409073}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Misner}(2005)}]{misner_over_2006}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.~W.}\ \bibnamefont
+  {Misner}},\ }\href@noop {} {\bibinfo {title} {Over the rainbow: Numerical
+  relativity beyond scri+}} (\bibinfo {year} {2005}),\ \Eprint
+  {https://arxiv.org/abs/gr-qc/0512167} {arXiv:gr-qc/0512167} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Misner}\ \emph {et~al.}(2006)\citenamefont {Misner},
+  \citenamefont {van Meter},\ and\ \citenamefont
+  {Fiske}}]{misner_excising_2006}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.~W.}\ \bibnamefont
+  {Misner}}, \bibinfo {author} {\bibfnamefont {J.~R.}\ \bibnamefont {van
+  Meter}},\ and\ \bibinfo {author} {\bibfnamefont {D.~R.}\ \bibnamefont
+  {Fiske}},\ }\bibfield  {title} {\bibinfo {title} {Excising das {All}:
+  Evolving {Maxwell} waves beyond scri},\ }\href
+  {https://doi.org/10.1103/PhysRevD.74.064003} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {74}},\ \bibinfo
+  {pages} {064003} (\bibinfo {year} {2006})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/0603034} {arXiv:gr-qc/0603034} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Ashtekar}\ \emph
+  {et~al.}(2015{\natexlab{a}})\citenamefont {Ashtekar}, \citenamefont {Bonga},\
+  and\ \citenamefont {Kesavan}}]{Ashtekar:2014zfa}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Ashtekar}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Bonga}},\
+  and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kesavan}},\
+  }\bibfield  {title} {\bibinfo {title} {{Asymptotics with a positive
+  cosmological constant: I. Basic framework}},\ }\href
+  {https://doi.org/10.1088/0264-9381/32/2/025004} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {32}},\ \bibinfo {pages} {025004} (\bibinfo {year} {2015}{\natexlab{a}})},\
+  \Eprint {https://arxiv.org/abs/1409.3816} {arXiv:1409.3816 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Ashtekar}\ \emph
+  {et~al.}(2015{\natexlab{b}})\citenamefont {Ashtekar}, \citenamefont {Bonga},\
+  and\ \citenamefont {Kesavan}}]{Ashtekar:2015lla}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Ashtekar}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Bonga}},\
+  and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kesavan}},\
+  }\bibfield  {title} {\bibinfo {title} {{Asymptotics with a positive
+  cosmological constant. II. Linear fields on de Sitter spacetime}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.92.044011} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {92}},\ \bibinfo
+  {pages} {044011} (\bibinfo {year} {2015}{\natexlab{b}})},\ \Eprint
+  {https://arxiv.org/abs/1506.06152} {arXiv:1506.06152 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Ashtekar}\ \emph
+  {et~al.}(2015{\natexlab{c}})\citenamefont {Ashtekar}, \citenamefont {Bonga},\
+  and\ \citenamefont {Kesavan}}]{Ashtekar:2015lxa}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Ashtekar}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Bonga}},\
+  and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kesavan}},\
+  }\bibfield  {title} {\bibinfo {title} {{Asymptotics with a positive
+  cosmological constant: III. The quadrupole formula}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.92.104032} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {92}},\ \bibinfo
+  {pages} {104032} (\bibinfo {year} {2015}{\natexlab{c}})},\ \Eprint
+  {https://arxiv.org/abs/1510.05593} {arXiv:1510.05593 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Price}(1972)}]{price1972nonspherical}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.~H.}\ \bibnamefont
+  {Price}},\ }\bibfield  {title} {\bibinfo {title} {Nonspherical perturbations
+  of relativistic gravitational collapse. {I}. {Scalar} and gravitational
+  perturbations},\ }\href {https://doi.org/10.1103/PhysRevD.5.2419} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {5}},\ \bibinfo {pages} {2419} (\bibinfo {year} {1972})}\BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont
+  {Zengino{\u{g}}lu}(2008{\natexlab{c}})}]{zengin2008hyperboloidal}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}},\ }\bibfield  {title} {\bibinfo {title} {A hyperboloidal
+  study of tail decay rates for scalar and {Yang--Mills} fields},\ }\href
+  {https://doi.org/10.1088/0264-9381/25/17/175013} {\bibfield  {journal}
+  {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume}
+  {25}},\ \bibinfo {pages} {175013} (\bibinfo {year} {2008}{\natexlab{c}})},\
+  \Eprint {https://arxiv.org/abs/0803.2018} {arXiv:0803.2018 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Angelopoulos}\ \emph {et~al.}(2018)\citenamefont
+  {Angelopoulos}, \citenamefont {Aretakis},\ and\ \citenamefont
+  {Gajic}}]{Angelopoulos:2016wcv}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
+  {Angelopoulos}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Aretakis}},\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Gajic}},\ }\bibfield  {title} {\bibinfo {title} {{Late-time asymptotics for
+  the wave equation on spherically symmetric, stationary spacetimes}},\ }\href
+  {https://doi.org/10.1016/j.aim.2017.10.027} {\bibfield  {journal} {\bibinfo
+  {journal} {Adv. Math.}\ }\textbf {\bibinfo {volume} {323}},\ \bibinfo {pages}
+  {529} (\bibinfo {year} {2018})},\ \Eprint {https://arxiv.org/abs/1612.01566}
+  {arXiv:1612.01566 [math.AP]} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Brady}\ \emph {et~al.}(1997)\citenamefont {Brady},
+  \citenamefont {Chambers}, \citenamefont {Krivan},\ and\ \citenamefont
+  {Laguna}}]{Brady:1996za}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~R.}\ \bibnamefont
+  {Brady}}, \bibinfo {author} {\bibfnamefont {C.~M.}\ \bibnamefont {Chambers}},
+  \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Krivan}},\ and\ \bibinfo
+  {author} {\bibfnamefont {P.}~\bibnamefont {Laguna}},\ }\bibfield  {title}
+  {\bibinfo {title} {{Telling tails in the presence of a cosmological
+  constant}},\ }\href {https://doi.org/10.1103/PhysRevD.55.7538} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {55}},\ \bibinfo {pages} {7538} (\bibinfo {year} {1997})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/9611056} {arXiv:gr-qc/9611056} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Brady}\ \emph {et~al.}(1999)\citenamefont {Brady},
+  \citenamefont {Chambers}, \citenamefont {Laarakkers},\ and\ \citenamefont
+  {Poisson}}]{brady_radiative_1999}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~R.}\ \bibnamefont
+  {Brady}}, \bibinfo {author} {\bibfnamefont {C.~M.}\ \bibnamefont {Chambers}},
+  \bibinfo {author} {\bibfnamefont {W.~G.}\ \bibnamefont {Laarakkers}},\ and\
+  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Poisson}},\ }\bibfield
+  {title} {\bibinfo {title} {Radiative falloff in {Schwarzschild--de Sitter}
+  spacetime},\ }\href {https://doi.org/10.1103/PhysRevD.60.064003} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {60}},\ \bibinfo {pages} {064003} (\bibinfo {year} {1999})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/9902010} {arXiv:gr-qc/9902010} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Molina}\ \emph {et~al.}(2004)\citenamefont {Molina},
+  \citenamefont {Giugno}, \citenamefont {Abdalla},\ and\ \citenamefont
+  {Saa}}]{Molina:2003dc}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Molina}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Giugno}},
+  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Abdalla}},\ and\ \bibinfo
+  {author} {\bibfnamefont {A.}~\bibnamefont {Saa}},\ }\bibfield  {title}
+  {\bibinfo {title} {{Field propagation in de Sitter black holes}},\ }\href
+  {https://doi.org/10.1103/PhysRevD.69.104013} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {69}},\ \bibinfo
+  {pages} {104013} (\bibinfo {year} {2004})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/0309079} {arXiv:gr-qc/0309079} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zengino{\u{g}}lu}(2025)}]{zenginoglu_bridge_2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}},\ }\bibfield  {title} {\bibinfo {title} {Bridging time
+  across null horizons},\ }\href {https://doi.org/10.1007/s10714-025-03410-4}
+  {\bibfield  {journal} {\bibinfo  {journal} {Gen. Rel. Grav.}\ }\textbf
+  {\bibinfo {volume} {57}},\ \bibinfo {pages} {75} (\bibinfo {year} {2025})},\
+  \Eprint {https://arxiv.org/abs/2502.08581} {arXiv:2502.08581 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Schlue}(2015)}]{Schlue:2012pq}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
+  {Schlue}},\ }\bibfield  {title} {\bibinfo {title} {{Global Results for Linear
+  Waves on Expanding Kerr and Schwarzschild de Sitter Cosmologies}},\ }\href
+  {https://doi.org/10.1007/s00220-014-2154-2} {\bibfield  {journal} {\bibinfo
+  {journal} {Commun. Math. Phys.}\ }\textbf {\bibinfo {volume} {334}},\
+  \bibinfo {pages} {977} (\bibinfo {year} {2015})},\ \Eprint
+  {https://arxiv.org/abs/1207.6055} {arXiv:1207.6055 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Bernhardt}(2025)}]{Bernhardt:2024hfs}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
+  {Bernhardt}},\ }\bibfield  {title} {\bibinfo {title} {{Linear Waves on the
+  Expanding Region of Schwarzschild-de Sitter Spacetimes: Forward Asymptotics
+  and Scattering from Infinity}},\ }\href
+  {https://doi.org/10.1007/s00220-024-05194-1} {\bibfield  {journal} {\bibinfo
+  {journal} {Commun. Math. Phys.}\ }\textbf {\bibinfo {volume} {406}},\
+  \bibinfo {pages} {14} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2407.09170} {arXiv:2407.09170 [math.AP]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Panosso~Macedo}(2024)}]{PanossoMacedo:2023qzp}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}},\ }\bibfield  {title} {\bibinfo {title} {{Hyperboloidal
+  approach for static spherically symmetric spacetimes: a didactical
+  introduction and applications in black-hole physics}},\ }\href
+  {https://doi.org/10.1098/rsta.2023.0046} {\bibfield  {journal} {\bibinfo
+  {journal} {Phil. Trans. Roy. Soc. Lond. A}\ }\textbf {\bibinfo {volume}
+  {382}},\ \bibinfo {pages} {20230046} (\bibinfo {year} {2024})},\ \Eprint
+  {https://arxiv.org/abs/2307.15735} {arXiv:2307.15735 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Mavrogiannis}(2024)}]{mavrogiannis2024quasilinear}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Mavrogiannis}},\ }\bibfield  {title} {\bibinfo {title} {Quasilinear wave
+  equations on {Schwarzschild--de Sitter}},\ }\href
+  {https://doi.org/10.1080/03605302.2023.2295035} {\bibfield  {journal}
+  {\bibinfo  {journal} {Commun. Part. Diff. Eq.}\ }\textbf {\bibinfo {volume}
+  {49}},\ \bibinfo {pages} {38} (\bibinfo {year} {2024})},\ \Eprint
+  {https://arxiv.org/abs/2111.09495} {arXiv:2111.09495 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Mavrogiannis}(2023)}]{mavrogiannis2023morawetz}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Mavrogiannis}},\ }\bibfield  {title} {\bibinfo {title} {Morawetz estimates
+  without relative degeneration and exponential decay on {Schwarzschild--de
+  Sitter} spacetimes},\ }\href {https://doi.org/10.1007/s00023-023-01293-2}
+  {\bibfield  {journal} {\bibinfo  {journal} {Ann. Henri Poincar{\'e}}\
+  }\textbf {\bibinfo {volume} {24}},\ \bibinfo {pages} {3113} (\bibinfo {year}
+  {2023})},\ \Eprint {https://arxiv.org/abs/2111.09494} {arXiv:2111.09494
+  [gr-qc]} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Burns}\ \emph {et~al.}(2020)\citenamefont {Burns},
+  \citenamefont {Vasil}, \citenamefont {Oishi}, \citenamefont {Lecoanet},\ and\
+  \citenamefont {Brown}}]{burns_dedalus_2020}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.~J.}\ \bibnamefont
+  {Burns}}, \bibinfo {author} {\bibfnamefont {G.~M.}\ \bibnamefont {Vasil}},
+  \bibinfo {author} {\bibfnamefont {J.~S.}\ \bibnamefont {Oishi}}, \bibinfo
+  {author} {\bibfnamefont {D.}~\bibnamefont {Lecoanet}},\ and\ \bibinfo
+  {author} {\bibfnamefont {B.~P.}\ \bibnamefont {Brown}},\ }\bibfield  {title}
+  {\bibinfo {title} {{Dedalus}: A flexible framework for numerical simulations
+  with spectral methods},\ }\href
+  {https://doi.org/10.1103/PhysRevResearch.2.023068} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. Research}\ }\textbf {\bibinfo {volume}
+  {2}},\ \bibinfo {pages} {023068} (\bibinfo {year} {2020})},\ \Eprint
+  {https://arxiv.org/abs/1905.10388} {arXiv:1905.10388 [physics.comp-ph]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Kumar}\ and\ \citenamefont
+  {Zengino{\u{g}}lu}(2026)}]{blackhole_computation_2026}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.~A.}\ \bibnamefont
+  {Kumar}}\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Zengino{\u{g}}lu}},\ }\href
+  {https://github.com/GIND123/Blackhole-Computation} {\bibinfo {title}
+  {{Blackhole-Computation}: Scalar-wave bridge evolutions in {Schwarzschild--de
+  Sitter} spacetime}},\ \bibinfo {howpublished} {Public software and data
+  repository} (\bibinfo {year} {2026})\BibitemShut {NoStop}%
+\end{thebibliography}%

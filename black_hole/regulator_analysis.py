@@ -56,6 +56,11 @@ WINDOW_VARIANTS = {
 RAY_CONSISTENCY_TOLERANCE_M = 1.0
 D1_ANALYSIS_CADENCE_M = 0.001
 LOCALIZED_SOURCE_INTERVAL = "common_archived_interval"
+OBSERVER_PLOT_LABELS = {
+    "r8M": r"$r=8M$",
+    "r12M": r"$r=12M$",
+    "outer": "outer boundary",
+}
 
 
 def _write_csv(path: Path, rows: list[dict]) -> Path:
@@ -1468,7 +1473,8 @@ def _save_publication_figure(
     png = Path(output_dir) / f"{stem}.png"
     pdf = Path(output_dir) / f"{stem}.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    with plt.rc_context({"pdf.fonttype": 42, "ps.fonttype": 42}):
+        figure.savefig(pdf, bbox_inches="tight")
     return [png, pdf]
 
 
@@ -1679,7 +1685,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     for axis in axes:
         axis.grid(alpha=0.2)
         axis.set_xlim(0, 80)
-    fig.suptitle(r"Pure $\ell=2$ fixed-data regulator sequence")
+    fig.suptitle(r"Pure $\ell=2$ fixed-data finite-$L$ sequence")
     fig.tight_layout()
     paths.extend(_save_publication_figure(fig, output_dir, "flat_waveform_sequence"))
     plt.close(fig)
@@ -1759,7 +1765,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
         axis.loglog(lengths, [row["window_sensitivity_over_M"] for row in selected], "d--", label="window")
         axis.loglog(lengths, [row["cadence_sensitivity_over_M"] for row in selected], "v--", label="cadence")
         axis.loglog(lengths, [row["combined_fixed_source_timing_sensitivity_over_M"] for row in selected], "k-", label="combined fixed source")
-        axis.set_title(observer)
+        axis.set_title(OBSERVER_PLOT_LABELS[observer])
         axis.grid(which="both", alpha=0.2)
         axis.set_xlabel(r"$L/M$")
         axis.set(xlim=(70.0, 720.0), xticks=(80, 160, 320, 640))
@@ -1818,7 +1824,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
             label="scaling consistency guide",
         )
         axis.set(
-            title=observer,
+            title=OBSERVER_PLOT_LABELS[observer],
             xlabel=r"$L/M$",
             xlim=(70.0, 720.0),
             xticks=(80, 160, 320, 640),
@@ -1888,7 +1894,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[0, 0].set(
         xlabel=r"$L/M$",
         ylabel=r"sphere-integrated $E_2$",
-        title="Direct error on common archived interval",
+        title="Direct error on common simulated interval",
     )
     axes[0, 0].legend(fontsize=8)
     labels = [
@@ -1913,7 +1919,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[1, 0].set(
         xlabel=r"$U/M$",
         ylabel=r"instantaneous $L^2(S^2)$ norm",
-        title="Archived interval modal residuals",
+        title="Common-interval modal residuals",
     )
     axes[1, 0].set_xlim(23.0, source_times[-1])
     axes[1, 0].set_ylim(1e-7, None)
@@ -1929,7 +1935,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     for axis in axes.flat:
         axis.grid(alpha=0.2)
     fig.suptitle(
-        "Localized source on the common archived interval: primary modal norm and supporting caustic diagnostic"
+        "Localized source on the common simulated interval: primary modal norm and supporting caustic diagnostic"
     )
     fig.tight_layout()
     paths.extend(_save_publication_figure(fig, output_dir, "localized_source_regulator"))

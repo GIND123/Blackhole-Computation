@@ -295,12 +295,15 @@ as seen in the two conformal diagrams.
  \centering
  \includegraphics[width=0.49\textwidth]{figs/minimalAnil.pdf}
  \includegraphics[width=0.49\textwidth]{figs/minimalRodrigo.pdf}
- \caption{Conformal diagrams of two SdS bridge families from \cite{zenginoglu_bridge_2025}.  Each family crosses the
+ \caption{Conformal diagrams of two SdS bridge families.  Each family crosses the
  future horizons regularly.  The minimum-height leaves
  in the left panel close toward a Cauchy-like end as $L$ grows.  In the
  right panel, minimal-gauge leaves open toward Schwarzschild $\scri^+$.
  Solid and dashed curves belong to the separate horizon-regular conformal
- charts used to construct the diagrams.}
+ charts used to construct the diagrams.  Adapted from
+ Ref.~\cite{zenginoglu_bridge_2025} under the
+ \href{https://creativecommons.org/licenses/by/4.0/}{Creative Commons
+ Attribution 4.0 International License}.}
  \label{fig:bridge_foliations}
 \end{figure*}
 
@@ -526,9 +529,9 @@ sensitivities of the timing analysis, and from the physical dependence of
 the response on the source width.  Appendix~\ref{app:convergence} reports
 these separately and never combines them into a single error bar.
 
-The raw archives, case commands, code identities, and derived artifacts of
-the production campaign are recorded in a hash-verified manifest, and
-Appendix~\ref{app:reproducibility} gives the identifiers.
+The public reproducibility package records the raw archives, case parameters,
+software version, and derived artifacts in a hash-verified manifest;
+Appendix~\ref{app:reproducibility} summarizes these checks.
 
 \subsection{Geometrically matched data and clocks}
 \label{sec:protocol}
@@ -728,8 +731,9 @@ $\mathcal J$, the direct fixed-mode waveform error is
       {\|W_0\|_{L^2(\mathcal J)}},
  \label{eq:regulator_E2}
 \end{equation}
-where $W_0$ is computed independently.  No relative time translation is
-fitted.  For the localized source, $W$ denotes the outer-boundary modal
+where $W_0$ is computed with the separate closed-form Schwarzschild
+coefficient implementation.  No relative time translation is fitted.  For
+the localized source, $W$ denotes the outer-boundary modal
 collection $\{u_{\ell m}\}$ and the primary comparison uses the
 sphere-integrated Parseval norm
 \begin{equation}
@@ -763,7 +767,7 @@ with one another and with $W_0$.
 The fixed-mode comparison uses three cumulative intervals,
 $0\leq U/M\leq40$, $80$, and $160$, and the two disjoint intervals
 $40\leq U/M\leq80$ and $80\leq U/M\leq160$.  The localized source comparison
-uses the common simulated interval $0.000411\leq U/M\leq57.2274$, which runs
+uses the common simulated interval $0\lesssim U/M\leq57.2$, which runs
 from the first stored nonnegative sample to the last sample held by every
 member of the family.  Stored samples are mapped onto one fixed grid in $U$
 by linear interpolation before any norm is formed, and no relative time
@@ -871,10 +875,9 @@ interior gives $Mc_{+,0}(\scri^+)=1/4$.
 We use the minimal gauge below because its hyperboloidal limit carries the
 finite clock in Eq.~\eqref{eq:q_zero}.  Its coefficients stay bounded across
 the compact domain.  A separate closed-form Schwarzschild implementation
-supplies the reference.  The processed conditioning data and
-the script that generates Fig.~\ref{fig:foliation_limit} are supplied with the
-paper source; this analytic-coefficient study is distinct from the frozen
-waveform campaign described in Appendix~\ref{app:reproducibility}.
+supplies the reference.  The conditioning data in
+Fig.~\ref{fig:foliation_limit} are calculated from the analytic coefficients
+and provide gauge-selection evidence separate from the waveform campaign.
 
 \subsection{Direct finite-\texorpdfstring{$L$}{L} recovery}
 \label{sec:direct_recovery}
@@ -898,7 +901,7 @@ explicit expansion in Eq.~\eqref{eq:regulator_expansion}.
 
 \begin{figure*}[t]
  \centering
- \includegraphics[width=\textwidth]{../results/regulator_production_v3/flat_waveform_sequence.pdf}
+ \includegraphics[width=\textwidth]{figs/flat_waveform_sequence.pdf}
  \caption{Fixed-data, pure-$\ell=2$ sequence at the outer boundary.  Upper
  panel: waveforms for $L/M=20$ to $640$ against the separately evolved
  Schwarzschild reference.  Lower panel: the residual $W_L-W_{\rm Schw}$ on
@@ -949,7 +952,7 @@ $L/M$ & interval & $E_2$ (\%) & $E_\infty$ (\%) & observed refinement (\%) & sta
 
 \begin{figure*}[t]
  \centering
- \includegraphics[width=\textwidth]{../results/regulator_production_v3/flat_window_errors.pdf}
+ \includegraphics[width=\textwidth]{figs/flat_window_errors.pdf}
  \caption{Direct error $E_2(L)$ for the fixed-data, pure-$\ell=2$ sequence on
  the cumulative intervals (left) and the disjoint intervals (right).  Solid
  curves with filled markers are the differences; dashed curves with crosses
@@ -984,12 +987,14 @@ largest-$L$ member by a factor between approximately $50$ and $125$.
 
 \begin{figure*}[t]
  \centering
- \includegraphics[width=\textwidth]{../results/regulator_production_v3/nested_extrapolants.pdf}
+ \includegraphics[width=\textwidth]{figs/nested_extrapolants.pdf}
  \caption{Nested extrapolants for the fixed-data, pure-$\ell=2$ sequence.
  Upper panel: $W_\infty^{(80)}$ and $W_\infty^{(160)}$ against the
  separately evolved Schwarzschild waveform.  Lower panel: the two
  residuals and the difference between the overlapping extrapolants, which is
- a correlated diagnostic of omitted higher-order terms.}
+ a correlated diagnostic of omitted higher-order terms.  The plotted range
+ ends at $U/M=80$; Table~\ref{tab:extrapolants} also quantifies the
+ prompt-dominated cumulative norm through $U/M=160$.}
  \label{fig:nested}
 \end{figure*}
 
@@ -1031,12 +1036,13 @@ $W_\infty^{(80)}-W_\infty^{(160)}$ & 160 & 0.0313 & 0.4092 & 0.1189\\
 \label{sec:localized_results}
 
 The localized-source family extends the scalar-wave benchmark beyond a single
-spherical harmonic.  In the sphere-integrated norm \eqref{eq:parseval_norm}, the direct
-differences are $E_{2,S^2}(320)=5.26710\%$ and
-$E_{2,S^2}(640)=2.62569\%$.  The two extrapolants differ by $0.051706\%$ and each
+spherical harmonic.  In the sphere-integrated norm
+\eqref{eq:parseval_norm}, the direct differences are
+$E_{2,S^2}(320)=5.267\%$ and $E_{2,S^2}(640)=2.626\%$.  The two extrapolants
+differ by $0.0517\%$ and each
 agrees with the separately evolved Schwarzschild response well inside the
 conservative $1\%$ level.  These statements apply only to the common simulated
-interval, $0.000411\lesssim U/M\leq57.2274$, not to a complete late-time
+interval, $0\lesssim U/M\leq57.2$, not to a complete late-time
 signal.  Representative caustic directions are secondary diagnostics; the
 sphere-integrated modal norm is the primary comparison.
 
@@ -1051,7 +1057,7 @@ only to show what the modal statement means in a waveform.
 
 \begin{figure*}[t]
  \centering
- \includegraphics[width=\textwidth]{../results/regulator_production_v3/localized_source_regulator.pdf}
+ \includegraphics[width=\textwidth]{figs/localized_source_regulator.pdf}
  \caption{Localized source on the common simulated interval.  Top left:
  direct sphere-integrated error against $L/M$.  Top right: the three nested
  extrapolant comparisons.  Bottom left: instantaneous $L^2(S^2)$ norms of
@@ -1073,18 +1079,19 @@ the chosen physical problem and never enters as an error estimate.
 
 \begin{table}[t]
  \caption{Localized source comparison in the sphere-integrated modal norm on
- the common simulated interval $0.000411\leq U/M\leq57.2274$.  The interval
- ends where the archives end and is not a complete late-time signal.}
+ the common simulated interval $0\lesssim U/M\leq57.2$.  The interval
+ ends at the last output time shared by all simulations and is not a complete
+ late-time signal.}
 \label{tab:localized}
 \begin{ruledtabular}
 \begin{tabular}{lrr}
 comparison & $E_{2,S^2}$ (\%) & observed refinement (\%)\\
 \colrule
-$W_{320}-W_{\rm Schw}$ & 5.26710 & 0.00001\\
-$W_{640}-W_{\rm Schw}$ & 2.62569 & 0.00004\\
-$W_\infty^{(80)}-W_{\rm Schw}$ & 0.05838 & 0.00003\\
-$W_\infty^{(160)}-W_{\rm Schw}$ & 0.00672 & 0.00010\\
-$W_\infty^{(80)}-W_\infty^{(160)}$ & 0.05171 & 0.00010\\
+$W_{320}-W_{\rm Schw}$ & 5.267 & $<0.001$\\
+$W_{640}-W_{\rm Schw}$ & 2.626 & $<0.001$\\
+$W_\infty^{(80)}-W_{\rm Schw}$ & 0.0584 & $<0.001$\\
+$W_\infty^{(160)}-W_{\rm Schw}$ & 0.00672 & $<0.001$\\
+$W_\infty^{(80)}-W_\infty^{(160)}$ & 0.0517 & $<0.001$\\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
@@ -1105,7 +1112,7 @@ measurement.
 
 \begin{figure*}[t]
  \centering
- \includegraphics[width=\textwidth]{../results/regulator_production_v3/D1_scaling.pdf}
+ \includegraphics[width=\textwidth]{figs/D1_scaling.pdf}
  \caption{Absolute shift $|D_1|$ in the direct-to-first-echo spacing at
  $r=8M$, $r=12M$, and the outer boundary.  Bars are combined deterministic
  sensitivities, not statistical uncertainties.  Open markers are diagnostic
@@ -1352,7 +1359,7 @@ rejection carries no physical interpretation.
 
 \begin{figure*}[t]
  \centering
- \includegraphics[width=\textwidth]{../results/regulator_production_v3/D1_error_separation.pdf}
+ \includegraphics[width=\textwidth]{figs/D1_error_separation.pdf}
  \caption{Separation of the deterministic $D_1$ sensitivities at each
  observer.  The measured $|D_1|$ is shown with the discretization,
  estimator, window, and cadence contributions and with their conservative
@@ -1363,7 +1370,7 @@ rejection carries no physical interpretation.
 
 \begin{figure}[t]
  \centering
- \includegraphics[width=\linewidth]{../results/regulator_production_v3/L12_phase_exclusion.pdf}
+ \includegraphics[width=\linewidth]{figs/L12_phase_exclusion.pdf}
  \caption{Null geodesic residuals of the extracted pulses for the $L/M=12$
  generic angle pairs.  Every pair has at least one pulse outside the
  declared $1M$ tolerance, so all six are excluded from quantitative phase
@@ -1424,63 +1431,30 @@ Price value is not attained at $r=4M$ within the evolved interval.  Thus the
 tested finite-$L$ solutions leave the Schwarzschild waveform before a clean
 Schwarzschild power-law regime is established.  This supplies physical
 context for the finite-$L$ comparison interval; the production disjoint
-windows in Sec.~\ref{sec:direct_recovery} are labeled diagnostic for the separate
-numerical reason that their refinement change is not subdominant.
+windows in Sec.~\ref{sec:direct_recovery} are labeled diagnostic for the
+separate numerical reason that their refinement change is not subdominant.
 
 \section{Reproducibility record}
 \label{app:reproducibility}
 
-The frozen scalar-wave campaign separates simulation from analysis at the
-level of the repository history.  All $36$ raw archives, $21$ for the fixed
-mode family and $15$ for the localized source family, were produced from the
-single clean simulation commit \texttt{2460d976}.  Every production table
-and figure was then generated at analysis commit \texttt{de3a3d5}, which does
-not modify the raw archives.  The manifest records the full identifiers.  At
-creation it requires all tracked analysis sources and external inputs outside
-the output directory to be clean, and it rejects any archive whose embedded
-provenance reports a dirty simulation worktree.
+The public reproducibility package separates the $36$ raw simulation
+archives---$21$ for the fixed-mode family and $15$ for the localized-source
+family---from all derived tables and figures.  Each archive records the
+physical configuration, numerical resolution, generating command, software
+version, and checksum.  A machine-readable manifest links every reported
+artifact to its inputs and verifies that postprocessing leaves the raw
+archives unchanged.
 
-Each archive carries the exact case command that produced it, its refinement
-level, its byte count, its SHA256 digest, and the digest of the physical
-contract for its family.  The contract fixes $M=1$, the minimal gauge, the
-compactification family, the height normalization at $r=4M$, the retarded
-time $U=\tau-q_L$, and the initial datum or source, so a single hash
-distinguishes a change of physics from a change of resolution.  Two contract
-digests appear, one for each family.  Text artifacts are hashed after CRLF
-and CR are canonicalized to LF, and their byte digests are retained as well,
-so the record survives transfer between platforms.  Derived artifacts record
-the raw inputs from which they were built, and the three external tables
-taken from the earlier caustic package are listed as external inputs rather
-than as products of this campaign.
-
-The localized response signals are stored compactly as per-response
-\texttt{int32} delta sequences, with a reconstruction scale chosen for a
-maximum relative peak error of $10^{-7}$.  This storage scale is negligible
-for the percent-level waveform comparisons.  The very small localized
-medium-to-fine values in Table~\ref{tab:localized} are therefore used only to
-establish that refinement is subdominant, not to resolve additional digits.
-
-The foliation-conditioning data in Fig.~\ref{fig:foliation_limit}, the
-crossover study of Appendix~\ref{app:latetime}, and the sourced cross-code
-comparison are separate supporting data sets outside this production
-manifest.  The foliation data and generator are retained under
-\texttt{paper}; the crossover data are under
-\texttt{results/sds\_scalar}, with their analysis implemented in
-\texttt{black\_hole/crossover\_final.py}; and the cross-code archives remain
-in the earlier caustic package.  This separation prevents the production
-integrity record from being read as provenance for every supporting result in
-the manuscript.
-
-Regeneration and verification use the two recorded commands of the manifest.
-Verification recomputes every digest and reports any mismatch by path, which
-is how the presentation corrections to the figures and tables were checked
-against the frozen raw archives.  No $L/M=1280$ simulation was
-run, and the manifest records that fact explicitly so that the absence of a
-next large-$L$ case cannot be mistaken for an omission from the archive.
-
-The public result package separates frozen raw simulations from derived
-analysis artifacts and records their cryptographic hashes and code
-provenance.
+The physical contracts recorded with the two simulation families fix the
+mass normalization, foliation and compactification, data or source
+prescription, and waveform clock.  The release also includes the supporting
+foliation-conditioning, late-time crossover, and cross-implementation data
+used in the manuscript, together with the corresponding analysis scripts.
+The compact encoding of the localized responses has a maximum relative peak
+reconstruction error of $10^{-7}$, negligible for the percent-level waveform
+comparisons.  Consequently, the small refinement values in
+Table~\ref{tab:localized} are used only to establish that discretization is
+subdominant, not to claim accuracy at the displayed digits.
 
 \begin{acknowledgments}
 A.Z. thanks Ted Jacobson, Rodrigo Panosso Macedo, and Alex
@@ -1491,11 +1465,8 @@ supported by NSF Grant No.~2309084.
 \end{acknowledgments}
 
 \section*{Data Availability}
-The code and simulation data underlying the numerical results are publicly
-available in
-Ref.~\cite{blackhole_computation_2026}.  The manuscript source package
-contains the additional scripts and local processed data used to assemble
-the published figures.
+The code, simulation data, and analysis scripts supporting this study are
+publicly available in Ref.~\cite{blackhole_computation_2026}.
 
 \bibliographystyle{apsrev4-2}
 \makeatletter
