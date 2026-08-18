@@ -107,8 +107,16 @@ class StructureTests(unittest.TestCase):
             )
         with TemporaryDirectory() as directory:
             path = Path(directory) / "compact.npz"
+            expected_provenance = {
+                "git_commit": "archived-test-state",
+                "git_worktree_dirty": True,
+            }
+            compact.metadata["reproducibility"] = expected_provenance
             compact.save(path)
             loaded = load_sourced_result(path)
+            self.assertEqual(
+                loaded.metadata["reproducibility"], expected_provenance
+            )
             np.testing.assert_allclose(
                 direction_waveform(loaded, np.pi / 3.0)[1],
                 direction_waveform(expanded, np.pi / 3.0)[1],

@@ -34,6 +34,30 @@ class GreenFunctionCliTests(unittest.TestCase):
 
 @unittest.skipUnless(DEDALUS_AVAILABLE, "Dedalus 3 is not installed")
 class DedalusSourceEvolutionTests(unittest.TestCase):
+    def test_requested_snapshots_use_the_coefficient_grid(self) -> None:
+        numerical = SourcedNumericalParameters(
+            radial_resolution=128,
+            angular_ell_max=0,
+            timestep=0.01,
+            end_time=0.1,
+            signal_dt=0.05,
+            diagnostic_dt=0.05,
+            snapshot_dt=0.1,
+            snapshot_end_time=0.0,
+            snapshot_radial_points=128,
+            requested_snapshot_times=(0.05,),
+            compact_modal_storage=True,
+        )
+        result = run_sourced_dedalus_simulation(
+            background="schwarzschild",
+            source=LocalizedSourceParameters(),
+            numerical=numerical,
+            dealias=1.5,
+        )
+        np.testing.assert_allclose(result.snapshot_times, (0.0, 0.05, 0.1))
+        self.assertEqual(result.snapshot_rho.shape, (128,))
+        self.assertEqual(result.response_snapshots.shape, (3, 1, 128))
+
     def test_zero_field_is_exact_before_source_activation(self) -> None:
         numerical = SourcedNumericalParameters(
             radial_resolution=128,

@@ -2,22 +2,47 @@
 
 from __future__ import annotations
 
+import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
 
 from black_hole.large_l_tail import (
     LocalFitSettings,
+    TailCase,
+    _anchored_long_interval_end,
     effective_rates,
     final_cases,
     final_end_u,
     persistent_cosmological_entry,
     price_target,
+    run_case,
     screening_cases,
 )
 
 
 class LargeLTailTests(unittest.TestCase):
+    def test_departure_uses_the_price_interval_containing_the_anchor(self) -> None:
+        times = np.arange(0.0, 1001.0)
+        accepted = np.zeros(times.size, dtype=bool)
+        accepted[100:501] = True
+        accepted[700:1001] = True
+        departure = _anchored_long_interval_end(times, accepted, 150.0, 300.0)
+        self.assertEqual(departure, 500.0)
+
+    def test_interrupted_case_requires_an_explicit_compatible_restart(self) -> None:
+        case = TailCase("sds", 32, 0.01, 1.0, 640.0)
+        with tempfile.TemporaryDirectory() as directory:
+            raw = Path(directory) / "raw"
+            raw.mkdir()
+            reservation = raw / f"{case.name}.running"
+            reservation.write_text(case.name + "\n", encoding="utf-8")
+            with self.assertRaises(FileExistsError):
+                run_case(case, Path(directory))
+            with self.assertRaises(FileNotFoundError):
+                run_case(case, Path(directory), resume_interrupted=True)
+
     def test_local_fits_recover_power_and_exponential_rates(self) -> None:
         times = np.linspace(20.0, 1000.0, 19601)
         power_signal = times**-3

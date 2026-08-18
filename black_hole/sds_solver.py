@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import json
 import logging
+import os
 import time
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Callable
 
 import dedalus.public as d3
@@ -99,6 +102,8 @@ def _run_scalar_simulation(
         [np.ndarray], tuple[np.ndarray, np.ndarray, np.ndarray]
     ],
     horizon_metadata: dict,
+    checkpoint_path: Path | None = None,
+    checkpoint_dt: float | None = None,
 ) -> SdSSimulationResult:
     """Evolve the common first-order scalar system on one background."""
 
@@ -175,6 +180,49 @@ def _run_scalar_simulation(
     constraint_linf: list[float] = []
     constraint_l2: list[float] = []
 
+    configuration = json.dumps(
+        {
+            "background": background,
+            "model": model.as_dict(),
+            "initial_data": initial.as_dict(),
+            "numerical": asdict(numerical),
+        },
+        sort_keys=True,
+    )
+    checkpoint = None if checkpoint_path is None else Path(checkpoint_path)
+    if (checkpoint is None) != (checkpoint_dt is None):
+        raise ValueError("checkpoint_path and checkpoint_dt must be supplied together.")
+    if checkpoint_dt is not None and checkpoint_dt <= 0.0:
+        raise ValueError("checkpoint_dt must be positive.")
+
+    elapsed_before_restart = 0.0
+    resumed_from_checkpoint = False
+
+    def save_checkpoint(elapsed_wall_seconds: float) -> None:
+        if checkpoint is None:
+            return
+        checkpoint.parent.mkdir(parents=True, exist_ok=True)
+        temporary = checkpoint.with_suffix(checkpoint.suffix + ".tmp")
+        with temporary.open("wb") as stream:
+            np.savez_compressed(
+                stream,
+                configuration=np.array(configuration),
+                sim_time=np.array(solver.sim_time),
+                iteration=np.array(solver.iteration),
+                elapsed_wall_seconds=np.array(elapsed_wall_seconds),
+                state_scales=np.asarray(u.scales),
+                u=np.asarray(u["g"]).ravel(),
+                psi=np.asarray(psi["g"]).ravel(),
+                pi=np.asarray(pi["g"]).ravel(),
+                signal_times=np.asarray(signal_times),
+                signals=np.asarray(signals),
+                snapshot_times=np.asarray(snapshot_times),
+                u_snapshots=np.asarray(u_snapshots),
+                constraint_linf=np.asarray(constraint_linf),
+                constraint_l2=np.asarray(constraint_l2),
+            )
+        os.replace(temporary, checkpoint)
+
     def record_signal() -> None:
         values = [
             float(operator.evaluate()["g"].ravel()[0])
@@ -190,17 +238,52 @@ def _run_scalar_simulation(
         constraint_linf.append(float(np.max(np.abs(constraint))))
         constraint_l2.append(float(np.sqrt(np.mean(constraint**2))))
 
-    record_signal()
-    record_snapshot()
+    if checkpoint is not None and checkpoint.exists():
+        with np.load(checkpoint, allow_pickle=False) as saved:
+            saved_configuration = saved["configuration"].item()
+            if saved_configuration != configuration:
+                raise ValueError(
+                    f"Checkpoint configuration does not match this run: {checkpoint}"
+                )
+            state_scales = tuple(saved["state_scales"].tolist())
+            for field in (u, psi, pi):
+                field.change_scales(state_scales)
+            u["g"] = saved["u"]
+            psi["g"] = saved["psi"]
+            pi["g"] = saved["pi"]
+            solver.sim_time = solver.initial_sim_time = float(saved["sim_time"])
+            solver.iteration = solver.initial_iteration = int(saved["iteration"])
+            elapsed_before_restart = float(saved["elapsed_wall_seconds"])
+            signal_times.extend(saved["signal_times"].tolist())
+            signals.extend(saved["signals"].tolist())
+            snapshot_times.extend(saved["snapshot_times"].tolist())
+            u_snapshots.extend(saved["u_snapshots"].tolist())
+            constraint_linf.extend(saved["constraint_linf"].tolist())
+            constraint_l2.extend(saved["constraint_l2"].tolist())
+        resumed_from_checkpoint = True
+        LOGGER.info(
+            "resumed %s from tau=%.6f, iteration=%d",
+            checkpoint,
+            solver.sim_time,
+            solver.iteration,
+        )
+    else:
+        record_signal()
+        record_snapshot()
+        save_checkpoint(time.perf_counter() - started)
 
-    number_of_steps = int(np.ceil(numerical.end_time / numerical.timestep))
-    for step_number in range(1, number_of_steps + 1):
-        if step_number < number_of_steps:
-            step = numerical.timestep
-        else:
-            step = numerical.end_time - solver.sim_time
+    if checkpoint_dt is None:
+        next_checkpoint_time = np.inf
+    else:
+        next_checkpoint_time = (
+            np.floor(solver.sim_time / checkpoint_dt) + 1.0
+        ) * checkpoint_dt
+
+    tolerance = 32.0 * np.finfo(float).eps * max(1.0, numerical.end_time)
+    while solver.sim_time < numerical.end_time - tolerance:
+        step = min(numerical.timestep, numerical.end_time - solver.sim_time)
         solver.step(step)
-        is_final = step_number == number_of_steps
+        is_final = solver.sim_time >= numerical.end_time - tolerance
         if solver.iteration % signal_stride == 0 or is_final:
             record_signal()
         if solver.iteration % snapshot_stride == 0 or is_final:
@@ -215,7 +298,13 @@ def _run_scalar_simulation(
                 solver.iteration,
             )
 
-    elapsed = time.perf_counter() - started
+        if solver.sim_time >= next_checkpoint_time - tolerance:
+            elapsed_now = elapsed_before_restart + time.perf_counter() - started
+            save_checkpoint(elapsed_now)
+            while next_checkpoint_time <= solver.sim_time + tolerance:
+                next_checkpoint_time += checkpoint_dt
+
+    elapsed = elapsed_before_restart + time.perf_counter() - started
     metadata = {
         "background": background,
         "model": model.as_dict(),
@@ -225,6 +314,11 @@ def _run_scalar_simulation(
         "iterations": solver.iteration,
         "final_time": solver.sim_time,
         "wall_seconds": elapsed,
+        "checkpoint_restart": {
+            "enabled": checkpoint is not None,
+            "interval_sim_time": checkpoint_dt,
+            "resumed": resumed_from_checkpoint,
+        },
         "equations": {
             "u": "dt(u) = A*(B*psi + pi)",
             "psi": "dt(psi) = d_rho[A*(B*psi + pi)]",
@@ -281,6 +375,9 @@ def run_sds_simulation(
     model: SdSParameters,
     initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     numerical: SdSNumericalParameters,
+    *,
+    checkpoint_path: Path | None = None,
+    checkpoint_dt: float | None = None,
 ) -> SdSSimulationResult:
     """Evolve the reduced scalar wave equation on an SdS bridge."""
 
@@ -311,6 +408,8 @@ def run_sds_simulation(
         potential_function=lambda rho: rescaled_scalar_potential(rho, model),
         initial_function=initial_function,
         horizon_metadata=horizons.as_dict(),
+        checkpoint_path=checkpoint_path,
+        checkpoint_dt=checkpoint_dt,
     )
 
 
@@ -318,6 +417,9 @@ def run_schwarzschild_scalar_simulation(
     model: SchwarzschildScalarParameters,
     initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     numerical: SdSNumericalParameters,
+    *,
+    checkpoint_path: Path | None = None,
+    checkpoint_dt: float | None = None,
 ) -> SdSSimulationResult:
     """Evolve the Lambda=0 scalar reference in Schwarzschild minimal gauge."""
 
@@ -353,4 +455,6 @@ def run_schwarzschild_scalar_simulation(
             "black_hole": model.black_hole_horizon,
             "future_null_infinity": "rho=1 (r=infinity)",
         },
+        checkpoint_path=checkpoint_path,
+        checkpoint_dt=checkpoint_dt,
     )

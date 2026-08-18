@@ -18,7 +18,7 @@ def _command_output(arguments: list[str]) -> str | None:
             check=False,
             capture_output=True,
             text=True,
-            timeout=10,
+            timeout=60,
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -43,7 +43,7 @@ def reproducibility_metadata() -> dict:
     mpi = _command_output(["mpiexec", "--version"])
     return {
         "git_commit": commit,
-        "git_worktree_dirty": bool(status),
+        "git_worktree_dirty": status is None or bool(status),
         "python": sys.version,
         "python_implementation": platform.python_implementation(),
         "python_compiler": platform.python_compiler(),

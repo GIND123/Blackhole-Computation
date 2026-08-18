@@ -12,6 +12,7 @@ from black_hole.caustic_visualizations import (
     angular_field,
     field_on_sphere,
     measured_pulse_times,
+    modal_response_at_time,
 )
 from black_hole.source_evolution import load_sourced_result
 
@@ -61,6 +62,12 @@ class CausticVisualizationTests(unittest.TestCase):
         response = 0.5 * (
             self.result.response_signals[left, self.result.outer_index()]
             + self.result.response_signals[left + 1, self.result.outer_index()]
+        )
+        np.testing.assert_allclose(
+            modal_response_at_time(self.result, time),
+            response,
+            rtol=0.0,
+            atol=1e-15,
         )
         expected = angular_field(
             self.result,

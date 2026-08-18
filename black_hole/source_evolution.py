@@ -225,7 +225,8 @@ class SourcedSimulationResult:
     def save(self, path: Path) -> None:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
-        self.metadata["reproducibility"] = reproducibility_metadata()
+        if "reproducibility" not in self.metadata:
+            self.metadata["reproducibility"] = reproducibility_metadata()
         archive = {
             "rho": self.rho,
             "areal_radius": self.areal_radius,

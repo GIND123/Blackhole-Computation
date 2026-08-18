@@ -18,6 +18,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 
 from .sds_model import (
@@ -196,7 +197,12 @@ def archive_path(output_dir: Path, case: TailCase) -> Path:
     return Path(output_dir) / "raw" / f"{case.name}.npz"
 
 
-def run_case(case: TailCase, output_dir: Path) -> Path:
+def run_case(
+    case: TailCase,
+    output_dir: Path,
+    *,
+    resume_interrupted: bool = False,
+) -> Path:
     """Run one case and atomically publish its archive."""
 
     destination = archive_path(output_dir, case)
@@ -204,8 +210,21 @@ def run_case(case: TailCase, output_dir: Path) -> Path:
         raise FileExistsError(f"Refusing to overwrite {destination}.")
     destination.parent.mkdir(parents=True, exist_ok=True)
     reservation = destination.with_suffix(".running")
-    with reservation.open("x", encoding="utf-8", newline="\n") as stream:
-        stream.write(case.name + "\n")
+    checkpoint = destination.with_suffix(".checkpoint.npz")
+    if reservation.exists():
+        if not resume_interrupted:
+            raise FileExistsError(
+                f"Case reservation already exists: {reservation}. Use "
+                "--resume-interrupted only after confirming the earlier process "
+                "is no longer running."
+            )
+        if not checkpoint.exists():
+            raise FileNotFoundError(
+                f"Cannot resume {case.name} because its checkpoint is missing."
+            )
+    else:
+        with reservation.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(case.name + "\n")
 
     # Dedalus is imported only by the simulation command.  Reports therefore
     # remain usable in a lightweight NumPy and SciPy environment.
@@ -229,7 +248,13 @@ def run_case(case: TailCase, output_dir: Path) -> Path:
     )
     if case.background == "schwarzschild":
         model = SchwarzschildScalarParameters(mass=1.0, ell=1)
-        result = run_schwarzschild_scalar_simulation(model, INITIAL_DATA, numerical)
+        result = run_schwarzschild_scalar_simulation(
+            model,
+            INITIAL_DATA,
+            numerical,
+            checkpoint_path=checkpoint,
+            checkpoint_dt=500.0,
+        )
         limit = "lim_(r->infinity)(h+r_*)"
     else:
         if case.length is None:
@@ -237,7 +262,13 @@ def run_case(case: TailCase, output_dir: Path) -> Path:
         model = SdSParameters(
             mass=1.0, cosmological_length=case.length, ell=1
         )
-        result = run_sds_simulation(model, INITIAL_DATA, numerical)
+        result = run_sds_simulation(
+            model,
+            INITIAL_DATA,
+            numerical,
+            checkpoint_path=checkpoint,
+            checkpoint_dt=500.0,
+        )
         limit = "lim_(r->r_c)(h+r_*)"
     result.metadata["retarded_time_offset"] = {
         "q": offset,
@@ -259,6 +290,7 @@ def run_case(case: TailCase, output_dir: Path) -> Path:
     try:
         result.save(temporary)
         temporary.rename(destination)
+        checkpoint.unlink(missing_ok=True)
         reservation.unlink()
     except BaseException:
         # The reservation deliberately remains after a failed evolution.
@@ -560,20 +592,25 @@ def select_length(output_dir: Path) -> float | None:
     return None
 
 
-def _last_long_interval_end(
-    times: np.ndarray, flag: np.ndarray, minimum_duration: float
+def _anchored_long_interval_end(
+    times: np.ndarray,
+    flag: np.ndarray,
+    minimum_duration: float,
+    anchor: float,
 ) -> float | None:
-    valid = np.flatnonzero(flag)
+    """Return the end of the qualifying interval that contains ``anchor``."""
+
+    valid = np.flatnonzero(np.asarray(flag, dtype=bool))
     if valid.size == 0:
         return None
     breaks = np.flatnonzero(np.diff(valid) > 1) + 1
     groups = np.split(valid, breaks)
-    eligible = [
-        group
-        for group in groups
-        if times[group[-1]] - times[group[0]] >= minimum_duration
-    ]
-    return None if not eligible else float(times[eligible[-1][-1]])
+    for group in groups:
+        start = float(times[group[0]])
+        end = float(times[group[-1]])
+        if end - start >= minimum_duration and start <= anchor <= end:
+            return end
+    return None
 
 
 def persistent_cosmological_entry(
@@ -637,7 +674,12 @@ def measure_transition(
         & (np.abs(reference_on_times - target) <= tolerance)
         & (np.abs(power - reference_on_times) <= tolerance)
     )
-    departure = _last_long_interval_end(times, price, price_duration)
+    departure = _anchored_long_interval_end(
+        times,
+        price,
+        price_duration,
+        SCREEN_PRICE_ANCHOR_U,
+    )
     entry = (
         None
         if departure is None
@@ -896,12 +938,36 @@ def analyze_final(output_dir: Path, length: float) -> dict:
     fig, axes = plt.subplots(3, 1, figsize=(7.2, 7.8), sharex=True)
     colors_by_observer = ("#0072B2", "#009E73", "#D55E00")
     labels = (r"$r=8M$", r"$r=16M$", r"$\mathcal{H}_c^+$")
+    kappa = cosmological_rate(length)
     for observer, color, label in zip(range(3), colors_by_observer, labels):
         measurement = primary[observer]
+        reference_times, reference_signal = retarded_series(
+            primary_reference, observer
+        )
+        reference_amplitude, reference_power, _ = effective_rates(
+            reference_times,
+            reference_signal,
+            LocalFitSettings(),
+            kappa=kappa,
+        )
         axes[0].semilogy(
             measurement["times"], measurement["amplitude"], color=color, label=label
         )
+        axes[0].semilogy(
+            reference_times,
+            reference_amplitude,
+            color=color,
+            linestyle="--",
+            alpha=0.72,
+        )
         axes[1].plot(measurement["times"], measurement["power"], color=color)
+        axes[1].plot(
+            reference_times,
+            reference_power,
+            color=color,
+            linestyle="--",
+            alpha=0.72,
+        )
         axes[2].plot(
             measurement["times"], measurement["normalized_gamma"], color=color
         )
@@ -933,11 +999,37 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             axis.axvspan(departure, entry, color="#F0E442", alpha=0.22)
             axis.axvline(departure, color="0.25", linestyle=":")
             axis.axvline(entry, color="0.25", linestyle="--")
+        axes[0].text(
+            departure,
+            0.03,
+            r"$U_{\rm P}$",
+            transform=axes[0].get_xaxis_transform(),
+            ha="right",
+            va="bottom",
+        )
+        axes[0].text(
+            entry,
+            0.03,
+            r"$U_{\rm dS}$",
+            transform=axes[0].get_xaxis_transform(),
+            ha="left",
+            va="bottom",
+        )
     axes[0].set_ylabel(r"RMS envelope $A$")
     axes[1].set_ylabel(r"$p_{\rm eff}$")
     axes[2].set_ylabel(r"$\gamma_{\rm eff}/\kappa_c$")
     axes[2].set_xlabel(r"geometric retarded time $U/M$")
-    axes[0].legend(frameon=False, ncols=3)
+    observer_handles, observer_labels = axes[0].get_legend_handles_labels()
+    style_handles = [
+        Line2D([0], [0], color="0.2", linestyle="-", label="SdS"),
+        Line2D([0], [0], color="0.2", linestyle="--", label="Schwarzschild"),
+    ]
+    axes[0].legend(
+        observer_handles + style_handles,
+        observer_labels + ["SdS", "Schwarzschild"],
+        frameon=False,
+        ncols=3,
+    )
     for axis in axes:
         axis.grid(alpha=0.2)
     fig.tight_layout()
@@ -1032,9 +1124,14 @@ def main() -> None:
     final.add_argument("length", type=float, choices=SCREEN_LENGTHS)
     final_report = subparsers.add_parser("report-final")
     final_report.add_argument("length", type=float, choices=SCREEN_LENGTHS)
-    subparsers.add_parser(
+    campaign = subparsers.add_parser(
         "campaign",
         help="resume screening in increasing L and run the first accepted final case",
+    )
+    campaign.add_argument(
+        "--resume-interrupted",
+        action="store_true",
+        help="reuse a reserved case that has a compatible checkpoint",
     )
     subparsers.add_parser("list")
     arguments = parser.parse_args()
@@ -1086,7 +1183,15 @@ def main() -> None:
         for length in SCREEN_LENGTHS:
             for case in screening_cases(length):
                 path = archive_path(arguments.output_dir, case)
-                print(path if path.exists() else run_case(case, arguments.output_dir))
+                print(
+                    path
+                    if path.exists()
+                    else run_case(
+                        case,
+                        arguments.output_dir,
+                        resume_interrupted=arguments.resume_interrupted,
+                    )
+                )
             rows = analyze_screen(arguments.output_dir, length)
             print(_plot_screen(arguments.output_dir, length))
             if rows[-1]["passes_screen"]:
@@ -1099,7 +1204,15 @@ def main() -> None:
         print(f"selected L/M={selected:g}")
         for case in final_cases(selected):
             path = archive_path(arguments.output_dir, case)
-            print(path if path.exists() else run_case(case, arguments.output_dir))
+            print(
+                path
+                if path.exists()
+                else run_case(
+                    case,
+                    arguments.output_dir,
+                    resume_interrupted=arguments.resume_interrupted,
+                )
+            )
         print(analyze_final(arguments.output_dir, selected))
 
 

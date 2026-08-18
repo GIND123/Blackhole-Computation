@@ -58,6 +58,26 @@ The targeted \(L/M=80\) archive and cutaway are produced with
     python -m black_hole.caustic_visualizations run-snapshots 80
     python -m black_hole.caustic_visualizations cutaway results/caustic_visualizations/raw/sds_L80.npz
 
+A separate Dedalus candidate uses the same measured peaks and
+\(\ell_{\max}=50\), with 512 Chebyshev points retained at each requested
+snapshot. It is generated without replacing the finite difference candidate:
+
+[dedalus_candidate/caustic_cutaway.png](../results/caustic_visualizations/dedalus_candidate/caustic_cutaway.png)
+
+    python -m black_hole.caustic_visualizations --output-dir results/caustic_visualizations/dedalus_candidate run-snapshots --backend dedalus 80
+    python -m black_hole.caustic_visualizations --output-dir results/caustic_visualizations/dedalus_candidate cutaway results/caustic_visualizations/dedalus_candidate/raw/sds_L80_dedalus.npz
+    python -m black_hole.caustic_visualizations --output-dir results/caustic_visualizations/dedalus_candidate validate-dedalus results/caustic_visualizations/dedalus_candidate/raw/sds_L80_dedalus.npz results/regulator_production_v3/raw/source/fine/sds_L80.npz --time 44
+
+This archive evolves one Dedalus radial response for each distinct
+\(\ell=0,\ldots,50\) with ChebyshevT fields, RK443, stagewise source
+evaluation, and a dealias factor of 1.5. The complete angle dependent field
+is reconstructed from those 51 evolved responses. The reduction follows
+from spherical symmetry and is algebraically equivalent to evolving every
+excited \(m\) coefficient separately.
+At the common geometric time \(U=44M\), its exact Parseval sphere difference
+from the final finite difference archive is \(3.99\times10^{-4}\) in relative
+\(L^2\), with no fitted clock translation.
+
 The reconstruction uses the spherical addition theorem applied to the stored
 radial response for every \(\ell\). A regression test compares it with the
 independent real spherical harmonic reconstruction at several angles to

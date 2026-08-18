@@ -1,0 +1,43 @@
+{
+  "archive": "results\\caustic_visualizations\\dedalus_candidate\\raw\\sds_L80_dedalus.npz",
+  "requested_bridge_time": 46.738,
+  "actual_bridge_time": 46.738000000011155,
+  "actual_retarded_time": 44.0588630274229,
+  "angular_ell_max": 50,
+  "stored_radial_points": 512,
+  "backend": "dedalus",
+  "radial_discretization": {
+    "backend": "Dedalus 3",
+    "coordinate": "ChebyshevT rho in [0,1]",
+    "dealias": 1.5,
+    "maximum_characteristic_speed": 0.24937392395233743,
+    "resolution": 512,
+    "source_evaluation": "GeneralFunction evaluated at every RK stage",
+    "time_stepper": "RK443"
+  },
+  "reproducibility": {
+    "dedalus": "3.0.5",
+    "git_commit": "8070d4e8d767d2d3ff99bd0f85312438cfe9731f",
+    "git_worktree_dirty": true,
+    "machine": "x86_64",
+    "mpi": "mpiexec (OpenRTE) 4.1.2\n\nReport bugs to http://www.open-mpi.org/community/help/",
+    "mpi4py": "4.1.2",
+    "numpy": "2.5.1",
+    "operating_system": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "provenance_note": "Evolution used the recorded base commit with working changes included in the commit that contains this archive.",
+    "python": "3.14.6 | packaged by conda-forge | (main, Jun 12 2026, 08:51:42) [GCC 14.3.0]",
+    "python_compiler": "GCC 14.3.0",
+    "python_implementation": "CPython",
+    "scipy": "1.18.0"
+  },
+  "display_radius": "log(r/r_b)",
+  "signed_isosurface_levels": [
+    -0.0038019846107609774,
+    -0.001754762128043528
+  ],
+  "field_minimum": -0.005849207093478427,
+  "field_maximum": -1.2900479924202721e-05,
+  "common_color_limit": 0.00573786830128426,
+  "time_translation_fitted": false
+}

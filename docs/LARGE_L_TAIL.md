@@ -67,6 +67,13 @@ excursion above the five percent SdS band near \(U=275M\) breaks continuity,
 so the result does not meet the preregistered \(150M\) requirement. The
 screening sequence therefore continues to \(L/M=5120\).
 
+The \(L/M=5120\) screen passes. Its accepted outer interval runs from
+\(U=154.13M\) to \(474.98M\), a continuous duration of \(320.85M\) that
+contains \(U=300M\). The maximum envelope differences between \(N=1536\)
+and \(2048\) are 0.147 percent for Schwarzschild de Sitter and 0.095 percent
+for Schwarzschild. Thus the calculation, rather than a prior choice, fixes
+\(L_*/M=5120\).
+
 ## Final calculation
 
 The final case reaches \(\kappa_cU\geq4\). It uses \(N=1536,2048,3072\) at
@@ -79,7 +86,7 @@ Cosmological entry requires the normalized rate to stay within ten percent
 of unity through the last resolved sample for at least
 \(\Delta(\kappa_cU)=0.4\). It is not assigned when the numerical floor ends
 the signal first.
-Their numerical sensitivity table repeats the transition measurement at all
+The numerical sensitivity table repeats the transition measurement at all
 three spatial resolutions and at the halved timestep. A second table gives
 the maximum envelope change across the Price and cosmological intervals for
 both backgrounds. The signal floor sweep records the corresponding fraction
@@ -87,7 +94,11 @@ of the peak waveform explicitly.
 
 The runner never overwrites a completed archive. It first creates a running
 reservation, writes an incomplete archive, and publishes the final NPZ only
-after a successful evolution.
+after a successful evolution. Long evolutions also write an atomic checkpoint
+every \(500M\). Each checkpoint contains the three evolved fields, all output
+histories, the Dedalus iteration and simulation time, and the accumulated wall
+time. A restarted run checks the full physical and numerical configuration
+before loading that state.
 
 From the pinned Dedalus environment, one screening stage is run with
 
@@ -102,6 +113,11 @@ one. Named cases and the final ladder can be inspected with
 The complete campaign can be resumed without repeating completed archives:
 
     python -m black_hole.large_l_tail campaign
+
+After an operating system interruption, first confirm that the earlier Python
+process is absent, then load the reserved case with
+
+    python -m black_hole.large_l_tail campaign --resume-interrupted
 
 The implementation is
 [black_hole/large_l_tail.py](../black_hole/large_l_tail.py). Its synthetic

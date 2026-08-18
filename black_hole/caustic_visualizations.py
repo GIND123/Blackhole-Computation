@@ -117,6 +117,83 @@ def field_on_sphere(
     return actual_time, angular_field(result, response, theta, phi)
 
 
+def modal_response_at_time(
+    result: SourcedSimulationResult, retarded_time: float, observer: int | None = None
+) -> np.ndarray:
+    """Interpolate the distinct ell responses at one geometric time."""
+
+    observer = result.outer_index() if observer is None else observer
+    if not result.retarded_time[0] <= retarded_time <= result.retarded_time[-1]:
+        raise ValueError("Requested retarded time lies outside the archive.")
+    right = int(np.searchsorted(result.retarded_time, retarded_time))
+    if right == 0 or result.retarded_time[right] == retarded_time:
+        return np.asarray(result.response_signals[right, observer], dtype=float)
+    left = right - 1
+    fraction = float(
+        (retarded_time - result.retarded_time[left])
+        / (result.retarded_time[right] - result.retarded_time[left])
+    )
+    return np.asarray(
+        (1.0 - fraction) * result.response_signals[left, observer]
+        + fraction * result.response_signals[right, observer],
+        dtype=float,
+    )
+
+
+def validate_modal_candidate(
+    candidate_archive: Path,
+    reference_archive: Path,
+    output_dir: Path,
+    retarded_time: float = 44.0,
+) -> Path:
+    """Compare two angular reconstructions with an exact Parseval norm."""
+
+    candidate = load_sourced_result(candidate_archive)
+    reference = load_sourced_result(reference_archive)
+    for name in ("response_ell", "mode_ell", "mode_m"):
+        if not np.array_equal(getattr(candidate, name), getattr(reference, name)):
+            raise ValueError(f"Candidate and reference have different {name} arrays.")
+    if not np.array_equal(
+        candidate.mode_source_amplitude, reference.mode_source_amplitude
+    ):
+        raise ValueError("Candidate and reference source projections differ.")
+    candidate_response = modal_response_at_time(candidate, retarded_time)
+    reference_response = modal_response_at_time(reference, retarded_time)
+    response_lookup = {
+        int(ell): index for index, ell in enumerate(candidate.response_ell)
+    }
+    indices = np.asarray(
+        [response_lookup[int(ell)] for ell in candidate.mode_ell], dtype=int
+    )
+    candidate_modes = (
+        candidate_response[indices] * candidate.mode_source_amplitude
+    )
+    reference_modes = (
+        reference_response[indices] * reference.mode_source_amplitude
+    )
+    difference = candidate_modes - reference_modes
+    report = {
+        "candidate_archive": str(candidate_archive),
+        "reference_archive": str(reference_archive),
+        "retarded_time_U_over_M": retarded_time,
+        "angular_ell_max": int(candidate.response_ell[-1]),
+        "reconstructed_real_modes": int(candidate.mode_ell.size),
+        "sphere_relative_l2": float(
+            np.linalg.norm(difference) / np.linalg.norm(reference_modes)
+        ),
+        "maximum_modal_difference_relative_to_reference_maximum": float(
+            np.max(np.abs(difference)) / np.max(np.abs(reference_modes))
+        ),
+        "norm_evaluation": "exact Parseval sum over stored real harmonic modes",
+        "time_translation_fitted": False,
+    }
+    destination = Path(output_dir) / "dedalus_candidate_validation.json"
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with destination.open("w", encoding="utf-8") as stream:
+        json.dump(report, stream, indent=2)
+    return destination
+
+
 def measured_pulse_times(result: SourcedSimulationResult) -> tuple[float, ...]:
     """Measure the direct pulse and first antipodal caustic echo."""
 
@@ -155,12 +232,17 @@ def run_snapshot_case(
     length: float | None,
     archive_root: Path = ARCHIVE_ROOT,
     output_dir: Path = OUTPUT_ROOT,
+    backend: str = "finite-difference",
 ) -> Path:
     """Rerun one final-resolution case with dense caustic-time snapshots."""
 
     reference = load_sourced_result(_archive(archive_root, length))
-    snapshots = requested_snapshot_times(reference)
-    destination = Path(output_dir) / "raw" / f"{_case_name(length)}.npz"
+    if backend not in {"finite-difference", "dedalus"}:
+        raise ValueError("backend must be 'finite-difference' or 'dedalus'.")
+    timestep = 0.0005 if backend == "finite-difference" else 0.002
+    snapshots = requested_snapshot_times(reference, timestep=timestep)
+    suffix = "" if backend == "finite-difference" else "_dedalus"
+    destination = Path(output_dir) / "raw" / f"{_case_name(length)}{suffix}.npz"
     if destination.exists():
         raise FileExistsError(f"Refusing to overwrite {destination}.")
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -168,32 +250,45 @@ def run_snapshot_case(
     with reservation.open("x", encoding="utf-8", newline="\n") as stream:
         stream.write(_case_name(length) + "\n")
     numerical = SourcedNumericalParameters(
-        radial_resolution=2048,
+        radial_resolution=2048 if backend == "finite-difference" else 512,
         angular_ell_max=50,
-        timestep=0.0005,
+        timestep=timestep,
         end_time=max(snapshots) + 0.25,
         signal_dt=0.01,
         diagnostic_dt=1.0,
         snapshot_dt=max(snapshots) + 1.0,
         snapshot_end_time=0.0,
-        snapshot_radial_points=1024,
+        snapshot_radial_points=1024 if backend == "finite-difference" else 512,
         requested_snapshot_times=snapshots,
         observer_radii=(8.0, 12.0, None),
         compact_modal_storage=True,
     )
-    from .source_evolution import run_sourced_simulation
+    if backend == "dedalus":
+        from .dedalus_source_evolution import run_sourced_dedalus_simulation
 
-    result = run_sourced_simulation(
-        background="schwarzschild" if length is None else "sds",
-        source=SOURCE,
-        numerical=numerical,
-        cosmological_length=80.0 if length is None else length,
-    )
+        result = run_sourced_dedalus_simulation(
+            background="schwarzschild" if length is None else "sds",
+            source=SOURCE,
+            numerical=numerical,
+            cosmological_length=80.0 if length is None else length,
+            timestepper="RK443",
+            dealias=1.5,
+        )
+    else:
+        from .source_evolution import run_sourced_simulation
+
+        result = run_sourced_simulation(
+            background="schwarzschild" if length is None else "sds",
+            source=SOURCE,
+            numerical=numerical,
+            cosmological_length=80.0 if length is None else length,
+        )
     result.metadata["visualization_sampling"] = {
         "selection": "analytic envelope peaks measured from final ell_max=50 archive",
         "measured_retarded_peak_times": list(measured_pulse_times(reference)),
         "requested_bridge_snapshot_times": list(snapshots),
         "dense_radial_points": numerical.snapshot_radial_points,
+        "backend": backend,
         "time_translation_fitted": False,
     }
     temporary = destination.with_suffix(".incomplete.npz")
@@ -278,8 +373,8 @@ def plot_sphere_time(
     caption = (
         "Successive time spheres carry the numerically reconstructed reduced "
         "field at the direct and first antipodal envelope peaks. Display radius "
-        "encodes retarded time rather than areal radius. The common signed "
-        "color scale shows the angular field formed by the final ell_max=50 "
+        "is fixed, while horizontal placement orders retarded time. The common "
+        "signed color scale shows the angular field formed by the final ell_max=50 "
         "modal response; no time alignment is fitted."
     )
     (Path(output_dir) / "sphere_time_caustic_caption.txt").write_text(
@@ -596,10 +691,10 @@ def plot_cutaway(
     axis.set_xlim(-outer, outer)
     axis.set_ylim(-outer, outer)
     axis.set_zlim(-0.72 * outer, 0.72 * outer)
-    axis.set_box_aspect((2.0, 2.0, 1.44))
+    axis.set_box_aspect((2.0, 2.0, 1.44), zoom=1.24)
     axis.view_init(elev=25.0, azim=-58.0)
     axis.set_axis_off()
-    axis.set_position([0.01, 0.04, 0.78, 0.86])
+    axis.set_position([0.01, 0.02, 0.80, 0.92])
     scalar_map = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
     scalar_map.set_array([])
     bar = fig.colorbar(scalar_map, ax=axis, shrink=0.68, pad=0.02)
@@ -608,11 +703,18 @@ def plot_cutaway(
         result.metadata["retarded_time_offset"]["q"]
     )
     axis.set_title(
-        rf"Negative field isosurfaces and meridional cut at the first caustic peak, "
-        rf"$U={retarded:.3f}M$",
+        rf"Antipodal caustic at $U={retarded:.3f}M$",
         fontsize=14,
+        pad=4,
     )
     paths = _save(fig, Path(output_dir) / "caustic_cutaway")
+    sampling = result.metadata.get("visualization_sampling", {})
+    backend = str(sampling.get("backend", "finite-difference"))
+    method = (
+        "Dedalus 3 ChebyshevT evolution"
+        if backend == "dedalus"
+        else "eighth order finite difference evolution"
+    )
     caption = (
         "Cutaway through the numerically reconstructed physical scalar field "
         "at the measured first antipodal caustic peak. The field has one sign "
@@ -623,8 +725,8 @@ def plot_cutaway(
         "meridional contours into three dimensional isosurfaces. The display "
         "radius is log(r/r_b), which "
         "keeps the near-hole and outer regions visible in one panel. The data "
-        "use ell_max=50 and 1024 stored radial points at the exact requested "
-        "timestep."
+        f"use ell_max={int(result.response_ell[-1])}, {radius.size} stored radial "
+        f"points, and a {method} at the exact requested timestep."
     )
     (Path(output_dir) / "caustic_cutaway_caption.txt").write_text(
         caption + "\n", encoding="utf-8"
@@ -636,6 +738,9 @@ def plot_cutaway(
         "actual_retarded_time": retarded,
         "angular_ell_max": int(result.response_ell[-1]),
         "stored_radial_points": int(radius.size),
+        "backend": backend,
+        "radial_discretization": result.metadata.get("radial_discretization"),
+        "reproducibility": result.metadata.get("reproducibility"),
         "display_radius": "log(r/r_b)",
         "signed_isosurface_levels": list(signed_levels),
         "field_minimum": float(np.nanmin(field)),
@@ -656,17 +761,37 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_ROOT)
     subparsers = parser.add_subparsers(dest="command", required=True)
     run = subparsers.add_parser("run-snapshots")
-    run.add_argument("cases", nargs="+", choices=("schwarzschild", "80", "160", "320", "640"))
+    run.add_argument(
+        "cases",
+        nargs="+",
+        choices=("schwarzschild", "80", "160", "320", "640"),
+    )
+    run.add_argument(
+        "--backend",
+        choices=("finite-difference", "dedalus"),
+        default="finite-difference",
+    )
     subparsers.add_parser("sphere-time")
     comparison = subparsers.add_parser("regulator")
     comparison.add_argument("--time", type=float, default=44.0)
     cutaway = subparsers.add_parser("cutaway")
     cutaway.add_argument("archive", type=Path)
+    validation = subparsers.add_parser("validate-dedalus")
+    validation.add_argument("candidate", type=Path)
+    validation.add_argument("reference", type=Path)
+    validation.add_argument("--time", type=float, default=44.0)
     arguments = parser.parse_args()
     if arguments.command == "run-snapshots":
         for case in arguments.cases:
             length = None if case == "schwarzschild" else float(case)
-            print(run_snapshot_case(length, arguments.archive_root, arguments.output_dir))
+            print(
+                run_snapshot_case(
+                    length,
+                    arguments.archive_root,
+                    arguments.output_dir,
+                    arguments.backend,
+                )
+            )
     elif arguments.command == "sphere-time":
         print(
             plot_sphere_time(
@@ -681,6 +806,15 @@ def main() -> None:
         )
     elif arguments.command == "cutaway":
         print(plot_cutaway(arguments.archive, arguments.output_dir))
+    elif arguments.command == "validate-dedalus":
+        print(
+            validate_modal_candidate(
+                arguments.candidate,
+                arguments.reference,
+                arguments.output_dir,
+                arguments.time,
+            )
+        )
 
 
 if __name__ == "__main__":

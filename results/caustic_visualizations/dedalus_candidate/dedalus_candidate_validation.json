@@ -1,0 +1,11 @@
+{
+  "candidate_archive": "results\\caustic_visualizations\\dedalus_candidate\\raw\\sds_L80_dedalus.npz",
+  "reference_archive": "results\\regulator_production_v3\\raw\\source\\fine\\sds_L80.npz",
+  "retarded_time_U_over_M": 44.0,
+  "angular_ell_max": 50,
+  "reconstructed_real_modes": 676,
+  "sphere_relative_l2": 0.0003989084339851589,
+  "maximum_modal_difference_relative_to_reference_maximum": 0.00026907909019009566,
+  "norm_evaluation": "exact Parseval sum over stored real harmonic modes",
+  "time_translation_fitted": false
+}

@@ -244,6 +244,10 @@ def run_sourced_dedalus_simulation(
         numerical.diagnostic_dt, numerical.timestep
     )
     snapshot_stride = _cadence_stride(numerical.snapshot_dt, numerical.timestep)
+    requested_snapshot_steps = {
+        int(round(value / numerical.timestep))
+        for value in numerical.requested_snapshot_times
+    }
     total_steps = int(np.ceil(numerical.end_time / numerical.timestep))
     progress_stride = max(1, total_steps // 12)
 
@@ -260,6 +264,8 @@ def run_sourced_dedalus_simulation(
     response_snapshots: list[np.ndarray] = []
 
     def response_grid() -> np.ndarray:
+        for field in u_fields:
+            field.change_scales(1)
         return np.stack([np.asarray(field["g"]).ravel() for field in u_fields])
 
     def source_strength(current_time: float) -> float:
@@ -335,7 +341,7 @@ def run_sourced_dedalus_simulation(
         if (
             solver.sim_time <= numerical.snapshot_end_time
             and solver.iteration % snapshot_stride == 0
-        ) or is_final:
+        ) or step_number in requested_snapshot_steps or is_final:
             record_snapshot()
         if solver.iteration % progress_stride == 0:
             LOGGER.info(
