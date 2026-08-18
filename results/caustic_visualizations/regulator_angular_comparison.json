@@ -1,0 +1,20 @@
+{
+  "requested_retarded_time": 44.0,
+  "actual_retarded_times": {
+    "sds_L80": 44.0,
+    "sds_L160": 44.0,
+    "sds_L320": 44.0,
+    "sds_L640": 44.0
+  },
+  "schwarzschild_retarded_time": 44.0,
+  "angular_ell_max": 50,
+  "common_field_color_limit": 0.07137672676130567,
+  "common_residual_color_limit": 0.008090892265776042,
+  "relative_sphere_l2_residuals": {
+    "sds_L80": 0.2104959509845962,
+    "sds_L160": 0.10704132148609044,
+    "sds_L320": 0.05380638310448782,
+    "sds_L640": 0.02695370202146051
+  },
+  "time_translation_fitted": false
+}

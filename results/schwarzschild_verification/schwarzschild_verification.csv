@@ -1,0 +1,6 @@
+check,level,radial_resolution,timestep_over_M,ell_max,sphere_time_relative_l2_to_fine,maximum_constraint_linf,time_translation_fitted
+combined_refinement,coarse,1024,0.001,42,3.436642433378581e-07,4.6453796201627156e-12,False
+combined_refinement,medium,1536,0.0006666666666666666,46,7.662770124070243e-08,1.014211254173088e-11,False
+combined_refinement,fine,2048,0.0005,50,0.0,1.79855299871684e-11,False
+isolated_angular_truncation,fine responses,2048,0.0005,42,2.2901318507550666e-09,1.79855299871684e-11,False
+isolated_angular_truncation,fine responses,2048,0.0005,46,1.256998390049843e-10,1.79855299871684e-11,False

@@ -111,6 +111,15 @@ The corrected phase table is [`production_generic_phase.csv`](../results/caustic
 
 Fresh finite difference and Dedalus archives were generated for Schwarzschild and SdS with L/M equal to 80. Primary timing uses the analytic envelope in both backends.
 
+Both calculations carry the same normalized source, modes through
+\(\ell_{\max}=42\), observers at \(r=8M\), \(r=12M\), and the outer endpoint,
+output spacing \(0.002M\), timestep \(0.002M\), and final bridge time
+\(72M\). The finite difference calculation uses 768 uniform radial points,
+the eighth order stencil, and classical RK4. The Dedalus calculation uses 512
+Chebyshev T modes with a 3/2 dealias factor and RK443. Dedalus evaluates the
+source at every Runge Kutta stage through a general function. These are
+independently resolved configurations rather than nominally identical grids.
+
 The maximum sphere integrated relative L2 disagreement is `5.5840e-4`. The maximum individual arrival difference is `4.1363e-4M`. The maximum relative analytic envelope amplitude difference is `1.2344e-4`. The maximum resolved phase difference is `2.0072e-4` radians.
 
 The direct D1 backend differences are `7.0207e-5M`, `2.9720e-4M`, and `5.3119e-5M` at r equal to 8M, r equal to 12M, and the outer observer.

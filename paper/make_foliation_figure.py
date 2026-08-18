@@ -1,16 +1,20 @@
 """Create the manuscript figure comparing bridge flat limits and conditioning."""
 
 from pathlib import Path
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 
 HERE = Path(__file__).resolve().parent
-DATA = HERE / "figs/data/foliation_conditioning.csv"
-MIN_A_DATA = HERE / "figs/data/foliation_min_A.csv"
-OFFSET_DATA = HERE / "figs/data/foliation_retarded_offsets.csv"
+sys.path.insert(0, str(HERE.parent))
+
+from black_hole.foliation_diagnostics import evaluate_foliation_table
+
+
 OUTPUT = HERE / "figs/foliation_flat_limit.pdf"
+LENGTHS = (10.0, 20.0, 40.0, 80.0, 160.0, 320.0)
 
 LABELS = {
     "minimum": "minimum height",
@@ -105,11 +109,14 @@ axes[0].set(
     ylim=(-1.08, 1.08),
 )
 
-data = np.genfromtxt(DATA, delimiter=",", names=True)
+diagnostics = evaluate_foliation_table(LENGTHS, tuple(LABELS))
+by_bridge = {
+    name: [row for row in diagnostics if row.bridge == name] for name in LABELS
+}
 for name in LABELS:
     axes[2].loglog(
-        data["L_over_M"],
-        data[name],
+        LENGTHS,
+        [row.maximum_characteristic_speed for row in by_bridge[name]],
         color=COLORS[name],
         linestyle=STYLES[name],
         marker=MARKERS[name],
@@ -122,11 +129,10 @@ axes[2].set(
     xlim=(9.0, 360.0),
 )
 
-min_a_data = np.genfromtxt(MIN_A_DATA, delimiter=",", names=True)
 for name in LABELS:
     axes[3].loglog(
-        min_a_data["L_over_M"],
-        min_a_data[name],
+        LENGTHS,
+        [row.minimum_propagation_coefficient for row in by_bridge[name]],
         color=COLORS[name],
         linestyle=STYLES[name],
         marker=MARKERS[name],
@@ -139,11 +145,10 @@ axes[3].set(
     xlim=(9.0, 360.0),
 )
 
-offset_data = np.genfromtxt(OFFSET_DATA, delimiter=",", names=True)
 for name in LABELS:
     axes[1].loglog(
-        offset_data["L_over_M"],
-        offset_data[name],
+        LENGTHS,
+        [row.retarded_time_offset for row in by_bridge[name]],
         color=COLORS[name],
         linestyle=STYLES[name],
         marker=MARKERS[name],

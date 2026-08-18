@@ -123,6 +123,7 @@ class SourcedNumericalParameters:
     snapshot_dt: float = 2.0
     snapshot_end_time: float = 220.0
     snapshot_radial_points: int = 200
+    requested_snapshot_times: tuple[float, ...] = ()
     finite_difference_order: int = 8
     observer_radii: tuple[float | None, ...] = (8.0, 12.0, None)
     compact_modal_storage: bool = False
@@ -139,6 +140,29 @@ class SourcedNumericalParameters:
         for cadence in (self.signal_dt, self.diagnostic_dt, self.snapshot_dt):
             if cadence < self.timestep:
                 raise ValueError("Every output cadence must be at least one timestep.")
+        if any(
+            time <= 0.0 or time >= self.end_time
+            for time in self.requested_snapshot_times
+        ):
+            raise ValueError(
+                "Requested snapshot times must lie strictly inside the evolution."
+            )
+        if (
+            tuple(sorted(set(self.requested_snapshot_times)))
+            != self.requested_snapshot_times
+        ):
+            raise ValueError("Requested snapshot times must be unique and increasing.")
+        for time in self.requested_snapshot_times:
+            step_number = round(time / self.timestep)
+            if not np.isclose(
+                time,
+                step_number * self.timestep,
+                rtol=0.0,
+                atol=32.0 * np.finfo(float).eps * max(1.0, abs(time)),
+            ):
+                raise ValueError(
+                    "Every requested snapshot time must be an integer timestep."
+                )
 
 
 @dataclass
@@ -498,6 +522,10 @@ def run_sourced_simulation(
     signal_stride = _cadence_stride(numerical.signal_dt, numerical.timestep)
     diagnostic_stride = _cadence_stride(numerical.diagnostic_dt, numerical.timestep)
     snapshot_stride = _cadence_stride(numerical.snapshot_dt, numerical.timestep)
+    requested_snapshot_steps = {
+        int(round(time / numerical.timestep))
+        for time in numerical.requested_snapshot_times
+    }
     snapshot_indices = np.unique(
         np.linspace(
             0,
@@ -579,7 +607,7 @@ def run_sourced_simulation(
         if (
             current_time <= numerical.snapshot_end_time
             and step_number % snapshot_stride == 0
-        ) or is_final:
+        ) or step_number in requested_snapshot_steps or is_final:
             record_snapshot(current_time)
         if step_number % progress_stride == 0:
             LOGGER.info(

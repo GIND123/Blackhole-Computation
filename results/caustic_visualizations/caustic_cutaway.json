@@ -1,0 +1,17 @@
+{
+  "archive": "results\\caustic_visualizations\\raw\\sds_L80.npz",
+  "requested_bridge_time": 46.7385,
+  "actual_bridge_time": 46.73850000004114,
+  "actual_retarded_time": 44.05936302745289,
+  "angular_ell_max": 50,
+  "stored_radial_points": 1024,
+  "display_radius": "log(r/r_b)",
+  "signed_isosurface_levels": [
+    -0.0038021093742583666,
+    -0.0017548197111961691
+  ],
+  "field_minimum": -0.005849399037320564,
+  "field_maximum": -1.5006041705558132e-05,
+  "common_color_limit": 0.005622535866552992,
+  "time_translation_fitted": false
+}

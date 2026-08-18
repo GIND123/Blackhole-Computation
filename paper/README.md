@@ -18,14 +18,13 @@ at submission time; `SdS_refs.bib` remains the editable bibliography.
 
 ## Figure regeneration
 
-The conformal-limit figure and its processed source data are local to this
-directory:
+The foliation figure is evaluated directly from the analytic bridge formulas:
 
 ```sh
 python make_foliation_figure.py
 ```
 
-The seven numerical-result figures can be regenerated from the frozen public
+The numerical result figures can be regenerated from the frozen public
 archives by running this command from the repository root:
 
 ```sh

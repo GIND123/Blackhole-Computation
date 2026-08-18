@@ -68,6 +68,25 @@ class CausalityTests(unittest.TestCase):
 
 
 class StructureTests(unittest.TestCase):
+    def test_requested_snapshots_are_recorded_at_exact_steps(self) -> None:
+        result = run_sourced_simulation(
+            background="schwarzschild",
+            source=SOURCE,
+            numerical=_settings(
+                end_time=1.0,
+                snapshot_dt=1.0,
+                requested_snapshot_times=(0.25, 0.75),
+            ),
+        )
+        np.testing.assert_allclose(result.snapshot_times, [0.0, 0.25, 0.75, 1.0])
+
+    def test_requested_snapshot_must_align_with_timestep(self) -> None:
+        with self.assertRaises(ValueError):
+            _settings(
+                end_time=1.0,
+                requested_snapshot_times=(0.255,),
+            )
+
     def test_compact_archive_preserves_full_angular_reconstruction(self) -> None:
         settings = _settings(end_time=10.0, compact_modal_storage=False)
         expanded = run_sourced_simulation(

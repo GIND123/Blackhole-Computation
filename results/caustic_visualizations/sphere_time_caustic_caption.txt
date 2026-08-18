@@ -1,0 +1,1 @@
+Successive time spheres carry the numerically reconstructed reduced field at the direct and first antipodal envelope peaks. Display radius encodes retarded time rather than areal radius. The common signed color scale shows the angular field formed by the final ell_max=50 modal response; no time alignment is fitted.

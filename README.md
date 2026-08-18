@@ -137,8 +137,9 @@ presented as a proof of an asymptotic power law.
 
 The tail study uses initially dynamical data with `u = psi = 0` and the same
 physical velocity `G(r)` on every background. The momentum is initialized
-separately as `pi = G/A`, so the physical initial velocity—not merely a
-coordinate array—is identical across the Schwarzschild and SdS sequence.
+separately as `pi = G/A`. Thus the physical initial velocity, rather than
+only a coordinate array, is identical across the Schwarzschild and SdS
+sequence.
 
 The independent Schwarzschild calculation recovers the expected
 future-null-infinity Price exponents:
@@ -637,10 +638,12 @@ black_hole/
   tail_analysis.py          Power/exponential fits and trust-time diagnostics
   high_resolution_tail_rates.py  Exact-observer refinement and crossover report
   crossover_final.py        Transition intervals, sweeps, and convergence report
+  large_l_tail.py           Staged Price tail and cosmological decay calculation
   three_d_solver.py          Angular-spectral pure-mode 3D evolution
   three_d_validation.py      3D/1D comparisons, convergence, plots, and tables
   localized_source.py        Localized emitter and its exact angular spectrum
   source_evolution.py        Sourced mixed-mode 3D evolution on Schwarzschild/SdS
+  caustic_visualizations.py  Modal sphere, regulator, and dense cutaway figures
   dedalus_source_evolution.py  Chebyshev--Dedalus sourced-evolution backend
   static_reference.py        Independent static-coordinate check of the source
   caustic_study.py           Green-function suite, ladders, and echo analysis
@@ -656,6 +659,8 @@ docs/
   CROSSOVER.md              Final transition-interval report and uncertainties
   THREE_D_VALIDATION.md     Pure-mode 3D formulation and validation results
   GREEN_FUNCTION.md         Localized-source caustic echoes and SdS flat limit
+  LARGE_L_TAIL.md           Large L screening and final tail acceptance protocol
+  CAUSTIC_VISUALIZATIONS.md Numerical candidate figures and snapshot protocol
   SDS_SCALAR.md             Bridge-coordinate scalar formulation
   METHOD.md                 Schwarzschild perturbation method
   RESULTS.md                Regge-Wheeler production results

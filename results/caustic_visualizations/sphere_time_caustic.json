@@ -1,0 +1,14 @@
+{
+  "archive": "results\\regulator_production_v3\\raw\\source\\fine\\sds_L80.npz",
+  "measured_retarded_peak_times": [
+    26.664074477631694,
+    44.05924570833858
+  ],
+  "actual_archived_retarded_times": [
+    26.663863027388714,
+    44.05936302745289
+  ],
+  "angular_ell_max": 50,
+  "common_color_limit": 0.06998488877737977,
+  "time_translation_fitted": false
+}

@@ -1,0 +1,64 @@
+{
+  "length_over_M": 640.0,
+  "primary_observer": "outer",
+  "accepted": false,
+  "criteria": {
+    "outer_price_target": 3.0,
+    "fixed_radius_price_target": 5.0,
+    "relative_tolerance": 0.05,
+    "continuous_duration_U_over_M": 150.0,
+    "required_price_anchor_U_over_M": 300.0,
+    "maximum_refinement_fraction": 0.01,
+    "relative_time_translation": "not fitted"
+  },
+  "observers": [
+    {
+      "length_over_M": 640.0,
+      "observer": "r8M",
+      "price_interval_start_U_over_M": 51.48980375655745,
+      "price_interval_end_U_over_M": 55.639803756553675,
+      "continuous_duration_U_over_M": 4.149999999996226,
+      "passes_price_duration": false,
+      "covers_screen_anchor_U_over_M": false,
+      "passes_screen": false,
+      "price_target": 5.0,
+      "relative_price_tolerance": 0.05,
+      "required_duration_U_over_M": 150.0,
+      "maximum_sds_refinement_in_interval": 1.178842732261945e-08,
+      "maximum_reference_refinement_in_interval": 1.7314946161239795e-08,
+      "time_translation_fitted": false
+    },
+    {
+      "length_over_M": 640.0,
+      "observer": "r16M",
+      "price_interval_start_U_over_M": 188.0398037564333,
+      "price_interval_end_U_over_M": 196.28980375642578,
+      "continuous_duration_U_over_M": 8.249999999992497,
+      "passes_price_duration": false,
+      "covers_screen_anchor_U_over_M": false,
+      "passes_screen": false,
+      "price_target": 5.0,
+      "relative_price_tolerance": 0.05,
+      "required_duration_U_over_M": 150.0,
+      "maximum_sds_refinement_in_interval": 0.0,
+      "maximum_reference_refinement_in_interval": 0.0,
+      "time_translation_fitted": false
+    },
+    {
+      "length_over_M": 640.0,
+      "observer": "outer",
+      "price_interval_start_U_over_M": 32.93980375657432,
+      "price_interval_end_U_over_M": 35.489803756572,
+      "continuous_duration_U_over_M": 2.549999999997681,
+      "passes_price_duration": false,
+      "covers_screen_anchor_U_over_M": false,
+      "passes_screen": false,
+      "price_target": 3.0,
+      "relative_price_tolerance": 0.05,
+      "required_duration_U_over_M": 150.0,
+      "maximum_sds_refinement_in_interval": 3.262120032420211e-09,
+      "maximum_reference_refinement_in_interval": 3.1612288422023238e-09,
+      "time_translation_fitted": false
+    }
+  ]
+}

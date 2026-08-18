@@ -1311,6 +1311,16 @@ than as late-time accuracy statements.  For the localized source family the
 observed refinement changes stay at the $10^{-4}\%$ level on the archived
 interval.
 
+The standalone Schwarzschild check compares complete archived fields with a
+sphere and time integrated Parseval norm.  Relative to the fine
+$(N_r,\Delta\tau/M,\ell_{\max})=(2048,0.0005,50)$ archive, the coarse and
+medium ladder differences are $3.44\times10^{-7}$ and
+$7.66\times10^{-8}$.  Truncating the fine response itself isolates angular
+omission from radial and temporal error; the relative omitted-field norms are
+$2.29\times10^{-9}$ at $\ell_{\max}=42$ and $1.26\times10^{-10}$ at
+$\ell_{\max}=46$.  The largest stored reduction constraint is
+$1.80\times10^{-11}$.  No relative clock shift enters these checks.
+
 \begin{table*}[t]
  \caption{Complete nested extrapolant audit for the fixed-data, pure-$\ell=2$
  sequence.  The fine-grid residual, the directly observed medium-to-fine
@@ -1352,6 +1362,10 @@ the matched template lag as its primary estimator.  The two are therefore
 reported as separate checks: the cross implementation numbers validate the
 sourced waveform and timing pipeline, and are not combined with the
 matched template values as measurements of one observable.
+Both validation runs use $\ell_{\max}=42$, $\Delta\tau=0.002M$, output every
+$0.002M$, and end at $72M$.  The finite difference run uses $N_r=768$ and
+classical RK4.  The Dedalus run uses 512 Chebyshev T modes, a $3/2$ dealias
+factor, RK443, and stagewise source evaluation.
 
 Table~\ref{tab:timing} separates the deterministic timing sensitivities.
 The PDE column comes from the paired refinement ladder; the estimator column
