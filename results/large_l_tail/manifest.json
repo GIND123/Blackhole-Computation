@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "package": "results/large_l_tail",
+  "analysis_commit": "b982b3462204ad29a0d705b456e9cf6653457756",
+  "simulation_commits": [
+    "72d4ef358a9eea8269ecb690f70657c35bb015bb"
+  ],
+  "physical_contract": {
+    "mass": 1.0,
+    "gauge": "minimal bridge",
+    "initial_data": {
+      "center_radius": 6.0,
+      "support_half_width": 3.0,
+      "amplitude": 1.0
+    },
+    "initial_field": "u = psi = 0; pi = G/A with G the areal velocity bump",
+    "retarded_time": "U = tau - q_L with q_L evaluated analytically",
+    "time_translation_fitted": false,
+    "reference_normalization_radius_over_M": 4.0,
+    "finite_radius_observers_over_M": [
+      8.0,
+      16.0
+    ],
+    "primary_observer": "cosmological horizon, compared with Schwarzschild scri+",
+    "price_target_at_infinity": 3.0,
+    "price_target_at_fixed_radius": 5.0,
+    "price_relative_tolerance": 0.05,
+    "price_continuous_duration_over_M": 150.0,
+    "cosmological_relative_tolerance": 0.1,
+    "cosmological_minimum_scaled_duration": 0.4,
+    "imex_split": "explicit_potential"
+  },
+  "physical_contract_sha256": "6d772b4a5b24b130a7810dc33e3c7127a1a8dac8d84337fb1a7b427c3283b228",
+  "provenance_grades": {
+    "production": 0,
+    "screening": 10
+  },
+  "screening_grade_note": "Screening archives were written before the explicit potential split was committed and record a dirty worktree. They select the cosmological length and are not quoted as production data. The implicit split set they replaced is kept under results/large_l_tail_implicit_split.",
+  "manifest_commands": {
+    "create": "python -m black_hole.tail_manifest --output-dir results/large_l_tail",
+    "verify": "python -m black_hole.tail_manifest --output-dir results/large_l_tail --verify"
+  },
+  "archives": [
+    {
+      "path": "results/large_l_tail/raw/screen_schwarzschild_N1536_dt0p0025.npz",
+      "case": "screen_schwarzschild_N1536_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild",
+      "cosmological_length_over_M": null,
+      "resolution": 1536,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.7725887222398,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 1.6745904835456658e-09,
+      "bytes": 652054,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_schwarzschild_N1536_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "612402db763ba5befc877ce7cf17d6f00b305e49139f937f9cf0458004a6c382"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_schwarzschild_N2048_dt0p0025.npz",
+      "case": "screen_schwarzschild_N2048_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild",
+      "cosmological_length_over_M": null,
+      "resolution": 2048,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.7725887222398,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 4.811412300105065e-09,
+      "bytes": 767265,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_schwarzschild_N2048_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "a960ebc57a103146b8a4c607d47c0bf1fbe513ec3df397782cc60c07f57af047"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L1280_N1536_dt0p0025.npz",
+      "case": "screen_sds_L1280_N1536_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 1536,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.76636570008867,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 2.1410032339862434e-09,
+      "bytes": 656225,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L1280_N1536_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "0c635d57b442e3e4a5a06e46464774fb30acd570debd0e4193ad23f147c37c30"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L1280_N2048_dt0p0025.npz",
+      "case": "screen_sds_L1280_N2048_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 2048,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.76636570008867,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 4.7608548614362e-09,
+      "bytes": 782549,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L1280_N2048_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "9152234be805a0b67f6b9bf7fc2d7358bffb7efa4f2f467f45ff7e97cf71a57d"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L2560_N1536_dt0p0025.npz",
+      "case": "screen_sds_L2560_N1536_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 1536,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.7694704789582,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 2.5627863018703154e-09,
+      "bytes": 653884,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L2560_N1536_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "65a1e6ee187179bbbed7222a4c811c23927d66e06d0c94ebc02ae6d269cba42c"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L2560_N2048_dt0p0025.npz",
+      "case": "screen_sds_L2560_N2048_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 2048,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.7694704789582,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 6.874867763305583e-09,
+      "bytes": 774393,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L2560_N2048_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "e9fde04e22eb00a2ccf994b4c7d5b269d87e32a49ed425d8cf4dc31432b758e3"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L5120_N1536_dt0p0025.npz",
+      "case": "screen_sds_L5120_N1536_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 1536,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.7710279129575,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 3.553608173325107e-09,
+      "bytes": 652259,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L5120_N1536_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "dff29123e4d339e0ca852877fb16833ec18785dbf87543bd7f6f78ddaf1f85d6"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L5120_N2048_dt0p0025.npz",
+      "case": "screen_sds_L5120_N2048_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 2048,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.7710279129575,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 6.925679750884651e-09,
+      "bytes": 775472,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L5120_N2048_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "4d0bb9fa72112f87dd496a35e207ccef9c58e591c7ef3d630590391f7b693199"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L640_N1536_dt0p0025.npz",
+      "case": "screen_sds_L640_N1536_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 1536,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.76019624342945,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 2.004327549497689e-09,
+      "bytes": 656689,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L640_N1536_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "5aeb67635fb3476c66d1946c799d7057f1fb3d4177bb350a514f9ff9b3246a85"
+    },
+    {
+      "path": "results/large_l_tail/raw/screen_sds_L640_N2048_dt0p0025.npz",
+      "case": "screen_sds_L640_N2048_dt0p0025",
+      "role": "screen",
+      "provenance_grade": "screening",
+      "simulation_commit": "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+      "git_worktree_dirty": true,
+      "background": "Schwarzschild-de Sitter",
+      "cosmological_length_over_M": null,
+      "resolution": 2048,
+      "timestep_over_M": 0.0025,
+      "end_time_over_M": 502.76019624342945,
+      "imex_split": "explicit_potential",
+      "maximum_constraint_linf": 6.1407839998233324e-09,
+      "bytes": 777931,
+      "command": "python -m black_hole.large_l_tail --output-dir E:/Blackhole-Computation/results/large_l_tail run screen_sds_L640_N2048_dt0p0025",
+      "hash_mode": "sha256_bytes",
+      "sha256": "7dbdd753ec29f08a1ee2675b673770ef36baedb0633771b0f4a6ff36bae107b7"
+    }
+  ],
+  "derived_artifacts": [
+    {
+      "path": "results/large_l_tail/manifest.json",
+      "bytes": 16595,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "254df3210c161d781084c137d15fb7cd1ee30728eac62d18325feb443ed9a92e",
+      "byte_sha256": "254df3210c161d781084c137d15fb7cd1ee30728eac62d18325feb443ed9a92e"
+    },
+    {
+      "path": "results/large_l_tail/screen_L1280_rates.png",
+      "bytes": 188889,
+      "hash_mode": "sha256_bytes",
+      "sha256": "e7efc891801d1d9af433512421d645feca7dc12ab3ae4e24f2d7768f7bf09df2"
+    },
+    {
+      "path": "results/large_l_tail/screen_L2560_rates.png",
+      "bytes": 175773,
+      "hash_mode": "sha256_bytes",
+      "sha256": "a435770cee70451b414727f0fdab72a1ab36a177341bcc9ce20c8e3d6d5d31a6"
+    },
+    {
+      "path": "results/large_l_tail/screen_L5120_rates.png",
+      "bytes": 174304,
+      "hash_mode": "sha256_bytes",
+      "sha256": "2acb212ada5a04816d297defdd7b30bf9fe6849d7b2794b184e0b73f2112cb80"
+    },
+    {
+      "path": "results/large_l_tail/screen_L640_rates.png",
+      "bytes": 211980,
+      "hash_mode": "sha256_bytes",
+      "sha256": "e95e696ed40fc3911b1ca1d733d40fe654f01e951d208a381a81295107584778"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L1280.csv",
+      "bytes": 781,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "11f01d44ad470e17f51644fe91e72e6f5078c2a5eadf8d7ae82b21e047473204",
+      "byte_sha256": "613d12248cc4f8e5b48e5195f69770024de599726468ece623b05c3805b12347"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L1280.json",
+      "bytes": 2320,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "c35fe7b1117b2fad29f902164bae9c65bdc85f1307b0418b17808ffe5dc4c332",
+      "byte_sha256": "c35fe7b1117b2fad29f902164bae9c65bdc85f1307b0418b17808ffe5dc4c332"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L2560.csv",
+      "bytes": 779,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "a255341258991d1ad4fd63077e02169a08f086ee1ab7c3ff071a7c3db906f1b7",
+      "byte_sha256": "c91955d8dc60f0b371cea7c160dfe820578313d4d6771aab23be1a1ab6743105"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L2560.json",
+      "bytes": 2318,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "8297f2d844cffb83ed6410640c5274cb188718a2808b34c3d317877798b22d43",
+      "byte_sha256": "8297f2d844cffb83ed6410640c5274cb188718a2808b34c3d317877798b22d43"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L5120.csv",
+      "bytes": 775,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "44bf7428a9bd8643ae326e711846b4499f1e6fde765bca11fdde3df60281a972",
+      "byte_sha256": "80a81bdf8d52eb48c18f428040b090bfbf3ba88cb15b55b55860a3c990c8659a"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L5120.json",
+      "bytes": 2313,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "b659652b209eccf083bbdb420ee241d7acfd168f1321c664b887c92d8a87df24",
+      "byte_sha256": "b659652b209eccf083bbdb420ee241d7acfd168f1321c664b887c92d8a87df24"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L640.csv",
+      "bytes": 757,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "7916c0b2c84538d759db1a8cb00e6ca3dde016ef73a6f8842f252c72772f2450",
+      "byte_sha256": "fb6f15ab40c91531fabbea9a5e1b91c69f104783c7728a12015ff802869f0096"
+    },
+    {
+      "path": "results/large_l_tail/tables/screen_L640.json",
+      "bytes": 2295,
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "81d894e145b64a0ab1f502b266a34e475e5c0f28cbfaa5963fbb73090f1c7e4d",
+      "byte_sha256": "81d894e145b64a0ab1f502b266a34e475e5c0f28cbfaa5963fbb73090f1c7e4d"
+    }
+  ]
+}

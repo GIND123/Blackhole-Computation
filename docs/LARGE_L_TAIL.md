@@ -80,6 +80,27 @@ number. Under the earlier implicit-potential split (below) the same screen
 returned \(98.80M\) from \(U=173.88M\) to \(272.68M\). Both values reject the
 length, and the \(L/M=5120\) interval is identical under either split.
 
+## Package manifest
+
+Every archive and derived artifact of the campaign is hashed and recorded by
+
+```text
+python -m black_hole.tail_manifest --output-dir results/large_l_tail
+python -m black_hole.tail_manifest --output-dir results/large_l_tail --verify
+```
+
+The manifest records the analysis commit, the simulation commit of every
+archive, the physical contract of the campaign and its digest, the exact case
+command, the resolution, timestep, integration split, and the maximum
+constraint violation of each run. Text artifacts are hashed after CRLF and CR
+are canonicalized to LF, with the byte hash retained beside it.
+
+Each archive carries a `provenance_grade`. An archive whose own run recorded a
+clean worktree is `production`; one that did not is `screening`. A strict
+build refuses when any final ladder archive is not production grade, because
+that is the grade the paper quotes, while the screening archives are recorded
+with their grade visible rather than left undocumented.
+
 ## Integration of the potential term
 
 The three evolved equations are split for the IMEX timestepper.  The transport
