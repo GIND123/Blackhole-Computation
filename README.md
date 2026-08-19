@@ -273,6 +273,38 @@ fixed damping law is claimed. The full methods, error budget, exact values,
 limitations, reproduction commands, and data inventory are in
 [`docs/GREEN_FUNCTION.md`](docs/GREEN_FUNCTION.md).
 
+## Audited caustic visualizations
+
+The current visualization candidates use the numerical field data and remain
+outside the manuscript pending selection. The phase interpretation, null ray
+comparison, angular convergence, and estimator tests are documented in
+[`docs/CAUSTIC_PHASE.md`](docs/CAUSTIC_PHASE.md). The reconstruction and
+generation procedure is documented in
+[`docs/CAUSTIC_VISUALIZATIONS.md`](docs/CAUSTIC_VISUALIZATIONS.md).
+
+![Sphere time echo and angular phase scan](results/caustic_visualizations/sphere_time_echo.png)
+
+*The measured direct pulse and antipodal echo are shown with the fitted phase
+rotation and the angular scan. The fitted rotation is `41.95 degrees` with a
+spread of `0.95 degrees` across three observers and both backgrounds. The
+rotation remains within `8.5 degrees` of zero through `150 degrees` from the
+source and appears near the antipode together with a factor `2.2` amplitude
+gain.*
+
+![Ray marching caustic echo](results/caustic_visualizations/caustic_echo.png)
+
+*The numerical field is reconstructed in a ray marching cutaway that includes
+the black hole and cosmological horizon. Geometric ray intersections determine
+visibility at every pixel, so the cut surfaces and occlusion do not depend on
+surface sorting in a plotting library.*
+
+![Regulator flat limit](results/caustic_visualizations/regulator_flat_limit.png)
+
+*The regulator comparison shows the field at a common geometric retarded time
+for finite cosmological lengths and the independent Schwarzschild reference.
+The common color scale and explicit horizon geometry make the approach to the
+asymptotically flat response visible without fitting a clock translation.*
+
 ## Earlier high-resolution rate figures
 
 ![Higher-resolution Schwarzschild finite-radius rates](results/sds_scalar/tails/high_resolution_rates/schwarzschild_high_resolution_rates.png)
