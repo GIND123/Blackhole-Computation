@@ -8,3 +8,4 @@ __pycache__/
 *.checkpoint.npz.tmp
 *.incomplete.npz
 .venv/
+gen-lang-client-0569749083-442d2bdcffc6.json
