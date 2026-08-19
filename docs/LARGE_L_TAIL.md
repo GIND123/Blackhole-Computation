@@ -59,20 +59,80 @@ that short interval are \(3.3\times10^{-9}\) for SdS and
 \(3.2\times10^{-9}\) for Schwarzschild.
 
 The \(L/M=1280\) and 2560 screens are also rejected. Their longest accepted
-outer intervals last \(7.25M\) and \(98.80M\), respectively. The latter runs
-from \(U=173.88M\) to \(272.68M\), with maximum SdS and Schwarzschild
-refinement differences below \(1.1\times10^{-4}\). At \(U=300M\), the fine
-\(L/M=2560\) index is 3.135 and the Schwarzschild index is 3.015. A small
-excursion above the five percent SdS band near \(U=275M\) breaks continuity,
-so the result does not meet the preregistered \(150M\) requirement. The
-screening sequence therefore continues to \(L/M=5120\).
+outer intervals last \(7.20M\) and \(129.75M\), respectively. The latter runs
+from \(U=173.98M\) to \(303.73M\), with maximum SdS and Schwarzschild
+refinement differences below \(1.9\times10^{-4}\). That interval does contain
+the \(U=300M\) anchor, so \(L/M=2560\) fails on duration alone: \(129.75M\) is
+short of the preregistered \(150M\). The screening sequence therefore
+continues to \(L/M=5120\).
 
 The \(L/M=5120\) screen passes. Its accepted outer interval runs from
 \(U=154.13M\) to \(474.98M\), a continuous duration of \(320.85M\) that
 contains \(U=300M\). The maximum envelope differences between \(N=1536\)
-and \(2048\) are 0.147 percent for Schwarzschild de Sitter and 0.095 percent
+and \(2048\) are 0.150 percent for Schwarzschild de Sitter and 0.095 percent
 for Schwarzschild. Thus the calculation, rather than a prior choice, fixes
 \(L_*/M=5120\).
+
+The \(L/M=2560\) interval is the one quantity in this table that is sensitive
+to the integration details, because its endpoints are threshold crossings of
+\(p_{\mathrm{eff}}\) against the five percent band rather than a converged
+number. Under the earlier implicit-potential split (below) the same screen
+returned \(98.80M\) from \(U=173.88M\) to \(272.68M\). Both values reject the
+length, and the \(L/M=5120\) interval is identical under either split.
+
+## Integration of the potential term
+
+The three evolved equations are split for the IMEX timestepper.  The transport
+terms carry the stiffness of the Chebyshev discretization and are integrated
+implicitly.  The zeroth-order term \(P\,u\) is bounded, with
+\(\max|P|=1.5\) on every background used here and
+\(\Delta\tau\sqrt{\max|P|}=3.1\times10^{-3}\), so it is not stiff and is
+carried on the explicit side.
+
+Keeping it implicit is what the earlier campaign did, and it is very expensive
+on a large-\(L\) bridge.  The Chebyshev spectrum of \(P\) is broad when the
+compactification packs a large areal range against \(\rho=1\): at
+\(L/M=5120\) and \(N=1536\) its retained bandwidth is 301 coefficients against
+2 on Schwarzschild.  A wide non-constant coefficient turns the banded
+subproblem matrices nearly dense, which cost an order of magnitude in the
+per-step solve and over two orders in matrix construction, without buying any
+stability.  Measured at \(N=1536\), \(L/M=5120\):
+
+| quantity | implicit \(P u\) | explicit \(P u\) |
+| --- | --- | --- |
+| matrix construction | 163.2 s | 0.1 s |
+| time per step | 8.91 ms | 0.75 ms |
+| resident memory | 2.84 GB | 0.21 GB |
+
+The explicit split runs at the same speed as the Schwarzschild reference,
+which is the expected behavior once the artificial density is removed.
+
+Both splits discretize the same continuum system, and the change is validated
+against the frozen implicit-split archive rather than assumed.  Re-running the
+\(L/M=5120\) screening case reproduces the archived waveform to a maximum
+relative difference of \(1.0\times10^{-7}\) at \(\mathcal H_c^+\),
+\(3.8\times10^{-8}\) at \(r=8M\), and \(6.1\times10^{-8}\) at \(r=16M\), with a
+smaller maximum constraint violation (\(4.6\times10^{-10}\) against
+\(2.1\times10^{-9}\)).  The screening decision is unchanged.
+
+One provenance consequence is recorded rather than hidden. The four screening
+lengths and their two Schwarzschild references were rerun with the explicit
+split. The implicit-split set was moved to
+`results/large_l_tail_implicit_split/` rather than discarded, so both are
+available, but the new archives were written before the solver change was
+committed and each of them records `git_worktree_dirty` as true. The v3 manifest builder refuses archives
+with that flag, and these are therefore screening data rather than manifest
+grade production data. The waveform difference between the two splits is
+\(10^{-7}\) relative, five orders of magnitude below the one percent
+refinement criterion, and the screening decisions are identical under either
+split, so nothing in the reported screen depends on which set is used. The
+final ladder is run from the committed solver.
+
+The split is recorded in every archive under `metadata["imex_split"]`.  The
+default remains implicit so that the frozen production archives reproduce
+byte-for-byte; only this campaign opts in, through
+`large_l_tail.EXPLICIT_POTENTIAL`, and it does so for the SdS waveform and its
+Schwarzschild reference alike so that the two are integrated identically.
 
 ## Final calculation
 
@@ -113,6 +173,11 @@ one. Named cases and the final ladder can be inspected with
 The complete campaign can be resumed without repeating completed archives:
 
     python -m black_hole.large_l_tail campaign
+
+Every case is an independent evolution writing its own archive, so the ladder
+parallelizes exactly.  [run_tail_campaign.sh](../run_tail_campaign.sh) runs the
+screening set five at a time and the final ladder four at a time, slowest case
+first, and then writes the reports.
 
 After an operating system interruption, first confirm that the earlier Python
 process is absent, then load the reserved case with

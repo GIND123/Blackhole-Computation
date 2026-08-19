@@ -661,6 +661,8 @@ docs/
   GREEN_FUNCTION.md         Localized-source caustic echoes and SdS flat limit
   LARGE_L_TAIL.md           Large L screening and final tail acceptance protocol
   CAUSTIC_VISUALIZATIONS.md Numerical candidate figures and snapshot protocol
+  CAUSTIC_PHASE.md          Measured phase rotation of the antipodal echo
+  VERIFICATION.md           Cross code, convergence, and foliation checks
   SDS_SCALAR.md             Bridge-coordinate scalar formulation
   METHOD.md                 Schwarzschild perturbation method
   RESULTS.md                Regge-Wheeler production results

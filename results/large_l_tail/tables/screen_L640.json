@@ -24,16 +24,16 @@
       "price_target": 5.0,
       "relative_price_tolerance": 0.05,
       "required_duration_U_over_M": 150.0,
-      "maximum_sds_refinement_in_interval": 1.178842732261945e-08,
-      "maximum_reference_refinement_in_interval": 1.7314946161239795e-08,
+      "maximum_sds_refinement_in_interval": 1.1773386607295956e-08,
+      "maximum_reference_refinement_in_interval": 1.735757099224993e-08,
       "time_translation_fitted": false
     },
     {
       "length_over_M": 640.0,
       "observer": "r16M",
-      "price_interval_start_U_over_M": 188.0398037564333,
-      "price_interval_end_U_over_M": 196.28980375642578,
-      "continuous_duration_U_over_M": 8.249999999992497,
+      "price_interval_start_U_over_M": 209.6898037564136,
+      "price_interval_end_U_over_M": 219.98980375640423,
+      "continuous_duration_U_over_M": 10.299999999990632,
       "passes_price_duration": false,
       "covers_screen_anchor_U_over_M": false,
       "passes_screen": false,
@@ -56,8 +56,8 @@
       "price_target": 3.0,
       "relative_price_tolerance": 0.05,
       "required_duration_U_over_M": 150.0,
-      "maximum_sds_refinement_in_interval": 3.262120032420211e-09,
-      "maximum_reference_refinement_in_interval": 3.1612288422023238e-09,
+      "maximum_sds_refinement_in_interval": 3.2637512955702944e-09,
+      "maximum_reference_refinement_in_interval": 3.1619125062539522e-09,
       "time_translation_fitted": false
     }
   ]

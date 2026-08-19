@@ -1,0 +1,33 @@
+{
+  "definition": "u_gamma(U) = Re[A exp(i phi) z_0(U - Delta)] with z_0 the analytic signal of the direct pulse of the same evolution",
+  "reference_direction": "gamma = 0, the emitter direction",
+  "antipodal_phase_degrees_mean": 41.95171951342505,
+  "antipodal_phase_degrees_spread": 1.8971008410595118,
+  "antipodal_phase_degrees_by_case": {
+    "sds_L80_r8": 41.56816990810844,
+    "sds_L80_r12": 41.20409873611764,
+    "sds_L80_r79": 43.101199577177155,
+    "schwarzschild_r8": 42.218065626263446,
+    "schwarzschild_r12": 41.695178780892924,
+    "schwarzschild_rinf": 41.923604451990684
+  },
+  "antipodal_amplitude_by_case": {
+    "sds_L80_r8": 0.46328253067261194,
+    "sds_L80_r12": 0.9657318841530295,
+    "sds_L80_r79": 2.198012139376295,
+    "schwarzschild_r8": 0.4623215190299521,
+    "schwarzschild_r12": 0.9633956866501996,
+    "schwarzschild_rinf": 2.5251174768601863
+  },
+  "antipodal_variance_explained_min": 0.9403397284898597,
+  "largest_phase_away_from_the_axis_degrees": 8.51591877809677,
+  "full_hilbert_transform_degrees": 90.0,
+  "unrotated_copy_degrees": 0.0,
+  "sign_reversal_degrees": 180.0,
+  "truncation_phase_spread_degrees": 5.955940451940478e-07,
+  "window_phase_spread_degrees": 1.1126786605169414,
+  "time_translation_between_backgrounds_fitted": false,
+  "interval_limitation": "the archives end about 13M after the antipodal arrival, so the slowly decaying quadrature tail is truncated and the fitted rotation is a conservative estimate of its magnitude",
+  "null_ray_delay_difference_over_M": -0.23266706226657163,
+  "fitted_delay_against_null_ray_over_M": -0.08116706233095883
+}

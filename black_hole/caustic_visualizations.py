@@ -205,7 +205,15 @@ def measured_pulse_times(result: SourcedSimulationResult) -> tuple[float, ...]:
     )
     measured: list[float] = []
     for start, end, gamma in PULSE_WINDOWS:
-        angular = np.cos(gamma) ** result.response_ell
+        # P_l(cos gamma), not cos(gamma)**l.  The two agree only on the axis,
+        # where P_l(1) = 1 and P_l(-1) = (-1)**l, so the difference is silent
+        # for the two windows used here and wrong for any other direction.
+        angular = np.asarray(
+            [
+                special.eval_legendre(int(ell), float(np.cos(gamma)))
+                for ell in result.response_ell
+            ]
+        )
         coefficients = (
             (2.0 * result.response_ell + 1.0)
             * weights[result.response_ell]
@@ -228,20 +236,55 @@ def requested_snapshot_times(
     return tuple(float(round(value / timestep) * timestep) for value in bridge_times)
 
 
+def sequence_snapshot_times(
+    result: SourcedSimulationResult,
+    first_retarded: float,
+    last_retarded: float,
+    count: int,
+    timestep: float,
+) -> tuple[float, ...]:
+    """Return evenly spaced retarded times as exact bridge integration steps.
+
+    The measured direct and antipodal peak times are always included, so a
+    sequence never displaces the two times the timing audit actually measured.
+    """
+
+    if count < 2:
+        raise ValueError("A snapshot sequence needs at least two times.")
+    offset = float(result.metadata["retarded_time_offset"]["q"])
+    requested = np.linspace(float(first_retarded), float(last_retarded), int(count))
+    bridge = np.concatenate(
+        (requested + offset, np.asarray(requested_snapshot_times(result, timestep)))
+    )
+    stepped = np.round(bridge / timestep) * timestep
+    return tuple(float(value) for value in np.unique(stepped))
+
+
 def run_snapshot_case(
     length: float | None,
     archive_root: Path = ARCHIVE_ROOT,
     output_dir: Path = OUTPUT_ROOT,
     backend: str = "finite-difference",
+    snapshot_times: tuple[float, ...] | None = None,
+    name_suffix: str = "",
 ) -> Path:
-    """Rerun one final-resolution case with dense caustic-time snapshots."""
+    """Rerun one final-resolution case with dense caustic-time snapshots.
+
+    ``snapshot_times`` overrides the default pair of measured peak times with an
+    explicit sequence of bridge times, used to build the time-resolved views.
+    """
 
     reference = load_sourced_result(_archive(archive_root, length))
     if backend not in {"finite-difference", "dedalus"}:
         raise ValueError("backend must be 'finite-difference' or 'dedalus'.")
     timestep = 0.0005 if backend == "finite-difference" else 0.002
-    snapshots = requested_snapshot_times(reference, timestep=timestep)
-    suffix = "" if backend == "finite-difference" else "_dedalus"
+    if snapshot_times is None:
+        snapshots = requested_snapshot_times(reference, timestep=timestep)
+    else:
+        snapshots = tuple(sorted(float(value) for value in snapshot_times))
+        if min(snapshots) <= 0.0:
+            raise ValueError("Snapshot times must be positive bridge times.")
+    suffix = ("" if backend == "finite-difference" else "_dedalus") + name_suffix
     destination = Path(output_dir) / "raw" / f"{_case_name(length)}{suffix}.npz"
     if destination.exists():
         raise FileExistsError(f"Refusing to overwrite {destination}.")
@@ -771,6 +814,15 @@ def main() -> None:
         choices=("finite-difference", "dedalus"),
         default="finite-difference",
     )
+    run.add_argument(
+        "--sequence",
+        nargs=3,
+        type=float,
+        metavar=("FIRST_U", "LAST_U", "COUNT"),
+        help="store an evenly spaced retarded-time sequence in addition to the "
+        "two measured peak times",
+    )
+    run.add_argument("--name-suffix", default="")
     subparsers.add_parser("sphere-time")
     comparison = subparsers.add_parser("regulator")
     comparison.add_argument("--time", type=float, default=44.0)
@@ -784,12 +836,24 @@ def main() -> None:
     if arguments.command == "run-snapshots":
         for case in arguments.cases:
             length = None if case == "schwarzschild" else float(case)
+            times = None
+            if arguments.sequence is not None:
+                first, last, count = arguments.sequence
+                times = sequence_snapshot_times(
+                    load_sourced_result(_archive(arguments.archive_root, length)),
+                    first,
+                    last,
+                    int(count),
+                    0.0005 if arguments.backend == "finite-difference" else 0.002,
+                )
             print(
                 run_snapshot_case(
                     length,
                     arguments.archive_root,
                     arguments.output_dir,
                     arguments.backend,
+                    snapshot_times=times,
+                    name_suffix=arguments.name_suffix,
                 )
             )
     elif arguments.command == "sphere-time":

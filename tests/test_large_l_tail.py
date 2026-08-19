@@ -15,6 +15,7 @@ from black_hole.large_l_tail import (
     effective_rates,
     final_cases,
     final_end_u,
+    fitted_law_intersection,
     persistent_cosmological_entry,
     price_target,
     run_case,
@@ -116,6 +117,77 @@ class LargeLTailTests(unittest.TestCase):
             times, rate, 200.0, tolerance=0.05, kappa=0.002
         )
         self.assertEqual(entry, 600.0)
+
+
+class FittedLawIntersectionTests(unittest.TestCase):
+    """The representative crossing of the two extrapolated decay laws."""
+
+    def setUp(self) -> None:
+        # The exponential coefficient is chosen so the two laws cross at
+        # exactly CROSSING, which the solver then has to recover.
+        self.times = np.linspace(50.0, 900.0, 4001)
+        self.index = 3.0
+        self.rate = 4.0e-3
+        self.scale = 5.0e3
+        self.crossing = 450.0
+        self.coefficient = (
+            self.scale * self.crossing**-self.index
+            * np.exp(self.rate * self.crossing)
+        )
+        self.power_amplitude = self.scale * self.times**-self.index
+        self.exponential_amplitude = self.coefficient * np.exp(
+            -self.rate * self.times
+        )
+
+    def _piecewise(self) -> np.ndarray:
+        return np.where(
+            self.times < 400.0, self.power_amplitude, self.exponential_amplitude
+        )
+
+    def test_recovers_both_fitted_laws(self) -> None:
+        result = fitted_law_intersection(
+            self.times, self._piecewise(), (100.0, 300.0), (500.0, 800.0)
+        )
+        self.assertIsNotNone(result)
+        self.assertAlmostEqual(result["fitted_price_index"], self.index, places=8)
+        self.assertAlmostEqual(
+            result["fitted_cosmological_rate"], self.rate, places=10
+        )
+
+    def test_recovers_the_analytic_crossing(self) -> None:
+        result = fitted_law_intersection(
+            self.times, self._piecewise(), (100.0, 300.0), (500.0, 800.0)
+        )
+        self.assertAlmostEqual(
+            result["intersection_U_over_M"], self.crossing, places=5
+        )
+
+    def test_flags_itself_as_representative_only(self) -> None:
+        result = fitted_law_intersection(
+            self.times, self._piecewise(), (100.0, 300.0), (500.0, 800.0)
+        )
+        self.assertIn("extrapolated", result["status"])
+
+    def test_returns_none_when_the_laws_do_not_cross(self) -> None:
+        """A decay that stays below the power law never crosses it."""
+
+        amplitude = np.where(
+            self.times < 400.0,
+            self.power_amplitude,
+            1e-9 * self.exponential_amplitude,
+        )
+        self.assertIsNone(
+            fitted_law_intersection(
+                self.times, amplitude, (100.0, 300.0), (500.0, 800.0)
+            )
+        )
+
+    def test_returns_none_without_enough_samples(self) -> None:
+        self.assertIsNone(
+            fitted_law_intersection(
+                self.times, self._piecewise(), (100.0, 100.1), (500.0, 800.0)
+            )
+        )
 
 
 if __name__ == "__main__":

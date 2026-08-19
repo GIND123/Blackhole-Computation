@@ -1,0 +1,20 @@
+{
+  "archive": "results\\caustic_visualizations\\raw\\sds_L80_dedalus_sequence.npz",
+  "hero_retarded_time_U_over_M": 44.0588630274229,
+  "sequence_retarded_times_U_over_M": [
+    26.664863027406366,
+    32.000863027408165,
+    38.0008630274155,
+    42.00086302742039,
+    46.000863027425275,
+    50.25086302741175
+  ],
+  "shared_colour_scale_max_abs_u": 0.28553637862205505,
+  "colour_transfer": "signed logarithmic, linear below 0.05 of the scale",
+  "numerical_floor_fraction": 1e-05,
+  "display_radius": "R = r**0.5 (angles undistorted)",
+  "cutaway": "material removed where y>0 and z>0",
+  "angular_ell_max": 50,
+  "spectral_filter": "none",
+  "time_translation_fitted": false
+}

@@ -104,8 +104,21 @@ def _run_scalar_simulation(
     horizon_metadata: dict,
     checkpoint_path: Path | None = None,
     checkpoint_dt: float | None = None,
+    explicit_potential: bool = False,
 ) -> SdSSimulationResult:
-    """Evolve the common first-order scalar system on one background."""
+    """Evolve the common first-order scalar system on one background.
+
+    ``explicit_potential`` selects which side of the IMEX split carries the
+    zeroth-order term ``P*u``.  Both choices discretize the same continuum
+    system.  The default keeps that term implicit, reproducing every archived
+    production run exactly.  Moving it to the explicit right-hand side is
+    numerically preferable on Schwarzschild-de Sitter bridges: ``P`` is bounded
+    by ``max|P| = 1.5`` on every background used here, so it is not stiff, yet
+    its Chebyshev spectrum is broad at large ``L`` (bandwidth 301 at
+    ``L/M=5120`` against 2 on Schwarzschild).  Kept implicit it turns the banded
+    subproblem matrices nearly dense, which costs an order of magnitude in both
+    matrix construction and per-step solve without buying any stability.
+    """
 
     started = time.perf_counter()
     dtype = np.float64
@@ -156,10 +169,16 @@ def _run_scalar_simulation(
     problem.add_equation(
         "dt(psi) - drho(coefficient_a * (coefficient_b * psi + pi)) = 0"
     )
-    problem.add_equation(
-        "dt(pi) - drho(coefficient_a * (psi + coefficient_b * pi))"
-        " + potential * u = 0"
-    )
+    if explicit_potential:
+        problem.add_equation(
+            "dt(pi) - drho(coefficient_a * (psi + coefficient_b * pi))"
+            " = -potential * u"
+        )
+    else:
+        problem.add_equation(
+            "dt(pi) - drho(coefficient_a * (psi + coefficient_b * pi))"
+            " + potential * u = 0"
+        )
 
     solver = problem.build_solver(_timestepper(numerical.timestepper))
     solver.stop_sim_time = numerical.end_time
@@ -186,6 +205,9 @@ def _run_scalar_simulation(
             "model": model.as_dict(),
             "initial_data": initial.as_dict(),
             "numerical": asdict(numerical),
+            # Recorded only when set, so checkpoints written by the default
+            # implicit split stay byte-identical and remain resumable.
+            **({"imex_split": "explicit_potential"} if explicit_potential else {}),
         },
         sort_keys=True,
     )
@@ -327,6 +349,15 @@ def _run_scalar_simulation(
             "B": "f*dh/dr",
             "P": "V_scalar/(f*d rho/dr)",
         },
+        "imex_split": {
+            "potential_term": "explicit" if explicit_potential else "implicit",
+            "transport_terms": "implicit",
+            "note": (
+                "The stiffness of the Chebyshev discretization resides in the "
+                "transport terms, which are implicit in both variants. P is "
+                "bounded (max|P|=1.5) and therefore non-stiff."
+            ),
+        },
         "initialization": {
             "psi": (
                 "identically zero"
@@ -378,6 +409,7 @@ def run_sds_simulation(
     *,
     checkpoint_path: Path | None = None,
     checkpoint_dt: float | None = None,
+    explicit_potential: bool = False,
 ) -> SdSSimulationResult:
     """Evolve the reduced scalar wave equation on an SdS bridge."""
 
@@ -410,6 +442,7 @@ def run_sds_simulation(
         horizon_metadata=horizons.as_dict(),
         checkpoint_path=checkpoint_path,
         checkpoint_dt=checkpoint_dt,
+        explicit_potential=explicit_potential,
     )
 
 
@@ -420,6 +453,7 @@ def run_schwarzschild_scalar_simulation(
     *,
     checkpoint_path: Path | None = None,
     checkpoint_dt: float | None = None,
+    explicit_potential: bool = False,
 ) -> SdSSimulationResult:
     """Evolve the Lambda=0 scalar reference in Schwarzschild minimal gauge."""
 
@@ -457,4 +491,5 @@ def run_schwarzschild_scalar_simulation(
         },
         checkpoint_path=checkpoint_path,
         checkpoint_dt=checkpoint_dt,
+        explicit_potential=explicit_potential,
     )

@@ -1,8 +1,23 @@
-"""Analytic bridge foliation and conditioning diagnostics."""
+"""Analytic bridge foliation and conditioning diagnostics.
+
+Every quantity here is evaluated from the closed-form bridge coefficients in
+:mod:`black_hole.sds_model`.  Nothing is read from a simulation archive, so the
+foliation table that selects the minimal gauge is reproducible from the
+formulas alone::
+
+    python -m black_hole.foliation_diagnostics write
+
+That command regenerates the three CSV files under ``paper/figs/data``.
+``tests/test_foliation_diagnostics.py`` checks the regenerated values against
+the archived ones to nine decimal places.
+"""
 
 from __future__ import annotations
 
+import argparse
+import csv
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 from scipy.integrate import quad
@@ -116,3 +131,101 @@ def evaluate_foliation_table(
         for length in lengths
         for bridge in bridges
     ]
+
+
+def _fixed(decimals: int):
+    """Format with a fixed number of decimal places."""
+
+    return lambda value: f"{value:.{decimals}f}"
+
+
+def _significant(digits: int):
+    """Format to a fixed number of significant digits, keeping trailing zeros.
+
+    ``%g`` strips trailing zeros and switches to exponent notation, neither of
+    which matches the archived tables, so the decimal count is chosen from the
+    magnitude instead.
+    """
+
+    def format_value(value: float) -> str:
+        if value == 0.0:
+            return f"{0.0:.{max(digits - 1, 0)}f}"
+        magnitude = int(np.floor(np.log10(abs(value)))) + 1
+        return f"{value:.{max(digits - magnitude, 0)}f}"
+
+    return format_value
+
+
+#: Column order and numeric format of the archived figure data.
+FIGURE_TABLES = (
+    ("foliation_conditioning.csv", "maximum_characteristic_speed", _fixed(10)),
+    ("foliation_min_A.csv", "minimum_propagation_coefficient", _fixed(10)),
+    ("foliation_retarded_offsets.csv", "retarded_time_offset", _significant(12)),
+)
+FIGURE_LENGTHS = (10.0, 20.0, 40.0, 80.0, 160.0, 320.0)
+FIGURE_BRIDGES = (
+    "minimum",
+    "minimal",
+    "linear",
+    "modified_linear",
+    "mavrogiannis",
+    "slow_roll",
+)
+
+
+def write_figure_tables(
+    output_dir: Path = Path("paper/figs/data"),
+    lengths: tuple[float, ...] = FIGURE_LENGTHS,
+    bridges: tuple[str, ...] = FIGURE_BRIDGES,
+) -> list[Path]:
+    """Regenerate the foliation figure data directly from the formulas."""
+
+    table = evaluate_foliation_table(lengths, bridges)
+    lookup = {(row.length_over_mass, row.bridge): row for row in table}
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    for name, attribute, format_value in FIGURE_TABLES:
+        destination = output_dir / name
+        with destination.open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.writer(stream)
+            writer.writerow(["L_over_M"] + list(bridges))
+            for length in lengths:
+                writer.writerow(
+                    [f"{length:g}"]
+                    + [
+                        format_value(getattr(lookup[(length, bridge)], attribute))
+                        for bridge in bridges
+                    ]
+                )
+        written.append(destination)
+    return written
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    write = subparsers.add_parser(
+        "write", help="regenerate the foliation figure data from the formulas"
+    )
+    write.add_argument("--output-dir", type=Path, default=Path("paper/figs/data"))
+    show = subparsers.add_parser("show", help="print the table without writing")
+    show.add_argument("lengths", nargs="*", type=float, default=list(FIGURE_LENGTHS))
+    arguments = parser.parse_args()
+    if arguments.command == "write":
+        for path in write_figure_tables(arguments.output_dir):
+            print(path)
+    else:
+        for row in evaluate_foliation_table(
+            tuple(arguments.lengths), FIGURE_BRIDGES
+        ):
+            print(
+                f"L/M={row.length_over_mass:7g}  {row.bridge:16s}"
+                f"  max|speed|={row.maximum_characteristic_speed:.10f}"
+                f"  min A={row.minimum_propagation_coefficient:.10f}"
+                f"  q={row.retarded_time_offset:.11f}"
+            )
+
+
+if __name__ == "__main__":
+    main()

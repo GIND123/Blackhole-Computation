@@ -1,0 +1,72 @@
+{
+  "archive": "results\\regulator_production_v3\\raw\\source\\fine\\sds_L80.npz",
+  "cosmological_length_over_M": 80.0,
+  "cosmological_horizon_radius_over_M": 78.98059813298828,
+  "sphere_retarded_times_U_over_M": [
+    30.0,
+    34.0,
+    38.0,
+    41.0,
+    44.0,
+    46.0,
+    48.0,
+    50.0
+  ],
+  "measured_peak_times_U_over_M": [
+    26.664074477631694,
+    44.059245708337535
+  ],
+  "shared_colour_scale_max_abs_u": 0.07137672676130567,
+  "colour_scale_basis": "maximum over the displayed spheres only",
+  "view": "along the antipodal axis; source direction on the far side",
+  "display_radius": "R = r**0.5 (angles undistorted)",
+  "phase_model": "u_gamma(U) = Re[A exp(i phi) z_0(U - Delta)] with z_0 the analytic signal of the direct pulse of the same evolution",
+  "antipodal_phase_degrees": 43.101199577177155,
+  "antipodal_amplitude": 2.198012139376295,
+  "antipodal_delay_over_M": 17.72,
+  "antipodal_variance_explained": 0.9463976551421219,
+  "fit_window_U_over_M": [
+    36.1458630274533,
+    57.32086302741175
+  ],
+  "scan_gamma_degrees": [
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    140.0,
+    150.0,
+    160.0,
+    170.0,
+    175.0,
+    180.0
+  ],
+  "scan_phase_degrees": [
+    2.2923747236685335e-15,
+    0.013195299212915842,
+    -0.7948807068061376,
+    -1.7171636840707112,
+    -7.25774641020976,
+    -8.399465787043413,
+    -8.15199239763922,
+    2.4857314573344174,
+    40.45081231915712,
+    42.71790525807377,
+    43.101199577177155
+  ],
+  "scan_amplitude": [
+    1.0000000000000002,
+    0.962692516453297,
+    0.8889543260411303,
+    0.8345593339665539,
+    0.8414102797059809,
+    0.8908937305599784,
+    0.9666915664475635,
+    1.1551078840834583,
+    1.8208118632895178,
+    2.096365907091619,
+    2.198012139376295
+  ],
+  "time_translation_fitted": false
+}

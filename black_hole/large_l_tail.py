@@ -46,6 +46,10 @@ TIMESTEP = 0.0025
 HALVED_TIMESTEP = 0.00125
 SCREEN_END_U = 500.0
 SCREEN_PRICE_ANCHOR_U = 300.0
+# Both backgrounds carry the bounded potential term on the explicit side of the
+# IMEX split, so the SdS waveform and its Schwarzschild reference are integrated
+# by an identical scheme.  See sds_solver._run_scalar_simulation.
+EXPLICIT_POTENTIAL = True
 PRICE_TARGET_INFINITY = 3.0
 PRICE_TARGET_FIXED_RADIUS = 5.0
 PRICE_TOLERANCE = 0.05
@@ -254,6 +258,7 @@ def run_case(
             numerical,
             checkpoint_path=checkpoint,
             checkpoint_dt=500.0,
+            explicit_potential=EXPLICIT_POTENTIAL,
         )
         limit = "lim_(r->infinity)(h+r_*)"
     else:
@@ -268,6 +273,7 @@ def run_case(
             numerical,
             checkpoint_path=checkpoint,
             checkpoint_dt=500.0,
+            explicit_potential=EXPLICIT_POTENTIAL,
         )
         limit = "lim_(r->r_c)(h+r_*)"
     result.metadata["retarded_time_offset"] = {
@@ -280,6 +286,7 @@ def run_case(
         "retarded_time": "U=tau-q",
         "time_translation_fitted": False,
         "finite_observers": list(FINITE_OBSERVERS),
+        "explicit_potential": EXPLICIT_POTENTIAL,
         "outer_observer": (
             "future null infinity"
             if case.background == "schwarzschild"
@@ -644,6 +651,83 @@ def persistent_cosmological_entry(
     return float(times[start])
 
 
+def _weighted_line(x: np.ndarray, y: np.ndarray) -> tuple[float, float] | None:
+    """Return the ordinary least squares intercept and slope of ``y`` on ``x``."""
+
+    if x.size < 3:
+        return None
+    matrix = np.vstack((np.ones_like(x), x)).T
+    solution, *_ = np.linalg.lstsq(matrix, y, rcond=None)
+    return float(solution[0]), float(solution[1])
+
+
+def fitted_law_intersection(
+    times: np.ndarray,
+    amplitude: np.ndarray,
+    price_interval: tuple[float, float],
+    cosmological_interval: tuple[float, float],
+) -> dict | None:
+    r"""Intersect the two fitted decay laws.
+
+    A power law ``ln A = a_p - p ln U`` is fitted on the Price interval and an
+    exponential ``ln A = a_c - \gamma U`` on the cosmological interval.  Their
+    crossing is quoted only as a representative transition time: each law is
+    extrapolated well outside the window it was fitted on, so the measured
+    crossover interval remains the defensible result.
+    """
+
+    times = np.asarray(times, dtype=float)
+    amplitude = np.asarray(amplitude, dtype=float)
+    usable = np.isfinite(amplitude) & (amplitude > 0.0) & (times > 0.0)
+
+    price = usable & (times >= price_interval[0]) & (times <= price_interval[1])
+    cosmological = (
+        usable
+        & (times >= cosmological_interval[0])
+        & (times <= cosmological_interval[1])
+    )
+    if np.count_nonzero(price) < 3 or np.count_nonzero(cosmological) < 3:
+        return None
+
+    power_fit = _weighted_line(
+        np.log(times[price]), np.log(amplitude[price])
+    )
+    exponential_fit = _weighted_line(
+        times[cosmological], np.log(amplitude[cosmological])
+    )
+    if power_fit is None or exponential_fit is None:
+        return None
+    power_intercept, power_slope = power_fit
+    exponential_intercept, exponential_slope = exponential_fit
+
+    def difference(value: float) -> float:
+        return (power_intercept + power_slope * np.log(value)) - (
+            exponential_intercept + exponential_slope * value
+        )
+
+    left = max(price_interval[1], 1e-6)
+    right = max(cosmological_interval[1], left * (1.0 + 1e-9))
+    if difference(left) * difference(right) > 0.0:
+        return None
+    for _ in range(200):
+        middle = 0.5 * (left + right)
+        if difference(left) * difference(middle) <= 0.0:
+            right = middle
+        else:
+            left = middle
+    crossing = 0.5 * (left + right)
+    return {
+        "intersection_U_over_M": float(crossing),
+        "fitted_price_index": float(-power_slope),
+        "fitted_cosmological_rate": float(-exponential_slope),
+        "price_fit_interval_U_over_M": [float(v) for v in price_interval],
+        "cosmological_fit_interval_U_over_M": [
+            float(v) for v in cosmological_interval
+        ],
+        "status": "representative_only_laws_extrapolated_outside_their_windows",
+    }
+
+
 def measure_transition(
     sds: SdSSimulationResult,
     reference: SdSSimulationResult,
@@ -994,6 +1078,31 @@ def analyze_final(output_dir: Path, length: float) -> dict:
     axes[2].axhspan(0.9, 1.1, color="0.85")
     departure = primary_outer["departure_U_over_M"]
     entry = primary_outer["entry_U_over_M"]
+    intersection = fitted_law_intersection(
+        primary_outer["times"],
+        primary_outer["amplitude"],
+        price_interval,
+        cosmological_interval,
+    )
+    if intersection is not None:
+        for axis in axes:
+            axis.axvline(
+                intersection["intersection_U_over_M"],
+                color="#8B4513",
+                linestyle="-.",
+                linewidth=1.0,
+                alpha=0.8,
+            )
+        axes[2].text(
+            intersection["intersection_U_over_M"],
+            0.03,
+            "fitted-law\ncrossing",
+            transform=axes[2].get_xaxis_transform(),
+            ha="center",
+            va="bottom",
+            fontsize=7,
+            color="#8B4513",
+        )
     if departure is not None and entry is not None:
         for axis in axes:
             axis.axvspan(departure, entry, color="#F0E442", alpha=0.22)
@@ -1046,6 +1155,12 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             for key, value in primary_outer.items()
             if not isinstance(value, np.ndarray)
         },
+        # Secondary to the crossover interval, by construction.
+        "fitted_law_intersection": intersection,
+        "price_fit_interval_U_over_M": [float(v) for v in price_interval],
+        "cosmological_fit_interval_U_over_M": [
+            float(v) for v in cosmological_interval
+        ],
         "transition_sweep": str(transition_path),
         "transition_numerical": str(numerical_transition_path),
         "numerical_sensitivities": str(sensitivity_path),

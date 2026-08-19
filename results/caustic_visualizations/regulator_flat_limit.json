@@ -1,0 +1,26 @@
+{
+  "archive_root": "results/regulator_production_v3/raw/source/fine",
+  "retarded_time_U_over_M": 44.0,
+  "cosmological_lengths_over_M": [
+    80.0,
+    160.0,
+    320.0,
+    640.0
+  ],
+  "cosmological_horizon_radii_over_M": [
+    78.98059813298828,
+    158.99046547057517,
+    318.99527303232253,
+    638.9976464340193
+  ],
+  "sphere_relative_l2_against_schwarzschild": [
+    0.18946190430607326,
+    0.09650757561991725,
+    0.048520298731204156,
+    0.024303974168121207
+  ],
+  "residual_norm": "exact Parseval sum over stored real harmonic modes",
+  "colour_scale_max_abs_u": 0.07137672676130567,
+  "display_radius": "R = r**0.5 (angles undistorted)",
+  "time_translation_fitted": false
+}

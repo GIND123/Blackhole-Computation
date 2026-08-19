@@ -6,7 +6,10 @@ import csv
 from pathlib import Path
 import unittest
 
-from black_hole.foliation_diagnostics import evaluate_foliation_table
+from black_hole.foliation_diagnostics import (
+    evaluate_foliation_table,
+    write_figure_tables,
+)
 
 
 DATA = Path("paper/figs/data")
@@ -51,6 +54,22 @@ class FoliationDiagnosticTests(unittest.TestCase):
                     row.retarded_time_offset,
                     float(offset_row[bridge]),
                     places=8,
+                )
+
+    def test_regeneration_reproduces_the_archived_files_byte_for_byte(self) -> None:
+        """The paper's foliation data must come from the formulas alone."""
+
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            written = write_figure_tables(Path(directory))
+            self.assertEqual(len(written), 3)
+            for path in written:
+                archived = DATA / path.name
+                self.assertEqual(
+                    path.read_text(encoding="utf-8"),
+                    archived.read_text(encoding="utf-8"),
+                    f"{path.name} is not reproduced by the analytic formulas",
                 )
 
 
