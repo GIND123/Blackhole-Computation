@@ -143,6 +143,32 @@ case changes the radial and temporal widths as well as the angular one, and
 the quantity here is a field ratio rather than an energy ratio. Separating
 those would need one width varied at a time.
 
+### The narrow emitter uses the truncation it was given
+
+Repeating the truncation study on the narrow case separates two things that
+looked the same before. For the production emitter the focus was already
+converged at `ell_max = 20`. For the narrow emitter it is not:
+
+| `ell_max` | peak `|Phi|` | focus FWHM | relative change in peak |
+|---:|---:|---:|---:|
+| 20 | `2.050407e-02` | `18.270` deg | `1.5e-02` |
+| 30 | `2.067965e-02` | `18.060` deg | `6.7e-03` |
+| 40 | `2.079307e-02` | `18.000` deg | `1.2e-03` |
+| 50 | `2.081887e-02` | `18.000` deg | `3.6e-05` |
+| 60 | `2.081811e-02` | `18.000` deg | `4.1e-07` |
+| 80 | `2.081812e-02` | `18.000` deg | 0 |
+
+So `ell_max = 80` was necessary here, not merely sufficient, and the contrast
+with the production case is the clearest statement that the two emitters are
+limited by different things.
+
+There is also a check on the angular budget itself. The retained power
+calculation predicted that `ell_max = 50` would omit `3.9e-5` of the angular
+power at `kappa = 256`. The measured relative change in the focus peak at
+`ell_max = 50` is `3.6e-5`. The omitted power and the error it produces in the
+focus agree to about ten per cent, which is the accuracy such an estimate can
+be expected to have.
+
 ### Convergence of the narrow case
 
 Comparing the two levels at their own selected focus is misleading, because
