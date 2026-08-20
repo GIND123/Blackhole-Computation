@@ -182,16 +182,35 @@ def _load_manifest(package: str, root: Path) -> dict:
     for section in ("archives", "derived_artifacts"):
         for row in manifest.get(section, []):
             lookup[row["path"]] = row
+    # The two packages record the simulation commit differently: the regulator
+    # package has a single one at the top level because every archive shares
+    # it, the tail package has a list because its campaign spans several.
+    commits = manifest.get("simulation_commits")
+    if not commits:
+        single = manifest.get("simulation_commit")
+        commits = [single] if single else sorted(
+            {
+                row["simulation_commit"]
+                for row in manifest.get("archives", [])
+                if row.get("simulation_commit")
+            }
+        )
+    grades = sorted(
+        {
+            row["provenance_grade"]
+            for row in manifest.get("archives", [])
+            if row.get("provenance_grade")
+        }
+    )
+    if not grades and manifest.get("archives"):
+        # The regulator package predates the grade field; its creation refuses
+        # any archive that records a dirty worktree, so every entry is clean.
+        grades = ["production (enforced at manifest creation)"]
     return {
         "rows": lookup,
-        "simulation_commits": manifest.get("simulation_commits", []),
+        "simulation_commits": commits,
         "analysis_commit": manifest.get("analysis_commit"),
-        "grades": sorted(
-            {
-                row.get("provenance_grade", "unrecorded")
-                for row in manifest.get("archives", [])
-            }
-        ),
+        "grades": grades,
     }
 
 

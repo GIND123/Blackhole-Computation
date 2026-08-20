@@ -2,7 +2,7 @@
   "schema_version": 2,
   "purpose": "Artificial cosmology regulator production and analysis record",
   "simulation_commit": "2460d976fd023f7bcae892d760436248d32d0290",
-  "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+  "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
   "simulation_and_analysis_commits_are_distinct": true,
   "text_hash_definition": "SHA256 of UTF-8 bytes after CRLF and CR are canonicalized to LF",
   "raw_archives_are_read_only_inputs": true,
@@ -435,7 +435,7 @@
       "sha256": "4be2a6adff3633b4e2f26d2fd854d5b4e54792c10c9c1ec78e86a24caf596be2",
       "byte_sha256": "4be2a6adff3633b4e2f26d2fd854d5b4e54792c10c9c1ec78e86a24caf596be2",
       "bytes": 119922,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -640,7 +640,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "3d2f9ae2b00d2f30fab2552d3a89f007a9c2443b889e1cd66ce36afb6b9f1497",
       "bytes": 28484,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -725,7 +725,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "fefd1f026b818f05b9f60c5c166ddff52d355b2806993c2d110f6d3664810608",
       "bytes": 356107,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -810,7 +810,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "0b5fcc1d0521550bdb89b5698906b0fdcb0d39d7899397b95a1644d49cf5de0e",
       "bytes": 20220,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -895,7 +895,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "bc0a046f37ce737999f5fd292ecf3b2a7441522d4c8e72578125269dc54745ff",
       "bytes": 218600,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -980,7 +980,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "6adc23d5b5106071f038b8bc3112cb9e4c7d8c39f0f3f4b26f698a5ac7e06c7f",
       "bytes": 44161,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1095,7 +1095,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "d7967136a0796b652b446d005ccd36c98f1249a7d2fc3b8e22a74e8be442c6aa",
       "bytes": 568485,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1210,7 +1210,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "7d04b23d8f2021171de7a1ba0e1ba7b571d7f2e64195c56e2ee1f23e1ff7e16a",
       "bytes": 28052,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1325,7 +1325,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "5aff1da81d2cdb3dc08267171721c6ae7d956bfd1b58898c0c68a135a21c8670",
       "bytes": 385487,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1440,7 +1440,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "45f2693bf72355d6788c8533a03152b1c385025c56083883d259e6030d25eb55",
       "bytes": 18885,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1460,7 +1460,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "cfe2befca31e1abb82231aabec52f2d54dc048283bd34a5bad750c15470bc591",
       "bytes": 123062,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1480,7 +1480,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "e55f19cf48008fa5631d8002d201642a79ade1e8b5315d34ae43dab7885d68ea",
       "bytes": 46352,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1565,7 +1565,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "8b134c3412e65c990317930993959d9cc11185297566ac7929228666085c1c9c",
       "bytes": 495546,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -1651,7 +1651,7 @@
       "sha256": "374332a5a39c4b80148d884154bb22e25051fc09fab20fb7e1961b63e2489d71",
       "byte_sha256": "374332a5a39c4b80148d884154bb22e25051fc09fab20fb7e1961b63e2489d71",
       "bytes": 4374,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "generated by regulator_manifest",
       "inputs": [
         {
@@ -1856,7 +1856,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "56b63bbae99a1a476b4f5cafc7f651a3e841346c0fd4af11a7e1ca9cb53b6a41",
       "bytes": 38466,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2061,7 +2061,7 @@
       "hash_mode": "sha256_bytes",
       "sha256": "466c7787e579ba1e8d3cad0386dc88fd56c3b47f01fbd9aec1e40a77d81b6fbe",
       "bytes": 456993,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2177,7 +2177,7 @@
       "sha256": "7e69b7de5f5adfe799a83f259fd039ae415955c58ba0ac0f4da31fedb91a9351",
       "byte_sha256": "7e69b7de5f5adfe799a83f259fd039ae415955c58ba0ac0f4da31fedb91a9351",
       "bytes": 8674,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2263,7 +2263,7 @@
       "sha256": "101328a84680848693b28a5cf1315122a38359a293b83c5e6fd52156ec36b22c",
       "byte_sha256": "101328a84680848693b28a5cf1315122a38359a293b83c5e6fd52156ec36b22c",
       "bytes": 9217,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2349,7 +2349,7 @@
       "sha256": "85a7cc95f74adb9e7cf6bd70a566b7b5ff0887e7ace69287fe2e835da4526089",
       "byte_sha256": "85a7cc95f74adb9e7cf6bd70a566b7b5ff0887e7ace69287fe2e835da4526089",
       "bytes": 2273,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2435,7 +2435,7 @@
       "sha256": "22b79a55b9361e6a352aa1c56b1367f251d7729e384e1ff4be49459517e9b5ea",
       "byte_sha256": "22b79a55b9361e6a352aa1c56b1367f251d7729e384e1ff4be49459517e9b5ea",
       "bytes": 1326,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2516,12 +2516,630 @@
       ]
     },
     {
+      "path": "results/regulator_production_v3/tables/extrapolation_robustness.csv",
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "4c51379953e3027fbece3cbcb75b4619e63b6174e22c25d209c3f91c89e069a2",
+      "byte_sha256": "e558516b6d7cee50de656c89c03c9332a18728dd14aac9562861bf67571fe5ea",
+      "bytes": 10415,
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
+      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
+      "inputs": [
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "fb86342cd440cdcb2f6e9dfbe224b2f5dd27dbc27a73c6799e51ba5c41789ce7"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "3500d5ff152a174aaab4fed01d630b6f3318e9232748b9c2e330382cc984df55"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "45229ad455338043cd4f490c6d69a608ed5ca35aa1943945ed5550ef28dd176f"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "c6e7ffe083854d6b9f95285dd1531a49d316ad78e185ce2fb2cfc282ffcafbf8"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "2fe591bd9e8fd70bf51d9a2ef6c6cdd5d6d2a66bb694ce1534348915d50438da"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "5381fb026085584e7f810626fe0de9ba90f363b9f0810ccac05b2ca56c9d2632"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "3b3297ef39a7f06188147cdb33ecfaa7cc1c4c67bd0011d746ef02880d37da8a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "52c6e76c29aacf1f4d45597b65e6988ae0ee22b872fff4a54438cf8616130ed1"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "361713a7f8b29cf33f29f442a1ef990ca21ac8f441dd154b50bc9bd9ca3f8cc9"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f39ab46e39dbf3da3b05fa3baa43c93df4d5fecd35b280dc6516975eac4b89f5"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "e3821a5675bc35a9f71570e647348e3bb9cb2f575ceab8a3c44a4fb23146e988"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "d6d0d09869b632207771cb6afd154ce124c8019ea04b17c2cef4ef1d11ac7f2f"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "ba99d949ee34b6f18e82609b2aecaa7ad1ff609823cc4ddd195ae3e24e448b5e"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "88ee8ba1a1d1ede9f488b6e11b2694102dd287b6d2bdd1d74028b3d694b8599d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "151af88eb2f01b984ca07eaab2a3c69e5c4735fe031cbd6ee3bf45fd108e4001"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "a9b199fa8b3bd8056afc904f5d2407f6c7db6b5da7e3be30dfca7f6eb9ccde41"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "06cd4785bed53d24cb95c9ff2dc107023814112795b6ea1581ee82ac07d2432c"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "a1fbeab6e463ff8960dc65567c4479445931c9fa8acf7639b895d1dad8b546fd"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "96676be03da0e9ccaae0b3ae758b875cd86f5c0b5f9908bd43e19d8cb488be06"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "740fe0a7b6782635882b7292a0bf91d8ea8ca3675de145646a1d35fd58371009"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "daf9b3177b3171e13f66c5a1e468f9d240ad4702a9c563a359e13c4ad08c30fe"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "c5c8b82c6c7f85fd64cadf3daa587de8c3d4cc67613809910a2389ae52936a0b"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "461d1b03732226ed67940bf8fd874a66d04c270a63fa81969904621193c62bad"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "86591ef0fe395534c40abb2706e2235457fd23982f6f0709de8b3bac635da77d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f613e7f2cdc9f44c9c12a862e2108d25c0ab48152bc54ea440af4b5119b8c355"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "ec41265ef9c526dd28d6aaf404ff3870c43d12dfc550f362b4f5ef5f56e845a4"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "9bdbf77566b33a7e179e33634aaca7c685a3c2e2095c513401f03a37dd72a25a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f721b14980d29f18c7a9ecbfa230f9523c88ba9237e15b452f6573192dd05b26"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "93c8d31490ac17ceec7747c26d7d25e81c5d76a92365fed171bba51ef5ff65ba"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "baf8824f52b2e250112e5a729785254acca43fcaa711819cabf7a6a51377949a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "64078426ef5ffd9fc8ff2e28be16e45501536627ef68de732b42afc2bbb413fd"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "98e2529b0630aadf716f2fa192a5d9210e121ce0894e4379ee7c5964d9cba5d9"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "2131edada4a4721b7fb39f3f0143f5613fe09fe38d095b80b1639858a587b0fa"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "350210c69edc187966a351825f15aab1c348426a31595d3e8823de40a09ca22d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "dac0fe32aa72ec90f6ad5288e9fc1e6200e9eacc331157648d1385d88fdb91f6"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "03937558928ebe4b57428eeed59f24eec99695f1100f0e4c6074f7b51945bbc1"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/production_generic_angles.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "50e7bd424e61d0ecf495cab64431f1a4f5c0e9018b12d476715ebc03d97136e4"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/production_generic_phase.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "5e95fe076ce5cb690cc8436c4cc3ec356444fcca0198e91c3921f614329c77a7"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/source_width_delay_sensitivity.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "1751244cf258fa269789fd462cb5272fa0dc581a479a51022377264e1c5b13c2"
+        }
+      ]
+    },
+    {
+      "path": "results/regulator_production_v3/tables/extrapolation_robustness.json",
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "7ffbc6df69e63e72a75dd86c8d49ff3ce0d05305b4b017e016c75af65277757c",
+      "byte_sha256": "73ff126f8302f5ae0f4822c581d9f726c33f91b38a53ec43f65db6fcd8d63204",
+      "bytes": 759,
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
+      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
+      "inputs": [
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "fb86342cd440cdcb2f6e9dfbe224b2f5dd27dbc27a73c6799e51ba5c41789ce7"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "3500d5ff152a174aaab4fed01d630b6f3318e9232748b9c2e330382cc984df55"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "45229ad455338043cd4f490c6d69a608ed5ca35aa1943945ed5550ef28dd176f"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "c6e7ffe083854d6b9f95285dd1531a49d316ad78e185ce2fb2cfc282ffcafbf8"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "2fe591bd9e8fd70bf51d9a2ef6c6cdd5d6d2a66bb694ce1534348915d50438da"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "5381fb026085584e7f810626fe0de9ba90f363b9f0810ccac05b2ca56c9d2632"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "3b3297ef39a7f06188147cdb33ecfaa7cc1c4c67bd0011d746ef02880d37da8a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "52c6e76c29aacf1f4d45597b65e6988ae0ee22b872fff4a54438cf8616130ed1"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "361713a7f8b29cf33f29f442a1ef990ca21ac8f441dd154b50bc9bd9ca3f8cc9"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f39ab46e39dbf3da3b05fa3baa43c93df4d5fecd35b280dc6516975eac4b89f5"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "e3821a5675bc35a9f71570e647348e3bb9cb2f575ceab8a3c44a4fb23146e988"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "d6d0d09869b632207771cb6afd154ce124c8019ea04b17c2cef4ef1d11ac7f2f"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "ba99d949ee34b6f18e82609b2aecaa7ad1ff609823cc4ddd195ae3e24e448b5e"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "88ee8ba1a1d1ede9f488b6e11b2694102dd287b6d2bdd1d74028b3d694b8599d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "151af88eb2f01b984ca07eaab2a3c69e5c4735fe031cbd6ee3bf45fd108e4001"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "a9b199fa8b3bd8056afc904f5d2407f6c7db6b5da7e3be30dfca7f6eb9ccde41"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "06cd4785bed53d24cb95c9ff2dc107023814112795b6ea1581ee82ac07d2432c"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "a1fbeab6e463ff8960dc65567c4479445931c9fa8acf7639b895d1dad8b546fd"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "96676be03da0e9ccaae0b3ae758b875cd86f5c0b5f9908bd43e19d8cb488be06"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "740fe0a7b6782635882b7292a0bf91d8ea8ca3675de145646a1d35fd58371009"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "daf9b3177b3171e13f66c5a1e468f9d240ad4702a9c563a359e13c4ad08c30fe"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "c5c8b82c6c7f85fd64cadf3daa587de8c3d4cc67613809910a2389ae52936a0b"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "461d1b03732226ed67940bf8fd874a66d04c270a63fa81969904621193c62bad"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "86591ef0fe395534c40abb2706e2235457fd23982f6f0709de8b3bac635da77d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f613e7f2cdc9f44c9c12a862e2108d25c0ab48152bc54ea440af4b5119b8c355"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "ec41265ef9c526dd28d6aaf404ff3870c43d12dfc550f362b4f5ef5f56e845a4"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "9bdbf77566b33a7e179e33634aaca7c685a3c2e2095c513401f03a37dd72a25a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f721b14980d29f18c7a9ecbfa230f9523c88ba9237e15b452f6573192dd05b26"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "93c8d31490ac17ceec7747c26d7d25e81c5d76a92365fed171bba51ef5ff65ba"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "baf8824f52b2e250112e5a729785254acca43fcaa711819cabf7a6a51377949a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "64078426ef5ffd9fc8ff2e28be16e45501536627ef68de732b42afc2bbb413fd"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "98e2529b0630aadf716f2fa192a5d9210e121ce0894e4379ee7c5964d9cba5d9"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "2131edada4a4721b7fb39f3f0143f5613fe09fe38d095b80b1639858a587b0fa"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "350210c69edc187966a351825f15aab1c348426a31595d3e8823de40a09ca22d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "dac0fe32aa72ec90f6ad5288e9fc1e6200e9eacc331157648d1385d88fdb91f6"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "03937558928ebe4b57428eeed59f24eec99695f1100f0e4c6074f7b51945bbc1"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/production_generic_angles.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "50e7bd424e61d0ecf495cab64431f1a4f5c0e9018b12d476715ebc03d97136e4"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/production_generic_phase.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "5e95fe076ce5cb690cc8436c4cc3ec356444fcca0198e91c3921f614329c77a7"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/source_width_delay_sensitivity.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "1751244cf258fa269789fd462cb5272fa0dc581a479a51022377264e1c5b13c2"
+        }
+      ]
+    },
+    {
+      "path": "results/regulator_production_v3/tables/extrapolation_robustness_summary.csv",
+      "hash_mode": "sha256_utf8_canonical_lf_v1",
+      "sha256": "13e594df9de817ae0b0920c4ed3a5610fa9199374029897128fdc91f8ee70115",
+      "byte_sha256": "ab5433784084ab96008f5a62711c4e729256f5229d12bf65970eb9d367d75783",
+      "bytes": 3285,
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
+      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
+      "inputs": [
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "fb86342cd440cdcb2f6e9dfbe224b2f5dd27dbc27a73c6799e51ba5c41789ce7"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "3500d5ff152a174aaab4fed01d630b6f3318e9232748b9c2e330382cc984df55"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "45229ad455338043cd4f490c6d69a608ed5ca35aa1943945ed5550ef28dd176f"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "c6e7ffe083854d6b9f95285dd1531a49d316ad78e185ce2fb2cfc282ffcafbf8"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "2fe591bd9e8fd70bf51d9a2ef6c6cdd5d6d2a66bb694ce1534348915d50438da"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "5381fb026085584e7f810626fe0de9ba90f363b9f0810ccac05b2ca56c9d2632"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/coarse/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "3b3297ef39a7f06188147cdb33ecfaa7cc1c4c67bd0011d746ef02880d37da8a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "52c6e76c29aacf1f4d45597b65e6988ae0ee22b872fff4a54438cf8616130ed1"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "361713a7f8b29cf33f29f442a1ef990ca21ac8f441dd154b50bc9bd9ca3f8cc9"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f39ab46e39dbf3da3b05fa3baa43c93df4d5fecd35b280dc6516975eac4b89f5"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "e3821a5675bc35a9f71570e647348e3bb9cb2f575ceab8a3c44a4fb23146e988"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "d6d0d09869b632207771cb6afd154ce124c8019ea04b17c2cef4ef1d11ac7f2f"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "ba99d949ee34b6f18e82609b2aecaa7ad1ff609823cc4ddd195ae3e24e448b5e"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/fine/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "88ee8ba1a1d1ede9f488b6e11b2694102dd287b6d2bdd1d74028b3d694b8599d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "151af88eb2f01b984ca07eaab2a3c69e5c4735fe031cbd6ee3bf45fd108e4001"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "a9b199fa8b3bd8056afc904f5d2407f6c7db6b5da7e3be30dfca7f6eb9ccde41"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L20.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "06cd4785bed53d24cb95c9ff2dc107023814112795b6ea1581ee82ac07d2432c"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "a1fbeab6e463ff8960dc65567c4479445931c9fa8acf7639b895d1dad8b546fd"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L40.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "96676be03da0e9ccaae0b3ae758b875cd86f5c0b5f9908bd43e19d8cb488be06"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "740fe0a7b6782635882b7292a0bf91d8ea8ca3675de145646a1d35fd58371009"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/flat/medium/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "daf9b3177b3171e13f66c5a1e468f9d240ad4702a9c563a359e13c4ad08c30fe"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "c5c8b82c6c7f85fd64cadf3daa587de8c3d4cc67613809910a2389ae52936a0b"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "461d1b03732226ed67940bf8fd874a66d04c270a63fa81969904621193c62bad"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "86591ef0fe395534c40abb2706e2235457fd23982f6f0709de8b3bac635da77d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f613e7f2cdc9f44c9c12a862e2108d25c0ab48152bc54ea440af4b5119b8c355"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/coarse/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "ec41265ef9c526dd28d6aaf404ff3870c43d12dfc550f362b4f5ef5f56e845a4"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "9bdbf77566b33a7e179e33634aaca7c685a3c2e2095c513401f03a37dd72a25a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "f721b14980d29f18c7a9ecbfa230f9523c88ba9237e15b452f6573192dd05b26"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "93c8d31490ac17ceec7747c26d7d25e81c5d76a92365fed171bba51ef5ff65ba"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "baf8824f52b2e250112e5a729785254acca43fcaa711819cabf7a6a51377949a"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/fine/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "64078426ef5ffd9fc8ff2e28be16e45501536627ef68de732b42afc2bbb413fd"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/schwarzschild.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "98e2529b0630aadf716f2fa192a5d9210e121ce0894e4379ee7c5964d9cba5d9"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L160.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "2131edada4a4721b7fb39f3f0143f5613fe09fe38d095b80b1639858a587b0fa"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L320.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "350210c69edc187966a351825f15aab1c348426a31595d3e8823de40a09ca22d"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L640.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "dac0fe32aa72ec90f6ad5288e9fc1e6200e9eacc331157648d1385d88fdb91f6"
+        },
+        {
+          "path": "results/regulator_production_v3/raw/source/medium/sds_L80.npz",
+          "hash_mode": "sha256_bytes",
+          "sha256": "03937558928ebe4b57428eeed59f24eec99695f1100f0e4c6074f7b51945bbc1"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/production_generic_angles.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "50e7bd424e61d0ecf495cab64431f1a4f5c0e9018b12d476715ebc03d97136e4"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/production_generic_phase.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "5e95fe076ce5cb690cc8436c4cc3ec356444fcca0198e91c3921f614329c77a7"
+        },
+        {
+          "path": "results/caustic_production_v2/tables/source_width_delay_sensitivity.csv",
+          "hash_mode": "sha256_utf8_canonical_lf_v1",
+          "sha256": "1751244cf258fa269789fd462cb5272fa0dc581a479a51022377264e1c5b13c2"
+        }
+      ]
+    },
+    {
       "path": "results/regulator_production_v3/tables/flat_aligned_waveforms.csv",
       "hash_mode": "sha256_utf8_canonical_lf_v1",
       "sha256": "bd7e2c5eacf3d42960d86c6ecacec1b283897a8d7ad0992d70f905e808bd6885",
       "byte_sha256": "bd7e2c5eacf3d42960d86c6ecacec1b283897a8d7ad0992d70f905e808bd6885",
       "bytes": 1158229,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2637,7 +3255,7 @@
       "sha256": "0fcea4c25b345ae472ff1e42d1a59721ee65a4988dbaf1388d8f96f03974fbeb",
       "byte_sha256": "0fcea4c25b345ae472ff1e42d1a59721ee65a4988dbaf1388d8f96f03974fbeb",
       "bytes": 2466,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2753,7 +3371,7 @@
       "sha256": "e8959f0e1141c4c6b2a836b131287f53014f675698ca572c4d51a128fcfd3523",
       "byte_sha256": "e8959f0e1141c4c6b2a836b131287f53014f675698ca572c4d51a128fcfd3523",
       "bytes": 6750,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2869,7 +3487,7 @@
       "sha256": "fa857a8612a12d69a017433b0631f7371f91644ca24c32d5c7493bc69213d824",
       "byte_sha256": "fa857a8612a12d69a017433b0631f7371f91644ca24c32d5c7493bc69213d824",
       "bytes": 5747,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -2985,7 +3603,7 @@
       "sha256": "70cc7b8cb7b395419e2372ebae781ad0591bc3a8096fbbdb455457df428c3273",
       "byte_sha256": "70cc7b8cb7b395419e2372ebae781ad0591bc3a8096fbbdb455457df428c3273",
       "bytes": 4099,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3101,7 +3719,7 @@
       "sha256": "6fd7d543a4c16537dfc279c9e67a027f8e56a8dee873c38df1b21c45a9c32480",
       "byte_sha256": "6fd7d543a4c16537dfc279c9e67a027f8e56a8dee873c38df1b21c45a9c32480",
       "bytes": 8062,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3217,7 +3835,7 @@
       "sha256": "41f2ea4f4a96b1b256d65cbf0c183ff5245c5cb613546be6fc93cd9d27242306",
       "byte_sha256": "41f2ea4f4a96b1b256d65cbf0c183ff5245c5cb613546be6fc93cd9d27242306",
       "bytes": 1987,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3238,7 +3856,7 @@
       "sha256": "f442b616a5dd62260a231d1c20d868958f65801813689937d2f064292cfbf843",
       "byte_sha256": "f442b616a5dd62260a231d1c20d868958f65801813689937d2f064292cfbf843",
       "bytes": 4647,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3324,7 +3942,7 @@
       "sha256": "e1537dd6667a0c80a7040ed1811a2a802709e6abb47e21a908d800826dc4d9cf",
       "byte_sha256": "e1537dd6667a0c80a7040ed1811a2a802709e6abb47e21a908d800826dc4d9cf",
       "bytes": 1698,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3410,7 +4028,7 @@
       "sha256": "d8f8bc999255e81a168c368875101b8d6ae1146ae19751e6aa59df205239c42d",
       "byte_sha256": "d8f8bc999255e81a168c368875101b8d6ae1146ae19751e6aa59df205239c42d",
       "bytes": 1508,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3496,7 +4114,7 @@
       "sha256": "28ae6d69398f8394df374a2776260962311d8322e2d8457ef49944e61ef0f1a2",
       "byte_sha256": "28ae6d69398f8394df374a2776260962311d8322e2d8457ef49944e61ef0f1a2",
       "bytes": 1662,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3582,7 +4200,7 @@
       "sha256": "b14ab095960009ad7388fb1a3a88e8fa1b893b7e91dcc48410cc4e7442e92d76",
       "byte_sha256": "b14ab095960009ad7388fb1a3a88e8fa1b893b7e91dcc48410cc4e7442e92d76",
       "bytes": 1908,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3698,7 +4316,7 @@
       "sha256": "7d603cb433b7e81a13026127581162b80370c1233bf19e38cfd0dbc9351fa09c",
       "byte_sha256": "7d603cb433b7e81a13026127581162b80370c1233bf19e38cfd0dbc9351fa09c",
       "bytes": 1099,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3814,7 +4432,7 @@
       "sha256": "94a5c14402b1f135a40827ed11835def7c03012bb1c135b812cbdd5f479a6bf3",
       "byte_sha256": "94a5c14402b1f135a40827ed11835def7c03012bb1c135b812cbdd5f479a6bf3",
       "bytes": 780,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3900,7 +4518,7 @@
       "sha256": "780baea7a16f38fc17daedbb74b01fd9b41dd8a0410b8d2beb0c57637662418d",
       "byte_sha256": "780baea7a16f38fc17daedbb74b01fd9b41dd8a0410b8d2beb0c57637662418d",
       "bytes": 773,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {
@@ -3986,7 +4604,7 @@
       "sha256": "de7e74b18c9799f34fbf8076936b0c964e3f91f4059d4a6e7450d4a836821557",
       "byte_sha256": "de7e74b18c9799f34fbf8076936b0c964e3f91f4059d4a6e7450d4a836821557",
       "bytes": 3103,
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "inputs": [
         {

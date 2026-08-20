@@ -188,18 +188,18 @@
       "artifact": "results/regulator_production_v3/tables/extrapolation_robustness_summary.csv",
       "command": "python -m black_hole.regulator_robustness",
       "note": "alternative truncations and subsets, intended for an appendix",
-      "sha256": null,
-      "issues": [
-        "artifact not recorded in the package manifest"
-      ]
+      "sha256": "13e594df9de817ae0b0920c4ed3a5610fa9199374029897128fdc91f8ee70115",
+      "issues": []
     }
   ],
   "packages": {
     "results/regulator_production_v3": {
-      "analysis_commit": "de3a3d5aca7414bd293d9ec72d938c80d8e09c01",
-      "simulation_commits": [],
+      "analysis_commit": "f5de22d3a0ea5c6b5e5307a148e107868eaf4b2b",
+      "simulation_commits": [
+        "2460d976fd023f7bcae892d760436248d32d0290"
+      ],
       "provenance_grades": [
-        "unrecorded"
+        "production (enforced at manifest creation)"
       ]
     },
     "results/large_l_tail": {
@@ -214,7 +214,5 @@
       ]
     }
   },
-  "problems": [
-    "pending extrapolation_robustness_summary.csv: artifact not recorded in the package manifest"
-  ]
+  "problems": []
 }
