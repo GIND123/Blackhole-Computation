@@ -121,6 +121,58 @@ It is run at two levels, `N = 2048` with `dt = 0.0005M` and `N = 1024` with
 `dt = 0.001M`, so the resulting picture can be shown to be resolved rather
 than asserted to be.
 
+### What the narrow emitter measured
+
+Comparing at equal discretization, `N = 2048` and `dt = 0.0005M` on both
+sides, so only the emitter differs:
+
+| quantity | production `kappa = 64` | narrow `kappa = 256` | ratio |
+|---|---:|---:|---:|
+| emitter angular width | `7.16` deg | `3.58` deg | `0.500` |
+| focus FWHM | `40.17` deg | `18.00` deg | **`0.448`** |
+| amplification | `83.1` | `227.1` | **`2.731`** |
+| focus width in emitter widths | `5.61` | `5.03` | `0.90` |
+
+Halving the emitter halves the focus. The width in units of the emitter width
+barely moves, which is the direct statement that the emitter sets the scale,
+and it is now measured rather than inferred from the truncation study alone.
+
+The amplification rises by `2.73`. This is **not** a clean test of the
+`1/sigma` energy amplification of the earlier Schwarzschild study: the narrow
+case changes the radial and temporal widths as well as the angular one, and
+the quantity here is a field ratio rather than an energy ratio. Separating
+those would need one width varied at a time.
+
+### Convergence of the narrow case
+
+Comparing the two levels at their own selected focus is misleading, because
+the amplification is nearly flat near its peak: the two levels differ by
+`0.09%` in amplification yet select snapshots `0.25M` apart, at `tau = 48.00`
+and `48.25`, and different focus radii. The apparent `13%` disagreement in
+peak amplitude is that selection difference, not discretization.
+
+Compared at matched bridge time and matched radius:
+
+| `tau/M` | axial `|Phi|` relative difference | FWHM relative difference |
+|---:|---:|---:|
+| 46.00 | `9.5e-03` | `1.5e-03` |
+| 47.00 | `1.6e-05` | `3.0e-03` |
+| 47.50 | `9.5e-06` | `1.6e-03` |
+| 48.00 | `6.3e-06` | `1.7e-03` |
+| 48.50 | `3.2e-06` | `0` |
+| 49.00 | `4.1e-07` | `0` |
+
+Through the focus the two levels agree to a few parts in `10^6`. The residual
+width differences are at the resolution of the width estimator itself, which
+reads a discretely sampled profile. The larger difference at `tau = 46.00` is
+the steep rise, where the amplitude is still climbing by orders of magnitude
+between snapshots and a small timing difference shows up directly.
+
+The snapshot selection is worth stating as a property rather than hiding: near
+the peak the amplification varies by less than `0.1%` over `0.5M`, so which
+snapshot is chosen is not robust at this cadence even though the field at any
+given time is converged to `10^-6`.
+
 ## 4. What the diagnostics draw
 
 `python -m black_hole.caustic_diagnostic_figures <archive>` builds three
