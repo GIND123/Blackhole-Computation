@@ -43,11 +43,32 @@ OUTPUT_ROOT = Path("results/caustic_diagnostics")
 # entirely.  Clipping the brightest tenth keeps the ridge and the cusp legible
 # while the scale stays symmetric, linear, and shared across the sequence.
 DISPLAY_PERCENTILE = 90.0
-# A single snapshot is far more skewed than a sequence: at the time the
-# wavefront wraps the hole the median of |Phi| is some four hundred times below
-# the maximum, so the same percentile that suits the shared sequence leaves the
-# arms of the front invisible.  The height sheet therefore clips harder.
-SURFACE_PERCENTILE = 70.0
+# A single snapshot is far more skewed than a sequence, and how skewed depends
+# on the emitter: a shorter pulse leaves more of the crop quiet, which drags any
+# percentile of the whole section down with it.  A percentile of the whole
+# section is therefore not transferable between emitters, and using one clipped
+# the narrow case into a single flat block.  The height sheet instead takes its
+# range from the part of the section the wave has actually reached.
+SURFACE_PERCENTILE = 60.0
+SURFACE_ACTIVE_FRACTION = 0.01
+
+
+def _surface_scale(field: np.ndarray) -> float:
+    """Return the colour range from the region the wave has reached.
+
+    Points below ``SURFACE_ACTIVE_FRACTION`` of the snapshot maximum are quiet
+    and are excluded, so the range follows the amplitude of the wavefront and
+    not the fraction of the crop that is still undisturbed.
+    """
+
+    magnitude = np.abs(field)
+    peak = float(magnitude.max())
+    if peak <= 0.0:
+        return 1.0
+    active = magnitude[magnitude > SURFACE_ACTIVE_FRACTION * peak]
+    if active.size == 0:
+        return peak
+    return float(np.percentile(active, SURFACE_PERCENTILE))
 
 
 def _diverging() -> LinearSegmentedColormap:
@@ -337,7 +358,7 @@ def height_and_colour(
     x = np.outer(radius, np.cos(angle))
     y = np.outer(radius, np.sin(angle))
 
-    scale = float(np.percentile(np.abs(field), SURFACE_PERCENTILE))
+    scale = _surface_scale(field)
     clipped = np.clip(field, -scale, scale)
     colormap = _diverging()
     colours = colormap((clipped + scale) / (2.0 * scale))
@@ -376,8 +397,9 @@ def height_and_colour(
         pane._axinfo["grid"]["color"] = (0.85, 0.85, 0.85, 0.35)
     axis.zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
     axis.set_title(
-        r"Wavefront as height and colour, $\tau/M=%.2f$, "
-        r"clipped at $\pm%.1e$" % (section.bridge_time, scale),
+        r"Wavefront as height and colour, $\tau/M=%.2f$, clipped at "
+        r"$\pm%.1e$, the %.0fth percentile of the disturbed region"
+        % (section.bridge_time, scale, SURFACE_PERCENTILE),
         fontsize=12,
     )
     output_dir.mkdir(parents=True, exist_ok=True)
