@@ -289,7 +289,11 @@ rotation and the angular scan. The fitted rotation is `41.95 degrees` with a
 spread of `0.95 degrees` across three observers and both backgrounds. The
 rotation remains within `8.5 degrees` of zero through `150 degrees` from the
 source and appears near the antipode together with a factor `2.2` amplitude
-gain.*
+gain. **This is a diagnostic, not a result of the paper.** The estimator is
+validated and the number is reproducible, but reading the angle as a partial
+caustic rotation is not established: the archived interval ends before the
+second passage, and the measurement has not been tested against source width.
+See [`docs/CAUSTIC_PHASE.md`](docs/CAUSTIC_PHASE.md).*
 
 ![Ray marching caustic echo](results/caustic_visualizations/caustic_echo.png)
 

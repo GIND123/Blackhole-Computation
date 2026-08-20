@@ -1,5 +1,15 @@
 # The phase an echo acquires at the caustic
 
+> **Status: diagnostic, not a paper claim.** The measurement below is
+> reproducible and its estimator is validated, but the interpretation of the
+> measured angle as a partial caustic rotation is not established. The
+> completed passage has the known Hilbert transform structure, whereas the
+> archived interval ends before the second passage and the measurement has not
+> been tested against source width. It stays a diagnostic until a longer and
+> width-resolved study settles the interpretation, and it is not to be quoted
+> as a result of the paper.
+
+
 ## What is measured and why
 
 A localized pulse released outside a black hole splits. Part of it reaches the
