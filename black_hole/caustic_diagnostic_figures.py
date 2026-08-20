@@ -36,10 +36,18 @@ from .caustic_diagnostics import (  # noqa: E402
 )
 
 OUTPUT_ROOT = Path("results/caustic_diagnostics")
-# The colour range is a fraction of the strongest field in the sequence.  The
-# emitter and the strong field region saturate deliberately: the caustic is
-# weaker than the direct pulse and is invisible on a full range scale.
-DISPLAY_FRACTION = 0.06
+# The colour range is a percentile of |Phi| over the panels being shown, not a
+# fraction of the largest value.  The focused region occupies a large part of
+# the crop and carries most of the amplitude, so a fraction of the maximum
+# either saturates the whole wedge into one flat block or hides the wavefront
+# entirely.  Clipping the brightest tenth keeps the ridge and the cusp legible
+# while the scale stays symmetric, linear, and shared across the sequence.
+DISPLAY_PERCENTILE = 90.0
+# A single snapshot is far more skewed than a sequence: at the time the
+# wavefront wraps the hole the median of |Phi| is some four hundred times below
+# the maximum, so the same percentile that suits the shared sequence leaves the
+# arms of the front invisible.  The height sheet therefore clips harder.
+SURFACE_PERCENTILE = 70.0
 
 
 def _diverging() -> LinearSegmentedColormap:
@@ -86,8 +94,11 @@ def section_sequence(
         equatorial_section(result, index, outer_radius=outer_radius)
         for index in chosen
     ]
-    scale = DISPLAY_FRACTION * max(
-        float(np.abs(section.field).max()) for section in sections
+    scale = float(
+        np.percentile(
+            np.concatenate([np.abs(section.field).ravel() for section in sections]),
+            DISPLAY_PERCENTILE,
+        )
     )
 
     rows = int(np.ceil(len(sections) / columns))
@@ -135,7 +146,11 @@ def section_sequence(
         row[0].set_ylabel(r"$y/M$", fontsize=8)
 
     bar = figure.colorbar(mesh, ax=axes, fraction=0.016, pad=0.012)
-    bar.set_label(r"$\Phi=u/r$   (shared symmetric linear scale)", fontsize=9)
+    bar.set_label(
+        r"$\Phi=u/r$   (shared symmetric linear scale, clipped at the "
+        + f"{DISPLAY_PERCENTILE:g}th percentile)",
+        fontsize=9,
+    )
     figure.suptitle(
         "Equatorial section through the antipodal caustic, "
         r"emitter at $r=6M$, $L/M=80$",
@@ -297,6 +312,7 @@ def height_and_colour(
     output_dir: Path = OUTPUT_ROOT,
     outer_radius: float = DEFAULT_OUTER_RADIUS,
     snapshot_index: int | None = None,
+    bridge_time: float | None = None,
     stem: str = "caustic_height_colour",
     elevation: float = 46.0,
     azimuth: float = -62.0,
@@ -304,6 +320,10 @@ def height_and_colour(
     """Draw the wavefront as a height and colour sheet over the equatorial plane."""
 
     result = load(archive)
+    if snapshot_index is None and bridge_time is not None:
+        snapshot_index = int(
+            np.argmin(np.abs(np.asarray(result.snapshot_times) - bridge_time))
+        )
     if snapshot_index is None:
         snapshot_index = locate_focus(result, outer_radius=outer_radius)[
             "snapshot_index"
@@ -317,17 +337,20 @@ def height_and_colour(
     x = np.outer(radius, np.cos(angle))
     y = np.outer(radius, np.sin(angle))
 
-    scale = DISPLAY_FRACTION * float(np.abs(field).max())
+    scale = float(np.percentile(np.abs(field), SURFACE_PERCENTILE))
     clipped = np.clip(field, -scale, scale)
     colormap = _diverging()
     colours = colormap((clipped + scale) / (2.0 * scale))
 
-    figure = plt.figure(figsize=(13.0, 9.0))
+    figure = plt.figure(figsize=(11.0, 7.4))
     axis = figure.add_subplot(111, projection="3d")
-    axis.plot_surface(
+    surface = axis.plot_surface(
         x, y, clipped, facecolors=colours, rstride=1, cstride=1,
         linewidth=0.0, antialiased=True, shade=False,
     )
+    # Without this the vector output carries a quad per grid cell and reaches
+    # tens of megabytes; the sheet is an image, the axes stay vector.
+    surface.set_rasterized(True)
     ring = np.linspace(-np.pi, np.pi, 361)
     for value, colour, width in (
         (HORIZON_RADIUS, "black", 2.4),
@@ -337,11 +360,21 @@ def height_and_colour(
                   np.full_like(ring, -scale), color=colour, linewidth=width,
                   zorder=10)
     axis.set_zlim(-scale, scale)
-    axis.set_xlabel(r"$x/M$", labelpad=10)
-    axis.set_ylabel(r"$y/M$", labelpad=10)
-    axis.set_zlabel(r"$\Phi$", labelpad=8)
+    axis.set_xlabel(r"$x/M$", labelpad=2)
+    axis.set_ylabel(r"$y/M$", labelpad=2)
     axis.view_init(elev=elevation, azim=azimuth)
-    axis.set_box_aspect((1.0, 1.0, 0.42))
+    axis.set_box_aspect((1.0, 1.0, 0.34), zoom=1.35)
+    axis.set_zticks([])
+    axis.set_xticks([-20, -10, 0, 10, 20])
+    axis.set_yticks([-20, -10, 0, 10, 20])
+    axis.tick_params(labelsize=8, pad=0)
+    # The panes and the vertical axis carry no information here and cost most
+    # of the canvas, so the sheet itself gets the space instead.
+    for pane in (axis.xaxis, axis.yaxis, axis.zaxis):
+        pane.pane.fill = False
+        pane.pane.set_edgecolor((1.0, 1.0, 1.0, 0.0))
+        pane._axinfo["grid"]["color"] = (0.85, 0.85, 0.85, 0.35)
+    axis.zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
     axis.set_title(
         r"Wavefront as height and colour, $\tau/M=%.2f$, "
         r"clipped at $\pm%.1e$" % (section.bridge_time, scale),
