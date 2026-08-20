@@ -254,7 +254,7 @@ def verify_manifest(path: Path) -> dict:
     recorded.  Completeness is therefore checked in both directions.
     """
 
-    path = Path(path)
+    path = Path(path).resolve()
     root = Path.cwd().resolve()
     manifest = json.loads(path.read_text(encoding="utf-8"))
     failures: list[str] = []
@@ -284,7 +284,8 @@ def verify_manifest(path: Path) -> dict:
         for row in manifest[section]
     }
     listed.add(path.relative_to(root).as_posix())
-    output_dir = root / manifest["output_directory"]
+    # Schema 1 manifests predate the recorded output directory.
+    output_dir = root / manifest.get("output_directory", manifest["package"])
     unlisted = sorted(_present_artifacts(output_dir, root) - listed)
     failures.extend(f"unlisted:{item}" for item in unlisted)
 
