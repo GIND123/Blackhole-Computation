@@ -1,0 +1,33 @@
+estimator,model,members,worst_cumulative_E2_percent,worst_window,within_1_percent
+nested_triple,W(L) = W + a/L + b/L^2,"80,160,320",0.022181937025222403,extended_finite_time,True
+nested_triple,W(L) = W + a/L + b/L^2,"160,320,640",0.026478929866322942,extended_finite_time,True
+pair_linear,W(L) = W + a/L,"320,640",0.04512662062835544,extended_finite_time,True
+least_squares_drop_one,W + a/L + b/L^2,"40,80,160,320,640",0.07611713256066847,extended_finite_time,True
+pair_linear,W(L) = W + a/L,"160,320",0.16951076815020164,extended_finite_time,True
+least_squares_drop_one,W + a/L + b/L^2,"20,80,160,320,640",0.2010040788518273,extended_finite_time,True
+nested_triple,W(L) = W + a/L + b/L^2,"40,80,160",0.21854858946357933,extended_finite_time,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,320,640",0.4499515091002237,extended_finite_time,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,160,320,640",0.5272737975356723,extended_finite_time,True
+least_squares_all,W + a/L + b/L^2,"20,40,80,160,320,640",0.5310047451958092,extended_finite_time,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,640",0.5745256367093337,extended_finite_time,True
+pair_linear,W(L) = W + a/L,"80,160",0.6951910800764464,extended_finite_time,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,320",0.7897052902807118,extended_finite_time,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"160,320,640",0.8234334638886687,prompt_and_early_ringdown,True
+pair_quadratic,W(L) = W + a/L^2,"320,640",0.8822018616815844,prompt_and_early_ringdown,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"80,160,320",1.6465398735671206,prompt_and_early_ringdown,False
+pair_quadratic,W(L) = W + a/L^2,"160,320",1.7637664865351677,prompt_and_early_ringdown,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"40,80,160,320,640",1.9000912167348256,prompt_and_early_ringdown,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,80,160,320,640",1.997384388305591,prompt_and_early_ringdown,False
+nested_triple,W(L) = W + a/L + b/L^2,"20,40,80",2.369514659874265,extended_finite_time,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,160,320,640",2.455842108102585,prompt_and_early_ringdown,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,320,640",2.6496244495934484,prompt_and_early_ringdown,False
+least_squares_all,W + a/L^2 + b/L^4,"20,40,80,160,320,640",2.998347611314489,prompt_and_early_ringdown,False
+pair_linear,W(L) = W + a/L,"40,80",3.010308496613618,extended_finite_time,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"40,80,160",3.2899831522727365,prompt_and_early_ringdown,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,640",3.300059918145875,prompt_and_early_ringdown,False
+pair_quadratic,W(L) = W + a/L^2,"80,160",3.5222374797579565,prompt_and_early_ringdown,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,320",3.787926268097911,prompt_and_early_ringdown,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"20,40,80",6.544666266463412,prompt_and_early_ringdown,False
+pair_quadratic,W(L) = W + a/L^2,"40,80",7.0095836319550395,prompt_and_early_ringdown,False
+pair_quadratic,W(L) = W + a/L^2,"20,40",14.21407406056962,extended_finite_time,False
+pair_linear,W(L) = W + a/L,"20,40",15.322666013926211,extended_finite_time,False

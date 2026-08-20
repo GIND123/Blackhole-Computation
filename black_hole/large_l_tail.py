@@ -56,6 +56,9 @@ PRICE_TOLERANCE = 0.05
 PRICE_DURATION = 150.0
 COSMOLOGICAL_TOLERANCE = 0.1
 COSMOLOGICAL_MINIMUM_SCALED_DURATION = 0.4
+# A rate is read only where the envelope clears the ladder spread by this
+# factor, so a decay law is never fitted to inter-resolution disagreement.
+FLOOR_SAFETY_FACTOR = 10.0
 INITIAL_DATA = ArealVelocityBumpInitialData(
     center_radius=6.0, support_half_width=3.0, amplitude=1.0
 )
@@ -318,16 +321,43 @@ def _odd_samples(width: float, step: float, minimum: int = 7) -> int:
 
 
 def _centered_sum(values: np.ndarray, count: int) -> np.ndarray:
-    """Return complete centered rolling sums in linear time."""
+    """Return complete centered rolling sums in linear time.
+
+    The window sums are accumulated inside blocks of ``count`` samples rather
+    than by differencing one global cumulative sum.  A waveform that carries a
+    prompt pulse of order unity followed by a tail near the double-precision
+    floor spans a dynamic range far beyond ``1/eps``, so a global cumulative
+    sum loses the tail completely: the difference of two nearly equal partial
+    sums returns zero where the true window sum is finite.  Every sum formed
+    here runs over at most ``count`` neighbouring samples, so the rounding
+    error stays proportional to the local amplitude instead of to the largest
+    amplitude anywhere in the record.
+    """
 
     values = np.asarray(values, dtype=float)
     if count <= 0 or count % 2 == 0 or count > values.size:
         raise ValueError("A rolling window must be odd and fit inside the data.")
-    cumulative = np.concatenate(([0.0], np.cumsum(values, dtype=float)))
-    window_sums = cumulative[count:] - cumulative[:-count]
+    size = values.size
+    starts = size - count + 1
+    blocks = int(np.ceil((size + count) / count))
+    padded = np.zeros(blocks * count, dtype=float)
+    padded[:size] = values
+    grid = padded.reshape(blocks, count)
+    # Prefix sums run from the start of a block, suffix sums from its end, so
+    # a window that straddles two blocks is the sum of one suffix and one
+    # prefix and never references a partial sum from outside those blocks.
+    prefix = np.cumsum(grid, axis=1).reshape(-1)
+    suffix = np.cumsum(grid[:, ::-1], axis=1)[:, ::-1].reshape(-1)
+    begin = np.arange(starts)
+    end = begin + count - 1
+    window_sums = suffix[begin] + prefix[end]
+    # A window that begins on a block boundary lies inside that single block,
+    # where the suffix already spans it.
+    aligned = begin % count == 0
+    window_sums[aligned] = suffix[begin[aligned]]
     output = np.zeros_like(values)
     half = count // 2
-    output[half : values.size - half] = window_sums
+    output[half : size - half] = window_sums
     return output
 
 
@@ -337,8 +367,16 @@ def rms_envelope(
     width: float,
     *,
     floor_multiplier: float = 100.0,
+    measured_floor: np.ndarray | None = None,
 ) -> np.ndarray:
-    """Return a centered RMS envelope with unresolved values marked NaN."""
+    """Return a centered RMS envelope with unresolved values marked NaN.
+
+    ``measured_floor`` supplies a per-sample amplitude floor obtained from the
+    spread of the refinement ladder.  When it is given, a sample survives only
+    where the envelope also exceeds ``floor_multiplier`` times that measured
+    value, so the reported decay rates stop where the resolutions themselves
+    stop agreeing rather than where a round-off estimate says they might.
+    """
 
     times = np.asarray(times, dtype=float)
     signal = np.asarray(signal, dtype=float)
@@ -351,10 +389,94 @@ def rms_envelope(
     envelope = np.sqrt(np.maximum(_centered_sum(signal**2, count) / count, 0.0))
     floor = floor_multiplier * numerical_amplitude_floor(signal)
     valid = envelope > floor
+    if measured_floor is not None:
+        measured_floor = np.asarray(measured_floor, dtype=float)
+        if measured_floor.shape != envelope.shape:
+            raise ValueError("The measured floor must match the sample grid.")
+        resolved = np.isfinite(measured_floor) & (measured_floor > 0.0)
+        valid &= ~resolved | (envelope > FLOOR_SAFETY_FACTOR * measured_floor)
     valid[: count // 2] = False
     valid[-(count // 2) :] = False
     envelope[~valid] = np.nan
     return envelope
+
+
+def ladder_envelope_floor(
+    results: dict,
+    observer: int,
+    settings: "LocalFitSettings",
+    background: str = "sds",
+) -> dict:
+    """Return the amplitude floor measured by the refinement ladder.
+
+    The floor at each retarded time is the larger of the spatial and temporal
+    envelope differences carried by the ladder.  The spatial term compares the
+    two finest grids and therefore bounds the error of the finer one; the
+    coarse term compares the two coarser grids and is reported only so that the
+    ratio between them shows the differences are still falling with resolution.
+    Nothing here depends on machine epsilon: the floor is what the calculation
+    itself says it cannot resolve.
+    """
+
+    def envelope(resolution: int, timestep: float) -> tuple[np.ndarray, np.ndarray]:
+        result = results[(background, resolution, timestep)]
+        times, signal = retarded_series(result, observer)
+        return times, rms_envelope(
+            times, signal, settings.envelope_width, floor_multiplier=0.0
+        )
+
+    times, finest = envelope(FINAL_RESOLUTIONS[2], TIMESTEP)
+    medium_times, medium = envelope(FINAL_RESOLUTIONS[1], TIMESTEP)
+    coarse_times, coarse = envelope(FINAL_RESOLUTIONS[0], TIMESTEP)
+    halved_times, halved = envelope(FINAL_RESOLUTIONS[1], HALVED_TIMESTEP)
+    medium_on_grid = _interpolate(medium_times, medium, times)
+    coarse_on_grid = _interpolate(coarse_times, coarse, times)
+    halved_on_grid = _interpolate(halved_times, halved, times)
+    spatial_fine = np.abs(finest - medium_on_grid)
+    spatial_coarse = np.abs(medium_on_grid - coarse_on_grid)
+    temporal = np.abs(medium_on_grid - halved_on_grid)
+    floor = np.maximum(spatial_fine, temporal)
+    usable = (
+        np.isfinite(spatial_fine)
+        & np.isfinite(spatial_coarse)
+        & (spatial_fine > 0.0)
+        & (spatial_coarse > 0.0)
+    )
+    ratio = np.full_like(times, np.nan)
+    ratio[usable] = spatial_coarse[usable] / spatial_fine[usable]
+    return {
+        "times": times,
+        "amplitude": finest,
+        "floor": floor,
+        "spatial_fine": spatial_fine,
+        "spatial_coarse": spatial_coarse,
+        "temporal": temporal,
+        "convergence_ratio": ratio,
+    }
+
+
+def trusted_interval_end(
+    times: np.ndarray,
+    amplitude: np.ndarray,
+    floor: np.ndarray,
+    *,
+    after: float = 100.0,
+) -> float | None:
+    """Return the end of the first run where the envelope clears the floor."""
+
+    admissible = (
+        np.isfinite(amplitude)
+        & np.isfinite(floor)
+        & (floor > 0.0)
+        & (amplitude > FLOOR_SAFETY_FACTOR * floor)
+        & (times > after)
+    )
+    indices = np.flatnonzero(admissible)
+    if indices.size == 0:
+        return None
+    breaks = np.flatnonzero(np.diff(indices) > 1)
+    first = indices[: breaks[0] + 1] if breaks.size else indices
+    return float(times[first[-1]])
 
 
 def local_log_fit_rate(
@@ -404,6 +526,7 @@ def effective_rates(
     settings: LocalFitSettings,
     *,
     kappa: float,
+    measured_floor: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Return ``A``, ``p_eff`` and ``gamma_eff/kappa``."""
 
@@ -412,6 +535,7 @@ def effective_rates(
         signal,
         settings.envelope_width,
         floor_multiplier=settings.floor_multiplier,
+        measured_floor=measured_floor,
     )
     power = local_log_fit_rate(
         times, amplitude, settings.price_window, logarithmic_time=True
@@ -736,6 +860,7 @@ def measure_transition(
     *,
     price_duration: float = PRICE_DURATION,
     cosmological_tolerance: float = COSMOLOGICAL_TOLERANCE,
+    measured_floor: np.ndarray | None = None,
 ) -> dict:
     """Measure Price departure and persistent cosmological entry."""
 
@@ -744,7 +869,7 @@ def measure_transition(
     times, signal = retarded_series(sds, observer)
     reference_times, reference_signal = retarded_series(reference, observer)
     amplitude, power, normalized_gamma = effective_rates(
-        times, signal, settings, kappa=kappa
+        times, signal, settings, kappa=kappa, measured_floor=measured_floor
     )
     _, reference_power, _ = effective_rates(
         reference_times, reference_signal, settings, kappa=kappa
@@ -790,9 +915,21 @@ def measure_transition(
         "status": (
             "no_resolved_price_interval"
             if departure is None
-            else "no_cosmological_entry_before_floor"
+            else (
+                "no_cosmological_entry_before_ladder_floor"
+                if measured_floor is not None
+                else "no_cosmological_entry_before_round_off_floor"
+            )
             if entry is None
             else "resolved"
+        ),
+        "floor_source": (
+            "refinement_ladder" if measured_floor is not None else "round_off_estimate"
+        ),
+        "trusted_until_U_over_M": (
+            None
+            if measured_floor is None
+            else trusted_interval_end(times, amplitude, measured_floor)
         ),
         "amplitude": amplitude,
         "power": power,
@@ -861,9 +998,14 @@ def analyze_final(output_dir: Path, length: float) -> dict:
     results = _load_final_set(output_dir, length)
     primary_sds = results[("sds", 3072, TIMESTEP)]
     primary_reference = results[("schwarzschild", 3072, TIMESTEP)]
+    kappa_c = cosmological_rate(length)
     rows: list[dict] = []
     primary: dict[int, dict] = {}
+    ladder: dict[int, dict] = {}
     for observer in range(3):
+        ladder[observer] = ladder_envelope_floor(
+            results, observer, LocalFitSettings()
+        )
         for scaled_window in (0.15, 0.25, 0.4):
             for floor_multiplier in (10.0, 100.0, 1000.0):
                 settings = LocalFitSettings(
@@ -871,7 +1013,11 @@ def analyze_final(output_dir: Path, length: float) -> dict:
                     floor_multiplier=floor_multiplier,
                 )
                 measurement = measure_transition(
-                    primary_sds, primary_reference, observer, settings
+                    primary_sds,
+                    primary_reference,
+                    observer,
+                    settings,
+                    measured_floor=ladder[observer]["floor"],
                 )
                 if scaled_window == 0.25 and floor_multiplier == 100.0:
                     primary[observer] = measurement
@@ -965,6 +1111,49 @@ def analyze_final(output_dir: Path, length: float) -> dict:
                 ]
             ),
         )
+    floor_rows: list[dict] = []
+    for observer in range(3):
+        record = ladder[observer]
+        finite = np.isfinite(record["convergence_ratio"])
+        inside = finite & (record["times"] > 200.0)
+        if primary[observer]["departure_U_over_M"] is not None:
+            inside &= record["times"] < primary[observer]["departure_U_over_M"]
+        trusted = trusted_interval_end(
+            record["times"], record["amplitude"], record["floor"]
+        )
+        floor_rows.append(
+            {
+                "observer": (
+                    "outer" if observer == 2 else f"r{FINITE_OBSERVERS[observer]:g}M"
+                ),
+                "price_target": price_target(observer),
+                "trusted_until_U_over_M": trusted,
+                "trusted_until_kappa_U": (
+                    None if trusted is None else kappa_c * trusted
+                ),
+                "median_spatial_convergence_ratio": (
+                    float(np.median(record["convergence_ratio"][inside]))
+                    if np.any(inside)
+                    else None
+                ),
+                "floor_safety_factor": FLOOR_SAFETY_FACTOR,
+                "amplitude_at_trusted_end": (
+                    None
+                    if trusted is None
+                    else float(
+                        record["amplitude"][
+                            int(np.searchsorted(record["times"], trusted))
+                        ]
+                    )
+                ),
+            }
+        )
+    floor_path = tables / f"final_L{length:g}_ladder_floor.csv"
+    with floor_path.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(floor_rows[0]))
+        writer.writeheader()
+        writer.writerows(floor_rows)
+
     sensitivity_rows: list[dict] = []
     for background, kind, sensitivity_reference, candidate in (
         (
@@ -972,6 +1161,12 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             "spatial_N2048_to_N3072",
             primary_sds,
             results[("sds", 2048, TIMESTEP)],
+        ),
+        (
+            "sds",
+            "spatial_N1536_to_N2048",
+            results[("sds", 2048, TIMESTEP)],
+            results[("sds", 1536, TIMESTEP)],
         ),
         (
             "sds",
@@ -984,6 +1179,12 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             "spatial_N2048_to_N3072",
             primary_reference,
             results[("schwarzschild", 2048, TIMESTEP)],
+        ),
+        (
+            "schwarzschild",
+            "spatial_N1536_to_N2048",
+            results[("schwarzschild", 2048, TIMESTEP)],
+            results[("schwarzschild", 1536, TIMESTEP)],
         ),
         (
             "schwarzschild",
@@ -1023,16 +1224,42 @@ def analyze_final(output_dir: Path, length: float) -> dict:
     colors_by_observer = ("#0072B2", "#009E73", "#D55E00")
     labels = (r"$r=8M$", r"$r=16M$", r"$\mathcal{H}_c^+$")
     kappa = cosmological_rate(length)
+    trusted_marks: dict[int, float] = {}
     for observer, color, label in zip(range(3), colors_by_observer, labels):
         measurement = primary[observer]
         reference_times, reference_signal = retarded_series(
             primary_reference, observer
+        )
+        # The Schwarzschild reference carries its own refinement ladder and its
+        # own floor.  Without it the reference curve runs on past the point
+        # where the resolutions disagree, and the wander it develops there
+        # would read as a measured Price index rather than as noise.
+        reference_ladder = ladder_envelope_floor(
+            results, observer, LocalFitSettings(), background="schwarzschild"
         )
         reference_amplitude, reference_power, _ = effective_rates(
             reference_times,
             reference_signal,
             LocalFitSettings(),
             kappa=kappa,
+            measured_floor=reference_ladder["floor"],
+        )
+        trusted_marks[observer] = max(
+            value
+            for value in (
+                trusted_interval_end(
+                    measurement["times"],
+                    measurement["amplitude"],
+                    ladder[observer]["floor"],
+                )
+                or 0.0,
+                trusted_interval_end(
+                    reference_ladder["times"],
+                    reference_ladder["amplitude"],
+                    reference_ladder["floor"],
+                )
+                or 0.0,
+            )
         )
         axes[0].semilogy(
             measurement["times"], measurement["amplitude"], color=color, label=label
@@ -1076,6 +1303,33 @@ def analyze_final(output_dir: Path, length: float) -> dict:
         fontsize=8,
     )
     axes[2].axhspan(0.9, 1.1, color="0.85")
+    axes[2].set_yscale("log")
+    axes[2].text(
+        0.99,
+        1.15,
+        r"$\gamma_{\rm eff}/\kappa_c=1$, the cosmological target",
+        transform=axes[2].get_yaxis_transform(),
+        ha="right",
+        va="bottom",
+        fontsize=8,
+    )
+    outer_trusted = trusted_marks.get(2)
+    if outer_trusted:
+        for axis in axes:
+            axis.axvline(outer_trusted, color="#7f2704", linestyle="-", linewidth=1.1,
+                         alpha=0.85)
+        axes[1].text(
+            outer_trusted,
+            0.97,
+            "  ladder floor:\n  nothing is read beyond",
+            transform=axes[1].get_xaxis_transform(),
+            ha="left",
+            va="top",
+            fontsize=7.5,
+            color="#7f2704",
+        )
+        for axis in axes:
+            axis.set_xlim(-0.02 * outer_trusted, 1.06 * outer_trusted)
     departure = primary_outer["departure_U_over_M"]
     entry = primary_outer["entry_U_over_M"]
     intersection = fitted_law_intersection(
@@ -1102,6 +1356,17 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             va="bottom",
             fontsize=7,
             color="#8B4513",
+        )
+    if departure is not None and entry is None:
+        for axis in axes:
+            axis.axvline(departure, color="0.25", linestyle=":")
+        axes[0].text(
+            departure,
+            0.03,
+            r"  $U_{\rm P}$",
+            transform=axes[0].get_xaxis_transform(),
+            ha="left",
+            va="bottom",
         )
     if departure is not None and entry is not None:
         for axis in axes:

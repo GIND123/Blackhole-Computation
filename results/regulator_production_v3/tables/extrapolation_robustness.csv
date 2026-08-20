@@ -1,0 +1,97 @@
+estimator,model,members,window,window_start_U_over_M,window_end_U_over_M,E2_percent,within_1_percent
+nested_triple,W(L) = W + a/L + b/L^2,"20,40,80",prompt_and_early_ringdown,0.0,40.0,2.279150065434939,False
+nested_triple,W(L) = W + a/L + b/L^2,"20,40,80",radiative_signal,0.0,80.0,2.367544035657648,False
+nested_triple,W(L) = W + a/L + b/L^2,"20,40,80",extended_finite_time,0.0,160.0,2.369514659874265,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"20,40,80",prompt_and_early_ringdown,0.0,40.0,6.544666266463412,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"20,40,80",radiative_signal,0.0,80.0,6.5414280325003915,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"20,40,80",extended_finite_time,0.0,160.0,6.541528724751726,False
+nested_triple,W(L) = W + a/L + b/L^2,"40,80,160",prompt_and_early_ringdown,0.0,40.0,0.21161827763667845,True
+nested_triple,W(L) = W + a/L + b/L^2,"40,80,160",radiative_signal,0.0,80.0,0.2173220167258017,True
+nested_triple,W(L) = W + a/L + b/L^2,"40,80,160",extended_finite_time,0.0,160.0,0.21854858946357933,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"40,80,160",prompt_and_early_ringdown,0.0,40.0,3.2899831522727365,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"40,80,160",radiative_signal,0.0,80.0,3.28864054165072,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"40,80,160",extended_finite_time,0.0,160.0,3.2886418490495095,False
+nested_triple,W(L) = W + a/L + b/L^2,"80,160,320",prompt_and_early_ringdown,0.0,40.0,0.021710929319535124,True
+nested_triple,W(L) = W + a/L + b/L^2,"80,160,320",radiative_signal,0.0,80.0,0.022168184880052844,True
+nested_triple,W(L) = W + a/L + b/L^2,"80,160,320",extended_finite_time,0.0,160.0,0.022181937025222403,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"80,160,320",prompt_and_early_ringdown,0.0,40.0,1.6465398735671206,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"80,160,320",radiative_signal,0.0,80.0,1.645873388096174,False
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"80,160,320",extended_finite_time,0.0,160.0,1.645875556357479,False
+nested_triple,W(L) = W + a/L + b/L^2,"160,320,640",prompt_and_early_ringdown,0.0,40.0,0.010944261083761094,True
+nested_triple,W(L) = W + a/L + b/L^2,"160,320,640",radiative_signal,0.0,80.0,0.014170201172975844,True
+nested_triple,W(L) = W + a/L + b/L^2,"160,320,640",extended_finite_time,0.0,160.0,0.026478929866322942,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"160,320,640",prompt_and_early_ringdown,0.0,40.0,0.8234334638886687,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"160,320,640",radiative_signal,0.0,80.0,0.823151367284207,True
+nested_triple_even,W(L) = W + a/L^2 + b/L^4,"160,320,640",extended_finite_time,0.0,160.0,0.8232198280708402,True
+pair_linear,W(L) = W + a/L,"20,40",prompt_and_early_ringdown,0.0,40.0,15.118351313478934,False
+pair_linear,W(L) = W + a/L,"20,40",radiative_signal,0.0,80.0,15.322236799146523,False
+pair_linear,W(L) = W + a/L,"20,40",extended_finite_time,0.0,160.0,15.322666013926211,False
+pair_quadratic,W(L) = W + a/L^2,"20,40",prompt_and_early_ringdown,0.0,40.0,14.193979217159422,False
+pair_quadratic,W(L) = W + a/L^2,"20,40",radiative_signal,0.0,80.0,14.213969576982736,False
+pair_quadratic,W(L) = W + a/L^2,"20,40",extended_finite_time,0.0,160.0,14.21407406056962,False
+pair_linear,W(L) = W + a/L,"40,80",prompt_and_early_ringdown,0.0,40.0,2.9777290067849633,False
+pair_linear,W(L) = W + a/L,"40,80",radiative_signal,0.0,80.0,3.0096275952643743,False
+pair_linear,W(L) = W + a/L,"40,80",extended_finite_time,0.0,160.0,3.010308496613618,False
+pair_quadratic,W(L) = W + a/L^2,"40,80",prompt_and_early_ringdown,0.0,40.0,7.0095836319550395,False
+pair_quadratic,W(L) = W + a/L^2,"40,80",radiative_signal,0.0,80.0,7.0067663593166225,False
+pair_quadratic,W(L) = W + a/L^2,"40,80",extended_finite_time,0.0,160.0,7.006843617256397,False
+pair_linear,W(L) = W + a/L,"80,160",prompt_and_early_ringdown,0.0,40.0,0.6873318327676555,True
+pair_linear,W(L) = W + a/L,"80,160",radiative_signal,0.0,80.0,0.6951744884690674,True
+pair_linear,W(L) = W + a/L,"80,160",extended_finite_time,0.0,160.0,0.6951910800764464,True
+pair_quadratic,W(L) = W + a/L^2,"80,160",prompt_and_early_ringdown,0.0,40.0,3.5222374797579565,False
+pair_quadratic,W(L) = W + a/L^2,"80,160",radiative_signal,0.0,80.0,3.520790185359923,False
+pair_quadratic,W(L) = W + a/L^2,"80,160",extended_finite_time,0.0,160.0,3.520793505196323,False
+pair_linear,W(L) = W + a/L,"160,320",prompt_and_early_ringdown,0.0,40.0,0.16746749049342605,True
+pair_linear,W(L) = W + a/L,"160,320",radiative_signal,0.0,80.0,0.16950717277496424,True
+pair_linear,W(L) = W + a/L,"160,320",extended_finite_time,0.0,160.0,0.16951076815020164,True
+pair_quadratic,W(L) = W + a/L^2,"160,320",prompt_and_early_ringdown,0.0,40.0,1.7637664865351677,False
+pair_quadratic,W(L) = W + a/L^2,"160,320",radiative_signal,0.0,80.0,1.763050997266573,False
+pair_quadratic,W(L) = W + a/L^2,"160,320",extended_finite_time,0.0,160.0,1.7630532314549152,False
+pair_linear,W(L) = W + a/L,"320,640",prompt_and_early_ringdown,0.0,40.0,0.04103144072470772,True
+pair_linear,W(L) = W + a/L,"320,640",radiative_signal,0.0,80.0,0.04190028809783034,True
+pair_linear,W(L) = W + a/L,"320,640",extended_finite_time,0.0,160.0,0.04512662062835544,True
+pair_quadratic,W(L) = W + a/L^2,"320,640",prompt_and_early_ringdown,0.0,40.0,0.8822018616815844,True
+pair_quadratic,W(L) = W + a/L^2,"320,640",radiative_signal,0.0,80.0,0.8818910394027033,True
+pair_quadratic,W(L) = W + a/L^2,"320,640",extended_finite_time,0.0,160.0,0.8819452348963074,True
+least_squares_all,W + a/L + b/L^2,"20,40,80,160,320,640",prompt_and_early_ringdown,0.0,40.0,0.5123377941483985,True
+least_squares_all,W + a/L + b/L^2,"20,40,80,160,320,640",radiative_signal,0.0,80.0,0.530909302600686,True
+least_squares_all,W + a/L + b/L^2,"20,40,80,160,320,640",extended_finite_time,0.0,160.0,0.5310047451958092,True
+least_squares_drop_one,W + a/L + b/L^2,"40,80,160,320,640",prompt_and_early_ringdown,0.0,40.0,0.07303318287824082,True
+least_squares_drop_one,W + a/L + b/L^2,"40,80,160,320,640",radiative_signal,0.0,80.0,0.07498859992976041,True
+least_squares_drop_one,W + a/L + b/L^2,"40,80,160,320,640",extended_finite_time,0.0,160.0,0.07611713256066847,True
+least_squares_drop_one,W + a/L + b/L^2,"20,80,160,320,640",prompt_and_early_ringdown,0.0,40.0,0.19454725443170734,True
+least_squares_drop_one,W + a/L + b/L^2,"20,80,160,320,640",radiative_signal,0.0,80.0,0.20082662008500293,True
+least_squares_drop_one,W + a/L + b/L^2,"20,80,160,320,640",extended_finite_time,0.0,160.0,0.2010040788518273,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,160,320,640",prompt_and_early_ringdown,0.0,40.0,0.5087512402462377,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,160,320,640",radiative_signal,0.0,80.0,0.5271805895474315,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,160,320,640",extended_finite_time,0.0,160.0,0.5272737975356723,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,320,640",prompt_and_early_ringdown,0.0,40.0,0.43417534154474374,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,320,640",radiative_signal,0.0,80.0,0.44988079248431734,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,320,640",extended_finite_time,0.0,160.0,0.4499515091002237,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,640",prompt_and_early_ringdown,0.0,40.0,0.5541766841441104,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,640",radiative_signal,0.0,80.0,0.5744245689678175,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,640",extended_finite_time,0.0,160.0,0.5745256367093337,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,320",prompt_and_early_ringdown,0.0,40.0,0.7614518692532027,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,320",radiative_signal,0.0,80.0,0.7894324577913452,True
+least_squares_drop_one,W + a/L + b/L^2,"20,40,80,160,320",extended_finite_time,0.0,160.0,0.7897052902807118,True
+least_squares_all,W + a/L^2 + b/L^4,"20,40,80,160,320,640",prompt_and_early_ringdown,0.0,40.0,2.998347611314489,False
+least_squares_all,W + a/L^2 + b/L^4,"20,40,80,160,320,640",radiative_signal,0.0,80.0,2.9970052900915656,False
+least_squares_all,W + a/L^2 + b/L^4,"20,40,80,160,320,640",extended_finite_time,0.0,160.0,2.9970137691419247,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"40,80,160,320,640",prompt_and_early_ringdown,0.0,40.0,1.9000912167348256,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"40,80,160,320,640",radiative_signal,0.0,80.0,1.8993309166150296,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"40,80,160,320,640",extended_finite_time,0.0,160.0,1.8993313485012544,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,80,160,320,640",prompt_and_early_ringdown,0.0,40.0,1.997384388305591,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,80,160,320,640",radiative_signal,0.0,80.0,1.996574098312908,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,80,160,320,640",extended_finite_time,0.0,160.0,1.9965741480114303,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,160,320,640",prompt_and_early_ringdown,0.0,40.0,2.455842108102585,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,160,320,640",radiative_signal,0.0,80.0,2.4547933462648754,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,160,320,640",extended_finite_time,0.0,160.0,2.454794739360574,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,320,640",prompt_and_early_ringdown,0.0,40.0,2.6496244495934484,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,320,640",radiative_signal,0.0,80.0,2.6484293089492223,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,320,640",extended_finite_time,0.0,160.0,2.6484361265589627,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,640",prompt_and_early_ringdown,0.0,40.0,3.300059918145875,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,640",radiative_signal,0.0,80.0,3.2985572776993703,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,640",extended_finite_time,0.0,160.0,3.298567519318491,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,320",prompt_and_early_ringdown,0.0,40.0,3.787926268097911,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,320",radiative_signal,0.0,80.0,3.7862010798116374,False
+least_squares_drop_one,W + a/L^2 + b/L^4,"20,40,80,160,320",extended_finite_time,0.0,160.0,3.786223904540167,False

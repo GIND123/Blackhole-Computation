@@ -1,0 +1,20 @@
+{
+  "estimators_anchored_at_L80_or_above": 10,
+  "anchored_estimators_within_1_percent": 7,
+  "worst_anchored_E2_percent": 3.5222374797579565,
+  "estimators_tested": 32,
+  "estimators_within_1_percent": 15,
+  "largest_worst_case_E2_percent": 15.322666013926211,
+  "largest_worst_case_among_passing_percent": 0.8822018616815844,
+  "distinct_models": [
+    "W + a/L + b/L^2",
+    "W + a/L^2 + b/L^4",
+    "W(L) = W + a/L",
+    "W(L) = W + a/L + b/L^2",
+    "W(L) = W + a/L^2",
+    "W(L) = W + a/L^2 + b/L^4"
+  ],
+  "detail_table": "results\\regulator_production_v3\\tables\\extrapolation_robustness.csv",
+  "summary_table": "results\\regulator_production_v3\\tables\\extrapolation_robustness_summary.csv",
+  "time_translation_fitted": false
+}

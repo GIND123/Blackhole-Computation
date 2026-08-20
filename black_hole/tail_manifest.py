@@ -191,8 +191,9 @@ def create_manifest(
         )
 
     manifest = {
-        "schema_version": 1,
+        "schema_version": 2,
         "package": label,
+        "output_directory": label,
         "analysis_commit": analysis_commit,
         "simulation_commits": sorted({row["simulation_commit"] for row in archives}),
         "physical_contract": physical_contract(),
@@ -228,7 +229,31 @@ def create_manifest(
     return destination
 
 
+def _present_artifacts(output_dir: Path, root: Path) -> set[str]:
+    """Return every non transient artifact the output directory holds."""
+
+    present: set[str] = set()
+    for archive in (output_dir / "raw").glob("*.npz"):
+        if not _is_transient(archive):
+            present.add(archive.relative_to(root).as_posix())
+    for candidate in output_dir.rglob("*"):
+        if not candidate.is_file() or candidate.suffix.lower() not in DERIVED_SUFFIXES:
+            continue
+        if "raw" in candidate.relative_to(output_dir).parts or _is_transient(candidate):
+            continue
+        present.add(candidate.relative_to(root).as_posix())
+    return present
+
+
 def verify_manifest(path: Path) -> dict:
+    """Check the recorded hashes and that nothing is present but unrecorded.
+
+    Hashes alone cannot detect an archive that was produced and then never
+    listed, which is the failure that matters when a campaign is extended: the
+    manifest still verifies while the package silently holds results nobody
+    recorded.  Completeness is therefore checked in both directions.
+    """
+
     path = Path(path)
     root = Path.cwd().resolve()
     manifest = json.loads(path.read_text(encoding="utf-8"))
@@ -252,9 +277,22 @@ def verify_manifest(path: Path) -> dict:
                 failures.append(f"hash:{row['path']}")
     if manifest["physical_contract_sha256"] != contract_sha256():
         failures.append("physical_contract")
+
+    listed = {
+        row["path"]
+        for section in ("archives", "derived_artifacts")
+        for row in manifest[section]
+    }
+    listed.add(path.relative_to(root).as_posix())
+    output_dir = root / manifest["output_directory"]
+    unlisted = sorted(_present_artifacts(output_dir, root) - listed)
+    failures.extend(f"unlisted:{item}" for item in unlisted)
+
     result = {
         "verified": not failures,
         "checked_files": checked,
+        "listed_files": len(listed),
+        "unlisted_files": len(unlisted),
         "failures": failures,
     }
     if failures:

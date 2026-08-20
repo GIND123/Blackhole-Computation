@@ -1,0 +1,30 @@
+{
+  "length_over_M": 5120.0,
+  "primary_observer": "outer",
+  "primary": {
+    "departure_U_over_M": 668.0789720900805,
+    "entry_U_over_M": null,
+    "departure_kappa_U": 0.13043318642453766,
+    "entry_kappa_U": null,
+    "crossover_duration_U_over_M": null,
+    "cosmological_rate_relative_tolerance": 0.1,
+    "minimum_cosmological_scaled_duration": 0.4,
+    "status": "no_cosmological_entry_before_ladder_floor",
+    "floor_source": "refinement_ladder",
+    "trusted_until_U_over_M": 4501.37897209951
+  },
+  "fitted_law_intersection": null,
+  "price_fit_interval_U_over_M": [
+    518.0789720900805,
+    668.0789720900805
+  ],
+  "cosmological_fit_interval_U_over_M": [
+    0.0,
+    0.0
+  ],
+  "transition_sweep": "results\\large_l_tail\\tables\\final_L5120_transition_sweep.csv",
+  "transition_numerical": "results\\large_l_tail\\tables\\final_L5120_transition_numerical.csv",
+  "numerical_sensitivities": "results\\large_l_tail\\tables\\final_L5120_numerical_sensitivities.csv",
+  "figure_png": "results\\large_l_tail\\large_L5120_tail_transition.png",
+  "figure_pdf": "results\\large_l_tail\\large_L5120_tail_transition.pdf"
+}

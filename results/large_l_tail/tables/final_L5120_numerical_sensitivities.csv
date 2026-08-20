@@ -1,0 +1,7 @@
+background,sensitivity,observer,maximum_relative_envelope_difference_price,maximum_relative_envelope_difference_cosmological
+sds,spatial_N2048_to_N3072,outer,2.098994478088707e-06,
+sds,spatial_N1536_to_N2048,outer,0.005788564400679225,
+sds,timestep_0p00125_to_0p0025_at_N2048,outer,3.183579023444478e-08,
+schwarzschild,spatial_N2048_to_N3072,outer,0.00016097689051975997,
+schwarzschild,spatial_N1536_to_N2048,outer,0.002485342917580821,
+schwarzschild,timestep_0p00125_to_0p0025_at_N2048,outer,1.9947588523179643e-08,
