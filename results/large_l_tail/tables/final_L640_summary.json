@@ -25,9 +25,9 @@
     0.0,
     0.0
   ],
-  "transition_sweep": "results\\large_l_tail\\tables\\final_L640_transition_sweep.csv",
-  "transition_numerical": "results\\large_l_tail\\tables\\final_L640_transition_numerical.csv",
-  "numerical_sensitivities": "results\\large_l_tail\\tables\\final_L640_numerical_sensitivities.csv",
-  "figure_png": "results\\large_l_tail\\large_L640_tail_transition.png",
-  "figure_pdf": "results\\large_l_tail\\large_L640_tail_transition.pdf"
+  "transition_sweep": "results/large_l_tail/tables/final_L640_transition_sweep.csv",
+  "transition_numerical": "results/large_l_tail/tables/final_L640_transition_numerical.csv",
+  "numerical_sensitivities": "results/large_l_tail/tables/final_L640_numerical_sensitivities.csv",
+  "figure_png": "results/large_l_tail/large_L640_tail_transition.png",
+  "figure_pdf": "results/large_l_tail/large_L640_tail_transition.pdf"
 }

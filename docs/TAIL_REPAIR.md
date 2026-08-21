@@ -165,23 +165,49 @@ interval, and the fitted-law intersection are all null.
 ### Measured across the sequence
 
 The single length result cannot say whether some other `L` would do better, so
-the final ladder was run for `L/M = 640` as well, from a clean commit. It
-answers the question directly, and it answers it the other way round:
+the final ladder was run for all four screened lengths, thirty two evolutions
+in total, the three new ones from a clean commit. Every one of them was
+analysed with the same measured floor and the same estimators.
 
-| | `L/M = 640` | `L/M = 5120` |
-|---|---|---|
-| Price interval at the outer boundary | **not established** | established, departs at `U = 668.1` |
-| record trusted to | `kappa_c U = 3.162` | `kappa_c U = 0.879` |
-| cosmological entry | **`kappa_c U = 2.267`**, persisting to `3.162` | none, even unanchored |
-| scaled duration of the entry | `0.895` against `0.4` required | not applicable |
+| `L/M` | Price at the outer boundary | record trusted to | cosmological entry |
+|---:|---|---:|---|
+| 640 | not established | `kappa_c U = 3.162` | **`kappa_c U = 2.267`**, persists to `3.162` |
+| 1280 | not established | `kappa_c U = 0.985` | none |
+| 2560 | not established | `kappa_c U = 0.711` | none |
+| 5120 | **established**, departs at `U = 668.1` | `kappa_c U = 0.879` | none |
 
 At `L/M = 640` the normalized rate settles on `gamma_eff / kappa_c = 1` within
-the ten per cent tolerance from `kappa_c U = 2.267` onward and stays there to
-the end of the record. The cosmological decay is resolved. What is missing is
-the Schwarzschild power law: the cosmological horizon interferes too early for
-a Price plateau to establish after ringdown.
+the ten per cent tolerance from `kappa_c U = 2.267` to the end of the record,
+a scaled duration of `0.895` against the `0.4` required. The cosmological
+decay is resolved. What is missing is the Schwarzschild power law: the
+cosmological horizon interferes too soon after ringdown for a Price plateau to
+establish.
 
-At `L/M = 5120` the situation is exactly reversed.
+At `L/M = 5120` the situation is exactly reversed. And the two intermediate
+lengths do **neither**: they are already too large for the exponential regime
+to be reached before the floor, and still too small for a power law plateau.
+So the failure is not a monotonic trade that a better choice of `L` would
+resolve; the two requirements are satisfied at opposite ends of the tested
+range and the middle is worse than both.
+
+### The rate curves collapse, and the collapse is the power law
+
+Plotted against `kappa_c U`, all four lengths lie on one curve until they
+stop. That is not a coincidence to be admired: while the decay is still a
+power law, `gamma_eff = p_eff / U`, so `gamma_eff / kappa_c = p_eff /
+(kappa_c U)` regardless of `L`. Multiplying the measured curve back by
+`kappa_c U` recovers the index:
+
+| `L/M` | implied `p_eff` on `kappa_c U` in `(0.2, 0.6)` |
+|---:|---:|
+| 640 | `3.870` |
+| 1280 | `3.708` |
+| 2560 | `3.685` |
+| 5120 | `3.699` |
+
+The four agree to a few per cent, which is what makes the departure from that
+curve meaningful: it is the point where the solution stops following a power
+law. Only `L/M = 640` gets there before its floor.
 
 **No tested length resolves both regimes in the same waveform.** The two
 requirements pull apart: the power law needs the cosmological influence to

@@ -239,6 +239,7 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
     )
     axes[0].set_xticks(values)
     axes[0].set_xticklabels([f"{value:g}" for value in values])
+    axes[0].xaxis.set_minor_locator(plt.NullLocator())
     axes[0].legend(fontsize=8.5, loc="lower left")
     axes[0].grid(alpha=0.25, which="both")
 
@@ -272,6 +273,7 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
     )
     axes[1].set_xticks(values)
     axes[1].set_xticklabels([f"{value:g}" for value in values])
+    axes[1].xaxis.set_minor_locator(plt.NullLocator())
     axes[1].legend(fontsize=8.5, loc="upper left")
     axes[1].grid(alpha=0.25, which="both")
 
@@ -300,7 +302,10 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
         xlabel=r"cosmological time $\kappa_c U$",
         ylabel=r"$\gamma_{\rm eff}/\kappa_c$",
         yscale="log",
-        title="Every length stops at the same place in cosmological time",
+        title=(
+            "The power law collapses in cosmological time; only the shortest\n"
+            "length reaches the exponential before its floor"
+        ),
     )
     axes[2].legend(fontsize=8.5)
     axes[2].grid(alpha=0.25, which="both")
