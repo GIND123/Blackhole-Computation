@@ -1,9 +1,10 @@
 # Tail post-processing: repair, verification, and what the ladder supports
 
 This note records the repairs made to the tail post-processing, the tests that
-hold them in place, and what the completed `L/M = 5120` ladder does and does
-not establish. No production simulation was rerun to produce anything below;
-every number comes from the archived ladder.
+hold them in place, and what the completed four-length ladder does and does not
+establish. Every number below comes from the archived ladder. All current final
+archives record a dirty worktree and are therefore screening-grade evidence,
+not the clean production package required for a paper claim.
 
 ## 1. The rolling envelope lost the tail
 
@@ -53,8 +54,8 @@ Verification against extended-precision reference sums over the same windows:
 
 ### Effect on the result
 
-The Price departure at the outer boundary moves from `584M` to
-**`668.08M`**.
+Under the operational five-percent and `150M` persistence criterion, the Price
+departure at the outer boundary moves from `584M` to **`668.08M`**.
 
 The screening results move too, and in the direction that matters. The outer
 boundary, which is what selected the length, is unchanged: `L/M = 5120` still
@@ -93,13 +94,13 @@ decay laws are known in closed form:
 ## 2. The floor is now measured, not assumed
 
 The old validity floor was `1000 * eps * max|signal|` times a multiplier: a
-statement about arithmetic, not about the calculation. It has been replaced by
-a floor measured from the refinement ladder itself.
+statement about arithmetic, not about the calculation. The analysis now also
+requires a floor measured from the refinement ladder itself.
 
 At each retarded time the floor is the larger of
 
 * the spatial difference between the two finest grids, `|A(3072) - A(2048)|`,
-  which bounds the error of the finer one, and
+  used as an empirical error scale for the finer one, and
 * the temporal difference `|A(dt) - A(dt/2)|` at `N = 2048`.
 
 The difference between the two coarser grids, `|A(2048) - A(1536)|`, is
@@ -129,7 +130,7 @@ Envelope differences over the Price interval at the outer boundary:
 
 ## 3. What the completed ladder establishes
 
-### Price behaviour is confirmed, and cleanly
+### Price behavior is supported by the refinement ladder
 
 Measured `p_eff` inside the trusted window:
 
@@ -153,8 +154,9 @@ the SdS departure meaningful.
 |---|---:|---:|---:|---:|---:|
 | outer boundary | 35.1 | 18.1 | 9.42 | 7.35 | not read |
 
-The reason is arithmetic rather than physics. While the decay is still a power
-law, `gamma_eff = p / U`, so `gamma_eff / kappa_c = p / (kappa_c U)`. Reaching
+The current limit is numerical dynamic range, not evidence that the physical
+exponential regime is absent. While the decay is still a power law,
+`gamma_eff = p / U`, so `gamma_eff / kappa_c = p / (kappa_c U)`. Reaching
 unity requires `kappa_c U` of order `p`, that is `kappa_c U` of a few. The
 ladder floor stops the measurement at `kappa_c U = 0.879`.
 
@@ -164,31 +166,32 @@ interval, and the fitted-law intersection are all null.
 
 ### Measured across the sequence
 
-The single length result cannot say whether some other `L` would do better, so
-the final ladder was run for all four screened lengths, thirty two evolutions
-in total, the three new ones from a clean commit. Every one of them was
-analysed with the same measured floor and the same estimators.
+The single-length result cannot say whether another `L` would do better, so the
+final ladder was run for all four screened lengths, thirty-two evolutions in
+total. Every case was analyzed with the same measured-floor construction and
+the same estimators.
 
 | `L/M` | Price at the outer boundary | record trusted to | cosmological entry |
 |---:|---|---:|---|
-| 640 | not established | `kappa_c U = 3.162` | **`kappa_c U = 2.267`**, persists to `3.162` |
+| 640 | not established | envelope to `kappa_c U = 3.162` | fine-grid indication only, `2.267` to `3.037` |
 | 1280 | not established | `kappa_c U = 0.985` | none |
 | 2560 | not established | `kappa_c U = 0.711` | none |
 | 5120 | **established**, departs at `U = 668.1` | `kappa_c U = 0.879` | none |
 
-At `L/M = 640` the normalized rate settles on `gamma_eff / kappa_c = 1` within
-the ten per cent tolerance from `kappa_c U = 2.267` to the end of the record,
-a scaled duration of `0.895` against the `0.4` required. The cosmological
-decay is resolved. What is missing is the Schwarzschild power law: the
-cosmological horizon interferes too soon after ringdown for a Price plateau to
-establish.
+At `L/M = 640`, the `N=3072` rate lies within ten percent of
+`gamma_eff / kappa_c = 1` from `kappa_c U = 2.267` to `3.037`, the last point
+where the centered rate fit is defined. This is a fine-grid indication, not a
+resolved cosmological regime: the `N=1536`, `N=2048`, and halved-timestep
+`N=2048` analyses do not return an entry, and tightening the measured-floor
+safety factor removes the required interval. A higher-resolution neighboring
+comparison is needed before assigning `U_dS`.
 
-At `L/M = 5120` the situation is exactly reversed. And the two intermediate
-lengths do **neither**: they are already too large for the exponential regime
-to be reached before the floor, and still too small for a power law plateau.
-So the failure is not a monotonic trade that a better choice of `L` would
-resolve; the two requirements are satisfied at opposite ends of the tested
-range and the middle is worse than both.
+At `L/M = 5120`, the Price interval is stable across the two finest grids and
+the timestep check, but the exponential regime is not reached above the
+measured floor. The two intermediate tested lengths establish neither regime
+under the current criteria. This campaign therefore demonstrates a numerical
+tension, but it does not prove that no intermediate `L` or improved numerical
+strategy can resolve both regimes.
 
 ### The rate curves collapse, and the collapse is the power law
 
@@ -205,9 +208,9 @@ power law, `gamma_eff = p_eff / U`, so `gamma_eff / kappa_c = p_eff /
 | 2560 | `3.685` |
 | 5120 | `3.699` |
 
-The four agree to a few per cent, which is what makes the departure from that
-curve meaningful: it is the point where the solution stops following a power
-law. Only `L/M = 640` gets there before its floor.
+The four agree to a few percent in this interval. The later departure of the
+`L/M=640` fine-grid curve is a useful diagnostic, but its rate has not yet
+converged across the spatial ladder.
 
 **No tested length resolves both regimes in the same waveform.** The two
 requirements pull apart: the power law needs the cosmological influence to
@@ -221,10 +224,11 @@ Neither of these was visible in the scalar summaries, and both changed a
 conclusion.
 
 `trusted_interval_end` returned the end of the *first* contiguous run of
-trusted samples. Where the power law hands over to the exponential the
-envelope passes through a local minimum, and at `L/M = 640` the ratio to the
-floor dips `10.13`, `9.97`, then recovers, for three samples. The record was
-being truncated at `kappa_c U = 1.083` when the waveform is usable to `3.162`:
+trusted samples. Near the candidate late-rate interval, the `L/M=640`
+envelope passes through a local minimum and its ratio to the floor dips
+`10.13`, `9.97`, then recovers, for three samples. The record was being
+truncated at `kappa_c U = 1.083` even though the envelope remains above the
+factor-ten ladder floor to `3.162`:
 
 | run | `kappa_c U` | samples |
 |---:|---|---:|
@@ -240,12 +244,13 @@ value does not move.
 
 Second, the cosmological entry was only computed when a Price departure
 existed, because the ordered test asks for both regimes in that order. That
-made a length which reaches the exponential regime without ever showing a
-power law report silence rather than a result. Entry is now also measured
-anchored at the start of the resolved record, and the anchor used is recorded
-beside it. The ordered both-regimes test still requires the Price anchor.
+made a possible late-rate indication without an earlier Price interval report
+silence rather than a diagnostic. A candidate entry is now also measured from
+the start of the resolved record, and its anchor is recorded beside it. This
+unanchored value is not classified as resolved without a separate refinement
+test; the ordered both-regimes test still requires the Price anchor.
 
-### The obstruction is structural
+### The tension exposed by the tested ladder
 
 The two requirements pull in opposite directions. Establishing the Price index
 needs the tail to be resolved for a few hundred `M` after ringdown, which
@@ -256,17 +261,19 @@ regime and lowers the amplitude at which it would have to be measured.
 
 The screened lengths show the same tension from the other side: `L/M = 2560`
 reaches a continuous outer Price interval of `130.2M` against the `150M`
-requirement, and `640` and `1280` do worse. So `5120` is the smallest tested
-dyadic length that establishes the Price regime, and it is already too large
-for the cosmological regime to be reached above the floor in double precision.
+requirement, and the tested smaller values do worse. Thus `5120` is the
+smallest **tested dyadic value** that meets the operational Price criterion.
+The calculation does not establish a universal minimum, and the absence of a
+resolved exponential regime at the intermediate values may reflect the
+current resolution and dynamic range.
 
 ## 4. Reporting path
 
-Both sensitivity columns are now exercised. The cosmological column was
-previously always empty, because the interval it uses is degenerate whenever
-no entry is found, so that half of the path had never run. All three grids
-enter the sensitivity table; the previous version compared only `N = 2048`
-with `N = 3072` and never used `N = 1536`.
+The Price sensitivity column is populated for `L/M=5120`. The cosmological
+column remains empty because no resolution-supported ordered transition has
+been found. The unanchored `L/M=640` indication is reported separately and
+must not be presented as a completed sensitivity measurement. All three grids
+are retained in the underlying ladder comparison.
 
 The three-panel figure is truncated at the ladder floor for both backgrounds.
 Before this, the Schwarzschild reference was drawn to `U = 16000M` using the
@@ -288,7 +295,7 @@ output directory so the check has something to scan. Schema version is now 2.
 ```text
 python -m black_hole.large_l_tail --output-dir results/large_l_tail analyze-screen 5120
 python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 5120
-python -m black_hole.tail_manifest --output-dir results/large_l_tail
+python -m black_hole.tail_manifest --output-dir results/large_l_tail --allow-screening-final
 python -m black_hole.tail_manifest --output-dir results/large_l_tail --verify
 python -m pytest tests/test_tail_dynamic_range.py tests/test_large_l_tail.py
 ```

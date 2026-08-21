@@ -29,8 +29,8 @@ p_{\mathrm{eff}}=-\frac{d\ln A}{d\ln U},\qquad
 The derivatives come from local linear regressions. The Price estimator uses
 a \(40M\) log time window. The primary cosmological estimator uses
 \(\Delta(\kappa_c U)=0.25\); the final sensitivity calculation also uses
-0.15 and 0.4. Samples below a scale dependent floating point floor are
-discarded.
+0.15 and 0.4. Rate estimates are restricted by a time-dependent floor measured
+from the spatial and timestep refinement ladders.
 
 ## Screening decision
 
@@ -70,8 +70,9 @@ The \(L/M=5120\) screen passes. Its accepted outer interval runs from
 \(U=154.13M\) to \(474.98M\), a continuous duration of \(320.85M\) that
 contains \(U=300M\). The maximum envelope differences between \(N=1536\)
 and \(2048\) are 0.150 percent for Schwarzschild de Sitter and 0.095 percent
-for Schwarzschild. Thus the calculation, rather than a prior choice, fixes
-\(L_*/M=5120\).
+for Schwarzschild. Thus \(L/M=5120\) is the smallest tested dyadic value that
+satisfies the operational screen; the calculation does not establish a
+universal minimum.
 
 The \(L/M=2560\) interval is the one quantity in this table that is sensitive
 to the integration details, because its endpoints are threshold crossings of
@@ -85,7 +86,7 @@ length, and the \(L/M=5120\) interval is identical under either split.
 Every archive and derived artifact of the campaign is hashed and recorded by
 
 ```text
-python -m black_hole.tail_manifest --output-dir results/large_l_tail
+python -m black_hole.tail_manifest --output-dir results/large_l_tail --allow-screening-final
 python -m black_hole.tail_manifest --output-dir results/large_l_tail --verify
 ```
 
@@ -96,10 +97,11 @@ constraint violation of each run. Text artifacts are hashed after CRLF and CR
 are canonicalized to LF, with the byte hash retained beside it.
 
 Each archive carries a `provenance_grade`. An archive whose own run recorded a
-clean worktree is `production`; one that did not is `screening`. A strict
-build refuses when any final ladder archive is not production grade, because
-that is the grade the paper quotes, while the screening archives are recorded
-with their grade visible rather than left undocumented.
+clean worktree is `production`; one that did not is `screening`. All archives
+in the current package, including the final ladders, are screening grade. The
+`--allow-screening-final` flag records this diagnostic package explicitly; a
+strict build still refuses it. A clean frozen rerun is required before these
+results can enter the paper as production evidence.
 
 ## Integration of the potential term
 
@@ -147,7 +149,9 @@ grade production data. The waveform difference between the two splits is
 \(10^{-7}\) relative, five orders of magnitude below the one percent
 refinement criterion, and the screening decisions are identical under either
 split, so nothing in the reported screen depends on which set is used. The
-final ladder is run from the committed solver.
+current final ladders also record dirty worktrees and remain screening grade;
+they must be repeated from a clean frozen solver after the analysis and
+resolution requirements are fixed.
 
 The split is recorded in every archive under `metadata["imex_split"]`.  The
 default remains implicit so that the frozen production archives reproduce
@@ -155,9 +159,9 @@ byte-for-byte; only this campaign opts in, through
 `large_l_tail.EXPLICIT_POTENTIAL`, and it does so for the SdS waveform and its
 Schwarzschild reference alike so that the two are integrated identically.
 
-## Final calculation
+## Final ladders
 
-The final case reaches \(\kappa_cU\geq4\). It uses \(N=1536,2048,3072\) at
+Each final SdS case reaches \(\kappa_cU\geq4\). It uses \(N=1536,2048,3072\) at
 \(\Delta\tau=0.0025M\), plus an \(N=2048\) check at
 \(\Delta\tau=0.00125M\). The matched Schwarzschild references reach the same
 retarded time. The main figure has aligned panels for \(A\),
@@ -167,11 +171,13 @@ Cosmological entry requires the normalized rate to stay within ten percent
 of unity through the last resolved sample for at least
 \(\Delta(\kappa_cU)=0.4\). It is not assigned when the numerical floor ends
 the signal first.
-The numerical sensitivity table repeats the transition measurement at all
-three spatial resolutions and at the halved timestep. A second table gives
-the maximum envelope change across the Price and cosmological intervals for
-both backgrounds. The signal floor sweep records the corresponding fraction
-of the peak waveform explicitly.
+The numerical sensitivity table is designed to repeat a transition measurement
+at all three spatial resolutions and at the halved timestep. The Price column
+is populated for `L/M=5120`; the cosmological column remains empty because no
+resolution-supported ordered transition has been found. A second table gives
+the maximum envelope change across any accepted interval for both backgrounds.
+The current floating-point-floor sweep does not replace a sensitivity study of
+the measured-ladder safety factor.
 
 The runner never overwrites a completed archive. It first creates a running
 reservation, writes an incomplete archive, and publishes the final NPZ only
@@ -208,4 +214,4 @@ process is absent, then load the reserved case with
 The implementation is
 [black_hole/large_l_tail.py](../black_hole/large_l_tail.py). Its synthetic
 regression tests recover exact \(U^{-3}\) and \(e^{-\kappa_cU}\) rates before
-the production archives are analyzed.
+the archived screening ladders are analyzed.

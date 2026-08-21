@@ -511,13 +511,14 @@ def trusted_interval_end(
 ) -> float | None:
     """Return the last retarded time at which a rate may be read.
 
-    Taking the end of the first contiguous run is too brittle.  The envelope
-    passes through a local minimum where the power law hands over to the
-    exponential, and there it can dip marginally under the threshold for a few
-    samples before recovering well above it: at ``L/M = 640`` the ratio to the
-    floor goes ``10.13``, ``9.97``, then climbs again, which truncated the
-    record at ``kappa_c U = 1.08`` when the waveform is in fact usable to
-    ``3.16``.
+    Taking the end of the first contiguous run is too brittle.  Near the
+    candidate late-rate interval, the ``L/M = 640`` envelope passes through a
+    local minimum: its ratio to the measured floor goes ``10.13``, ``9.97``,
+    then climbs again.  The old rule therefore stopped at
+    ``kappa_c U = 1.08`` even though the fine-grid envelope remains above the
+    factor-ten diagnostic threshold to ``3.16``.  This statement concerns
+    amplitude admissibility only; it does not establish convergence of the
+    differentiated rate.
 
     A brief excursion is therefore allowed, but a genuine breakdown is not.
     If the samples between the first and the last trusted one are trusted in a
@@ -949,10 +950,10 @@ def measure_transition(
     )
     # Entry is anchored after the Price departure when there is one, because
     # the two regimes must be seen in that order in the same waveform.  When no
-    # Price interval is established the cosmological question is still a real
-    # one and is asked separately, anchored at the start of the resolved
-    # record, so a length that reaches the exponential regime without ever
-    # showing a power law is reported as such rather than as silence.
+    # Price interval is established, a candidate late-rate interval is still
+    # measured separately from the start of the resolved record. This is an
+    # unanchored fine-grid diagnostic; resolution support is assessed outside
+    # this local measurement.
     resolved = np.flatnonzero(np.isfinite(amplitude))
     record_start = float(times[resolved[0]]) if resolved.size else 0.0
     entry_anchor = departure if departure is not None else record_start
@@ -1316,7 +1317,9 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             kappa=kappa,
             measured_floor=reference_ladder["floor"],
         )
-        trusted_marks[observer] = max(
+        # Comparisons are supported only on the interval trusted by both the
+        # SdS waveform and its Schwarzschild reference.
+        trusted_marks[observer] = min(
             value
             for value in (
                 trusted_interval_end(
@@ -1393,7 +1396,7 @@ def analyze_final(output_dir: Path, length: float) -> dict:
         axes[1].text(
             outer_trusted,
             0.97,
-            "  ladder floor:\n  nothing is read beyond",
+            "  common ladder limit:\n  no comparison beyond",
             transform=axes[1].get_xaxis_transform(),
             ha="left",
             va="top",

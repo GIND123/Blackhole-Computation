@@ -1,19 +1,15 @@
 """Hash verified manifest for the large cosmological length tail package.
 
 The regulator package separates immutable raw simulations from derived
-analysis artifacts and records both with their code provenance.  This does the
-same for the tail campaign, with one difference that the campaign forces.
+analysis artifacts and records both with their code provenance.  This module
+does the same for the tail campaign while preserving the distinction between
+production- and screening-grade archives.
 
-The screening archives were produced before the explicit potential split was
-committed, so each of them records a dirty worktree.  They decided which
-length to carry forward and nothing else; the implicit split set they replaced
-is kept beside them under ``results/large_l_tail_implicit_split``.  Refusing
-to record them would leave the package undocumented, and recording them
-silently beside the final ladder would present them as production data.  Each
-archive therefore carries a ``provenance_grade``: ``production`` when its own
-run recorded a clean worktree, ``screening`` when it did not.  A strict build
-refuses only when a final ladder archive is not production grade, which is the
-grade the paper quotes.
+Each archive carries a ``provenance_grade``: ``production`` when its own run
+recorded a clean worktree and ``screening`` when it did not.  A strict build
+refuses when any final-ladder archive is not production grade.  The explicit
+``--allow-screening-final`` override exists only to document an incomplete or
+diagnostic campaign without silently promoting it to production evidence.
 """
 
 from __future__ import annotations
@@ -104,6 +100,9 @@ def _archive_rows(output_dir: Path, root: Path) -> list[dict]:
             metadata = json.loads(str(data["metadata"]))
         provenance = metadata["reproducibility"]
         numerical = metadata["numerical"]
+        model = metadata.get("model", {})
+        mass = float(model.get("mass", 1.0))
+        cosmological_length = model.get("cosmological_length")
         name = archive.stem
         rows.append(
             {
@@ -116,7 +115,11 @@ def _archive_rows(output_dir: Path, root: Path) -> list[dict]:
                 "simulation_commit": provenance["git_commit"],
                 "git_worktree_dirty": bool(provenance["git_worktree_dirty"]),
                 "background": metadata["background"],
-                "cosmological_length_over_M": metadata.get("cosmological_length"),
+                "cosmological_length_over_M": (
+                    None
+                    if cosmological_length is None
+                    else float(cosmological_length) / mass
+                ),
                 "resolution": numerical["resolution"],
                 "timestep_over_M": numerical["timestep"],
                 "end_time_over_M": numerical["end_time"],
@@ -203,15 +206,25 @@ def create_manifest(
             for grade in ("production", "screening")
         },
         "screening_grade_note": (
-            "Screening archives were written before the explicit potential "
-            "split was committed and record a dirty worktree. They select the "
-            "cosmological length and are not quoted as production data. The "
-            "implicit split set they replaced is kept under "
-            "results/large_l_tail_implicit_split."
+            (
+                "Archives whose runs recorded dirty worktrees are marked "
+                "screening. The current final ladder includes screening-grade "
+                "cases; allowing them in this manifest documents the diagnostic "
+                "package and does not confer production status. Clean frozen "
+                "reruns are required before paper use."
+            )
+            if final_screening
+            else (
+                "Archives whose runs recorded dirty worktrees are marked "
+                "screening and are not promoted to production evidence. All "
+                "recorded final-ladder cases carry production provenance."
+            )
         ),
         "manifest_commands": {
             "create": (
-                "python -m black_hole.tail_manifest --output-dir " + label
+                "python -m black_hole.tail_manifest --output-dir "
+                + label
+                + (" --allow-screening-final" if final_screening else "")
             ),
             "verify": (
                 "python -m black_hole.tail_manifest --output-dir " + label

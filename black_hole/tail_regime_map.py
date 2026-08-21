@@ -1,10 +1,9 @@
 """Where each cosmological length can and cannot resolve a decay regime.
 
-The single length study answers whether one calculation sees the Price tail
-and the cosmological decay in the same waveform.  It cannot say whether some
-other length would, and the scaling argument that says none will is an
-argument rather than a measurement.  This module makes it a measurement, by
-placing every completed final ladder on one axis.
+The single-length study asks whether one calculation sees the Price tail and
+the cosmological decay in the same waveform.  It cannot say whether another
+length would.  This module places every completed final ladder on one axis so
+the operational evidence and unresolved regions can be compared directly.
 
 Two requirements pull against each other:
 
@@ -117,10 +116,14 @@ def measure_length(length: float, output_dir: Path = OUTPUT_ROOT) -> list[dict]:
                 "cosmological_entry_unanchored_kappa_U": measurement[
                     "cosmological_entry_without_price_anchor_kappa_U"
                 ],
-                "cosmological_regime_resolved": bool(
+                "cosmological_rate_indication": bool(
                     measurement["cosmological_entry_without_price_anchor_U_over_M"]
                     is not None
                 ),
+                # The unanchored entry is a fine-grid diagnostic. Resolution
+                # support must be established across the ladder before this
+                # field can become true.
+                "cosmological_regime_resolved": False,
                 "trusted_until_U_over_M": trusted,
                 "trusted_until_kappa_U": None if trusted is None else kappa * trusted,
                 "reference_trusted_until_U_over_M": reference_trusted,
@@ -277,9 +280,8 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
     axes[1].legend(fontsize=8.5, loc="upper left")
     axes[1].grid(alpha=0.25, which="both")
 
-    # Third panel: the measured rate itself, in cosmological time.  If the
-    # obstruction were a matter of choosing L better, these curves would reach
-    # different depths; the question is whether any of them reaches unity.
+    # Third panel: the fine-grid rate itself in cosmological time. This panel
+    # visualizes candidate behavior; resolution support is assessed separately.
     for length, colour in zip(lengths, plt.cm.viridis(
             np.linspace(0.1, 0.85, len(lengths)))):
         curve = _normalized_rate_curve(length, output_dir)
@@ -303,8 +305,8 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
         ylabel=r"$\gamma_{\rm eff}/\kappa_c$",
         yscale="log",
         title=(
-            "The power law collapses in cosmological time; only the shortest\n"
-            "length reaches the exponential before its floor"
+            "Fine-grid rates in cosmological time; the shortest length shows\n"
+            "an unresolved indication near the exponential target"
         ),
     )
     axes[2].legend(fontsize=8.5)
@@ -330,11 +332,11 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
         "lengths_establishing_price_at_the_outer_boundary": sorted(
             {row["length_over_M"] for row in outer if row["price_established"]}
         ),
-        "lengths_reaching_the_cosmological_regime": sorted(
+        "lengths_with_a_fine_grid_cosmological_rate_indication": sorted(
             {
                 row["length_over_M"]
                 for row in outer
-                if row["cosmological_regime_resolved"]
+                if row["cosmological_rate_indication"]
             }
         ),
         "lengths_whose_record_reaches_the_required_scaled_time": sorted(

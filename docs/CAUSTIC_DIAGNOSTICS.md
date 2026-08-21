@@ -29,26 +29,28 @@ The criterion now used is
   maximum sitting on either edge means the converging front has not arrived or
   has already passed;
 * among the snapshots that qualify, take the one with the largest
-  amplification, defined as the axial value divided by the mean of `|Phi|`
-  over `60` to `120` degrees at the same radius.
+  angular contrast, defined as the axial value divided by the mean of `|Phi|`
+  over `60` to `120` degrees at the same radius. This is a descriptive contrast,
+  not a physical energy-amplification factor.
 
-On the archived `2M` cadence sequence this selects `tau = 46.74`, with the
-axial maximum at `r = 8.49M` and an amplification of `75`. The amplification
-itself peaks at `82.8` slightly further out, at `r = 12.94M`. For comparison,
-the outer observer waveform peaks at `U = 44.06M`, which is the arrival, not
-the focus.
+On the dense `0.25M` cadence sequence this selects `tau = 47.75M`, with the
+axial maximum at `r = 4.72M`, peak `|Phi| = 8.5281e-3`, and angular contrast
+`83.1`. For comparison, the outer-observer waveform peak identifies an arrival,
+not the earlier spatial focusing event.
 
-The behaviour across the sequence shows why the interior test matters:
+The dense sequence follows the axial maximum inward as the contrast approaches
+a broad maximum:
 
-| `tau/M` | axial max in `r >= 4M` | interior | amplification |
-|---:|---|---|---:|
-| 42.68 | at the outer edge | no | not defined |
-| 44.68 | at the outer edge | no | 10.9 |
-| **46.68** | `r = 8.86M` | **yes** | **82.0** |
-| **46.74** | `r = 8.49M` | **yes** | **82.8** |
-| 48.68 | at the inner edge | no | 77.2 |
-| 50.68 | `r = 4.61M` | yes | 22.8 |
-| 52.68 | at the inner edge | no | 5.6 |
+| `tau/M` | axial maximum radius | peak `|Phi|` | angular contrast |
+|---:|---:|---:|---:|
+| 46.50 | `9.86M` | `4.2119e-3` | 70.6 |
+| 47.00 | `7.27M` | `5.9126e-3` | 78.9 |
+| 47.50 | `5.43M` | `7.6631e-3` | 82.6 |
+| **47.75** | **`4.72M`** | **`8.5281e-3`** | **83.1** |
+| 48.00 | `4.13M` | `9.3763e-3` | 83.1 |
+
+At the next output the maximum reaches the lower edge of the search band and
+is rejected by the interior-maximum criterion.
 
 ## 2. What sets the width of the focus
 
@@ -61,22 +63,26 @@ progressively shorter sums:
 
 | `ell_max` | peak `|Phi|` | focus FWHM | relative change in peak |
 |---:|---:|---:|---:|
-| 20 | `1.156773e-02` | `40.170` deg | `7.8e-05` |
-| 30 | `1.156863e-02` | `40.170` deg | `1.2e-07` |
-| 40 | `1.156863e-02` | `40.170` deg | `4.3e-10` |
-| 50 | `1.156863e-02` | `40.170` deg | 0 |
+| 20 | `8.524409e-03` | `40.17` deg | `4.27e-04` |
+| 30 | `8.528035e-03` | `40.17` deg | `2.06e-06` |
+| 40 | `8.528053e-03` | `40.17` deg | `1.12e-09` |
+| 50 | `8.528053e-03` | `40.17` deg | 0 |
 
-The width does not move at all and the peak changes by `4e-10` between
-`ell_max = 40` and `50`. The caustic is fully converged in the angular
-truncation, so **the sum is not what limits it**.
+The sampled FWHM remains `40.2` degrees throughout this truncation sequence;
+the width estimator resolves full widths in increments of about `0.03` degree.
+The peak changes by `4.27e-4` between `ell_max = 20` and `50`, by `2.06e-6`
+between `30` and `50`, and by `1.12e-9` between `40` and `50`. Angular
+truncation at `ell_max = 50` is therefore subdominant for this focus.
 
 This is confirmed independently by the emitter spectrum. The angular weights
 are `g_l = i_l(kappa) / i_0(kappa)`; for the production `kappa = 64` the ratio
 `g_50 / g_0` is `4.8e-9`, the retained angular power at `ell_max = 50` is
 `1.0000000000`, and `ell_max = 38` already suffices to omit less than `1e-10`.
-The evolution carries every multipole the emitter excites.
+Thus `ell_max = 50` captures the source spectrum to a much tighter tolerance
+than the spatial and temporal comparisons used here.
 
-What does set the width is the emitter itself:
+The remaining width is much larger than either the source's nominal angular
+width or the truncation scale:
 
 | quantity | value |
 |---|---:|
@@ -85,8 +91,10 @@ What does set the width is the emitter itself:
 | angular truncation scale `pi / ell_max` | `3.60` deg |
 | focus width in emitter widths | `5.6` |
 
-The focus is `5.6` emitter widths across and `11` truncation scales across.
-A longer sum would change nothing; a narrower emitter is the only lever.
+The focus is `5.6` nominal emitter widths across and `11` truncation scales
+across. A longer angular sum does not sharpen this archived solution. The
+jointly narrower-source calculation below tests whether the source profile,
+rather than angular truncation, controls the visible width.
 
 ## 3. The narrow emitter
 
@@ -124,30 +132,32 @@ than asserted to be.
 ### What the narrow emitter measured
 
 Comparing at equal discretization, `N = 2048` and `dt = 0.0005M` on both
-sides, so only the emitter differs:
+sides, so only the source prescription differs:
 
 | quantity | production `kappa = 64` | narrow `kappa = 256` | ratio |
 |---|---:|---:|---:|
 | emitter angular width | `7.16` deg | `3.58` deg | `0.500` |
 | focus FWHM | `40.17` deg | `18.00` deg | **`0.448`** |
-| amplification | `83.1` | `227.1` | **`2.731`** |
+| angular contrast | `83.1` | `227.1` | **`2.731`** |
 | focus width in emitter widths | `5.61` | `5.03` | `0.90` |
 
-Halving the emitter halves the focus. The width in units of the emitter width
-barely moves, which is the direct statement that the emitter sets the scale,
-and it is now measured rather than inferred from the truncation study alone.
+Jointly halving the radial and temporal widths and halving the nominal angular
+width reduces the focus FWHM by a factor `0.448`. This demonstrates that a
+narrower smooth source produces a sharper focus, but it does not isolate which
+source-width parameter controls the change.
 
-The amplification rises by `2.73`. This is **not** a clean test of the
+The angular contrast rises by `2.73`. This is **not** a test of the
 `1/sigma` energy amplification of the earlier Schwarzschild study: the narrow
-case changes the radial and temporal widths as well as the angular one, and
-the quantity here is a field ratio rather than an energy ratio. Separating
-those would need one width varied at a time.
+case changes three source widths at once, and the quantity here is a field
+contrast rather than an energy ratio. Establishing a one-parameter scaling
+would require varying one width at a time.
 
 ### The narrow emitter uses the truncation it was given
 
 Repeating the truncation study on the narrow case separates two things that
-looked the same before. For the production emitter the focus was already
-converged at `ell_max = 20`. For the narrow emitter it is not:
+looked similar before. For the production source, the sampled FWHM is already
+stable at `ell_max = 20` and the peak is stable by `ell_max = 30` to a few
+parts in `10^6`. The narrow-source focus still changes at those cutoffs:
 
 | `ell_max` | peak `|Phi|` | focus FWHM | relative change in peak |
 |---:|---:|---:|---:|
@@ -158,22 +168,18 @@ converged at `ell_max = 20`. For the narrow emitter it is not:
 | 60 | `2.081811e-02` | `18.000` deg | `4.1e-07` |
 | 80 | `2.081812e-02` | `18.000` deg | 0 |
 
-So `ell_max = 80` was necessary here, not merely sufficient, and the contrast
-with the production case is the clearest statement that the two emitters are
-limited by different things.
-
-There is also a check on the angular budget itself. The retained power
-calculation predicted that `ell_max = 50` would omit `3.9e-5` of the angular
-power at `kappa = 256`. The measured relative change in the focus peak at
-`ell_max = 50` is `3.6e-5`. The omitted power and the error it produces in the
-focus agree to about ten per cent, which is the accuracy such an estimate can
-be expected to have.
+The choice `ell_max = 80` clears the preselected source-spectrum criterion of
+omitted angular power below `1e-10`. The propagated focus is already stable at
+`ell_max = 60` to `4.1e-7` in peak amplitude, with no change in the sampled
+FWHM. The source-spectrum omission and the pointwise propagated-field error
+are different norms, so their similar values at `ell_max = 50` are reported as
+an empirical observation, not as a predicted error bound.
 
 ### Convergence of the narrow case
 
 Comparing the two levels at their own selected focus is misleading, because
-the amplification is nearly flat near its peak: the two levels differ by
-`0.09%` in amplification yet select snapshots `0.25M` apart, at `tau = 48.00`
+the angular contrast is nearly flat near its peak: the two levels differ by
+`0.09%` in contrast yet select snapshots `0.25M` apart, at `tau = 48.00`
 and `48.25`, and different focus radii. The apparent `13%` disagreement in
 peak amplitude is that selection difference, not discretization.
 
@@ -188,16 +194,16 @@ Compared at matched bridge time and matched radius:
 | 48.50 | `3.2e-06` | `0` |
 | 49.00 | `4.1e-07` | `0` |
 
-Through the focus the two levels agree to a few parts in `10^6`. The residual
-width differences are at the resolution of the width estimator itself, which
-reads a discretely sampled profile. The larger difference at `tau = 46.00` is
-the steep rise, where the amplitude is still climbing by orders of magnitude
-between snapshots and a small timing difference shows up directly.
+At matched time and radius, the axial field agrees to a few parts in `10^6`
+near the focus. The sampled FWHM differs at the `10^-3` level before becoming
+identical at the estimator's angular resolution. The larger difference at
+`tau = 46.00` occurs on the steep rise, where a small timing difference enters
+directly.
 
 The snapshot selection is worth stating as a property rather than hiding: near
-the peak the amplification varies by less than `0.1%` over `0.5M`, so which
-snapshot is chosen is not robust at this cadence even though the field at any
-given time is converged to `10^-6`.
+the peak the angular contrast varies by less than `0.1%` over `0.5M`, so which
+snapshot is chosen is not robust at this cadence even though the fixed-time
+field near the selected focus agrees at the `10^-5` to `10^-6` level.
 
 ## 4. What the diagnostics draw
 
@@ -208,17 +214,18 @@ figures and two tables:
   focus on one shared symmetric linear scale, in areal radius, cropped to
   `20M`, with the event horizon filled, the photon sphere dashed, the emitter
   marked, the wavefront ridge traced from the data, and the axial focus
-  circled. Because the scale is shared and fixed, brightness differences
-  between panels are amplitude differences in the solution.
+  circled. Because the scale is shared and fixed, brightness differences below
+  the common clipping threshold are amplitude differences in the solution.
 * **`caustic_focus_profile`** measures the focus: the transverse cut with its
   half maximum and width, the radial cut along the axis, the truncation study
   above, and the focusing history that selected the snapshot.
 * **`caustic_height_colour`** draws the wavefront as a height and colour sheet
   over the equatorial plane, following the convention of the earlier
   Schwarzschild caustic study, where the same scalar sets both the elevation
-  and the colour. The colour range is a fixed fraction of the strongest field
-  so the strong field region saturates deliberately and the weaker caustic
-  stays visible.
+  and the colour. The display range is set by the 60th percentile of the
+  disturbed region, so stronger values saturate deliberately while weaker
+  structure remains visible. This clipped sheet is a development diagnostic,
+  not a quantitative rendering of the focus height.
 
 The ridge trace is exactly that, the per angle radial maximum of `|Phi|`. It
 is not a claim to have located a mathematical cusp, and the code does not

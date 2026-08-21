@@ -270,7 +270,7 @@ def focus_profile(
                        label=r"emitter angular width $\kappa^{-1/2}$")
     axes[1, 0].set(xlabel=r"angular truncation $\ell_{\max}$",
                    ylabel="focus FWHM (degrees)",
-                   title="The focus does not narrow with a longer sum")
+                   title="Angular-truncation convergence of the focus")
     axes[1, 0].set_ylim(0.0, max(widths) * 1.35)
     twin = axes[1, 0].twinx()
     twin.semilogy(orders, changes, "s--", color="#7f2704", markersize=5,
@@ -280,14 +280,19 @@ def focus_profile(
     axes[1, 0].legend(fontsize=8, loc="lower left")
     axes[1, 0].grid(alpha=0.25)
 
-    axes[1, 1].plot(times, [record["peak_abs_field"] for record in history],
-                    "o-", color="#08306b", markersize=3.5, label=r"$|\Phi|$ on axis")
+    eligible_contrast = [
+        record["amplification"] if record["interior_maximum"] else np.nan
+        for record in history
+    ]
+    axes[1, 1].plot(
+        times, eligible_contrast, "o-", color="#08306b", markersize=3.5,
+        label="eligible interior maxima",
+    )
     axes[1, 1].axvline(focus["bridge_time"], color="#00a0a0", linestyle="--",
                        linewidth=1.2, label="selected snapshot")
     axes[1, 1].set(xlabel=r"bridge time $\tau/M$",
-                   ylabel=r"peak $|\Phi|$ on the antipodal axis",
-                   title="Focusing history, used to choose the snapshot")
-    axes[1, 1].set_yscale("log")
+                   ylabel="axial-to-off-axis angular contrast",
+                   title="Snapshot-selection metric")
     axes[1, 1].legend(fontsize=8)
     axes[1, 1].grid(alpha=0.25, which="both")
 
