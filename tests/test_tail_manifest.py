@@ -70,31 +70,31 @@ class ManifestTests(unittest.TestCase):
                 row["provenance_grade"] == "screening", row["git_worktree_dirty"]
             )
 
-    def test_final_ladder_provenance_matches_the_recorded_exception(self) -> None:
-        """The final ladder still carries screening provenance.
+    def test_no_final_archive_carries_production_provenance(self) -> None:
+        """Every final archive was written from a dirty worktree.
 
-        Every final archive was produced from a worktree that had uncommitted
-        changes, so none of them can be certified production grade.  The set is
-        pinned here rather than tolerated: reruns from a clean commit must empty
-        it, and any new dirty case must appear before this passes again.
+        Provenance is recorded when an archive is saved, not when its run is
+        launched, so a campaign started from a clean commit still records a
+        dirty worktree if anything in the repository is edited while it runs.
+        The whole final ladder is in that state.  Clearing it needs the
+        worktree frozen for the entire duration of the runs, not merely at the
+        moment they start.
+
+        The assertion is that the dirty set is exactly the whole final set: a
+        rerun that fixes some cases must shrink it, and this test must then be
+        updated to name what is left.
         """
 
-        pending = {
-            "final_schwarzschild_for_L5120_N1536_dt0p0025",
-            "final_schwarzschild_for_L5120_N2048_dt0p0025",
-            "final_schwarzschild_for_L5120_N2048_dt0p00125",
-            "final_schwarzschild_for_L5120_N3072_dt0p0025",
-            "final_sds_L5120_N1536_dt0p0025",
-            "final_sds_L5120_N2048_dt0p0025",
-            "final_sds_L5120_N2048_dt0p00125",
-            "final_sds_L5120_N3072_dt0p0025",
+        final = {
+            row["case"] for row in self.manifest["archives"] if row["role"] == "final"
         }
         dirty = {
             row["case"]
             for row in self.manifest["archives"]
             if row["role"] == "final" and row["provenance_grade"] != "production"
         }
-        self.assertEqual(dirty, pending)
+        self.assertEqual(dirty, final)
+        self.assertEqual(len(final), 32)
 
     def test_verification_detects_an_unlisted_artifact(self) -> None:
         """Hashes alone cannot catch a result that was never recorded."""

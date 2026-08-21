@@ -158,7 +158,7 @@
       "artifact": "results/large_l_tail/large_L5120_tail_transition.pdf",
       "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 5120",
       "note": "three panel tail figure, intended for the main text",
-      "sha256": "bd9f8b80de170084a8f083631b99310c2077eb5c7716e3a84a340a5ce74f96b8",
+      "sha256": "808be00130ae36c31b80262c985fd048121ac55e18ce8139d3ef542445c5740b",
       "issues": []
     },
     {
@@ -168,7 +168,7 @@
       "artifact": "results/large_l_tail/tables/final_L5120_ladder_floor.csv",
       "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 5120",
       "note": "measured ladder floor and trusted window per observer",
-      "sha256": "ed98209a5d002d23c9b2610adf3d0abf4cc024602b2a7f28f93de8c754e01312",
+      "sha256": "f9eaca304dd3caebecf0ddbb787efd9452410c266ef0cb703cb469119bc53574",
       "issues": []
     },
     {
@@ -203,10 +203,12 @@
       ]
     },
     "results/large_l_tail": {
-      "analysis_commit": "ef1e2d8493eae258215e3d8e6994614fa94b5d49",
+      "analysis_commit": "319f85f51d61ddccda3d0e179b8ee91ca640cb6d",
       "simulation_commits": [
+        "1d1b5c2073474831248cebe34b9dfec6ea1c4d72",
         "1faf9961dd06258ca77a0bfe81f5da7c28aa9d2c",
         "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+        "ab71597893365e20a8eddff417727251c5296754",
         "bca72d0fa61b50e0f7462b2aa6f6b070a3a23b59"
       ],
       "provenance_grades": [
