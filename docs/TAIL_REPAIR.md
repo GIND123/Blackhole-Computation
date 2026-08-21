@@ -162,6 +162,63 @@ ladder floor stops the measurement at `kappa_c U = 0.879`.
 `no_cosmological_entry_before_ladder_floor`, and `U_dS`, the crossover
 interval, and the fitted-law intersection are all null.
 
+### Measured across the sequence
+
+The single length result cannot say whether some other `L` would do better, so
+the final ladder was run for `L/M = 640` as well, from a clean commit. It
+answers the question directly, and it answers it the other way round:
+
+| | `L/M = 640` | `L/M = 5120` |
+|---|---|---|
+| Price interval at the outer boundary | **not established** | established, departs at `U = 668.1` |
+| record trusted to | `kappa_c U = 3.162` | `kappa_c U = 0.879` |
+| cosmological entry | **`kappa_c U = 2.267`**, persisting to `3.162` | none, even unanchored |
+| scaled duration of the entry | `0.895` against `0.4` required | not applicable |
+
+At `L/M = 640` the normalized rate settles on `gamma_eff / kappa_c = 1` within
+the ten per cent tolerance from `kappa_c U = 2.267` onward and stays there to
+the end of the record. The cosmological decay is resolved. What is missing is
+the Schwarzschild power law: the cosmological horizon interferes too early for
+a Price plateau to establish after ringdown.
+
+At `L/M = 5120` the situation is exactly reversed.
+
+**No tested length resolves both regimes in the same waveform.** The two
+requirements pull apart: the power law needs the cosmological influence to
+arrive late, which wants large `L`, and the exponential needs `kappa_c U` of
+order a few, which at large `L` lies beyond where the tail has fallen under
+the ladder floor.
+
+### Two estimator faults found by plotting the curve
+
+Neither of these was visible in the scalar summaries, and both changed a
+conclusion.
+
+`trusted_interval_end` returned the end of the *first* contiguous run of
+trusted samples. Where the power law hands over to the exponential the
+envelope passes through a local minimum, and at `L/M = 640` the ratio to the
+floor dips `10.13`, `9.97`, then recovers, for three samples. The record was
+being truncated at `kappa_c U = 1.083` when the waveform is usable to `3.162`:
+
+| run | `kappa_c U` | samples |
+|---:|---|---:|
+| 1 | `0.156` to `1.083` | 11907 |
+| 2 | `1.092` to `1.096` | 49 |
+| 3 | `1.105` to `3.162` | 26407 |
+
+Between the first and last trusted sample, `99.4%` are trusted. The estimator
+now allows a brief excursion, requiring at least `95%` continuity, and falls
+back to the longest unbroken run otherwise. At `L/M = 5120` the trusted
+fraction is `83.7%`, so that case still stops at `0.879` and its reported
+value does not move.
+
+Second, the cosmological entry was only computed when a Price departure
+existed, because the ordered test asks for both regimes in that order. That
+made a length which reaches the exponential regime without ever showing a
+power law report silence rather than a result. Entry is now also measured
+anchored at the start of the resolved record, and the anchor used is recorded
+beside it. The ordered both-regimes test still requires the Price anchor.
+
 ### The obstruction is structural
 
 The two requirements pull in opposite directions. Establishing the Price index

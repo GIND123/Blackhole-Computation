@@ -1,0 +1,28 @@
+{
+  "lengths_measured": [
+    640.0,
+    5120.0
+  ],
+  "observers": [
+    "outer",
+    "r16M",
+    "r8M"
+  ],
+  "cosmological_scaled_time_required": 3.0,
+  "floor_safety_factor": 10.0,
+  "any_length_resolves_both_regimes": false,
+  "lengths_resolving_both": [],
+  "lengths_establishing_price_at_the_outer_boundary": [
+    5120.0
+  ],
+  "lengths_reaching_the_cosmological_regime": [
+    640.0
+  ],
+  "lengths_whose_record_reaches_the_required_scaled_time": [
+    640.0
+  ],
+  "table": "results\\large_l_tail\\tables\\tail_regime_map.csv",
+  "figure_png": "results\\large_l_tail\\tail_regime_map.png",
+  "figure_pdf": "results\\large_l_tail\\tail_regime_map.pdf",
+  "time_translation_fitted": false
+}

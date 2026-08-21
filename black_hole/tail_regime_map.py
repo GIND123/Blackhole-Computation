@@ -111,10 +111,23 @@ def measure_length(length: float, output_dir: Path = OUTPUT_ROOT) -> list[dict]:
                 ),
                 "price_established": departure is not None,
                 "cosmological_entry_U_over_M": measurement["entry_U_over_M"],
+                "cosmological_entry_unanchored_U_over_M": measurement[
+                    "cosmological_entry_without_price_anchor_U_over_M"
+                ],
+                "cosmological_entry_unanchored_kappa_U": measurement[
+                    "cosmological_entry_without_price_anchor_kappa_U"
+                ],
+                "cosmological_regime_resolved": bool(
+                    measurement["cosmological_entry_without_price_anchor_U_over_M"]
+                    is not None
+                ),
                 "trusted_until_U_over_M": trusted,
                 "trusted_until_kappa_U": None if trusted is None else kappa * trusted,
                 "reference_trusted_until_U_over_M": reference_trusted,
                 "cosmological_needs_kappa_U": COSMOLOGICAL_SCALED_TIME,
+                "cosmological_scaled_time_reached": (
+                    None if trusted is None else kappa * trusted
+                ),
                 "cosmological_reachable": (
                     None
                     if trusted is None
@@ -135,6 +148,36 @@ def measure_length(length: float, output_dir: Path = OUTPUT_ROOT) -> list[dict]:
             }
         )
     return rows
+
+
+def _normalized_rate_curve(length: float, output_dir: Path) -> dict | None:
+    """Return the trusted part of ``gamma_eff/kappa_c`` against ``kappa_c U``."""
+
+    from .large_l_tail import local_log_fit_rate
+
+    results = _load_final_set(Path(output_dir), length)
+    kappa = cosmological_rate(length)
+    settings = LocalFitSettings()
+    ladder = ladder_envelope_floor(results, 2, settings)
+    times = ladder["times"]
+    trusted = (
+        np.isfinite(ladder["amplitude"])
+        & np.isfinite(ladder["floor"])
+        & (ladder["floor"] > 0.0)
+        & (ladder["amplitude"] > FLOOR_SAFETY_FACTOR * ladder["floor"])
+    )
+    amplitude = np.where(trusted, ladder["amplitude"], np.nan)
+    gamma = local_log_fit_rate(
+        times, amplitude, settings.exponential_scaled_window / kappa,
+        logarithmic_time=False,
+    ) / kappa
+    keep = np.isfinite(gamma) & trusted & (gamma > 0.0)
+    if not keep.any():
+        return None
+    return {
+        "scaled_time": kappa * times[keep],
+        "normalized_gamma": gamma[keep],
+    }
 
 
 def build(output_dir: Path = OUTPUT_ROOT) -> dict:
@@ -158,7 +201,7 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
     outer = [row for row in rows if row["observer"] == "outer"]
     outer.sort(key=lambda row: row["length_over_M"])
 
-    figure, axes = plt.subplots(2, 1, figsize=(8.2, 8.0), sharex=True)
+    figure, axes = plt.subplots(3, 1, figsize=(8.2, 11.4))
     values = [row["length_over_M"] for row in outer]
 
     # Upper panel: everything in cosmological time, where the two requirements
@@ -232,6 +275,36 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
     axes[1].legend(fontsize=8.5, loc="upper left")
     axes[1].grid(alpha=0.25, which="both")
 
+    # Third panel: the measured rate itself, in cosmological time.  If the
+    # obstruction were a matter of choosing L better, these curves would reach
+    # different depths; the question is whether any of them reaches unity.
+    for length, colour in zip(lengths, plt.cm.viridis(
+            np.linspace(0.1, 0.85, len(lengths)))):
+        curve = _normalized_rate_curve(length, output_dir)
+        if curve is None:
+            continue
+        axes[2].plot(curve["scaled_time"], curve["normalized_gamma"],
+                     color=colour, linewidth=1.8, label=r"$L/M=%g$" % length)
+    axes[2].axhspan(0.9, 1.1, color="0.85")
+    axes[2].axhline(1.0, color="0.35", linestyle="--", linewidth=1.1)
+    axes[2].axvline(COSMOLOGICAL_SCALED_TIME, color="#0072B2", linestyle=":",
+                    linewidth=1.2)
+    axes[2].text(COSMOLOGICAL_SCALED_TIME, 0.97,
+                 r"  $\kappa_c U=%.0f$" % COSMOLOGICAL_SCALED_TIME,
+                 transform=axes[2].get_xaxis_transform(), fontsize=8,
+                 va="top", color="#0072B2")
+    axes[2].text(0.99, 1.15, r"cosmological target $\gamma_{\rm eff}/\kappa_c=1$",
+                 transform=axes[2].get_yaxis_transform(), ha="right",
+                 va="bottom", fontsize=8)
+    axes[2].set(
+        xlabel=r"cosmological time $\kappa_c U$",
+        ylabel=r"$\gamma_{\rm eff}/\kappa_c$",
+        yscale="log",
+        title="Every length stops at the same place in cosmological time",
+    )
+    axes[2].legend(fontsize=8.5)
+    axes[2].grid(alpha=0.25, which="both")
+
     figure.tight_layout()
     png = Path(output_dir) / "tail_regime_map.png"
     pdf = Path(output_dir) / "tail_regime_map.pdf"
@@ -253,6 +326,13 @@ def build(output_dir: Path = OUTPUT_ROOT) -> dict:
             {row["length_over_M"] for row in outer if row["price_established"]}
         ),
         "lengths_reaching_the_cosmological_regime": sorted(
+            {
+                row["length_over_M"]
+                for row in outer
+                if row["cosmological_regime_resolved"]
+            }
+        ),
+        "lengths_whose_record_reaches_the_required_scaled_time": sorted(
             {
                 row["length_over_M"]
                 for row in outer

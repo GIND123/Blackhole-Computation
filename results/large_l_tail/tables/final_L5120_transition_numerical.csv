@@ -1,5 +1,5 @@
-observer,resolution,timestep_over_M,departure_U_over_M,entry_U_over_M,departure_kappa_U,entry_kappa_U,crossover_duration_U_over_M,cosmological_rate_relative_tolerance,minimum_cosmological_scaled_duration,status,floor_source,trusted_until_U_over_M
-outer,1536,0.0025,605.2289720887086,,0.11816259251358938,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,
-outer,2048,0.0025,666.0289720900357,,0.1300329522556046,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,
-outer,3072,0.0025,668.0789720900805,,0.13043318642453766,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,
-outer,2048,0.00125,666.0289720958383,,0.13003295225673747,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,
+observer,resolution,timestep_over_M,departure_U_over_M,entry_U_over_M,departure_kappa_U,entry_kappa_U,crossover_duration_U_over_M,cosmological_rate_relative_tolerance,minimum_cosmological_scaled_duration,status,floor_source,cosmological_entry_without_price_anchor_U_over_M,cosmological_entry_without_price_anchor_kappa_U,cosmological_entry_anchor,trusted_until_U_over_M
+outer,1536,0.0025,605.2289720887086,,0.11816259251358938,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,
+outer,2048,0.0025,666.0289720900357,,0.1300329522556046,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,
+outer,3072,0.0025,668.0789720900805,,0.13043318642453766,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,
+outer,2048,0.00125,666.0289720958383,,0.13003295225673747,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,

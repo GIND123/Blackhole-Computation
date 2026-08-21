@@ -11,6 +11,9 @@
     "minimum_cosmological_scaled_duration": 0.4,
     "status": "no_cosmological_entry_before_ladder_floor",
     "floor_source": "refinement_ladder",
+    "cosmological_entry_without_price_anchor_U_over_M": null,
+    "cosmological_entry_without_price_anchor_kappa_U": null,
+    "cosmological_entry_anchor": "price_departure",
     "trusted_until_U_over_M": 4501.37897209951
   },
   "fitted_law_intersection": null,

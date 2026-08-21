@@ -455,28 +455,86 @@ def ladder_envelope_floor(
     }
 
 
-def trusted_interval_end(
+def trusted_samples(
     times: np.ndarray,
     amplitude: np.ndarray,
     floor: np.ndarray,
     *,
     after: float = 100.0,
-) -> float | None:
-    """Return the end of the first run where the envelope clears the floor."""
+) -> np.ndarray:
+    """Return the mask of samples whose envelope clears the measured floor."""
 
-    admissible = (
+    return (
         np.isfinite(amplitude)
         & np.isfinite(floor)
         & (floor > 0.0)
         & (amplitude > FLOOR_SAFETY_FACTOR * floor)
         & (times > after)
     )
+
+
+def trusted_runs(
+    times: np.ndarray,
+    amplitude: np.ndarray,
+    floor: np.ndarray,
+    *,
+    after: float = 100.0,
+) -> list[tuple[float, float, int]]:
+    """Return the contiguous runs of trusted samples as start, end, count."""
+
+    indices = np.flatnonzero(
+        trusted_samples(times, amplitude, floor, after=after)
+    )
+    if indices.size == 0:
+        return []
+    breaks = np.flatnonzero(np.diff(indices) > 1)
+    runs = []
+    start = 0
+    for stop in list(breaks) + [None]:
+        segment = indices[start : (stop + 1 if stop is not None else None)]
+        if segment.size:
+            runs.append(
+                (float(times[segment[0]]), float(times[segment[-1]]), int(segment.size))
+            )
+        if stop is not None:
+            start = stop + 1
+    return runs
+
+
+def trusted_interval_end(
+    times: np.ndarray,
+    amplitude: np.ndarray,
+    floor: np.ndarray,
+    *,
+    after: float = 100.0,
+    continuity: float = 0.95,
+) -> float | None:
+    """Return the last retarded time at which a rate may be read.
+
+    Taking the end of the first contiguous run is too brittle.  The envelope
+    passes through a local minimum where the power law hands over to the
+    exponential, and there it can dip marginally under the threshold for a few
+    samples before recovering well above it: at ``L/M = 640`` the ratio to the
+    floor goes ``10.13``, ``9.97``, then climbs again, which truncated the
+    record at ``kappa_c U = 1.08`` when the waveform is in fact usable to
+    ``3.16``.
+
+    A brief excursion is therefore allowed, but a genuine breakdown is not.
+    If the samples between the first and the last trusted one are trusted in a
+    fraction of at least ``continuity``, the record runs to the last of them.
+    Otherwise it stops at the end of the longest unbroken run, which is the
+    conservative reading when the waveform really has come apart.
+    """
+
+    admissible = trusted_samples(times, amplitude, floor, after=after)
     indices = np.flatnonzero(admissible)
     if indices.size == 0:
         return None
-    breaks = np.flatnonzero(np.diff(indices) > 1)
-    first = indices[: breaks[0] + 1] if breaks.size else indices
-    return float(times[first[-1]])
+    span = admissible[indices[0] : indices[-1] + 1]
+    if span.mean() >= continuity:
+        return float(times[indices[-1]])
+    runs = trusted_runs(times, amplitude, floor, after=after)
+    return max(runs, key=lambda run: run[2])[1]
 
 
 def local_log_fit_rate(
@@ -889,17 +947,24 @@ def measure_transition(
         price_duration,
         SCREEN_PRICE_ANCHOR_U,
     )
-    entry = (
-        None
-        if departure is None
-        else persistent_cosmological_entry(
-            times,
-            normalized_gamma,
-            departure,
-            tolerance=cosmological_tolerance,
-            kappa=kappa,
-        )
+    # Entry is anchored after the Price departure when there is one, because
+    # the two regimes must be seen in that order in the same waveform.  When no
+    # Price interval is established the cosmological question is still a real
+    # one and is asked separately, anchored at the start of the resolved
+    # record, so a length that reaches the exponential regime without ever
+    # showing a power law is reported as such rather than as silence.
+    resolved = np.flatnonzero(np.isfinite(amplitude))
+    record_start = float(times[resolved[0]]) if resolved.size else 0.0
+    entry_anchor = departure if departure is not None else record_start
+    entry_measurement = persistent_cosmological_entry(
+        times,
+        normalized_gamma,
+        entry_anchor,
+        tolerance=cosmological_tolerance,
+        kappa=kappa,
     )
+    entry = entry_measurement if departure is not None else None
+    unanchored_entry = entry_measurement
     return {
         "departure_U_over_M": departure,
         "entry_U_over_M": entry,
@@ -925,6 +990,13 @@ def measure_transition(
         ),
         "floor_source": (
             "refinement_ladder" if measured_floor is not None else "round_off_estimate"
+        ),
+        "cosmological_entry_without_price_anchor_U_over_M": unanchored_entry,
+        "cosmological_entry_without_price_anchor_kappa_U": (
+            None if unanchored_entry is None else kappa * unanchored_entry
+        ),
+        "cosmological_entry_anchor": (
+            "price_departure" if departure is not None else "start_of_resolved_record"
         ),
         "trusted_until_U_over_M": (
             None

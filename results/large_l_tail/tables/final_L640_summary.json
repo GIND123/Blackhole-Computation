@@ -1,0 +1,33 @@
+{
+  "length_over_M": 640.0,
+  "primary_observer": "outer",
+  "primary": {
+    "departure_U_over_M": null,
+    "entry_U_over_M": null,
+    "departure_kappa_U": null,
+    "entry_kappa_U": null,
+    "crossover_duration_U_over_M": null,
+    "cosmological_rate_relative_tolerance": 0.1,
+    "minimum_cosmological_scaled_duration": 0.4,
+    "status": "no_resolved_price_interval",
+    "floor_source": "refinement_ladder",
+    "cosmological_entry_without_price_anchor_U_over_M": 1455.2398037767903,
+    "cosmological_entry_without_price_anchor_kappa_U": 2.2666870135450305,
+    "cosmological_entry_anchor": "start_of_resolved_record",
+    "trusted_until_U_over_M": 2029.8398037893326
+  },
+  "fitted_law_intersection": null,
+  "price_fit_interval_U_over_M": [
+    0.0,
+    0.0
+  ],
+  "cosmological_fit_interval_U_over_M": [
+    0.0,
+    0.0
+  ],
+  "transition_sweep": "results\\large_l_tail\\tables\\final_L640_transition_sweep.csv",
+  "transition_numerical": "results\\large_l_tail\\tables\\final_L640_transition_numerical.csv",
+  "numerical_sensitivities": "results\\large_l_tail\\tables\\final_L640_numerical_sensitivities.csv",
+  "figure_png": "results\\large_l_tail\\large_L640_tail_transition.png",
+  "figure_pdf": "results\\large_l_tail\\large_L640_tail_transition.pdf"
+}
