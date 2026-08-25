@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{70}%
+\begin{thebibliography}{75}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -377,6 +377,18 @@
    {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {105}},\ \bibinfo
   {pages} {104033} (\bibinfo {year} {2022})},\ \Eprint
   {https://arxiv.org/abs/2202.01794} {arXiv:2202.01794 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Zhou}\ and\ \citenamefont
+  {Panosso~Macedo}(2025)}]{ZhouPanossoMacedo:2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
+  {Zhou}}\ and\ \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}},\ }\bibfield  {title} {\bibinfo {title} {Limiting geometry
+  and spectral instability in {Schwarzschild--de Sitter} spacetimes},\ }\href
+  {https://doi.org/10.1103/n948-jnfh} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {112}},\ \bibinfo
+  {pages} {084063} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2507.05370} {arXiv:2507.05370 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
   {Kidder}(2010)}]{ZenginogluKidder:2010}%
@@ -795,6 +807,20 @@
   \bibinfo {pages} {14} (\bibinfo {year} {2025})},\ \Eprint
   {https://arxiv.org/abs/2407.09170} {arXiv:2407.09170 [math.AP]} \BibitemShut
   {NoStop}%
+\bibitem [{\citenamefont {Panosso~Macedo}\ \emph {et~al.}(2018)\citenamefont
+  {Panosso~Macedo}, \citenamefont {Jaramillo},\ and\ \citenamefont
+  {Ansorg}}]{MacedoJaramilloAnsorg:2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}}, \bibinfo {author} {\bibfnamefont {J.~L.}\ \bibnamefont
+  {Jaramillo}},\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Ansorg}},\ }\bibfield  {title} {\bibinfo {title} {Hyperboloidal slicing
+  approach to quasi-normal mode expansions: The {Reissner--Nordstr{\"o}m}
+  case},\ }\href {https://doi.org/10.1103/PhysRevD.98.124005} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {98}},\ \bibinfo {pages} {124005} (\bibinfo {year} {2018})},\ \Eprint
+  {https://arxiv.org/abs/1809.02837} {arXiv:1809.02837 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Panosso~Macedo}(2024)}]{PanossoMacedo:2023qzp}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
@@ -878,6 +904,40 @@
   {pages} {044033} (\bibinfo {year} {2023})},\ \Eprint
   {https://arxiv.org/abs/1606.03075} {arXiv:1606.03075 [gr-qc]} \BibitemShut
   {NoStop}%
+\bibitem [{\citenamefont {Dymnikova}(2000)}]{Dymnikova:2000algebraic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {I.~G.}\ \bibnamefont
+  {Dymnikova}},\ }\bibfield  {title} {\bibinfo {title} {The algebraic structure
+  of a cosmological term in spherically symmetric solutions},\ }\href
+  {https://doi.org/10.1016/S0370-2693(99)01374-X} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Lett. B}\ }\textbf {\bibinfo {volume} {472}},\
+  \bibinfo {pages} {33} (\bibinfo {year} {2000})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/9912116} {arXiv:gr-qc/9912116 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Dymnikova}(2002)}]{Dymnikova:2002mass}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {I.}~\bibnamefont
+  {Dymnikova}},\ }\bibfield  {title} {\bibinfo {title} {Cosmological term as a
+  source of mass},\ }\href {https://doi.org/10.1088/0264-9381/19/4/306}
+  {\bibfield  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf
+  {\bibinfo {volume} {19}},\ \bibinfo {pages} {725} (\bibinfo {year} {2002})},\
+  \Eprint {https://arxiv.org/abs/gr-qc/0112052} {arXiv:gr-qc/0112052 [gr-qc]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Cardoso}\ \emph {et~al.}(2009)\citenamefont
+  {Cardoso}, \citenamefont {Miranda}, \citenamefont {Berti}, \citenamefont
+  {Witek},\ and\ \citenamefont {Zanchin}}]{CardosoEtAl:2009geodesic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
+  {Cardoso}}, \bibinfo {author} {\bibfnamefont {A.~S.}\ \bibnamefont
+  {Miranda}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Berti}},
+  \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Witek}},\ and\ \bibinfo
+  {author} {\bibfnamefont {V.~T.}\ \bibnamefont {Zanchin}},\ }\bibfield
+  {title} {\bibinfo {title} {Geodesic stability, {Lyapunov} exponents, and
+  quasinormal modes},\ }\href {https://doi.org/10.1103/PhysRevD.79.064016}
+  {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo
+  {volume} {79}},\ \bibinfo {pages} {064016} (\bibinfo {year} {2009})},\
+  \Eprint {https://arxiv.org/abs/0812.1806} {arXiv:0812.1806 [hep-th]}
+  \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Kumar}\ and\ \citenamefont
   {Zengino{\u{g}}lu}(2026)}]{blackhole_computation_2026}%
   \BibitemOpen

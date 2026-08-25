@@ -13,6 +13,18 @@ from typing import Callable
 import dedalus.public as d3
 import numpy as np
 
+from .exterior_sds_model import (
+    ExteriorSdSParameters,
+    areal_radius as exterior_areal_radius,
+    bridge_boost as exterior_bridge_boost,
+    propagation_coefficient as exterior_propagation_coefficient,
+    rescaled_scalar_potential as exterior_rescaled_scalar_potential,
+    scalar_areal_bump_initial_data as exterior_scalar_areal_bump_initial_data,
+    scalar_areal_velocity_initial_data as exterior_scalar_areal_velocity_initial_data,
+    scalar_gaussian_initial_data as exterior_scalar_gaussian_initial_data,
+    transition_compact_radii as exterior_transition_compact_radii,
+    transition_radii as exterior_transition_radii,
+)
 from .sds_model import (
     ArealBumpInitialData,
     ArealVelocityBumpInitialData,
@@ -89,7 +101,7 @@ def _timestepper(name: str):
 
 
 def _run_scalar_simulation(
-    model: SdSParameters | SchwarzschildScalarParameters,
+    model: SdSParameters | SchwarzschildScalarParameters | ExteriorSdSParameters,
     initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
     numerical: SdSNumericalParameters,
     *,
@@ -112,9 +124,9 @@ def _run_scalar_simulation(
     zeroth-order term ``P*u``.  Both choices discretize the same continuum
     system.  The default keeps that term implicit, reproducing every archived
     production run exactly.  Moving it to the explicit right-hand side is
-    numerically preferable on Schwarzschild-de Sitter bridges: ``P`` is bounded
-    by ``max|P| = 1.5`` on every background used here, so it is not stiff, yet
-    its Chebyshev spectrum is broad at large ``L`` (bandwidth 301 at
+    numerically preferable on Schwarzschild-de Sitter bridges: ``P`` is
+    bounded and of order unity on every background used here, so it is not
+    stiff, yet its Chebyshev spectrum is broad at large ``L`` (bandwidth 301 at
     ``L/M=5120`` against 2 on Schwarzschild).  Kept implicit it turns the banded
     subproblem matrices nearly dense, which costs an order of magnitude in both
     matrix construction and per-step solve without buying any stability.
@@ -355,7 +367,7 @@ def _run_scalar_simulation(
             "note": (
                 "The stiffness of the Chebyshev discretization resides in the "
                 "transport terms, which are implicit in both variants. P is "
-                "bounded (max|P|=1.5) and therefore non-stiff."
+                "bounded and of order unity, and therefore non-stiff."
             ),
         },
         "initialization": {
@@ -488,6 +500,57 @@ def run_schwarzschild_scalar_simulation(
         horizon_metadata={
             "black_hole": model.black_hole_horizon,
             "future_null_infinity": "rho=1 (r=infinity)",
+        },
+        checkpoint_path=checkpoint_path,
+        checkpoint_dt=checkpoint_dt,
+        explicit_potential=explicit_potential,
+    )
+
+
+def run_exterior_sds_simulation(
+    model: ExteriorSdSParameters,
+    initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
+    numerical: SdSNumericalParameters,
+    *,
+    checkpoint_path: Path | None = None,
+    checkpoint_dt: float | None = None,
+    explicit_potential: bool = False,
+) -> SdSSimulationResult:
+    """Evolve a scalar mode on the exterior-supported SdS background."""
+
+    if numerical.bridge != "minimal":
+        raise ValueError("The exterior-supported construction uses the minimal gauge.")
+    if isinstance(initial, ArealVelocityBumpInitialData):
+        initial_function = lambda rho: exterior_scalar_areal_velocity_initial_data(
+            rho, model, initial
+        )
+    elif isinstance(initial, ArealBumpInitialData):
+        initial_function = lambda rho: exterior_scalar_areal_bump_initial_data(
+            rho, model, initial
+        )
+    else:
+        initial_function = lambda rho: exterior_scalar_gaussian_initial_data(
+            rho, model, initial
+        )
+    transition_r0, transition_r1 = exterior_transition_radii(model)
+    transition_rho0, transition_rho1 = exterior_transition_compact_radii(model)
+    return _run_scalar_simulation(
+        model,
+        initial,
+        numerical,
+        background="exterior-supported Schwarzschild-de Sitter",
+        radius_function=lambda rho: exterior_areal_radius(rho, model),
+        boost_function=lambda rho: exterior_bridge_boost(rho, model),
+        propagation_function=lambda rho: exterior_propagation_coefficient(rho, model),
+        potential_function=lambda rho: exterior_rescaled_scalar_potential(rho, model),
+        initial_function=initial_function,
+        horizon_metadata={
+            "black_hole": model.black_hole_horizon,
+            "cosmological": model.cosmological_horizon,
+            "transition_inner_radius": transition_r0,
+            "transition_outer_radius": transition_r1,
+            "transition_inner_rho": transition_rho0,
+            "transition_outer_rho": transition_rho1,
         },
         checkpoint_path=checkpoint_path,
         checkpoint_dt=checkpoint_dt,
