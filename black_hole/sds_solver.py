@@ -17,6 +17,7 @@ from .exterior_sds_model import (
     ExteriorSdSParameters,
     areal_radius as exterior_areal_radius,
     bridge_boost as exterior_bridge_boost,
+    bridge_one_plus_boost as exterior_bridge_one_plus_boost,
     propagation_coefficient as exterior_propagation_coefficient,
     rescaled_scalar_potential as exterior_rescaled_scalar_potential,
     scalar_areal_bump_initial_data as exterior_scalar_areal_bump_initial_data,
@@ -110,6 +111,7 @@ def _run_scalar_simulation(
     boost_function: Callable[[np.ndarray], np.ndarray],
     propagation_function: Callable[[np.ndarray], np.ndarray],
     potential_function: Callable[[np.ndarray], np.ndarray],
+    one_plus_boost_function: Callable[[np.ndarray], np.ndarray] | None = None,
     initial_function: Callable[
         [np.ndarray], tuple[np.ndarray, np.ndarray, np.ndarray]
     ],
@@ -151,12 +153,15 @@ def _run_scalar_simulation(
     pi = dist.Field(name="pi", bases=basis)
     coefficient_a = dist.Field(name="coefficient_a", bases=basis)
     coefficient_b = dist.Field(name="coefficient_b", bases=basis)
+    coefficient_cplus = dist.Field(name="coefficient_cplus", bases=basis)
     potential = dist.Field(name="potential", bases=basis)
 
     drho = lambda field: d3.Differentiate(field, rho_coord)
 
     coefficient_a["g"] = propagation_function(rho)
     coefficient_b["g"] = boost_function(rho)
+    if one_plus_boost_function is not None:
+        coefficient_cplus["g"] = one_plus_boost_function(rho)
     potential["g"] = potential_function(rho)
     initial_u, initial_psi, initial_pi = initial_function(rho)
     u["g"] = initial_u
@@ -175,20 +180,28 @@ def _run_scalar_simulation(
             pi["g"] = -np.asarray(coefficient_b["g"]).ravel() * psi["g"]
 
     problem = d3.IVP([u, psi, pi], namespace=locals())
+    if one_plus_boost_function is None:
+        outgoing_flux = "coefficient_b * psi + pi"
+        ingoing_flux = "psi + coefficient_b * pi"
+    else:
+        # B=-1+Cplus.  These exactly equivalent fluxes avoid subtracting the
+        # horizon-scale remainder Cplus from one inside a spectral product.
+        outgoing_flux = "(pi - psi) + coefficient_cplus * psi"
+        ingoing_flux = "(psi - pi) + coefficient_cplus * pi"
     problem.add_equation(
-        "dt(u) - coefficient_a * (coefficient_b * psi + pi) = 0"
+        f"dt(u) - coefficient_a * ({outgoing_flux}) = 0"
     )
     problem.add_equation(
-        "dt(psi) - drho(coefficient_a * (coefficient_b * psi + pi)) = 0"
+        f"dt(psi) - drho(coefficient_a * ({outgoing_flux})) = 0"
     )
     if explicit_potential:
         problem.add_equation(
-            "dt(pi) - drho(coefficient_a * (psi + coefficient_b * pi))"
+            f"dt(pi) - drho(coefficient_a * ({ingoing_flux}))"
             " = -potential * u"
         )
     else:
         problem.add_equation(
-            "dt(pi) - drho(coefficient_a * (psi + coefficient_b * pi))"
+            f"dt(pi) - drho(coefficient_a * ({ingoing_flux}))"
             " + potential * u = 0"
         )
 
@@ -354,9 +367,9 @@ def _run_scalar_simulation(
             "resumed": resumed_from_checkpoint,
         },
         "equations": {
-            "u": "dt(u) = A*(B*psi + pi)",
-            "psi": "dt(psi) = d_rho[A*(B*psi + pi)]",
-            "pi": "dt(pi) = d_rho[A*(psi + B*pi)] - P*u",
+            "u": f"dt(u) = A*({outgoing_flux})",
+            "psi": f"dt(psi) = d_rho[A*({outgoing_flux})]",
+            "pi": f"dt(pi) = d_rho[A*({ingoing_flux})] - P*u",
             "A": "(f*d rho/dr)/(1-B^2)",
             "B": "f*dh/dr",
             "P": "V_scalar/(f*d rho/dr)",
@@ -543,6 +556,9 @@ def run_exterior_sds_simulation(
         boost_function=lambda rho: exterior_bridge_boost(rho, model),
         propagation_function=lambda rho: exterior_propagation_coefficient(rho, model),
         potential_function=lambda rho: exterior_rescaled_scalar_potential(rho, model),
+        one_plus_boost_function=lambda rho: exterior_bridge_one_plus_boost(
+            rho, model
+        ),
         initial_function=initial_function,
         horizon_metadata={
             "black_hole": model.black_hole_horizon,

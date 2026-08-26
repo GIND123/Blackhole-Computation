@@ -1,4 +1,4 @@
-"""Exterior-supported SdS simulations for the regulator comparison.
+"""Fixed-transition-width exterior SdS simulations for the regulator comparison.
 
 Only the new exterior-supported backgrounds are evolved here.  The
 Schwarzschild and uniform-SdS controls remain in the frozen v3 regulator
@@ -23,7 +23,7 @@ from .regulator_suite import (
 from .reproducibility import reproducibility_metadata
 
 
-OUTPUT_ROOT = Path("results/exterior_regulator_far_v1")
+OUTPUT_ROOT = Path("results/exterior_regulator_width_floor_v1")
 CONTROL_ROOT = Path("results/regulator_production_v3")
 EXTERIOR_LENGTHS = (80,)
 HEIGHT_REFERENCE_RADIUS = 4.0
@@ -32,8 +32,14 @@ HEIGHT_REFERENCE_RADIUS = 4.0
 def physical_contract() -> dict:
     """Return the common physical and coordinate choices for this sequence."""
 
+    from .exterior_sds_model import (
+        TRANSITION_MINIMUM_ANGLE_WIDTH,
+        TRANSITION_OUTER_HORIZON_FRACTION,
+        TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M,
+    )
+
     return {
-        "study": "exterior_supported_artificial_cosmology_regulator",
+        "study": "fixed_transition_width_exterior_supported_regulator",
         "mass": 1.0,
         "ell": 2,
         "gauge": "exterior_supported_minimal",
@@ -43,14 +49,20 @@ def physical_contract() -> dict:
             "cosmological horizon"
         ),
         "transition": {
-            "outer_radius": "R1=0.9*r_c",
-            "outer_compact_location": "rho1=rho(R1)",
-            "inner_compact_location": (
-                "theta0=2*theta1 for theta=acos(2*rho-1)"
+            "outer_horizon_fraction": (
+                TRANSITION_OUTER_HORIZON_FRACTION
+            ),
+            "width_reference_length_over_M": (
+                TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M
+            ),
+            "minimum_transition_angle_width": TRANSITION_MINIMUM_ANGLE_WIDTH,
+            "endpoint_rule": (
+                f"theta1=max(theta({TRANSITION_OUTER_HORIZON_FRACTION}*r_c),"
+                "delta_theta_min), theta0=2*theta1"
             ),
             "profile": "standard C-infinity step in Chebyshev endpoint angle",
             "grid_design": (
-                "transition and exact-SdS cap have equal Chebyshev-angle widths"
+                "transition and cap retain nonzero limiting Chebyshev-angle widths"
             ),
             "outer_cap": "chi_L=1 for rho>=rho1",
         },
@@ -78,7 +90,7 @@ def contract_sha256() -> str:
 
 
 def case_catalogue() -> dict[str, tuple[str, float]]:
-    """Return the three far-transition refinement cases."""
+    """Return the three fixed-minimum-width refinement cases."""
 
     return {
         f"exterior_sds_L{length}_{level}": (level, float(length))

@@ -3,10 +3,12 @@
 The geometry is exactly Schwarzschild through an inner compact region and
 becomes exactly Schwarzschild--de Sitter before the cosmological horizon.  A
 ``C-infinity`` switch in the Chebyshev endpoint angle joins the two regions.
-The switch is supported close to the cosmological horizon while retaining a
-fixed number of collocation points as far as the endpoint clustering permits.
-This module is deliberately independent of the archived uniform-SdS model so
-the new experiment cannot alter the frozen control calculations.
+The original horizon-scaled switch is retained through ``L/M=160``.  Above
+that value both the transition and the exact-SdS cap retain their reference
+Chebyshev-angle widths.  Neither outer region therefore collapses under
+endpoint clustering.  This module is
+deliberately independent of the archived uniform-SdS model so the new
+experiment cannot alter the frozen controls.
 """
 
 from __future__ import annotations
@@ -27,7 +29,14 @@ from .sds_model import (
 )
 
 
+# Through L/M=160, the exact-SdS region starts at R1=0.9*r_c and the
+# transition and cap have equal Chebyshev-angle widths.  Thereafter both
+# widths are held at their L/M=160 value.  This leaves every completed
+# L/M<=160 background unchanged and prevents either outer region from
+# collapsing on the global Chebyshev grid.
 TRANSITION_OUTER_HORIZON_FRACTION = 0.9
+TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M = 160.0
+TRANSITION_MINIMUM_ANGLE_WIDTH = 0.07526440137447271
 
 
 @dataclass(frozen=True)
@@ -72,9 +81,10 @@ class ExteriorSdSParameters:
         )
         return sds_horizons(uniform).cosmological
 
-    def as_dict(self) -> dict[str, float | int | str]:
+    def as_dict(self) -> dict[str, float | int | str | bool]:
         r0, r1 = transition_radii(self)
         rho0, rho1 = transition_compact_radii(self)
+        rc = self.cosmological_horizon
         return {
             "mass": self.mass,
             "cosmological_length": self.cosmological_length,
@@ -85,11 +95,22 @@ class ExteriorSdSParameters:
             "transition_outer_radius": r1,
             "transition_inner_rho": rho0,
             "transition_outer_rho": rho1,
+            "transition_compact_width": rho1 - rho0,
+            "outer_cap_compact_width": 1.0 - rho1,
+            "transition_width_reference_length_over_M": (
+                TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M
+            ),
             "transition_outer_horizon_fraction": (
                 TRANSITION_OUTER_HORIZON_FRACTION
             ),
+            "transition_minimum_angle_width": TRANSITION_MINIMUM_ANGLE_WIDTH,
+            "transition_width_floor_active": (
+                self.cosmological_length / self.mass
+                > TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M
+            ),
+            "actual_transition_outer_horizon_fraction": r1 / rc,
             "transition": (
-                "C-infinity equal-Chebyshev-angle transition and outer cap"
+                "C-infinity fixed-minimum transition-and-cap angle widths"
             ),
         }
 
@@ -146,12 +167,10 @@ def compactification_derivative(
 
 
 def transition_outer_radius(parameters: ExteriorSdSParameters) -> float:
-    r"""Return ``R1=0.9 r_c``, the start of the exact-SdS outer cap."""
+    r"""Return the start of the exact-SdS outer cap."""
 
-    return float(
-        TRANSITION_OUTER_HORIZON_FRACTION
-        * parameters.cosmological_horizon
-    )
+    _, rho1 = transition_compact_radii(parameters)
+    return float(areal_radius(np.array(rho1), parameters))
 
 
 def chebyshev_angle(rho: np.ndarray) -> np.ndarray:
@@ -169,13 +188,23 @@ def chebyshev_angle(rho: np.ndarray) -> np.ndarray:
 def transition_compact_radii(
     parameters: ExteriorSdSParameters,
 ) -> tuple[float, float]:
-    """Return endpoints giving equal Chebyshev-angle layer and cap widths."""
+    """Return endpoints with nonvanishing transition and cap angle widths."""
 
-    rho1 = float(compact_radius(transition_outer_radius(parameters), parameters))
-    theta1 = float(chebyshev_angle(np.array(rho1)))
+    horizon_scaled_r1 = (
+        TRANSITION_OUTER_HORIZON_FRACTION
+        * parameters.cosmological_horizon
+    )
+    horizon_scaled_rho1 = float(
+        compact_radius(np.array(horizon_scaled_r1), parameters)
+    )
+    horizon_scaled_theta1 = float(
+        chebyshev_angle(np.array(horizon_scaled_rho1))
+    )
+    theta1 = max(horizon_scaled_theta1, TRANSITION_MINIMUM_ANGLE_WIDTH)
     theta0 = 2.0 * theta1
+    rho1 = 0.5 * (1.0 + np.cos(theta1))
     rho0 = 0.5 * (1.0 + np.cos(theta0))
-    return rho0, rho1
+    return float(rho0), float(rho1)
 
 
 def transition_radii(
@@ -183,9 +212,9 @@ def transition_radii(
 ) -> tuple[float, float]:
     """Return the areal radii ``(R0,R1)`` bounding the transition."""
 
-    rho0, _ = transition_compact_radii(parameters)
+    rho0, rho1 = transition_compact_radii(parameters)
     r0 = float(areal_radius(np.array(rho0), parameters))
-    r1 = transition_outer_radius(parameters)
+    r1 = float(areal_radius(np.array(rho1), parameters))
     return float(r0), float(r1)
 
 
@@ -274,18 +303,31 @@ def transition_radial_derivative(
 def metric_f(
     radius: np.ndarray, parameters: ExteriorSdSParameters
 ) -> np.ndarray:
-    r"""Return ``f_chi=1-2M/r-r^2 chi/L^2``."""
+    r"""Return ``f_chi=1-2M/r-r^2 chi/L^2`` without horizon cancellation."""
 
     radius = np.asarray(radius, dtype=float)
     rho = compact_radius(radius, parameters)
     chi = transition_profile(rho, parameters)
-    value = (
-        1.0
-        - 2.0 * parameters.mass / radius
-        - radius**2 * chi / parameters.cosmological_length**2
+    mass = parameters.mass
+    rc = parameters.cosmological_horizon
+    compactification = compactification_scale(parameters)
+    delta_c = (
+        rc
+        * compactification
+        * (1.0 - rho)
+        / (1.0 - compactification * rho)
     )
-    value = np.where(radius == parameters.black_hole_horizon, 0.0, value)
-    return np.where(radius == parameters.cosmological_horizon, 0.0, value)
+    cap_factor = (
+        (rc + radius) / parameters.cosmological_length**2
+        - 2.0 * mass / (radius * rc)
+    )
+    value = (
+        delta_c * cap_factor
+        + radius**2 * (1.0 - chi) / parameters.cosmological_length**2
+    )
+    # In the exact inner region, use f_Schw=D*rho directly.  The general
+    # positive-factor expression is used throughout the transition and cap.
+    return np.where(chi == 0.0, compactification * rho, value)
 
 
 def metric_f_prime(
@@ -304,19 +346,58 @@ def metric_f_prime(
     )
 
 
-def bridge_boost(
+def bridge_one_plus_boost(
     rho: np.ndarray, parameters: ExteriorSdSParameters
 ) -> np.ndarray:
-    r"""Return the exterior minimal bridge boost ``B_chi``."""
+    r"""Return ``1+B_chi`` in a cancellation-free endpoint form."""
 
     rho = np.asarray(rho, dtype=float)
     radius = areal_radius(rho, parameters)
     chi = transition_profile(rho, parameters)
     mass = parameters.mass
     rc = parameters.cosmological_horizon
-    boost = -1.0 + 8.0 * mass**2 / radius**2 - 8.0 * mass**2 * chi / rc**2
-    boost = np.where(rho == 0.0, 1.0, boost)
-    return np.where(rho == 1.0, -1.0, boost)
+    compactification = compactification_scale(parameters)
+    delta_c = (
+        rc
+        * compactification
+        * (1.0 - rho)
+        / (1.0 - compactification * rho)
+    )
+    return 8.0 * mass**2 / rc**2 * (
+        delta_c * (rc + radius) / radius**2 + (1.0 - chi)
+    )
+
+
+def bridge_one_minus_boost(
+    rho: np.ndarray, parameters: ExteriorSdSParameters
+) -> np.ndarray:
+    r"""Return ``1-B_chi`` in a cancellation-free endpoint form."""
+
+    rho = np.asarray(rho, dtype=float)
+    radius = areal_radius(rho, parameters)
+    chi = transition_profile(rho, parameters)
+    mass = parameters.mass
+    rc = parameters.cosmological_horizon
+    compactification = compactification_scale(parameters)
+    schwarzschild = (
+        2.0
+        * compactification
+        * rho
+        * (radius + 2.0 * mass)
+        / radius
+    )
+    cosmological = 8.0 * mass**2 * chi / rc**2
+    return schwarzschild + cosmological
+
+
+def bridge_boost(
+    rho: np.ndarray, parameters: ExteriorSdSParameters
+) -> np.ndarray:
+    r"""Return the exterior minimal bridge boost ``B_chi``."""
+
+    one_plus = bridge_one_plus_boost(rho, parameters)
+    one_minus = bridge_one_minus_boost(rho, parameters)
+    return 0.5 * (one_plus - one_minus)
 
 
 def bridge_boost_radial_derivative(
@@ -356,12 +437,38 @@ def propagation_coefficient(
 
     rho = np.asarray(rho, dtype=float)
     radius = areal_radius(rho, parameters)
+    chi = transition_profile(rho, parameters)
     speed = metric_f(radius, parameters) * compactification_derivative(
         radius, parameters
     )
-    boost = bridge_boost(rho, parameters)
+    one_plus = bridge_one_plus_boost(rho, parameters)
+    one_minus = bridge_one_minus_boost(rho, parameters)
     with np.errstate(divide="ignore", invalid="ignore"):
-        coefficient = speed / ((1.0 - boost) * (1.0 + boost))
+        coefficient = speed / (one_minus * one_plus)
+    mass = parameters.mass
+    rc = parameters.cosmological_horizon
+    compactification = compactification_scale(parameters)
+    inner = radius / (
+        8.0 * mass * compactification * (radius + 2.0 * mass)
+    )
+    cap_factor = (
+        (rc + radius) / parameters.cosmological_length**2
+        - 2.0 * mass / (radius * rc)
+    )
+    with np.errstate(divide="ignore", invalid="ignore"):
+        cap = (
+            rc**2
+            * cap_factor
+            / (
+                4.0
+                * mass
+                * compactification
+                * (rc + radius)
+                * one_minus
+            )
+        )
+    coefficient = np.where(chi == 0.0, inner, coefficient)
+    coefficient = np.where(chi == 1.0, cap, coefficient)
     left, right = propagation_endpoint_coefficients(parameters)
     coefficient = np.where(rho == 0.0, left, coefficient)
     return np.where(rho == 1.0, right, coefficient)
@@ -396,8 +503,9 @@ def characteristic_speeds(
     """Return ingoing and outgoing radial light speeds ``d rho/d tau``."""
 
     coefficient = propagation_coefficient(rho, parameters)
-    boost = bridge_boost(rho, parameters)
-    return -coefficient * (1.0 + boost), coefficient * (1.0 - boost)
+    one_plus = bridge_one_plus_boost(rho, parameters)
+    one_minus = bridge_one_minus_boost(rho, parameters)
+    return -coefficient * one_plus, coefficient * one_minus
 
 
 def scalar_gaussian_initial_data(
@@ -491,18 +599,31 @@ def retarded_time_offset(
     right_limit = 8.0 * parameters.mass**2 / (
         rc * (rc - 3.0 * parameters.mass)
     )
+    r0, r1 = transition_radii(parameters)
 
     def integrand(radius: float) -> float:
         if radius == rc:
             return right_limit
+        if radius >= r1:
+            cap_factor = (
+                (rc + radius) / parameters.cosmological_length**2
+                - 2.0 * parameters.mass / (radius * rc)
+            )
+            return (
+                8.0
+                * parameters.mass**2
+                * (rc + radius)
+                / (radius**2 * rc**2 * cap_factor)
+            )
         rho = float(compact_radius(np.array(radius), parameters))
-        numerator = 1.0 + float(bridge_boost(np.array(rho), parameters))
+        numerator = float(
+            bridge_one_plus_boost(np.array(rho), parameters)
+        )
         denominator = float(metric_f(np.array(radius), parameters))
         if denominator == 0.0:
             return right_limit
         return numerator / denominator
 
-    r0, r1 = transition_radii(parameters)
     boundaries = [reference]
     boundaries.extend(value for value in (r0, r1) if reference < value < rc)
     boundaries.append(rc)
@@ -542,6 +663,7 @@ def background_audit(
         "transition_inner_rho": rho0,
         "transition_outer_rho": rho1,
         "transition_rho_width": rho1 - rho0,
+        "outer_cap_rho_width": 1.0 - rho1,
         "minimum_interior_f": float(np.min(lapse[1:-1])),
         "maximum_interior_abs_boost": float(np.max(np.abs(boost[1:-1]))),
         "minimum_A": float(np.min(coefficient)),

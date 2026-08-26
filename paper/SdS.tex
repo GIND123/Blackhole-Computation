@@ -60,15 +60,17 @@ $0\lesssim U/M\leq57.2$.  This bound does not extend uniformly to late times.
 Caustic-echo timing is consistent with local $\mathcal O((M/L)^2)$ and outer
 $\mathcal O(M/L)$ trends, although deterministic sensitivities preclude
 precision fit coefficients.  These calculations test the fixed-background
-feasibility of Misner's proposal.  We also formulate a further,
-exterior-supported extension.  Its conserved cosmological tensor vanishes in
-the strong-field region and reaches the constant positive-$\Lambda$ form
-outside a smooth transition near the cosmological horizon.  We specify a
-horizon-supported family and a three-way comparison with the same
-Schwarzschild and uniform-SdS controls.  The production scalar-wave sequence
-is under way, so no outcome of that comparison is included in the results
-quoted here.  Application to the nonlinear Einstein equations motivates this
-work but lies beyond its scope.
+feasibility of Misner's proposal.  We also test an exterior-supported
+extension whose conserved cosmological tensor vanishes in the strong-field
+region and reaches the constant positive-$\Lambda$ form outside a smooth
+transition.  At fixed exterior $\Lambda$, this construction improves the raw,
+unshifted pure-$\ell=2$ QNM-window agreement with Schwarzschild.  Across
+three fixed $30M$ windows, the relative error reduction ranges from
+$20.9$--$30.2\%$ at $L/M=80$ to $7.8$--$9.3\%$ at $L/M=640$.
+Conservative refinement margins resolve the improvement, although it remains
+modest at large $L$ and does not determine the global quasinormal spectrum.
+Application to the nonlinear Einstein equations motivates this work but lies
+beyond its scope.
 \end{abstract}
 
 \maketitle
@@ -264,10 +266,11 @@ extrapolated recovery as $L\to\infty$?  Third, can exterior support improve
 that recovery at the same exterior $\Lambda$?  Fourth, does finite $L$ actually
 regularize and condition the formally singular terms in a nonlinear conformal
 Einstein evolution?  This paper answers the first two questions on fixed
-black-hole backgrounds using scalar waves.  It also constructs a conserved
-exterior-supported geometry and defines the fixed-background test of the
-third.  Section~\ref{sec:exterior-tests} gives the corresponding
-horizon-supported production protocol.  The fourth question requires a
+black-hole backgrounds using scalar waves and tests the third with a
+pure-$\ell=2$ waveform.  The exterior-supported geometry uses a conserved
+cosmological tensor and fixed nonzero Chebyshev-angle widths for both its
+transition and exact-SdS cap.  Section~\ref{sec:exterior-tests} gives the
+corresponding numerical comparison.  The fourth question requires a
 nonlinear Einstein evolution code and is left for future work.
 
 Misner's uniform-$\Lambda$ sequence distributes its finite-$L$ bias throughout
@@ -298,8 +301,8 @@ the benchmark gauge.  Section~\ref{sec:scalar} defines the scalar model,
 matched data, clock, numerical methods, and comparison measures.
 Section~\ref{sec:results} gives direct and extrapolated Schwarzschild
 recovery followed by the localized-source test and supporting SdS physics.
-Section~\ref{sec:exterior-supported} constructs an exterior-supported
-extension and specifies the horizon-supported scalar-wave comparison.
+Section~\ref{sec:exterior-supported} constructs and tests a fixed-angle-width
+exterior-supported extension.
 The appendices collect convergence, sensitivity, and reproducibility details.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1288,8 +1291,8 @@ exterior-supported geometry yields a closer approximation to the same
 Schwarzschild waveform than uniform SdS.  If so, it would improve the usable
 finite-$L$ representative of the flat limit, or equivalently reach a fixed
 waveform tolerance with smaller $L/M$.  The construction is analytically
-explicit, and Sec.~\ref{sec:exterior-tests} fixes the scalar-wave production
-comparison now under way.  No outcome from that sequence is assumed below.
+explicit, and Sec.~\ref{sec:exterior-tests} reports the scalar-wave
+comparison.
 The construction must also satisfy the global foliation criterion established in
 Sec.~\ref{sec:bridges}: regularity at the cosmological horizon alone does not
 make the flat limit computable; the bridge, compactification, and waveform
@@ -1334,8 +1337,11 @@ proposed here.  Our orientation reverses the usual regular-center profile:
 the tensor is zero for $r\leq R_0$ and reaches the positive constant-$\Lambda$
 form for $r\geq R_1$.
 
-The numerical family places the transition at a fixed fraction of the
-cosmological-horizon scale.  Define
+The numerical family follows the original horizon-scaled prescription through
+$L_\star/M=160$ and then places a common floor on the transition and cap
+widths in Chebyshev angle.  This leaves the $L/M=80$ and $160$ members
+unchanged and prevents either outer region from collapsing onto the endpoint.
+Define
 \begin{equation}
  D_L=1-\frac{2M}{r_c},
  \qquad
@@ -1343,18 +1349,49 @@ cosmological-horizon scale.  Define
  \label{eq:exterior_compactification}
 \end{equation}
 and, on $2M\leq r\leq r_c$, let
-$\vartheta(r)=\arccos[2\rho_\chi(r)-1]$.  Chebyshev points are uniformly
-spaced in $\vartheta$.  We fix
-\begin{align}
- \beta&=\frac{9}{10},&
- R_1&=\beta r_c,&
- \vartheta_1&=\vartheta(R_1),\notag\\
- \vartheta_0&=2\vartheta_1,&
- \rho_{\chi,0}&=\frac{1+\cos\vartheta_0}{2},&
- R_0&=\frac{2M}{1-D_L\rho_{\chi,0}}.
+$\vartheta(r)=\arccos[2\rho_\chi(r)-1]$.  The Chebyshev collocation points are
+uniformly spaced in $\vartheta$.  With $\beta=9/10$, first define
+\begin{equation}
+\begin{aligned}
+ \widehat R_1(L)&=\beta r_c,\\
+ \widehat\rho_{\chi,1}(L)&=
+ \frac{1-2M/\widehat R_1}{D_L},\\
+ \widehat\vartheta_1(L)&=
+ \arccos\!\left(2\widehat\rho_{\chi,1}-1\right).
+\end{aligned}
+ \label{eq:horizon_scaled_transition}
+\end{equation}
+The final endpoints are
+\begin{equation}
+\begin{aligned}
+ \frac{L_\star}{M}&=160,\\
+ \vartheta_\star&=\widehat\vartheta_1(L_\star)
+ =0.07526440137447271,\\
+ \vartheta_1(L)&=
+ \max\{\widehat\vartheta_1(L),\vartheta_\star\},\\
+ \vartheta_0(L)&=2\vartheta_1(L),\\
+ \rho_{\chi,i}(L)&=\frac{1+\cos\vartheta_i(L)}{2},\\
+ R_i(L)&=\frac{2M}{1-D_L\rho_{\chi,i}(L)}
+ \quad(i=0,1).
+\end{aligned}
  \label{eq:transition_radii}
+\end{equation}
+Thus $2M<R_0<R_1<r_c$.  For $L\leq L_\star$, the floor is inactive,
+$R_1=\beta r_c$, and the transition and cap have equal angle widths,
+$\vartheta_0-\vartheta_1=\vartheta_1$.  For $L>L_\star$, both widths equal
+$\vartheta_\star$ and both compact endpoints are fixed:
+\begin{align}
+ \rho_{\chi,0}^\star&=0.9943459581991452,\notag\\
+ \rho_{\chi,1}^\star&=0.9985844858695327,\notag\\
+ \Delta\rho_{\rm tr}
+ &=\rho_{\chi,1}^\star-\rho_{\chi,0}^\star
+ =0.004238527670387571,\notag\\
+ \Delta\rho_{\rm cap}
+ &=1-\rho_{\chi,1}^\star
+ =0.001415514130467255.
+ \label{eq:transition_compact_widths}
 \end{align}
-Thus $2M<R_0<R_1<r_c$.  The standard compact $C^\infty$ step is
+The standard compact $C^\infty$ step is
 \begin{align}
  \eta(x)&=
  \begin{cases}
@@ -1379,20 +1416,29 @@ The switch and radial cosmological profile are
 and set $\lambda(r)=\Lambda\chi_L(r)$.
 Then $\chi_L=0$ for $r\leq R_0$, $\chi_L=1$ for $r\geq R_1$, and every
 derivative of $\chi_L$ vanishes at both transition endpoints.  The transition
-and the exact-SdS cap have equal widths in $\vartheta$, which gives them
-comparable Chebyshev point counts even when both occupy a narrow interval in
-$\rho_\chi$.  In areal radius the layer is not thin.  Indeed,
+and exact-SdS cap have equal, nonvanishing widths in $\vartheta$ throughout
+the family.  Their compact endpoints approach the fixed values above, and
+the corresponding areal limits are
 \begin{equation}
- \frac{R_1}{r_c}=\beta,
- \qquad
- \frac{R_0}{r_c}\longrightarrow
- \frac{\beta}{4-3\beta}=\frac{9}{13}
- \quad(L/M\to\infty).
+\begin{aligned}
+ \frac{R_{0,\infty}}{M}
+ &=\frac{2}{1-\rho_{\chi,0}^\star}
+ =353.729256069105,\\
+ \frac{R_{1,\infty}}{M}
+ &=\frac{2}{1-\rho_{\chi,1}^\star}
+ =1412.914189235122,\\
+ \frac{R_0}{r_c}&\longrightarrow0,
+ &\frac{R_1}{r_c}&\longrightarrow0.
+\end{aligned}
  \label{eq:transition_radii_limit}
 \end{equation}
-Both radii therefore move outward with $r_c=\mathcal O(L)$, while every fixed
-strong-field radius eventually lies in the exact Schwarzschild region.  The
-metric that preserves the exterior Kottler mass parameter $M$ is
+The exact-SdS cap still ends at the cosmological horizon, but its inner edge
+does not remain at a fixed fraction of that horizon.  The transition begins
+and ends at finite, distant radii in the flat limit, while the metric
+correction there vanishes as $L^{-2}$.  The entire strong-field region is
+exactly Schwarzschild throughout the production sequence, for which
+$R_0>6M$.
+The metric that preserves the exterior Kottler mass parameter $M$ is
 \begin{equation}
  ds^2=-f_\chi(r)dt^2+\frac{dr^2}{f_\chi(r)}+r^2d\omega^2,
  \label{eq:exterior_metric}
@@ -1544,22 +1590,19 @@ The Misner--Sharp mass accumulated across the transition is
  &=\frac12\frac{(R_1/M)^3}{(L/M)^2}.
  \label{eq:transition_mass}
 \end{align}
-The interpretation of this quantity depends on how the support moves with
-$L$.  For the horizon-supported family in Eq.~\eqref{eq:transition_radii},
+Because $R_1$ tends to a finite areal radius in the final family,
 \begin{equation}
  \frac{\Delta m_{\rm tr}}{M}
- =\frac{\beta^3}{2}\left(\frac{r_c}{L}\right)^2\frac{r_c}{M}
- =\frac{\beta^3}{2}\left(\frac{r_c}{M}-2\right)
- \sim\frac{\beta^3}{2}\frac{L}{M}.
- \label{eq:transition_mass_horizon_family}
+ \sim\frac12\left(\frac{R_{1,\infty}}{M}\right)^3
+ \left(\frac{M}{L}\right)^2
+ \longrightarrow0.
+ \label{eq:transition_mass_fixed_angle_family}
 \end{equation}
-The integrated Misner--Sharp mass therefore grows linearly rather than
-remaining of order $M$.  This growth is the cosmological mass of an
-$\mathcal O(L^3)$ horizon-scale volume with density $\mathcal O(L^{-2})$; it
-does not represent a growing local disturbance in the strong-field region.
-It is consequently reported as a global property, not used as a small-shell
-acceptance criterion.  Local viability is tested through curvature, the
-scalar potential, compactified coefficients, returned radiation, and cost.
+The tested sequence is still preasymptotic: at $L/M=640$ this quantity is
+$104.2917$.  We report it as a global property rather than use it as a
+small-shell acceptance criterion.  Local viability is tested through
+curvature, the scalar potential, compactified coefficients, returned
+radiation, and cost.
 
 For a generic layer of areal width $\Delta=R_1-R_0$,
 \begin{equation}
@@ -1569,14 +1612,22 @@ For a generic layer of areal width $\Delta=R_1-R_0$,
  \label{eq:transition_derivative_scales}
 \end{equation}
 A narrow areal layer can generate large curvature and a sharp scattering
-feature.  Our layer instead has $\Delta=\mathcal O(L)$, so
-$\lambda'=\mathcal O(L^{-3})$, $\lambda''=\mathcal O(L^{-4})$, and the source
-eigenvalues and Ricci curvature in the layer are $\mathcal O(L^{-2})$.  The
-construction replaces distributed strong-field bias by a low-curvature,
-low-density modification in a distant, horizon-scale region.  The lapse
-change there remains order unity, as it must near a cosmological horizon.  Its
-compact-coordinate width still shrinks with $L$, which creates a distinct
-resolution question.
+feature.  Here both endpoints have finite limits and
+$\Delta\to1059.184933166017M$.  The limiting profile therefore has
+$\chi_L'=\mathcal O(M^{-1})$ and
+$\chi_L''=\mathcal O(M^{-2})$.  At fixed $M$, the strict large-$L$ scalings
+of $\lambda=3\chi_L/L^2$ are
+\begin{equation}
+ \lambda'=\mathcal O(L^{-2}M^{-1}),
+ \qquad
+ \lambda''=\mathcal O(L^{-2}M^{-2}).
+ \label{eq:transition_width_floored_derivative_scales}
+\end{equation}
+The combinations entering the source eigenvalues and Ricci curvature are
+$\mathcal O(L^{-2})$.  The construction therefore replaces
+distributed strong-field bias by a smooth, low-curvature modification in a
+distant region.  The lapse change near the cosmological horizon remains order
+unity, while the transition retains a fixed spectral width.
 
 The bounds $0\leq\chi_L\leq1$ imply
 \begin{equation}
@@ -1653,15 +1704,21 @@ Its horizon crossings are regular; for example,
  &=\frac{16M^2}{r_c(r_c-3M)}>0.
  \label{eq:exterior_bridge_regular_limits}
 \end{align}
-Equation~\eqref{eq:transition_radii_limit} implies $R_0\to\infty$.  Hence
-every fixed $r$ eventually lies below $R_0$, where $\chi_L=0$ and
+Above $L_\star$, both compact endpoints are fixed.  The limiting switch can
+therefore remain nonzero at a fixed radius above $R_{0,\infty}$ and equals one
+above $R_{1,\infty}$.  Nevertheless, for fixed $r$ the
+last term in Eq.~\eqref{eq:exterior_bridge} is
+$\mathcal O(M^2/L^2)$ because $r_c=\mathcal O(L)$.  Therefore
 \begin{equation}
  B_\chi(r)=-1+\frac{8M^2}{r^2}
  \qquad(L\to\infty),
  \label{eq:exterior_bridge_flat_limit}
 \end{equation}
 which is the minimal-gauge Schwarzschild boost in
-Eq.~\eqref{eq:schwarz_coefficients}.
+Eq.~\eqref{eq:schwarz_coefficients}.  Similarly,
+$r^2\chi_L/L^2\to0$ in Eq.~\eqref{eq:exterior_f}.  The metric and bridge thus
+recover Schwarzschild on every fixed physical-radius interval even though
+$\chi_L$ itself can have a nonzero limiting profile there.
 
 The compactification in Eq.~\eqref{eq:exterior_compactification} places $2M$
 at $\rho_\chi=0$ and $r_c$ at $\rho_\chi=1$ and tends to
@@ -1701,24 +1758,29 @@ The endpoint is regular because
  =\frac{8M^2}{r_c(r_c-3M)}.
  \label{eq:exterior_clock_endpoint}
 \end{equation}
-The clock limit must account for $R_0,R_1=\mathcal O(r_c)$.  Split the
-integral at $R_0(L)$.  Below that radius the integrand is exactly the
-Schwarzschild minimal-gauge integrand; its omitted tail is
-$\mathcal O(M^2/R_0)$.  In the remaining integral set $r=xr_c$.  There
-$1+B_\chi=8M^2r_c^{-2}(x^{-2}-\chi_L)$, while the common zero of numerator
-and denominator at $x=1$ is removable.  The transition and outer-cap
-integrand is $8M^2/r^2+\mathcal O(M^3/r_c^3)$ at fixed $x$.  Combining its
-integral with the missing Schwarzschild tail above $R_0$, and using
-$R_0/r_c\to9/13$, gives
+The clock limit contains fixed-radius and horizon-scale pieces.  Choose a
+fixed $R>R_{1,\infty}$.  For sufficiently large $L$, the complete transition
+lies below $R$ and $[R,r_c]$ is exactly SdS.  On $[r_0,R]$, the integrand
+converges to its Schwarzschild minimal-gauge value with
+$\mathcal O(L^{-2})$ corrections.  In the exact cap it can be evaluated in
+the cancellation-free form
+\begin{equation}
+ \frac{1+B_\chi}{f_\chi}
+ =\frac{8M^2(r_c+r)}{r^2r_c^2
+ \left[(r_c+r)/L^2-2M/(rr_c)\right]}.
+ \label{eq:exterior_clock_cap}
+\end{equation}
+Comparison with the integrable Schwarzschild tail then gives
 \begin{equation}
  q_\chi=q_0-\frac{8M^2}{r_c}
- +\mathcal O\!\left(\frac{M^3}{r_c^2}\right)
+ +o\!\left(\frac{M^2}{r_c}\right)
  \longrightarrow q_0=4M\ln\frac{r_0}{r_0-2M}.
  \label{eq:exterior_clock_flat_limit}
 \end{equation}
-Thus this horizon-supported family shares the common Schwarzschild clock used
-above.  The production audit records $q_\chi$ at every $L$ and compares it
-with the asymptotic formula in Eq.~\eqref{eq:exterior_clock_flat_limit}.
+Thus the fixed-angle-width exterior-supported family shares the common
+Schwarzschild clock used above.  The production audit records $q_\chi$ at
+every $L$ and compares it with the asymptotic formula in
+Eq.~\eqref{eq:exterior_clock_flat_limit}.
 
 \subsection{Production scalar-wave comparison}
 \label{sec:exterior-tests}
@@ -1732,20 +1794,42 @@ the same physical datum, waveform clock, Schwarzschild reference, and
 uniform-SdS controls as in Sec.~\ref{sec:direct_recovery}.
 
 The production sequence uses the compact pure-$\ell=2$ datum and
-$L/M=80,160,320,640$.  Each exterior-supported evolution runs to
-$\tau=200M$ with RK222, $3/2$ dealiasing, and waveform output every $0.03M$.
-The coarse, medium, and fine spatial resolutions are respectively
-$(384,512,768)$, $(768,1024,1536)$, $(1024,1536,2048)$, and
-$(1792,2048,2304)$ as $L/M$ increases.  The corresponding timesteps are
-$0.005M$, $0.00375M$, and $0.0025M$ for every $L$, exactly the timestep
-ladder of the frozen controls.  The bounded zeroth-order potential term is on
-the explicit side of the IMEX split in the exterior-supported runs; transport
-remains implicit.  This changes the linear solve, not the continuum system,
-and its numerical effect must remain below the quoted discretization scale.
-A representative matched-split or timestep-halving check is therefore
-required before the waveform improvement is interpreted.
-The chosen transition follows pilot profile comparisons and is held fixed
-throughout this production sequence.
+$L/M=80,160,320,640$.  The $L/M=80$ and $160$ members are algebraically
+unchanged by the final floor and their longer validated archives are truncated
+to the common analysis interval.  The $L/M=320$ and $640$ members were evolved
+afresh to $\tau=100M$.  All runs use RK222, $3/2$ dealiasing, and waveform
+output every $0.03M$.  The coarse, medium, and fine spatial resolutions are,
+in increasing $L/M$ order,
+\begin{equation}
+\begin{aligned}
+ L/M=80:&\quad(384,512,768),\\
+ L/M=160:&\quad(768,1024,1536),\\
+ L/M=320:&\quad(1024,1536,2048),\\
+ L/M=640:&\quad(768,1024,1536).
+\end{aligned}
+ \label{eq:exterior_resolution_ladders}
+\end{equation}
+The corresponding timesteps are $0.005M$, $0.00375M$, and $0.0025M$ for
+every $L$, matching the control ladder.  The bounded zeroth-order potential
+is explicit in the IMEX split and transport remains implicit.  Because space
+and time are refined together, the numerical scale below measures their
+coupled refinement.  A fixed-resolution timestep check would separate the two
+errors but is not used to reduce the quoted scale.
+
+The angle floor is active at $L/M=320$ and $640$.  Their audited transition
+radii are
+\begin{equation}
+\begin{array}{c|cc}
+ L/M & R_0/M & R_1/M\\ \hline
+ 320 &168.2329417&260.5413505\\
+ 640 &228.1477989&440.4330107
+\end{array}
+ \label{eq:fixed_angle_transition_radii}
+\end{equation}
+The respective fine grids place $49/49$ and $37/37$ Chebyshev points in the
+transition/cap pair.  The $L/M=640$ potential-representation error is
+$3.47\times10^{-6}$ relative to the analytic transition minimum.  Every
+background, spectral, and evolution-stability guard passes.
 
 For the new geometry the scalar potential is
 \begin{equation}
@@ -1757,62 +1841,121 @@ The bounds in Eq.~\eqref{eq:exterior_metric_bounds} exclude unintended roots
 analytically.  Before an archive is accepted, a dense background audit also
 checks $f_\chi>0$ and $|B_\chi|<1$ between the horizons, finite compactified
 coefficients, and a nonnegative represented potential.  A
-dense-versus-spectral comparison of the transition potential checks that its
-shrinking compact-coordinate width is resolved.  The final background table
-will give $r_c$, $R_0$, $R_1$, the compact layer width, transition and cap
-point counts, $q_\chi$, coefficient extrema, potential resolution, and
-$\Delta m_{\rm tr}/M$.  Runtime and step count are retained for the cost
-comparison because higher spatial resolution may offset a gain in waveform
-accuracy.  The evidence audit also compares the maximum stored reduction
-constraint norms across the refinement ladder; it does not infer an
-interval-resolved constraint history from endpoint snapshots.
+dense-versus-spectral comparison of the transition potential checks that the
+transition's nonvanishing compact-coordinate width is resolved.  The preflight
+also verifies the active endpoint branch and both intended angle widths.  It
+enforces prescribed minimum transition and cap point counts separately; the
+common angle floor protects both counts above $L_\star$.  The machine-readable
+audit records $r_c$, $R_0$, $R_1$, the compact widths and point counts,
+$q_\chi$, coefficient extrema, potential resolution,
+$\Delta m_{\rm tr}/M$, runtime, and step count.  It also compares the maximum
+stored reduction-constraint norms across the refinement ladder; it does not
+infer an interval-resolved constraint history from endpoint snapshots.
+A loose acceptance guard also rejects nonfinite evolution or order-of-magnitude
+growth in the stored waveforms, snapshots, or reduction constraint.  This is
+a blow-up check, not an accuracy estimate; accuracy still comes from the
+three-level waveform comparison.
 
 Against the same separately evolved Schwarzschild waveform $W_0$, define
 \begin{equation}
- E_\chi(L;\mathcal J)
- =\frac{\|W_\chi-W_0\|_{\mathcal J}}{\|W_0\|_{\mathcal J}}.
+ E_X(L;\mathcal J)
+ =\frac{\|W_X-W_0\|_{\mathcal J}}{\|W_0\|_{\mathcal J}},
+ \qquad X\in\{\mathrm{SdS},\chi\}.
  \label{eq:exterior_waveform_error}
 \end{equation}
-The headline interval is the raw, unshifted outer-boundary waveform on
-$0\leq U/M\leq80$.  No time translation, amplitude rescaling, time dilation,
-or background transfer correction is fitted.  Cumulative windows
-$0$--$40M$, $0$--$80M$, and $0$--$160M$, together with disjoint windows
-$40$--$80M$ and $80$--$160M$, separate prompt and later propagation.  The
-run to $200M$ exposes later changes hidden by the headline window.  Interior
-observer signals are retained for a reflection check.  For each $L$, the
-analysis must compare the record with the predicted tortoise-coordinate
-round-trip time; absence of a return is informative only when that time lies
-inside the evolved interval.  An apparent improvement is accepted only if
-$E_\chi<E_{\rm SdS}$ at the same $L$ and the gap exceeds the combined
-deterministic numerical scales of the candidate and uniform-SdS control.  The
-common Schwarzschild floor is included separately when testing an absolute
-$1\%$, $2\%$, or $5\%$ threshold.  Candidate convergence is measured on its
-own unequal-resolution ladder; it is not paired grid by grid with the
-archived control ladder.  Later windows are reported as diagnostic whenever
-refinement is not subdominant.
+All comparisons use the raw outer-boundary waveform: no time translation,
+amplitude rescaling, time dilation, or transfer correction is fitted.  The
+focused post-production comparison defines the operational QNM window as
+$15\leq U/M\leq45$.  Equal-duration windows
+$10$--$40M$ and $20$--$50M$ test sensitivity to this choice; the overlapping
+windows are correlated diagnostics, not independent measurements.  The
+prompt-inclusive $0$--$80M$ norm remains a secondary audit.  These $100M$
+evolutions do not address the long-time tail or a possible late return from
+the layer.
+
+For each family, successive-grid changes are computed from its residual
+$W_X-W_0$ and normalized by $\|W_0\|_{\mathcal J}$.  If they decrease,
+$\eta_X$ is the larger of the medium--fine change and the estimated remaining
+fine-grid scale.  For a nonmonotone ladder, $\eta_X$ is instead the larger of
+the two successive changes, and no Richardson order is assigned.  An
+improvement is resolved when
+$E_\chi+\eta_\chi<E_{\rm SdS}-\eta_{\rm SdS}$.  The common Schwarzschild
+reference floor enters absolute accuracy thresholds but is not counted twice
+when deciding which family is closer to the same frozen reference.  All four
+nominal improvements remain resolved under the more pessimistic check that
+adds this floor to the exterior upper bound and subtracts it from the uniform
+lower bound.
+
+Figure~\ref{fig:exterior-qnm-residuals} compares the signed residuals.  Moving
+the cosmological term outward reduces the residual norm across each ringdown
+window, without a fitted time shift or amplitude rescaling.
+
+\begin{figure*}[t]
+ \centering
+ \includegraphics[width=\textwidth]{figs/exterior_qnm_residual_comparison.pdf}
+ \caption{Raw fine-grid residuals relative to the same Schwarzschild waveform
+ for uniform SdS (top) and the exterior-supported family (bottom).  Both
+ panels use identical axes and colors.  Shading marks the nominal
+ $15\leq U/M\leq45$ operational QNM window.  No fitted time shift or amplitude
+ rescaling has been applied; interpolation only places the signals on the
+ common Schwarzschild $U$ grid.}
+ \label{fig:exterior-qnm-residuals}
+\end{figure*}
+
+Table~\ref{tab:exterior-qnm-improvement} quantifies the comparison.  On the
+nominal window the error reduction decreases from $25.7\%$ at $L/M=80$ to
+$8.6\%$ at $L/M=640$, while all three windows give a positive reduction at
+every $L$.  Each nominal improvement clears the adopted family-specific
+numerical margins.  The $L/M=640$ exterior ladder is nonmonotone, so its
+$\eta_\chi$ is the observed medium--fine change and the result is described
+as grid-resolved, not continuum-converged.
+
+\begin{table*}[t]
+\caption{Raw QNM-window agreement with Schwarzschild.  Errors and numerical
+ scales refer to $15\leq U/M\leq45$ and are percentages; $\eta$ is a
+ conservative coupled refinement scale, not a statistical uncertainty.  The
+ last column gives the relative-reduction range across the fixed
+ $10$--$40M$, $15$--$45M$, and $20$--$50M$ windows.}
+\label{tab:exterior-qnm-improvement}
+\begin{ruledtabular}
+\begin{tabular}{rrrrrrr}
+$L/M$ & $100E_{\rm SdS}$ & $100\eta_{\rm SdS}$
+& $100E_\chi$ & $100\eta_\chi$
+& reduction (\%) & window range (\%)\\
+\hline
+80  &14.593&0.0756&10.839&0.0178&25.7&20.9--30.2\\
+160 & 6.679&0.0472& 5.446&0.00521&18.5&15.6--21.2\\
+320 & 3.189&0.0725& 2.780&0.00146&12.8&11.3--14.3\\
+640 & 1.558&0.0299& 1.424&0.0176& 8.6& 7.8--9.3\\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+The prompt-inclusive $0$--$80M$ audit gives smaller central reductions of
+$18.0\%$, $14.1\%$, $10.5\%$, and $7.35\%$ as $L/M$ increases.  In the
+$40$--$80M$ disjoint window the improvement is unresolved at $L/M=320$ and
+$640$, so the sequence supports no late-time claim.
 
 This comparison is deliberately narrower than the uniform-SdS study.  It
 tests the background change with one clean fixed-mode datum; it does not
-repeat the localized-source calculation.  Prompt time-domain ringing is a
-waveform diagnostic, not a computation of the global quasinormal spectrum.
+repeat the localized-source calculation.  The improved raw ringing waveform
+is not a separate determination of quasinormal frequencies or damping rates.
 The exact Schwarzschild photon sphere protects the local eikonal structure,
 but finite-$\ell$ quasinormal frequencies depend on the full potential and
-both boundaries.  We therefore make no QNM claim for the exterior-supported
-geometry.
+both boundaries.  We therefore make no claim about the global quasinormal
+spectrum of the exterior-supported geometry.
 
 \subsection{Scope and acceptance criteria}
 
-The fixed-background proposal is supported if the production sequence shows
-a resolved error reduction relative to uniform SdS at the same $L$ and
-exterior $\Lambda$, while avoiding extra horizons, a dominant secondary
-potential barrier, significant returned radiation over the useful interval,
-large local curvature or stiffness, and prohibitive cost.  The extensive
-transition mass in Eq.~\eqref{eq:transition_mass_horizon_family} is an
-expected property of this horizon-scale family and is not itself a
-falsifier.  Failure to obtain a reduction beyond numerical sensitivity, or a
-gain erased by transition scattering or computational cost, would disfavor
-this particular construction.  These criteria concern only scalar waves on
-a fixed spherical background.
+The fixed-background calculation supports the proposal in a limited sense:
+at fixed exterior $\Lambda$, exterior support gives a resolved reduction of
+the short ringing-waveform error.  The background audits exclude extra
+horizons and an unresolved transition potential, and every evolution remains
+stable through $100M$.  They do not exclude a later return or establish
+long-time efficiency.  The transition mass in
+Eq.~\eqref{eq:transition_mass_fixed_angle_family} is a global property of the
+fixed-angle-width family and is not itself a falsifier.  These conclusions
+concern only scalar waves on a fixed spherical background.
 
 The nonlinear Einstein problem supplies the broader motivation but is not
 part of this benchmark.  The spherical construction uses invariant areal
@@ -1879,22 +2022,20 @@ source terms.  The fact that $\Omega_L$ remains nonzero at finite $L$ is the
 proposal's geometric premise, not a numerical regularity result.
 
 The exterior-supported construction in
-Sec.~\ref{sec:exterior-supported} defines the fixed-background benchmark now
-under numerical test.  Its horizon-supported family leaves the strong-field
-metric exactly Schwarzschild and is designed to reduce waveform bias at the
-same exterior $\Lambda$.  It trades distributed finite-$L$ bias for a distant
-anisotropic layer, compact-coordinate resolution cost, and possible
-scattering.  The production sequence measures these effects; quantitative
-interpretation awaits the completed convergence and late-window audit.  A
-nonlinear implementation also requires a covariant, conserved completion;
-prescribing a coordinate-dependent scalar $\Lambda(r)$ is inconsistent with
-the Bianchi identity.
+Sec.~\ref{sec:exterior-supported} leaves the strong-field metric exactly
+Schwarzschild and trades distributed finite-$L$ bias for a distant conserved
+anisotropic layer.  Fixing nonzero Chebyshev-angle widths for both the
+transition and exact-SdS cap makes the sequence computable through
+$L/M=640$.  With the same scalar data, clock, norms, Schwarzschild reference,
+and uniform-SdS controls, exterior support reduces the raw QNM-window error at
+every tested $L$.  The nominal reduction decreases from $25.7\%$ at $L/M=80$
+to $8.6\%$ at $L/M=640$ and remains separated under conservative coupled
+refinement margins.  This is a short-time waveform result, not a determination
+of the global QNM spectrum or a long-time scattering result.
 
-The ongoing sequence implements the comparison in
-Sec.~\ref{sec:exterior-tests}, using the same scalar data, waveform clock,
-norms, Schwarzschild reference, and uniform-SdS control.  Until every
-resolution and late-window check is complete, it supports no claim that
-exterior support improves Schwarzschild recovery.  Beyond that benchmark,
+A nonlinear implementation also requires a covariant, conserved completion;
+prescribing a coordinate-dependent scalar $\Lambda(r)$ is inconsistent with
+the Bianchi identity.  Beyond the fixed-background benchmark,
 the motivating nonlinear Einstein
 evolution at finite $L$ must be followed by the same controlled large-$L$
 comparison.  Such a calculation
@@ -1914,8 +2055,8 @@ nonlinear Einstein code that lies beyond this scalar study.
 \section{Numerical verification and deterministic sensitivities}
 \label{app:convergence}
 
-Both production families use the three-level ladders of
-Sec.~\ref{sec:scalar}, and each waveform comparison in the main text is
+The uniform fixed-mode and localized-source production families use the
+three-level ladders of Sec.~\ref{sec:scalar}, and each waveform comparison is
 formed at all three levels.  The observed refinement change is the
 medium-to-fine norm of the paired residual-waveform difference in
 Eq.~\eqref{eq:paired_refinement_change}; it is not the scalar difference of
@@ -1924,6 +2065,16 @@ from the coarse, medium, and fine sequence together with the resolution ratio
 to estimate the remaining fine-level scale under that order.  The two answer
 different questions and are never added or averaged; where they disagree the
 larger enters the direct threshold tests.
+
+The exterior-supported comparison applies the same paired-residual principle
+separately to the uniform and exterior families.  Its conservative scale is
+defined below Eq.~\eqref{eq:exterior_waveform_error}.  The QNM-window exterior ladders are
+monotone for $L/M=80$, $160$, and $320$; the $L/M=640$ ladder is not, so no
+Richardson order is assigned there.  The largest stored reduction-constraint
+norm over the new $L/M=320$ and $640$ runs is $2.87\times10^{-3}$, and all
+background, representation, and stability guards pass.  The family-specific
+scales used in the comparison are given explicitly in
+Table~\ref{tab:exterior-qnm-improvement}.
 
 For the fixed-mode family the largest cumulative refinement change is
 $0.1478\%$ at $L/M=320$ and $0.0465\%$ at $L/M=640$, with Richardson

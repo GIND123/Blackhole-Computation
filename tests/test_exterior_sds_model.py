@@ -6,15 +6,21 @@ import numpy as np
 
 from black_hole.exterior_sds_model import (
     ExteriorSdSParameters,
+    TRANSITION_MINIMUM_ANGLE_WIDTH,
+    TRANSITION_OUTER_HORIZON_FRACTION,
+    TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M,
     areal_radius,
     background_audit,
     bridge_boost,
+    bridge_one_minus_boost,
+    bridge_one_plus_boost,
     chebyshev_angle,
     compact_radius,
     compactification_derivative,
     metric_f,
     metric_f_prime,
     propagation_coefficient,
+    propagation_endpoint_coefficients,
     rescaled_scalar_potential,
     retarded_time_offset,
     smooth_step,
@@ -41,16 +47,90 @@ class ExteriorSdSModelTests(unittest.TestCase):
 
         r0, r1 = transition_radii(self.parameters)
         rho0, rho1 = transition_compact_radii(self.parameters)
-        self.assertAlmostEqual(
-            r1, 0.9 * self.parameters.cosmological_horizon, places=13
-        )
         self.assertAlmostEqual(compact_radius(np.array(r0), self.parameters), rho0)
         self.assertAlmostEqual(compact_radius(np.array(r1), self.parameters), rho1)
         theta0 = float(chebyshev_angle(np.array(rho0)))
         theta1 = float(chebyshev_angle(np.array(rho1)))
         self.assertAlmostEqual(theta0 - theta1, theta1, places=14)
-        self.assertGreater(r0 / self.parameters.cosmological_horizon, 0.68)
-        self.assertLess(r0 / self.parameters.cosmological_horizon, 0.70)
+        self.assertGreater(r0, 6.0)
+        self.assertAlmostEqual(
+            r1,
+            TRANSITION_OUTER_HORIZON_FRACTION
+            * self.parameters.cosmological_horizon,
+            places=12,
+        )
+
+        reference = ExteriorSdSParameters(
+            mass=1.0,
+            cosmological_length=TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M,
+            ell=2,
+        )
+        reference_rho0, reference_rho1 = transition_compact_radii(reference)
+        _, reference_r1 = transition_radii(reference)
+        self.assertAlmostEqual(
+            reference_r1,
+            TRANSITION_OUTER_HORIZON_FRACTION
+            * reference.cosmological_horizon,
+            places=11,
+        )
+        self.assertAlmostEqual(
+            float(chebyshev_angle(np.array(reference_rho1))),
+            TRANSITION_MINIMUM_ANGLE_WIDTH,
+            places=14,
+        )
+        self.assertAlmostEqual(reference_rho0, 0.9943459581991452, places=14)
+        self.assertAlmostEqual(reference_rho1, 0.9985844858695327, places=14)
+
+    def test_transition_angle_width_has_a_floor(self) -> None:
+        lengths = (80.0, 160.0, 320.0, 640.0, 5120.0)
+        endpoints = [
+            transition_compact_radii(
+                ExteriorSdSParameters(cosmological_length=length)
+            )
+            for length in lengths
+        ]
+        angle_widths = np.asarray(
+            [
+                float(chebyshev_angle(np.array(rho0)))
+                - float(chebyshev_angle(np.array(rho1)))
+                for rho0, rho1 in endpoints
+            ]
+        )
+        self.assertTrue(np.all(np.diff(angle_widths[:2]) < 0.0))
+        np.testing.assert_allclose(
+            angle_widths[1:],
+            TRANSITION_MINIMUM_ANGLE_WIDTH,
+            rtol=0.0,
+            atol=1.0e-14,
+        )
+        for length, (rho0, rho1) in zip(lengths, endpoints):
+            parameters = ExteriorSdSParameters(cosmological_length=length)
+            _, r1 = transition_radii(parameters)
+            if length <= TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M:
+                np.testing.assert_allclose(
+                    r1,
+                    TRANSITION_OUTER_HORIZON_FRACTION
+                    * parameters.cosmological_horizon,
+                    rtol=2.0e-12,
+                    atol=2.0e-14,
+                )
+            else:
+                self.assertLess(
+                    r1,
+                    TRANSITION_OUTER_HORIZON_FRACTION
+                    * parameters.cosmological_horizon,
+                )
+            self.assertGreater(rho1 - rho0, 0.0)
+
+    def test_model_metadata_records_width_floor_geometry(self) -> None:
+        metadata = ExteriorSdSParameters(cosmological_length=640.0).as_dict()
+        self.assertTrue(metadata["transition_width_floor_active"])
+        self.assertGreater(metadata["transition_compact_width"], 0.0)
+        self.assertGreater(metadata["outer_cap_compact_width"], 0.0)
+        self.assertLess(metadata["actual_transition_outer_horizon_fraction"], 0.9)
+        self.assertAlmostEqual(
+            metadata["transition_outer_rho"], 0.9985844858695327
+        )
 
     def test_smooth_step_and_analytic_derivative(self) -> None:
         x = np.linspace(-0.1, 1.1, 5001)
@@ -127,6 +207,29 @@ class ExteriorSdSModelTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(potential)))
         self.assertTrue(np.all(coefficient > 0.0))
 
+    def test_factorized_endpoint_coefficients_remain_resolved(self) -> None:
+        parameters = ExteriorSdSParameters(cosmological_length=640.0)
+        resolution = 2304
+        theta = np.pi * (np.arange(resolution) + 0.5) / resolution
+        rho = 0.5 * (1.0 + np.cos(theta))
+        one_plus = bridge_one_plus_boost(rho, parameters)
+        one_minus = bridge_one_minus_boost(rho, parameters)
+        boost = bridge_boost(rho, parameters)
+        coefficient = propagation_coefficient(rho, parameters)
+
+        self.assertTrue(np.all(one_plus > 0.0))
+        self.assertTrue(np.all(one_minus > 0.0))
+        np.testing.assert_allclose(one_plus + one_minus, 2.0, atol=5.0e-16)
+        np.testing.assert_allclose(
+            boost, 0.5 * (one_plus - one_minus), rtol=0.0, atol=0.0
+        )
+        self.assertTrue(np.all(np.isfinite(coefficient)))
+        self.assertGreater(np.min(coefficient), 0.0)
+        self.assertLess(
+            abs(coefficient[0] - propagation_endpoint_coefficients(parameters)[1]),
+            2.0e-7,
+        )
+
     def test_retarded_time_has_schwarzschild_limit(self) -> None:
         lengths = (80.0, 160.0, 320.0, 640.0)
         offsets = np.array(
@@ -142,8 +245,20 @@ class ExteriorSdSModelTests(unittest.TestCase):
         self.assertTrue(np.all(errors > 0.0))
         np.testing.assert_allclose(errors[:-1] / errors[1:], 2.0, rtol=0.03)
 
+    def test_fixed_radius_coefficients_have_schwarzschild_limit(self) -> None:
+        radius = np.array([4.0, 100.0, 1000.0])
+        schwarzschild_lapse = 1.0 - 2.0 / radius
+        errors = []
+        for length in (1280.0, 2560.0, 5120.0, 10240.0):
+            parameters = ExteriorSdSParameters(cosmological_length=length)
+            errors.append(
+                np.max(np.abs(metric_f(radius, parameters) - schwarzschild_lapse))
+            )
+        self.assertTrue(np.all(np.diff(errors) <= 1.0e-14))
+        self.assertLess(errors[-1], 0.02 * errors[0])
+
     def test_background_audit_passes_production_lengths(self) -> None:
-        for length in (80.0, 160.0, 320.0, 640.0):
+        for length in (80.0, 160.0, 320.0, 640.0, 5120.0):
             with self.subTest(length=length):
                 audit = background_audit(
                     ExteriorSdSParameters(cosmological_length=length)

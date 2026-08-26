@@ -1,4 +1,4 @@
-"""Raw waveform analysis for the far-transition production sequence.
+"""Raw waveform analysis for the fixed-transition-width production sequence.
 
 This module deliberately contains no fitted alignment or background-dependent
 waveform correction.  Every exterior-supported waveform is evaluated on the
@@ -29,31 +29,61 @@ from .far_regulator_production import (
     TIMESTEPS,
     archive_path,
     contract_sha256,
+    evolution_stability_audit,
     physical_contract,
 )
+from .exterior_sds_model import ExteriorSdSParameters
 from .regulator_analysis import (
-    ANALYSIS_WINDOWS,
-    CUMULATIVE_WINDOWS,
     WINDOW_LATEX_LABELS,
     _align_flat,
     _effective_order,
     _flat_signal,
     _l2,
     _retarded_times,
-    _window_family,
     _window_mask,
 )
 from .regulator_suite import LEVELS, flat_initial_data
 from .sds_result import SdSSimulationResult, load_sds_result
 
 
-HEADLINE_WINDOW = "radiative_signal"
+HEADLINE_WINDOW = "qnm_central"
+# This production experiment targets the prompt/ringdown waveform only.  The
+# frozen 200M controls are truncated rather than regenerated.
+CUMULATIVE_WINDOWS = (
+    ("prompt_and_early_ringdown", 0.0, 40.0),
+    ("radiative_signal", 0.0, 80.0),
+)
+QNM_WINDOWS = (
+    ("qnm_early", 10.0, 40.0),
+    ("qnm_central", 15.0, 45.0),
+    ("qnm_late", 20.0, 50.0),
+)
+DISJOINT_WINDOWS = (
+    ("early_ringdown", 40.0, 80.0),
+)
+ANALYSIS_WINDOWS = CUMULATIVE_WINDOWS + QNM_WINDOWS + DISJOINT_WINDOWS
+ARCHIVED_NUMERICAL_WINDOWS = CUMULATIVE_WINDOWS + DISJOINT_WINDOWS
+WINDOW_LABELS = {
+    **WINDOW_LATEX_LABELS,
+    "qnm_early": r"$10\leq U/M\leq 40$",
+    "qnm_central": r"$15\leq U/M\leq 45$",
+    "qnm_late": r"$20\leq U/M\leq 50$",
+}
 SUBSTANTIAL_REDUCTION_FACTOR = 0.75
 DIRECT_THRESHOLDS = (0.05, 0.02, 0.01)
 CONTROL_NUMERICAL_TABLE = Path("tables/flat_numerical_errors.csv")
+LEGACY_CANDIDATE_ROOT = Path("results/exterior_regulator_far_production_v1")
+LEGACY_UNCAPPED_CONTRACT_SHA256 = (
+    "9cfbd1d79f43165533a039247f54976f354c06383353f807f518cd3950dda1c9"
+)
+LEGACY_EQUIVALENT_LENGTHS = (80, 160)
 
 ANALYSIS_CONTRACT = {
-    "headline_observable": "raw unshifted outer waveform E2 on 0<=U/M<=80",
+    "headline_observable": (
+        "raw unshifted outer waveform E2 on the fixed 15<=U/M<=45 QNM window"
+    ),
+    "qnm_window_sensitivity": QNM_WINDOWS,
+    "prompt_inclusive_audit": "raw unshifted outer waveform E2 on 0<=U/M<=80",
     "comparison_grid": "frozen fine Schwarzschild retarded-time grid",
     "candidate_convergence": "candidate-only unequal-resolution ladder",
     "time_translation_fitted": False,
@@ -61,7 +91,22 @@ ANALYSIS_CONTRACT = {
     "time_dilation_fitted": False,
     "background_transfer_correction_used": False,
     "thresholds_include_schwarzschild_reference_floor": True,
+    "unchanged_lower_L_archives": (
+        "validated immutable reuse is allowed only for L/M=80,160"
+    ),
 }
+
+
+def _analysis_window_family(name: str) -> str:
+    """Classify overlapping QNM checks separately from disjoint intervals."""
+
+    if name in {window for window, _, _ in CUMULATIVE_WINDOWS}:
+        return "cumulative"
+    if name in {window for window, _, _ in QNM_WINDOWS}:
+        return "qnm_window_sensitivity"
+    if name in {window for window, _, _ in DISJOINT_WINDOWS}:
+        return "disjoint"
+    raise ValueError(f"Unknown waveform-analysis window {name!r}.")
 
 
 def analysis_contract_sha256() -> str:
@@ -141,16 +186,34 @@ def load_controls(
     }
 
 
+def _candidate_archive_path(
+    output_dir: Path,
+    legacy_dir: Path,
+    length: int,
+    level: str,
+) -> Path:
+    """Prefer a new archive, otherwise reuse an unchanged legacy member."""
+
+    current = archive_path(output_dir, length, level)
+    if current.exists() or length not in LEGACY_EQUIVALENT_LENGTHS:
+        return current
+    legacy = archive_path(legacy_dir, length, level)
+    return legacy if legacy.exists() else current
+
+
 def load_candidates(
     output_dir: Path,
     lengths: Iterable[int],
+    legacy_dir: Path = LEGACY_CANDIDATE_ROOT,
 ) -> dict[str, dict[int, SdSSimulationResult]]:
-    """Load the isolated exterior-supported production archives."""
+    """Load new archives, reusing only geometrically unchanged old members."""
 
     selected = tuple(int(length) for length in lengths)
     return {
         level: {
-            length: load_sds_result(archive_path(output_dir, length, level))
+            length: load_sds_result(
+                _candidate_archive_path(output_dir, legacy_dir, length, level)
+            )
             for length in selected
         }
         for level in LEVELS
@@ -161,7 +224,7 @@ def _require_waveform_archive(
     result: SdSSimulationResult,
     *,
     label: str,
-    maximum_U: float = 160.0,
+    maximum_U: float = 80.0,
 ) -> None:
     """Reject malformed or incomplete outer-waveform archives."""
 
@@ -182,6 +245,9 @@ def _require_waveform_archive(
         np.isfinite(result.constraint_l2)
     ):
         raise ValueError(f"{label} contains a nonfinite constraint diagnostic.")
+    stability = evolution_stability_audit(result)
+    if not stability["passed"]:
+        raise ValueError(f"{label} fails the evolution stability audit: {stability}")
     if observers.size == 0 or not np.isclose(observers[-1], 1.0, atol=1.0e-14):
         raise ValueError(f"{label} does not contain the outer-boundary observer.")
     offset = result.metadata.get("retarded_time_offset", {}).get("q")
@@ -215,8 +281,8 @@ def validate_archives(
         if schwarzschild.metadata.get("initial_data") != expected_initial:
             raise ValueError(f"Schwarzschild {level} initial-data mismatch.")
         control_numerical = schwarzschild.metadata.get("numerical", {})
-        if float(control_numerical.get("end_time", np.nan)) != END_TIME:
-            raise ValueError(f"Schwarzschild {level} endpoint mismatch.")
+        if float(control_numerical.get("end_time", np.nan)) < END_TIME:
+            raise ValueError(f"Schwarzschild {level} endpoint is too short.")
 
         for length in selected:
             uniform = controls[level]["uniform_sds"][length]
@@ -243,12 +309,16 @@ def validate_archives(
             numerical = candidate.metadata.get("numerical", {})
             expected_resolution = RESOLUTIONS[length][level]
             expected_timestep = TIMESTEPS[level]
+            provenance = candidate.metadata.get("simulation_provenance", {})
+            candidate_contract = provenance.get("physical_contract_sha256")
+            legacy_equivalent = bool(
+                length in LEGACY_EQUIVALENT_LENGTHS
+                and candidate_contract == LEGACY_UNCAPPED_CONTRACT_SHA256
+            )
             required_numerical = {
                 "resolution": expected_resolution,
                 "timestep": expected_timestep,
-                "end_time": END_TIME,
                 "signal_dt": 0.03,
-                "snapshot_dt": END_TIME,
                 "timestepper": "RK222",
                 "bridge": "minimal",
                 "dealias": 1.5,
@@ -266,21 +336,69 @@ def validate_archives(
                         f"Exterior SdS L/M={length} {level} has {key}={actual!r}; "
                         f"expected {expected!r}."
                     )
+            archived_end_time = float(numerical.get("end_time", np.nan))
+            archived_snapshot_dt = float(numerical.get("snapshot_dt", np.nan))
+            endpoint_matches = (
+                archived_end_time >= END_TIME
+                and archived_snapshot_dt >= END_TIME
+                if legacy_equivalent
+                else np.isclose(
+                    archived_end_time, END_TIME, rtol=1.0e-13, atol=1.0e-15
+                )
+                and np.isclose(
+                    archived_snapshot_dt, END_TIME, rtol=1.0e-13, atol=1.0e-15
+                )
+            )
+            if not endpoint_matches:
+                raise ValueError(
+                    f"Exterior SdS L/M={length} {level} endpoint mismatch."
+                )
 
             model = candidate.metadata.get("model", {})
             if float(model.get("cosmological_length", np.nan)) != float(length):
                 raise ValueError(
                     f"Exterior SdS L/M={length} {level} model mismatch."
                 )
-            provenance = candidate.metadata.get("simulation_provenance", {})
-            if provenance.get("physical_contract_sha256") != contract_sha256():
+            if not legacy_equivalent and candidate_contract != contract_sha256():
                 raise ValueError(
                     f"Exterior SdS L/M={length} {level} contract hash mismatch."
                 )
-            if candidate.metadata.get("physical_contract") != expected_contract:
+            if (
+                not legacy_equivalent
+                and candidate.metadata.get("physical_contract") != expected_contract
+            ):
                 raise ValueError(
                     f"Exterior SdS L/M={length} {level} physical contract mismatch."
                 )
+            expected_model = ExteriorSdSParameters(
+                mass=1.0, cosmological_length=float(length), ell=2
+            ).as_dict()
+            for key in (
+                "mass",
+                "cosmological_length",
+                "ell",
+                "black_hole_horizon",
+                "cosmological_horizon",
+                "transition_inner_radius",
+                "transition_outer_radius",
+                "transition_inner_rho",
+                "transition_outer_rho",
+            ):
+                actual = model.get(key)
+                expected = expected_model[key]
+                matches = (
+                    actual == expected
+                    if isinstance(expected, int)
+                    else actual is not None
+                    and np.isclose(
+                        float(actual), float(expected), rtol=2.0e-12, atol=2.0e-14
+                    )
+                )
+                if not matches:
+                    raise ValueError(
+                        f"Exterior SdS L/M={length} {level} has incompatible "
+                        f"model field {key}={actual!r}; expected {expected!r}."
+                    )
             preflight = candidate.metadata.get("spectral_preflight", {})
             if not preflight.get("passed", False):
                 raise ValueError(
@@ -294,6 +412,35 @@ def validate_archives(
                 raise ValueError(
                     f"Exterior SdS L/M={length} {level} preflight mismatch."
                 )
+            recomputed_stability = evolution_stability_audit(candidate)
+            if not recomputed_stability["passed"]:
+                raise ValueError(
+                    f"Exterior SdS L/M={length} {level} fails the recomputed "
+                    "evolution stability audit."
+                )
+            stored_stability = candidate.metadata.get(
+                "evolution_stability_audit"
+            )
+            if not legacy_equivalent:
+                if not stored_stability or not stored_stability.get("passed", False):
+                    raise ValueError(
+                        f"Exterior SdS L/M={length} {level} lacks a passing "
+                        "stored evolution stability audit."
+                    )
+                for key in (
+                    "maximum_stored_solution_amplification",
+                    "maximum_constraint_linf",
+                ):
+                    if not np.isclose(
+                        float(stored_stability.get(key, np.nan)),
+                        float(recomputed_stability[key]),
+                        rtol=1.0e-13,
+                        atol=1.0e-15,
+                    ):
+                        raise ValueError(
+                            f"Exterior SdS L/M={length} {level} has a stale "
+                            f"stored stability field {key}."
+                        )
             audit = candidate.metadata.get("background_audit", {})
             if not all(bool(audit.get(key, False)) for key in required_background_checks):
                 raise ValueError(
@@ -428,15 +575,18 @@ def load_uniform_numerical_scales(
     control_dir: Path,
     lengths: Iterable[int],
 ) -> dict[tuple[int, str], float]:
-    """Read the frozen uniform-SdS numerical scales from the v3 audit table."""
+    """Read legacy-window uniform-SdS scales from the frozen v3 audit table."""
 
     selected = {int(length) for length in lengths}
+    selected_windows = {
+        window for window, _, _ in ARCHIVED_NUMERICAL_WINDOWS
+    }
     table = Path(control_dir) / CONTROL_NUMERICAL_TABLE
     rows: dict[tuple[int, str], float] = {}
     with table.open(encoding="utf-8", newline="") as stream:
         for row in csv.DictReader(stream):
             length = int(float(row["cosmological_length_over_M"]))
-            if length not in selected:
+            if length not in selected or row["window"] not in selected_windows:
                 continue
             key = (length, row["window"])
             if key in rows:
@@ -448,7 +598,7 @@ def load_uniform_numerical_scales(
     expected = {
         (length, window)
         for length in selected
-        for window, _, _ in ANALYSIS_WINDOWS
+        for window, _, _ in ARCHIVED_NUMERICAL_WINDOWS
     }
     missing = sorted(expected - rows.keys())
     if missing:
@@ -456,12 +606,96 @@ def load_uniform_numerical_scales(
     return rows
 
 
+def compute_uniform_numerical_scales(
+    controls: dict,
+    times: np.ndarray,
+    reference: np.ndarray,
+    lengths: Iterable[int],
+) -> tuple[dict[tuple[int, str], float], list[dict]]:
+    """Recompute paired-control uniform-SdS scales on every fixed window.
+
+    The immutable control archives contain a level-matched Schwarzschild run
+    for every uniform-SdS run.  Refining their paired residual isolates the
+    discretization of the finite-``L`` difference and extends the frozen v3
+    audit consistently to the QNM-window sensitivity family.
+    """
+
+    selected = tuple(int(length) for length in lengths)
+    schwarzschild = {
+        level: _align_flat(controls[level]["schwarzschild"], times)
+        for level in LEVELS
+    }
+    uniform = {
+        level: {
+            length: _align_flat(
+                controls[level]["uniform_sds"][length], times
+            )
+            for length in selected
+        }
+        for level in LEVELS
+    }
+
+    lookup: dict[tuple[int, str], float] = {}
+    rows: list[dict] = []
+    for length in selected:
+        resolutions = tuple(
+            int(
+                controls[level]["uniform_sds"][length]
+                .metadata["numerical"]["resolution"]
+            )
+            for level in LEVELS
+        )
+        paired_residuals = {
+            level: uniform[level][length] - schwarzschild[level]
+            for level in LEVELS
+        }
+        for window, start, end in ANALYSIS_WINDOWS:
+            mask = _window_mask(times, start, end)
+            denominator = _l2(reference[mask], times[mask])
+            coarse_medium = _l2(
+                paired_residuals["coarse"][mask]
+                - paired_residuals["medium"][mask],
+                times[mask],
+            ) / denominator
+            medium_fine = _l2(
+                paired_residuals["medium"][mask]
+                - paired_residuals["fine"][mask],
+                times[mask],
+            ) / denominator
+            refinement = conservative_refinement_scale(
+                coarse_medium, medium_fine, resolutions
+            )
+            lookup[(length, window)] = float(
+                refinement["conservative_numerical_E2"]
+            )
+            rows.append(
+                {
+                    "cosmological_length_over_M": length,
+                    "window": window,
+                    "window_family": _analysis_window_family(window),
+                    "window_start_U_over_M": start,
+                    "window_end_U_over_M": end,
+                    "coarse_resolution": resolutions[0],
+                    "medium_resolution": resolutions[1],
+                    "fine_resolution": resolutions[2],
+                    "coarse_medium_paired_E2": coarse_medium,
+                    "medium_fine_paired_E2": medium_fine,
+                    **refinement,
+                    "difference_definition": (
+                        "level-matched uniform-SdS minus Schwarzschild residuals"
+                    ),
+                }
+            )
+    return lookup, rows
+
+
 def analyze(
     output_dir: Path,
     control_dir: Path = CONTROL_ROOT,
     lengths: Iterable[int] = LENGTHS,
+    legacy_candidate_dir: Path = LEGACY_CANDIDATE_ROOT,
 ) -> dict:
-    """Analyze a completed subset of the far-transition production sequence."""
+    """Analyze a completed subset of the width-floor production sequence."""
 
     selected = tuple(sorted({int(length) for length in lengths}))
     if not selected:
@@ -470,13 +704,12 @@ def analyze(
         raise ValueError(f"Lengths must be selected from {LENGTHS}.")
 
     controls = load_controls(control_dir, selected)
-    candidates = load_candidates(output_dir, selected)
+    candidates = load_candidates(output_dir, selected, legacy_candidate_dir)
     validate_archives(controls, candidates, selected)
-    uniform_scales = load_uniform_numerical_scales(control_dir, selected)
 
     fine_schwarzschild = controls["fine"]["schwarzschild"]
     reference_times = _retarded_times(fine_schwarzschild)
-    common = (reference_times >= 0.0) & (reference_times <= 160.0)
+    common = (reference_times >= 0.0) & (reference_times <= 80.0)
     times = reference_times[common]
     reference = _flat_signal(fine_schwarzschild)[common]
 
@@ -500,6 +733,9 @@ def analyze(
         level: _align_flat(controls[level]["schwarzschild"], times)
         for level in LEVELS
     }
+    uniform_scales, uniform_numerical_rows = compute_uniform_numerical_scales(
+        controls, times, reference, selected
+    )
 
     reference_floor_rows: list[dict] = []
     reference_floor: dict[str, float] = {}
@@ -515,7 +751,7 @@ def analyze(
         reference_floor_rows.append(
             {
                 "window": window,
-                "window_family": _window_family(window),
+                "window_family": _analysis_window_family(window),
                 "window_start_U_over_M": start,
                 "window_end_U_over_M": end,
                 "medium_fine_schwarzschild_E2": floor,
@@ -540,7 +776,7 @@ def analyze(
                         "refinement_level": level,
                         "resolution": RESOLUTIONS[length][level],
                         "window": window,
-                        "window_family": _window_family(window),
+                        "window_family": _analysis_window_family(window),
                         "window_start_U_over_M": start,
                         "window_end_U_over_M": end,
                         **metrics,
@@ -579,7 +815,7 @@ def analyze(
                 {
                     "cosmological_length_over_M": length,
                     "window": window,
-                    "window_family": _window_family(window),
+                    "window_family": _analysis_window_family(window),
                     "window_start_U_over_M": start,
                     "window_end_U_over_M": end,
                     "coarse_resolution": resolutions[0],
@@ -636,7 +872,7 @@ def analyze(
                 {
                     "cosmological_length_over_M": length,
                     "window": window,
-                    "window_family": _window_family(window),
+                    "window_family": _analysis_window_family(window),
                     "window_start_U_over_M": start,
                     "window_end_U_over_M": end,
                     "uniform_sds_E2": uniform_metrics["E2"],
@@ -698,7 +934,7 @@ def analyze(
                     {
                         "background_family": family,
                         "window": window,
-                        "window_family": _window_family(window),
+                        "window_family": _analysis_window_family(window),
                         "threshold_fraction": threshold,
                         "smallest_tested_L_over_M": min(qualified) if qualified else "",
                         "status": (
@@ -718,6 +954,15 @@ def analyze(
         for level in LEVELS:
             candidate = candidates[level][length]
             preflight = candidate.metadata["spectral_preflight"]
+            stability = evolution_stability_audit(candidate)
+            provenance = candidate.metadata["simulation_provenance"]
+            legacy_equivalent = bool(
+                provenance.get("physical_contract_sha256")
+                == LEGACY_UNCAPPED_CONTRACT_SHA256
+            )
+            model = candidate.metadata["model"]
+            background = candidate.metadata["background_audit"]
+            radius1 = float(model["transition_outer_radius"])
             archive_audit_rows.append(
                 {
                     "cosmological_length_over_M": length,
@@ -730,6 +975,44 @@ def analyze(
                         np.max(np.abs(candidate.constraint_l2))
                     ),
                     "spectral_preflight_passed": bool(preflight["passed"]),
+                    "evolution_stability_audit_passed": bool(stability["passed"]),
+                    "maximum_stored_solution_amplification": float(
+                        stability["maximum_stored_solution_amplification"]
+                    ),
+                    "archive_provenance": (
+                        "validated_unchanged_legacy_member"
+                        if legacy_equivalent
+                        else "width_floor_family_production"
+                    ),
+                    "transition_width_floor_active": bool(
+                        model.get("transition_width_floor_active", length > 320)
+                    ),
+                    "cosmological_horizon_over_M": float(
+                        model["cosmological_horizon"]
+                    ),
+                    "transition_inner_radius_over_M": float(
+                        model["transition_inner_radius"]
+                    ),
+                    "transition_outer_radius_over_M": radius1,
+                    "transition_rho_width": float(
+                        model["transition_outer_rho"]
+                        - model["transition_inner_rho"]
+                    ),
+                    "outer_cap_rho_width": float(
+                        1.0 - model["transition_outer_rho"]
+                    ),
+                    "retarded_time_offset_q_over_M": float(
+                        candidate.metadata["retarded_time_offset"]["q"]
+                    ),
+                    "minimum_A": float(background["minimum_A"]),
+                    "maximum_A": float(background["maximum_A"]),
+                    "minimum_P": float(background["minimum_P"]),
+                    "maximum_abs_P": float(background["maximum_abs_P"]),
+                    "transition_mass_over_M": (
+                        0.5 * radius1**3 / float(length) ** 2
+                    ),
+                    "wall_seconds": float(candidate.metadata["wall_seconds"]),
+                    "iterations": int(candidate.metadata["iterations"]),
                     "transition_nodes": int(preflight["transition_nodes"]),
                     "outer_cap_nodes": int(preflight["outer_cap_nodes"]),
                     "maximum_error_over_analytic_minimum_Q": float(
@@ -753,6 +1036,7 @@ def analyze(
         "reference_floor": reference_floor_rows,
         "direct": direct_rows,
         "numerical": numerical_rows,
+        "uniform_numerical": uniform_numerical_rows,
         "comparisons": comparison_rows,
         "thresholds": threshold_rows,
         "archive_audit": archive_audit_rows,
@@ -768,6 +1052,100 @@ def _save_figure(figure: plt.Figure, output_dir: Path, stem: str) -> list[Path]:
     return [png, pdf]
 
 
+def create_qnm_residual_comparison_figure(
+    output_dir: Path, analysis: dict
+) -> list[Path]:
+    """Compare raw uniform and exterior-supported QNM residual waveforms.
+
+    The two panels use the same vertical scale and the same color for a given
+    cosmological length.  This makes both the improvement from exterior
+    support and the convergence toward Schwarzschild with increasing ``L``
+    visible without normalizing away either effect.
+    """
+
+    output_dir = Path(output_dir)
+    times = analysis["times"]
+    reference = analysis["reference"]
+    lengths = analysis["lengths"]
+    uniform = analysis["uniform_signals"]["fine"]
+    exterior = analysis["candidate_signals"]["fine"]
+    mask = (times >= 0.0) & (times <= 60.0)
+    palette = ("#0072B2", "#D55E00", "#009E73", "#CC79A7")
+
+    with plt.rc_context(
+        {
+            "font.size": 8.5,
+            "axes.labelsize": 9,
+            "axes.titlesize": 9,
+            "legend.fontsize": 8,
+            "xtick.labelsize": 8,
+            "ytick.labelsize": 8,
+            "lines.linewidth": 1.25,
+        }
+    ):
+        figure, axes = plt.subplots(
+            2, 1, figsize=(7.0, 4.85), sharex=True, sharey=True
+        )
+        family_data = (
+            (uniform, "Uniform Schwarzschild–de Sitter"),
+            (exterior, "Exterior-supported Schwarzschild–de Sitter"),
+        )
+        for panel, (axis, (signals, title)) in enumerate(zip(axes, family_data)):
+            axis.axvspan(15.0, 45.0, color="0.92", linewidth=0, zorder=0)
+            axis.axhline(0.0, color="0.45", linewidth=0.7, zorder=1)
+            for color, length in zip(palette, lengths):
+                residual = signals[length] - reference
+                axis.plot(
+                    times[mask],
+                    residual[mask],
+                    color=color,
+                    label=rf"$L/M={length}$",
+                    zorder=2,
+                )
+            axis.set_xlim(0.0, 60.0)
+            axis.set_ylim(-0.045, 0.045)
+            axis.set_ylabel(r"$W_L-W_{\rm Schw}$")
+            axis.set_title(title, pad=4)
+            axis.text(
+                0.012,
+                0.91,
+                f"({chr(ord('a') + panel)})",
+                transform=axis.transAxes,
+                ha="left",
+                va="top",
+            )
+            axis.grid(axis="y", color="0.88", linewidth=0.55)
+        axes[0].text(
+            30.0,
+            -0.0405,
+            r"QNM comparison window",
+            color="0.35",
+            ha="center",
+            va="bottom",
+            fontsize=7.5,
+        )
+        handles, labels = axes[0].get_legend_handles_labels()
+        figure.legend(
+            handles,
+            labels,
+            loc="upper center",
+            bbox_to_anchor=(0.55, 0.995),
+            ncol=len(lengths),
+            frameon=False,
+            handlelength=2.4,
+            columnspacing=1.5,
+        )
+        axes[-1].set_xlabel(r"$U/M$")
+        figure.subplots_adjust(
+            left=0.105, right=0.985, bottom=0.10, top=0.89, hspace=0.25
+        )
+        written = _save_figure(
+            figure, output_dir, "width_floor_qnm_residual_comparison"
+        )
+        plt.close(figure)
+    return written
+
+
 def create_plots(output_dir: Path, analysis: dict) -> list[Path]:
     """Write raw waveform and direct-error figures without fitted alignment."""
 
@@ -778,6 +1156,8 @@ def create_plots(output_dir: Path, analysis: dict) -> list[Path]:
     exterior = analysis["candidate_signals"]["fine"]
     uniform = analysis["uniform_signals"]["fine"]
     written: list[Path] = []
+
+    written.extend(create_qnm_residual_comparison_figure(output_dir, analysis))
 
     figure, axes = plt.subplots(
         len(lengths), 2, figsize=(10.8, 2.55 * len(lengths)), sharex=True
@@ -813,13 +1193,13 @@ def create_plots(output_dir: Path, analysis: dict) -> list[Path]:
     axes[0, 0].set_title("Raw outer-boundary waveforms")
     axes[0, 1].set_title("Unshifted residuals")
     figure.tight_layout()
-    written.extend(_save_figure(figure, output_dir, "far_raw_waveforms"))
+    written.extend(_save_figure(figure, output_dir, "width_floor_raw_waveforms"))
     plt.close(figure)
 
     comparisons = analysis["comparisons"]
     figure, axes = plt.subplots(1, 2, figsize=(10.8, 4.1))
     colors = ("#4c78a8", "#f58518", "#54a24b")
-    for color, (window, _, _) in zip(colors, CUMULATIVE_WINDOWS):
+    for color, (window, _, _) in zip(colors, QNM_WINDOWS):
         rows = [row for row in comparisons if row["window"] == window]
         x = np.asarray([row["cosmological_length_over_M"] for row in rows])
         uniform_error = np.asarray([row["uniform_sds_E2"] for row in rows])
@@ -830,7 +1210,7 @@ def create_plots(output_dir: Path, analysis: dict) -> list[Path]:
         exterior_scale = np.asarray(
             [row["exterior_conservative_numerical_E2"] for row in rows]
         )
-        label = WINDOW_LATEX_LABELS[window]
+        label = WINDOW_LABELS[window]
         axes[0].errorbar(
             x, uniform_error, yerr=uniform_scale, marker="o", linestyle="--",
             color=color, capsize=2, label=f"uniform, {label}",
@@ -845,7 +1225,7 @@ def create_plots(output_dir: Path, analysis: dict) -> list[Path]:
         )
     axes[0].set(
         xscale="log", yscale="log", xlabel=r"$L/M$", ylabel=r"$E_2$",
-        title="Raw disagreement with Schwarzschild",
+        title="QNM-window disagreement with Schwarzschild",
     )
     axes[1].axhline(1.0, color="0.45", linestyle="--", linewidth=0.9)
     axes[1].set(
@@ -859,7 +1239,9 @@ def create_plots(output_dir: Path, analysis: dict) -> list[Path]:
         axis.grid(alpha=0.2, which="both")
         axis.legend(fontsize=7)
     figure.tight_layout()
-    written.extend(_save_figure(figure, output_dir, "far_raw_error_reduction"))
+    written.extend(
+        _save_figure(figure, output_dir, "width_floor_qnm_error_reduction")
+    )
     plt.close(figure)
     return written
 
@@ -868,27 +1250,41 @@ def create_analysis(
     output_dir: Path,
     control_dir: Path = CONTROL_ROOT,
     lengths: Iterable[int] = LENGTHS,
+    legacy_candidate_dir: Path = LEGACY_CANDIDATE_ROOT,
 ) -> list[Path]:
     """Write the complete raw production analysis package."""
 
     output_dir = Path(output_dir)
-    result = analyze(output_dir, control_dir, lengths)
+    result = analyze(output_dir, control_dir, lengths, legacy_candidate_dir)
     tables = output_dir / "tables"
     written = [
-        _write_csv(tables / "far_direct_errors_by_level.csv", result["direct"]),
         _write_csv(
-            tables / "far_candidate_numerical_errors.csv", result["numerical"]
+            tables / "width_floor_direct_errors_by_level.csv", result["direct"]
         ),
         _write_csv(
-            tables / "far_schwarzschild_reference_floor.csv",
+            tables / "width_floor_candidate_numerical_errors.csv",
+            result["numerical"],
+        ),
+        _write_csv(
+            tables / "width_floor_uniform_numerical_errors.csv",
+            result["uniform_numerical"],
+        ),
+        _write_csv(
+            tables / "width_floor_schwarzschild_reference_floor.csv",
             result["reference_floor"],
         ),
-        _write_csv(tables / "far_vs_uniform_raw.csv", result["comparisons"]),
-        _write_csv(tables / "far_direct_thresholds.csv", result["thresholds"]),
-        _write_csv(tables / "far_archive_audit.csv", result["archive_audit"]),
+        _write_csv(
+            tables / "width_floor_vs_uniform_raw.csv", result["comparisons"]
+        ),
+        _write_csv(
+            tables / "width_floor_direct_thresholds.csv", result["thresholds"]
+        ),
+        _write_csv(
+            tables / "width_floor_archive_audit.csv", result["archive_audit"]
+        ),
     ]
 
-    aligned = tables / "far_aligned_waveforms.csv"
+    aligned = tables / "width_floor_aligned_waveforms.csv"
     columns = [result["times"], result["reference"]]
     headers = ["U_over_M", "schwarzschild_fine"]
     for length in result["lengths"]:
@@ -910,14 +1306,24 @@ def create_analysis(
     headline = [
         row for row in result["comparisons"] if row["window"] == HEADLINE_WINDOW
     ]
+    qnm_sensitivity = [
+        row
+        for row in result["comparisons"]
+        if row["window"] in {window for window, _, _ in QNM_WINDOWS}
+    ]
+    prompt_inclusive = [
+        row for row in result["comparisons"] if row["window"] == "radiative_signal"
+    ]
     summary = {
-        "study": "far_horizon_supported_artificial_cosmology_production_analysis",
+        "study": "fixed_transition_width_artificial_cosmology_analysis",
         "analysis_contract": ANALYSIS_CONTRACT,
         "analysis_contract_sha256": analysis_contract_sha256(),
         "simulation_contract_sha256": contract_sha256(),
         "lengths": result["lengths"],
         "headline_window": HEADLINE_WINDOW,
         "headline_raw_comparisons": headline,
+        "qnm_window_sensitivity": qnm_sensitivity,
+        "prompt_inclusive_audit": prompt_inclusive,
         "schwarzschild_reference_floor": result["reference_floor"],
         "direct_thresholds": result["thresholds"],
         "archive_audit": result["archive_audit"],
@@ -932,11 +1338,17 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_ROOT)
     parser.add_argument("--control-dir", type=Path, default=CONTROL_ROOT)
     parser.add_argument(
+        "--legacy-candidate-dir", type=Path, default=LEGACY_CANDIDATE_ROOT
+    )
+    parser.add_argument(
         "--lengths", nargs="+", type=int, default=list(LENGTHS), choices=LENGTHS
     )
     arguments = parser.parse_args()
     for path in create_analysis(
-        arguments.output_dir, arguments.control_dir, arguments.lengths
+        arguments.output_dir,
+        arguments.control_dir,
+        arguments.lengths,
+        arguments.legacy_candidate_dir,
     ):
         print(path)
 

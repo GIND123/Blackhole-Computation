@@ -20,10 +20,14 @@ class ExteriorRegulatorSuiteTests(unittest.TestCase):
         self.assertFalse(any("schwarzschild" in name for name in catalogue))
         self.assertTrue(all("L80" in name for name in catalogue))
 
-    def test_contract_records_far_horizon_transition(self) -> None:
+    def test_contract_records_fixed_minimum_transition_width(self) -> None:
         contract = physical_contract()
-        self.assertIn("theta0=2*theta1", contract["transition"]["inner_compact_location"])
-        self.assertIn("R1=0.9*r_c", contract["transition"]["outer_radius"])
+        transition = contract["transition"]
+        self.assertEqual(transition["width_reference_length_over_M"], 160.0)
+        self.assertEqual(transition["outer_horizon_fraction"], 0.9)
+        self.assertGreater(transition["minimum_transition_angle_width"], 0.0)
+        self.assertIn("nonzero limiting", transition["grid_design"])
+        self.assertIn("theta0=2*theta1", transition["endpoint_rule"])
         self.assertFalse(contract["control_archives_modified"])
         self.assertEqual(contract_sha256(), contract_sha256())
 

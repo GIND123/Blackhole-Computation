@@ -1,10 +1,10 @@
-"""Production far-transition simulations for the regulator paper.
+"""Production fixed-transition-width QNM-window simulations.
 
 The frozen Schwarzschild and uniform-SdS controls are read only.  This runner
-creates only the horizon-supported exterior cases, using a length-dependent
-resolution ladder that keeps the narrowing Chebyshev layer resolved.  Every
-archive destination is reserved atomically and existing destinations are
-refused.
+creates only the exterior-supported cases.  The transition and exact-SdS cap
+retain nonzero limiting Chebyshev-angle widths; below the reference length the
+outer edge follows ``0.9 r_c``.  Every archive destination is reserved
+atomically and existing destinations are refused.
 """
 
 from __future__ import annotations
@@ -20,7 +20,11 @@ from scipy.fft import dct
 
 from .exterior_sds_model import (
     ExteriorSdSParameters,
+    TRANSITION_MINIMUM_ANGLE_WIDTH,
+    TRANSITION_OUTER_HORIZON_FRACTION,
+    TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M,
     chebyshev_angle,
+    compact_radius,
     compactification_scale,
     rescaled_scalar_potential,
     transition_compact_radii,
@@ -34,11 +38,11 @@ from .regulator_suite import (
 from .reproducibility import reproducibility_metadata
 
 
-OUTPUT_ROOT = Path("results/exterior_regulator_far_production_v1")
+OUTPUT_ROOT = Path("results/exterior_regulator_width_floor_qnm_v5")
 CONTROL_ROOT = Path("results/regulator_production_v3")
 LENGTHS = (80, 160, 320, 640)
 HEIGHT_REFERENCE_RADIUS = 4.0
-END_TIME = 200.0
+END_TIME = 100.0
 SIGNAL_DT = 0.03
 TIMESTEPS = {
     "coarse": 0.005,
@@ -50,7 +54,7 @@ RESOLUTIONS = {
     80: {"coarse": 384, "medium": 512, "fine": 768},
     160: {"coarse": 768, "medium": 1024, "fine": 1536},
     320: {"coarse": 1024, "medium": 1536, "fine": 2048},
-    640: {"coarse": 1792, "medium": 2048, "fine": 2304},
+    640: {"coarse": 768, "medium": 1024, "fine": 1536},
 }
 
 PREFLIGHT_RELATIVE_LIMITS = {
@@ -58,6 +62,14 @@ PREFLIGHT_RELATIVE_LIMITS = {
     "medium": 0.15,
     "fine": 0.05,
 }
+MINIMUM_TRANSITION_NODES = 12
+MINIMUM_OUTER_CAP_NODES = 12
+
+# These bounds are intentionally loose compared with every resolved member of
+# the completed sequence.  Their purpose is only to prevent a finite but
+# exponentially growing evolution from being mistaken for a usable archive.
+MAXIMUM_STORED_SOLUTION_AMPLIFICATION = 10.0
+MAXIMUM_CONSTRAINT_LINF = 1.0
 
 
 def production_numerical(length: int, level: str):
@@ -86,7 +98,7 @@ def physical_contract() -> dict:
     """Return the fixed physics and coordinate contract for the sequence."""
 
     return {
-        "study": "far_horizon_supported_artificial_cosmology_production",
+        "study": "fixed_outer_angle_width_artificial_cosmology_production",
         "mass": 1.0,
         "ell": 2,
         "gauge": "exterior_supported_minimal",
@@ -96,17 +108,35 @@ def physical_contract() -> dict:
             "cosmological horizon"
         ),
         "transition": {
-            "outer_radius": "R1=0.9*r_c",
             "angle": "theta=acos(2*rho-1)",
-            "inner_location": "theta0=2*theta1",
+            "outer_horizon_fraction": (
+                TRANSITION_OUTER_HORIZON_FRACTION
+            ),
+            "width_reference_length_over_M": (
+                TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M
+            ),
+            "minimum_transition_angle_width": TRANSITION_MINIMUM_ANGLE_WIDTH,
+            "endpoint_rule": (
+                f"theta1=max(theta({TRANSITION_OUTER_HORIZON_FRACTION}*r_c),"
+                "delta_theta_min), theta0=2*theta1"
+            ),
             "profile": "standard C-infinity step in Chebyshev endpoint angle",
-            "outer_cap": "chi_L=1 for r>=R1",
+            "outer_cap": "chi_L=1 for rho>=rho1",
+            "large_L_behavior": (
+                "transition and cap retain nonzero limiting angle widths"
+            ),
         },
         "initial_data": flat_initial_data().as_dict(),
         "height_reference_radius_over_M": HEIGHT_REFERENCE_RADIUS,
         "retarded_time": "U=tau-q_chi with endpoint-safe q_chi integral",
         "imex_split": (
             "transport terms implicit; bounded order-unity potential term explicit"
+        ),
+        "coefficient_evaluation": (
+            "horizon-factorized f, 1+B, 1-B, and A"
+        ),
+        "flux_evaluation": (
+            "exterior characteristic remainder form using Cplus=1+B"
         ),
         "outer_boundary_pair": (
             "exterior-supported cosmological horizon versus Schwarzschild scri+"
@@ -119,6 +149,20 @@ def physical_contract() -> dict:
         "control_archives_modified": False,
         "production_end_time_over_M": END_TIME,
         "production_resolutions": RESOLUTIONS,
+        "spectral_preflight_acceptance": {
+            "maximum_error_over_analytic_minimum_by_level": (
+                PREFLIGHT_RELATIVE_LIMITS
+            ),
+            "minimum_transition_nodes": MINIMUM_TRANSITION_NODES,
+            "minimum_outer_cap_nodes": MINIMUM_OUTER_CAP_NODES,
+            "transition_branch_must_match_contract": True,
+        },
+        "evolution_stability_acceptance": {
+            "maximum_stored_solution_amplification": (
+                MAXIMUM_STORED_SOLUTION_AMPLIFICATION
+            ),
+            "maximum_constraint_linf": MAXIMUM_CONSTRAINT_LINF,
+        },
     }
 
 
@@ -133,7 +177,7 @@ def case_catalogue() -> dict[str, tuple[int, str]]:
     """Return the twelve isolated production cases."""
 
     return {
-        f"far_sds_L{length}_{level}": (length, level)
+        f"width_floor_sds_L{length}_{level}": (length, level)
         for length in LENGTHS
         for level in LEVELS
     }
@@ -174,6 +218,44 @@ def spectral_preflight(
     rho0, rho1 = transition_compact_radii(parameters)
     theta0 = float(chebyshev_angle(np.array(rho0)))
     theta1 = float(chebyshev_angle(np.array(rho1)))
+    horizon_scaled_rho1 = float(
+        compact_radius(
+            np.array(
+                TRANSITION_OUTER_HORIZON_FRACTION
+                * parameters.cosmological_horizon
+            ),
+            parameters,
+        )
+    )
+    horizon_scaled_theta1 = float(
+        chebyshev_angle(np.array(horizon_scaled_rho1))
+    )
+    expected_outer_angle = max(
+        horizon_scaled_theta1, TRANSITION_MINIMUM_ANGLE_WIDTH
+    )
+    expected_angle_width = expected_outer_angle
+    width_floor_active = bool(
+        length > TRANSITION_WIDTH_REFERENCE_LENGTH_OVER_M
+    )
+    branch_verified = bool(
+        np.isclose(
+            theta1,
+            expected_outer_angle,
+            rtol=0.0,
+            atol=2.0e-14,
+        )
+        and np.isclose(
+            theta0 - theta1,
+            expected_angle_width,
+            rtol=0.0,
+            atol=2.0e-14,
+        )
+        and width_floor_active
+        == (
+            horizon_scaled_theta1
+            < TRANSITION_MINIMUM_ANGLE_WIDTH - 2.0e-14
+        )
+    )
 
     theta_nodes = np.pi * (np.arange(resolution) + 0.5) / resolution
     x_nodes = np.cos(theta_nodes)
@@ -197,6 +279,9 @@ def spectral_preflight(
     passed = bool(
         represented_minimum > 0.0
         and relative_error <= PREFLIGHT_RELATIVE_LIMITS[level]
+        and transition_nodes >= MINIMUM_TRANSITION_NODES
+        and cap_nodes >= MINIMUM_OUTER_CAP_NODES
+        and branch_verified
     )
     return {
         "length_over_M": length,
@@ -205,6 +290,19 @@ def spectral_preflight(
         "timestep_over_M": numerical.timestep,
         "transition_nodes": transition_nodes,
         "outer_cap_nodes": cap_nodes,
+        "minimum_transition_nodes": MINIMUM_TRANSITION_NODES,
+        "minimum_outer_cap_nodes": MINIMUM_OUTER_CAP_NODES,
+        "transition_inner_rho": rho0,
+        "transition_outer_rho": rho1,
+        "transition_rho_width": rho1 - rho0,
+        "outer_cap_rho_width": 1.0 - rho1,
+        "transition_width_floor_active": width_floor_active,
+        "transition_branch_verified": branch_verified,
+        "transition_inner_theta": theta0,
+        "transition_outer_theta": theta1,
+        "horizon_scaled_transition_outer_theta": horizon_scaled_theta1,
+        "expected_transition_outer_theta": expected_outer_angle,
+        "expected_transition_angle_width": expected_angle_width,
         "analytic_minimum_Q": analytic_minimum,
         "represented_minimum_Q": represented_minimum,
         "maximum_absolute_Q_error": maximum_error,
@@ -213,6 +311,56 @@ def spectral_preflight(
             np.max(np.abs(coefficients[-min(32, resolution) :]))
         ),
         "relative_error_limit": PREFLIGHT_RELATIVE_LIMITS[level],
+        "passed": passed,
+    }
+
+
+def evolution_stability_audit(result) -> dict[str, float | bool]:
+    """Flag gross growth in stored waveforms, snapshots, or constraints."""
+
+    signals = np.asarray(result.signals, dtype=float)
+    snapshots = np.asarray(result.u_snapshots, dtype=float)
+    constraints = np.asarray(result.constraint_linf, dtype=float)
+    initial_scale = float(
+        max(
+            np.max(np.abs(snapshots[0])) if snapshots.size else 0.0,
+            np.max(np.abs(signals[0])) if signals.size else 0.0,
+            np.finfo(float).tiny,
+        )
+    )
+    maximum_solution = float(
+        max(
+            np.max(np.abs(snapshots)) if snapshots.size else np.inf,
+            np.max(np.abs(signals)) if signals.size else np.inf,
+        )
+    )
+    maximum_constraint = float(
+        np.max(np.abs(constraints)) if constraints.size else np.inf
+    )
+    finite = bool(
+        signals.size
+        and snapshots.size
+        and constraints.size
+        and np.all(np.isfinite(signals))
+        and np.all(np.isfinite(snapshots))
+        and np.all(np.isfinite(constraints))
+    )
+    amplification = maximum_solution / initial_scale
+    passed = bool(
+        finite
+        and amplification <= MAXIMUM_STORED_SOLUTION_AMPLIFICATION
+        and maximum_constraint <= MAXIMUM_CONSTRAINT_LINF
+    )
+    return {
+        "finite_evolution": finite,
+        "initial_solution_scale": initial_scale,
+        "maximum_stored_solution_abs": maximum_solution,
+        "maximum_stored_solution_amplification": amplification,
+        "maximum_stored_solution_amplification_limit": (
+            MAXIMUM_STORED_SOLUTION_AMPLIFICATION
+        ),
+        "maximum_constraint_linf": maximum_constraint,
+        "maximum_constraint_linf_limit": MAXIMUM_CONSTRAINT_LINF,
         "passed": passed,
     }
 
@@ -240,7 +388,7 @@ def run_case(output_dir: Path, case: str) -> Path:
 
     catalogue = case_catalogue()
     if case not in catalogue:
-        raise ValueError(f"Unknown far-regulator production case {case!r}.")
+        raise ValueError(f"Unknown width-floor production case {case!r}.")
     length, level = catalogue[case]
     destination = archive_path(output_dir, length, level)
     if destination.exists() or destination.with_suffix(".incomplete.npz").exists():
@@ -273,6 +421,9 @@ def run_case(output_dir: Path, case: str) -> Path:
         production_numerical(length, level),
         explicit_potential=True,
     )
+    stability = evolution_stability_audit(result)
+    if not stability["passed"]:
+        raise ValueError(f"Evolution stability audit failed for {case}: {stability}")
     result.metadata["height_normalization"] = {
         "reference_radius": HEIGHT_REFERENCE_RADIUS,
         "height_at_reference": 0.0,
@@ -285,6 +436,7 @@ def run_case(output_dir: Path, case: str) -> Path:
     result.metadata["physical_contract"] = physical_contract()
     result.metadata["background_audit"] = audit
     result.metadata["spectral_preflight"] = preflight
+    result.metadata["evolution_stability_audit"] = stability
     result.metadata["simulation_provenance"] = _provenance(
         case, length, level, output_dir
     )
