@@ -8,9 +8,12 @@ from black_hole.sds_model import (
     BRIDGE_CHOICES,
     ScalarInitialData,
     SdSParameters,
+    areal_radius,
     bridge_boost,
+    compactification_derivative,
     metric_f,
     propagation_coefficient,
+    rescaled_scalar_potential,
     scalar_gaussian_initial_data,
     sds_horizons,
 )
@@ -74,6 +77,33 @@ class SdSModelTests(unittest.TestCase):
             SdSParameters(ell=-1)
         with self.assertRaises(ValueError):
             ScalarInitialData(center_fraction=1.5)
+        with self.assertRaises(ValueError):
+            SdSParameters(curvature_coupling=np.nan)
+
+    def test_curvature_coupling_potential(self) -> None:
+        rho = np.linspace(0.0, 1.0, 1001)
+        minimal = SdSParameters(
+            mass=1.0,
+            cosmological_length=80.0,
+            ell=2,
+            curvature_coupling=0.0,
+        )
+        conformal = SdSParameters(
+            mass=1.0,
+            cosmological_length=80.0,
+            ell=2,
+            curvature_coupling=1.0 / 6.0,
+        )
+        radius = areal_radius(rho, conformal)
+        rho_prime = compactification_derivative(radius, conformal)
+        expected = 2.0 / conformal.cosmological_length**2 / rho_prime
+        np.testing.assert_allclose(
+            rescaled_scalar_potential(rho, conformal)
+            - rescaled_scalar_potential(rho, minimal),
+            expected,
+            rtol=3.0e-14,
+            atol=3.0e-14,
+        )
 
 
 if __name__ == "__main__":

@@ -16,6 +16,9 @@ from black_hole.regulator_analysis import (
     l12_phase_cleanup,
     source_analysis,
 )
+from black_hole.curvature_coupling_tail_analysis import (
+    create_submission_figure as create_tail_figure,
+)
 
 
 def main() -> None:
@@ -34,6 +37,11 @@ def main() -> None:
                 target = destination / path.name
                 shutil.copy2(path, target)
                 print(target)
+
+    tail_root = REPOSITORY_ROOT / "results" / "curvature_coupling_production_v2"
+    tail_figure = destination / "tail_outer_boundary_comparison.pdf"
+    create_tail_figure(tail_root, tail_figure)
+    print(tail_figure)
 
 
 if __name__ == "__main__":

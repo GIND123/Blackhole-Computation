@@ -12,11 +12,13 @@ from typing import Callable
 
 import dedalus.public as d3
 import numpy as np
+from scipy.fft import dct
 
 from .exterior_sds_model import (
     ExteriorSdSParameters,
     areal_radius as exterior_areal_radius,
     bridge_boost as exterior_bridge_boost,
+    bridge_one_minus_boost as exterior_bridge_one_minus_boost,
     bridge_one_plus_boost as exterior_bridge_one_plus_boost,
     propagation_coefficient as exterior_propagation_coefficient,
     rescaled_scalar_potential as exterior_rescaled_scalar_potential,
@@ -54,6 +56,8 @@ from .schwarzschild_scalar import (
 )
 
 LOGGER = logging.getLogger(__name__)
+NCC_CUTOFF = 1.0e-6
+ENTRY_CUTOFF = 1.0e-12
 
 
 @dataclass(frozen=True)
@@ -101,6 +105,23 @@ def _timestepper(name: str):
         raise ValueError(f"Unknown timestepper {name!r}; choose from {steppers}") from exc
 
 
+def _chebyshev_tail_ratio(values: np.ndarray, tail_count: int = 16) -> float:
+    """Return the relative tail of Chebyshev coefficients on Gauss nodes."""
+
+    values = np.asarray(values, dtype=float).ravel()
+    if values.size < 4:
+        raise ValueError("At least four Gauss values are required.")
+    # Dedalus stores this basis from rho=0 to rho=1, opposite to the usual
+    # descending cosine-node order expected by a type-II DCT.
+    coefficients = dct(values[::-1], type=2) / values.size
+    coefficients[0] *= 0.5
+    scale = float(np.max(np.abs(coefficients)))
+    if scale == 0.0:
+        return 0.0
+    count = min(int(tail_count), values.size)
+    return float(np.max(np.abs(coefficients[-count:])) / scale)
+
+
 def _run_scalar_simulation(
     model: SdSParameters | SchwarzschildScalarParameters | ExteriorSdSParameters,
     initial: ScalarInitialData | ArealBumpInitialData | ArealVelocityBumpInitialData,
@@ -112,6 +133,7 @@ def _run_scalar_simulation(
     propagation_function: Callable[[np.ndarray], np.ndarray],
     potential_function: Callable[[np.ndarray], np.ndarray],
     one_plus_boost_function: Callable[[np.ndarray], np.ndarray] | None = None,
+    one_minus_boost_function: Callable[[np.ndarray], np.ndarray] | None = None,
     initial_function: Callable[
         [np.ndarray], tuple[np.ndarray, np.ndarray, np.ndarray]
     ],
@@ -119,6 +141,9 @@ def _run_scalar_simulation(
     checkpoint_path: Path | None = None,
     checkpoint_dt: float | None = None,
     explicit_potential: bool = False,
+    endpoint_factored_characteristic_variables: bool = False,
+    conservative_characteristic_variables: bool = False,
+    characteristic_constraint_damping: float = 0.0,
 ) -> SdSSimulationResult:
     """Evolve the common first-order scalar system on one background.
 
@@ -132,10 +157,57 @@ def _run_scalar_simulation(
     ``L/M=5120`` against 2 on Schwarzschild).  Kept implicit it turns the banded
     subproblem matrices nearly dense, which costs an order of magnitude in both
     matrix construction and per-step solve without buying any stability.
+
+    ``endpoint_factored_characteristic_variables`` evolves ``u`` together
+    with ``H`` and ``J``, defined by
+
+    ``A(1+B)(pi+psi)=(1-rho)H`` and
+    ``A(1-B)(pi-psi)=rho J``.
+
+    The factors impose the two regularity conditions at the null boundaries
+    analytically.  Cancellation-free functions for both ``1+B`` and ``1-B``
+    are required in this mode.  ``characteristic_constraint_damping`` damps
+    the redundant compatibility constraint through the incoming
+    characteristic sector without changing a continuum scalar solution.  Its
+    default of zero leaves the reduction undamped.
+
+    ``conservative_characteristic_variables`` instead evolves
+    ``h=pi+psi`` and ``j=pi-psi``.  Their fluxes
+    ``Fplus=A(1+B)h`` and ``Fminus=A(1-B)j`` are reused literally in the
+    ``u``, ``h``, and ``j`` equations.  Consequently the semidiscrete
+    compatibility constraint ``(h-j)/2-d_rho(u)`` is preserved without
+    relying on a discrete product rule or on separately truncated
+    coefficient identities.  This is the preferred exterior-tail
+    formulation; the endpoint-factored system is retained as an independent
+    damped check.
     """
 
     started = time.perf_counter()
     dtype = np.float64
+
+    if (
+        not np.isfinite(characteristic_constraint_damping)
+        or characteristic_constraint_damping < 0.0
+    ):
+        raise ValueError(
+            "Characteristic constraint damping must be finite and nonnegative."
+        )
+    if (
+        characteristic_constraint_damping != 0.0
+        and not endpoint_factored_characteristic_variables
+    ):
+        raise ValueError(
+            "Characteristic constraint damping requires endpoint-factored "
+            "characteristic variables."
+        )
+    if (
+        endpoint_factored_characteristic_variables
+        and conservative_characteristic_variables
+    ):
+        raise ValueError(
+            "Choose either endpoint-factored or conservative characteristic "
+            "variables, not both."
+        )
 
     rho_coord = d3.Coordinate("rho")
     dist = d3.Distributor(rho_coord, dtype=dtype)
@@ -149,11 +221,31 @@ def _run_scalar_simulation(
     radius = radius_function(rho)
 
     u = dist.Field(name="u", bases=basis)
-    psi = dist.Field(name="psi", bases=basis)
-    pi = dist.Field(name="pi", bases=basis)
     coefficient_a = dist.Field(name="coefficient_a", bases=basis)
     coefficient_b = dist.Field(name="coefficient_b", bases=basis)
     coefficient_cplus = dist.Field(name="coefficient_cplus", bases=basis)
+    coefficient_cminus = dist.Field(name="coefficient_cminus", bases=basis)
+    coefficient_rho = dist.Field(name="coefficient_rho", bases=basis)
+    coefficient_one_minus_rho = dist.Field(
+        name="coefficient_one_minus_rho", bases=basis
+    )
+    coefficient_vplus = dist.Field(name="coefficient_vplus", bases=basis)
+    coefficient_vminus = dist.Field(name="coefficient_vminus", bases=basis)
+    coefficient_alpha_plus = dist.Field(name="coefficient_alpha_plus", bases=basis)
+    coefficient_alpha_minus = dist.Field(
+        name="coefficient_alpha_minus", bases=basis
+    )
+    coefficient_inverse_two_alpha_plus = dist.Field(
+        name="coefficient_inverse_two_alpha_plus", bases=basis
+    )
+    coefficient_inverse_two_alpha_minus = dist.Field(
+        name="coefficient_inverse_two_alpha_minus", bases=basis
+    )
+    coefficient_alpha_ratio = dist.Field(
+        name="coefficient_alpha_ratio", bases=basis
+    )
+    potential_alpha_plus = dist.Field(name="potential_alpha_plus", bases=basis)
+    potential_alpha_minus = dist.Field(name="potential_alpha_minus", bases=basis)
     potential = dist.Field(name="potential", bases=basis)
 
     drho = lambda field: d3.Differentiate(field, rho_coord)
@@ -162,11 +254,11 @@ def _run_scalar_simulation(
     coefficient_b["g"] = boost_function(rho)
     if one_plus_boost_function is not None:
         coefficient_cplus["g"] = one_plus_boost_function(rho)
+    if one_minus_boost_function is not None:
+        coefficient_cminus["g"] = one_minus_boost_function(rho)
     potential["g"] = potential_function(rho)
     initial_u, initial_psi, initial_pi = initial_function(rho)
     u["g"] = initial_u
-    psi["g"] = initial_psi
-    pi["g"] = initial_pi
     if isinstance(initial, ArealBumpInitialData):
         # The analytic chain-rule values are used by the model validation.
         # In the finite Chebyshev representation, initialize the auxiliary
@@ -175,43 +267,234 @@ def _run_scalar_simulation(
         # prevents an avoidable O(truncation) first-order constraint at t=0.
         represented_derivative = drho(u).evaluate()
         represented_derivative.change_scales(1)
-        psi["g"] = np.asarray(represented_derivative["g"]).ravel()
+        initial_psi = np.asarray(represented_derivative["g"]).ravel()
         if initial.time_symmetric:
-            pi["g"] = -np.asarray(coefficient_b["g"]).ravel() * psi["g"]
+            initial_pi = -np.asarray(coefficient_b["g"]).ravel() * initial_psi
 
-    problem = d3.IVP([u, psi, pi], namespace=locals())
-    if one_plus_boost_function is None:
-        outgoing_flux = "coefficient_b * psi + pi"
-        ingoing_flux = "psi + coefficient_b * pi"
-    else:
-        # B=-1+Cplus.  These exactly equivalent fluxes avoid subtracting the
-        # horizon-scale remainder Cplus from one inside a spectral product.
-        outgoing_flux = "(pi - psi) + coefficient_cplus * psi"
-        ingoing_flux = "(psi - pi) + coefficient_cplus * pi"
-    problem.add_equation(
-        f"dt(u) - coefficient_a * ({outgoing_flux}) = 0"
+    characteristic_variables = bool(
+        endpoint_factored_characteristic_variables
+        or conservative_characteristic_variables
     )
-    problem.add_equation(
-        f"dt(psi) - drho(coefficient_a * ({outgoing_flux})) = 0"
-    )
-    if explicit_potential:
-        problem.add_equation(
-            f"dt(pi) - drho(coefficient_a * ({ingoing_flux}))"
-            " = -potential * u"
-        )
-    else:
-        problem.add_equation(
-            f"dt(pi) - drho(coefficient_a * ({ingoing_flux}))"
-            " + potential * u = 0"
-        )
+    if characteristic_variables:
+        if one_plus_boost_function is None or one_minus_boost_function is None:
+            raise ValueError(
+                "Characteristic variables require "
+                "cancellation-free 1+B and 1-B."
+            )
+        a_values = np.asarray(coefficient_a["g"]).ravel()
+        cplus_values = np.asarray(coefficient_cplus["g"]).ravel()
+        cminus_values = np.asarray(coefficient_cminus["g"]).ravel()
+        vplus_values = a_values * cplus_values
+        vminus_values = a_values * cminus_values
+        alpha_plus_values = vplus_values / (1.0 - rho)
+        alpha_minus_values = vminus_values / rho
+        coefficient_rho["g"] = rho
+        coefficient_one_minus_rho["g"] = 1.0 - rho
+        coefficient_alpha_plus["g"] = alpha_plus_values
+        coefficient_alpha_minus["g"] = alpha_minus_values
+        if not (
+            np.all(np.isfinite(alpha_plus_values))
+            and np.all(np.isfinite(alpha_minus_values))
+            and np.all(alpha_plus_values > 0.0)
+            and np.all(alpha_minus_values > 0.0)
+        ):
+            raise ValueError("Characteristic coefficients are not regular.")
 
-    solver = problem.build_solver(_timestepper(numerical.timestepper))
+    if endpoint_factored_characteristic_variables:
+        potential_values = np.asarray(potential["g"]).ravel()
+        coefficient_vplus["g"] = vplus_values
+        coefficient_vminus["g"] = vminus_values
+        coefficient_inverse_two_alpha_plus["g"] = 0.5 / alpha_plus_values
+        coefficient_inverse_two_alpha_minus["g"] = 0.5 / alpha_minus_values
+        coefficient_alpha_ratio["g"] = alpha_plus_values / alpha_minus_values
+        potential_alpha_plus["g"] = alpha_plus_values * potential_values
+        potential_alpha_minus["g"] = alpha_minus_values * potential_values
+
+        alpha_plus_outer = float(
+            coefficient_alpha_plus(rho=1.0).evaluate()["g"].ravel()[0]
+        )
+        alpha_minus_inner = float(
+            coefficient_alpha_minus(rho=0.0).evaluate()["g"].ravel()[0]
+        )
+        expected_alpha_plus_outer = float(
+            (model.cosmological_horizon - 3.0 * model.mass)
+            / model.cosmological_horizon**2
+        )
+        expected_alpha_minus_inner = float(1.0 / (4.0 * model.mass))
+        factored_coefficient_audit = {
+            "finite_and_positive": True,
+            "alpha_plus_minimum": float(np.min(alpha_plus_values)),
+            "alpha_plus_maximum": float(np.max(alpha_plus_values)),
+            "alpha_minus_minimum": float(np.min(alpha_minus_values)),
+            "alpha_minus_maximum": float(np.max(alpha_minus_values)),
+            "alpha_plus_chebyshev_tail_ratio": _chebyshev_tail_ratio(
+                alpha_plus_values
+            ),
+            "alpha_minus_chebyshev_tail_ratio": _chebyshev_tail_ratio(
+                alpha_minus_values
+            ),
+            "alpha_plus_over_minus_maximum": float(
+                np.max(alpha_plus_values / alpha_minus_values)
+            ),
+            "alpha_plus_over_minus_chebyshev_tail_ratio": _chebyshev_tail_ratio(
+                alpha_plus_values / alpha_minus_values
+            ),
+            "alpha_plus_outer_represented": alpha_plus_outer,
+            "alpha_plus_outer_exact_kappa_c": expected_alpha_plus_outer,
+            "alpha_plus_outer_absolute_error": abs(
+                alpha_plus_outer - expected_alpha_plus_outer
+            ),
+            "alpha_minus_inner_represented": alpha_minus_inner,
+            "alpha_minus_inner_exact": expected_alpha_minus_inner,
+            "alpha_minus_inner_absolute_error": abs(
+                alpha_minus_inner - expected_alpha_minus_inner
+            ),
+        }
+
+        H = dist.Field(name="H", bases=basis)
+        J = dist.Field(name="J", bases=basis)
+        H["g"] = alpha_plus_values * (initial_pi + initial_psi)
+        J["g"] = alpha_minus_values * (initial_pi - initial_psi)
+        constraint_operator = (
+            coefficient_inverse_two_alpha_plus * H
+            - coefficient_inverse_two_alpha_minus * J
+            - drho(u)
+        )
+        state_fields = (u, H, J)
+        checkpoint_state_keys = ("u", "H", "J")
+        problem = d3.IVP(list(state_fields), namespace=locals())
+        problem.add_equation(
+            "dt(u) - 0.5 * (coefficient_one_minus_rho * H"
+            " + coefficient_rho * J) = 0"
+        )
+        if explicit_potential:
+            problem.add_equation(
+                "dt(H) - coefficient_vplus * drho(H)"
+                " + coefficient_alpha_plus * H"
+                " + characteristic_constraint_damping * H"
+                " - characteristic_constraint_damping"
+                " * coefficient_alpha_ratio * J"
+                " - 2 * characteristic_constraint_damping"
+                " * coefficient_alpha_plus * drho(u)"
+                " = -potential_alpha_plus * u"
+            )
+            problem.add_equation(
+                "dt(J) + coefficient_vminus * drho(J)"
+                " + coefficient_alpha_minus * J = -potential_alpha_minus * u"
+            )
+        else:
+            problem.add_equation(
+                "dt(H) - coefficient_vplus * drho(H)"
+                " + coefficient_alpha_plus * H"
+                " + characteristic_constraint_damping * H"
+                " - characteristic_constraint_damping"
+                " * coefficient_alpha_ratio * J"
+                " - 2 * characteristic_constraint_damping"
+                " * coefficient_alpha_plus * drho(u)"
+                " + potential_alpha_plus * u = 0"
+            )
+            problem.add_equation(
+                "dt(J) + coefficient_vminus * drho(J)"
+                " + coefficient_alpha_minus * J + potential_alpha_minus * u = 0"
+            )
+    elif conservative_characteristic_variables:
+        h = dist.Field(name="h", bases=basis)
+        j = dist.Field(name="j", bases=basis)
+        h["g"] = initial_pi + initial_psi
+        j["g"] = initial_pi - initial_psi
+        # Keep the linear endpoint factors as explicit nested operators.  If
+        # vplus=(1-rho)*alpha_plus and vminus=rho*alpha_minus are first
+        # projected into separate NCC fields, coefficient truncation leaves
+        # small nonzero endpoint speeds.  These expressions retain the exact
+        # null factors while still reusing literally identical flux operators
+        # in all three equations.
+        flux_plus = coefficient_one_minus_rho * (coefficient_alpha_plus * h)
+        flux_minus = coefficient_rho * (coefficient_alpha_minus * j)
+        constraint_operator = 0.5 * (h - j) - drho(u)
+        state_fields = (u, h, j)
+        checkpoint_state_keys = ("u", "h", "j")
+        problem = d3.IVP(list(state_fields), namespace=locals())
+        problem.add_equation(
+            "dt(u) - 0.5 * (flux_plus + flux_minus) = 0"
+        )
+        if explicit_potential:
+            problem.add_equation(
+                "dt(h) - drho(flux_plus) = -potential * u"
+            )
+            problem.add_equation(
+                "dt(j) + drho(flux_minus) = -potential * u"
+            )
+        else:
+            problem.add_equation(
+                "dt(h) - drho(flux_plus) + potential * u = 0"
+            )
+            problem.add_equation(
+                "dt(j) + drho(flux_minus) + potential * u = 0"
+            )
+    else:
+        psi = dist.Field(name="psi", bases=basis)
+        pi = dist.Field(name="pi", bases=basis)
+        psi["g"] = initial_psi
+        pi["g"] = initial_pi
+        state_fields = (u, psi, pi)
+        checkpoint_state_keys = ("u", "psi", "pi")
+        problem = d3.IVP(list(state_fields), namespace=locals())
+        if one_plus_boost_function is None:
+            outgoing_flux = "coefficient_b * psi + pi"
+            ingoing_flux = "psi + coefficient_b * pi"
+        else:
+            # B=-1+Cplus.  These exactly equivalent fluxes avoid subtracting the
+            # horizon-scale remainder Cplus from one inside a spectral product.
+            outgoing_flux = "(pi - psi) + coefficient_cplus * psi"
+            ingoing_flux = "(psi - pi) + coefficient_cplus * pi"
+        problem.add_equation(
+            f"dt(u) - coefficient_a * ({outgoing_flux}) = 0"
+        )
+        problem.add_equation(
+            f"dt(psi) - drho(coefficient_a * ({outgoing_flux})) = 0"
+        )
+        if explicit_potential:
+            problem.add_equation(
+                f"dt(pi) - drho(coefficient_a * ({ingoing_flux}))"
+                " = -potential * u"
+            )
+        else:
+            problem.add_equation(
+                f"dt(pi) - drho(coefficient_a * ({ingoing_flux}))"
+                " + potential * u = 0"
+            )
+        constraint_operator = psi - drho(u)
+
+    solver = problem.build_solver(
+        _timestepper(numerical.timestepper),
+        ncc_cutoff=NCC_CUTOFF,
+        entry_cutoff=ENTRY_CUTOFF,
+    )
     solver.stop_sim_time = numerical.end_time
 
     observer_operators = [u(rho=point) for point in numerical.observers]
     observer_rho = np.asarray(numerical.observers, dtype=float)
     observer_radius = radius_function(observer_rho)
-    constraint_operator = psi - drho(u)
+    constraint_probe_rho: list[float] = []
+    constraint_probe_labels: list[str] = []
+    constraint_probe_operators = None
+    if characteristic_variables:
+        for index, point in enumerate(numerical.observers):
+            constraint_probe_rho.append(float(point))
+            constraint_probe_labels.append(f"waveform_observer_{index}")
+        if "transition_inner_rho" in horizon_metadata:
+            transition_inner = float(horizon_metadata["transition_inner_rho"])
+            transition_outer = float(horizon_metadata["transition_outer_rho"])
+            for label, point in (
+                ("transition_inner", transition_inner),
+                ("transition_midpoint", 0.5 * (transition_inner + transition_outer)),
+                ("transition_outer", transition_outer),
+            ):
+                constraint_probe_rho.append(point)
+                constraint_probe_labels.append(label)
+        constraint_probe_operators = [
+            constraint_operator(rho=point) for point in constraint_probe_rho
+        ]
 
     signal_stride = max(1, round(numerical.signal_dt / numerical.timestep))
     snapshot_stride = max(1, round(numerical.snapshot_dt / numerical.timestep))
@@ -223,6 +506,7 @@ def _run_scalar_simulation(
     u_snapshots: list[np.ndarray] = []
     constraint_linf: list[float] = []
     constraint_l2: list[float] = []
+    constraint_probe_values: list[list[float]] = []
 
     configuration = json.dumps(
         {
@@ -233,6 +517,35 @@ def _run_scalar_simulation(
             # Recorded only when set, so checkpoints written by the default
             # implicit split stay byte-identical and remain resumable.
             **({"imex_split": "explicit_potential"} if explicit_potential else {}),
+            **(
+                {
+                    "state_variables": (
+                        "endpoint_factored_characteristic_H_J"
+                        if endpoint_factored_characteristic_variables
+                        else "conservative_characteristic_h_j"
+                    )
+                }
+                if characteristic_variables
+                else {}
+            ),
+            **(
+                {
+                    "characteristic_flux_discretization": (
+                        "conservative_nested_endpoint_flux_v1"
+                    )
+                }
+                if conservative_characteristic_variables
+                else {}
+            ),
+            **(
+                {
+                    "characteristic_constraint_damping": (
+                        characteristic_constraint_damping
+                    )
+                }
+                if characteristic_constraint_damping != 0.0
+                else {}
+            ),
         },
         sort_keys=True,
     )
@@ -250,6 +563,10 @@ def _run_scalar_simulation(
             return
         checkpoint.parent.mkdir(parents=True, exist_ok=True)
         temporary = checkpoint.with_suffix(checkpoint.suffix + ".tmp")
+        state_arrays = {
+            key: np.asarray(field["g"]).ravel()
+            for key, field in zip(checkpoint_state_keys, state_fields)
+        }
         with temporary.open("wb") as stream:
             np.savez_compressed(
                 stream,
@@ -257,16 +574,30 @@ def _run_scalar_simulation(
                 sim_time=np.array(solver.sim_time),
                 iteration=np.array(solver.iteration),
                 elapsed_wall_seconds=np.array(elapsed_wall_seconds),
+                # ``state_scales`` is retained for checkpoints made by older
+                # versions.  The per-field scales handle the case where a
+                # Dedalus interpolation or product has temporarily placed
+                # different state fields at different dealias scales.
                 state_scales=np.asarray(u.scales),
-                u=np.asarray(u["g"]).ravel(),
-                psi=np.asarray(psi["g"]).ravel(),
-                pi=np.asarray(pi["g"]).ravel(),
+                state_field_scales=np.asarray(
+                    [field.scales for field in state_fields], dtype=float
+                ),
+                **state_arrays,
                 signal_times=np.asarray(signal_times),
                 signals=np.asarray(signals),
                 snapshot_times=np.asarray(snapshot_times),
                 u_snapshots=np.asarray(u_snapshots),
                 constraint_linf=np.asarray(constraint_linf),
                 constraint_l2=np.asarray(constraint_l2),
+                **(
+                    {
+                        "constraint_probe_values": np.asarray(
+                            constraint_probe_values
+                        )
+                    }
+                    if characteristic_variables
+                    else {}
+                ),
             )
         os.replace(temporary, checkpoint)
 
@@ -279,11 +610,21 @@ def _run_scalar_simulation(
         signals.append(values)
 
     def record_snapshot() -> None:
-        constraint = np.asarray(constraint_operator.evaluate()["g"]).ravel()
+        constraint_field = constraint_operator.evaluate()
+        constraint_field.change_scales(1)
+        constraint = np.asarray(constraint_field["g"]).ravel().copy()
+        u.change_scales(1)
         snapshot_times.append(float(solver.sim_time))
         u_snapshots.append(np.asarray(u["g"]).ravel().copy())
         constraint_linf.append(float(np.max(np.abs(constraint))))
         constraint_l2.append(float(np.sqrt(np.mean(constraint**2))))
+        if constraint_probe_operators is not None:
+            constraint_probe_values.append(
+                [
+                    float(operator.evaluate()["g"].ravel()[0])
+                    for operator in constraint_probe_operators
+                ]
+            )
 
     if checkpoint is not None and checkpoint.exists():
         with np.load(checkpoint, allow_pickle=False) as saved:
@@ -292,21 +633,43 @@ def _run_scalar_simulation(
                 raise ValueError(
                     f"Checkpoint configuration does not match this run: {checkpoint}"
                 )
-            state_scales = tuple(saved["state_scales"].tolist())
-            for field in (u, psi, pi):
-                field.change_scales(state_scales)
-            u["g"] = saved["u"]
-            psi["g"] = saved["psi"]
-            pi["g"] = saved["pi"]
+            if "state_field_scales" in saved:
+                field_scales = [
+                    tuple(np.atleast_1d(scales).tolist())
+                    for scales in saved["state_field_scales"]
+                ]
+            else:
+                # Legacy checkpoints recorded only the scale of ``u``.  Infer
+                # every one-dimensional field's actual scale from its stored
+                # grid length so even a mixed-scale checkpoint remains usable.
+                field_scales = [
+                    (float(saved[key].size) / numerical.resolution,)
+                    for key in checkpoint_state_keys
+                ]
+            for field, key, scales in zip(
+                state_fields, checkpoint_state_keys, field_scales
+            ):
+                field.change_scales(scales)
+                field["g"] = saved[key]
             solver.sim_time = solver.initial_sim_time = float(saved["sim_time"])
             solver.iteration = solver.initial_iteration = int(saved["iteration"])
             elapsed_before_restart = float(saved["elapsed_wall_seconds"])
             signal_times.extend(saved["signal_times"].tolist())
             signals.extend(saved["signals"].tolist())
             snapshot_times.extend(saved["snapshot_times"].tolist())
-            u_snapshots.extend(saved["u_snapshots"].tolist())
+            saved_snapshots = np.asarray(saved["u_snapshots"])
+            if saved_snapshots.ndim != 2 or saved_snapshots.shape[1] != rho.size:
+                raise ValueError(
+                    "Checkpoint snapshots do not use the base-grid width; "
+                    "restart this diagnostic from clean initial data."
+                )
+            u_snapshots.extend(saved_snapshots.tolist())
             constraint_linf.extend(saved["constraint_linf"].tolist())
             constraint_l2.extend(saved["constraint_l2"].tolist())
+            if characteristic_variables:
+                constraint_probe_values.extend(
+                    saved["constraint_probe_values"].tolist()
+                )
         resumed_from_checkpoint = True
         LOGGER.info(
             "resumed %s from tau=%.6f, iteration=%d",
@@ -352,6 +715,104 @@ def _run_scalar_simulation(
                 next_checkpoint_time += checkpoint_dt
 
     elapsed = elapsed_before_restart + time.perf_counter() - started
+    if endpoint_factored_characteristic_variables:
+        equation_metadata = {
+            "variables": (
+                "F=(1-rho)*H=A*(1+B)*(pi+psi), "
+                "G=rho*J=A*(1-B)*(pi-psi)"
+            ),
+            "u": "dt(u) = ((1-rho)*H+rho*J)/2",
+            "H": (
+                "dt(H) = vplus*d_rho(H)-alpha_plus*(H+P*u)"
+                "-2*gamma*alpha_plus*C"
+            ),
+            "J": "dt(J) = -vminus*d_rho(J)-alpha_minus*(J+P*u)",
+            "vplus": "A*(1+B)=(1-rho)*alpha_plus",
+            "vminus": "A*(1-B)=rho*alpha_minus",
+            "alpha_plus": "A*(1+B)/(1-rho)",
+            "alpha_minus": "A*(1-B)/rho",
+            "A": "(f*d rho/dr)/(1-B^2)",
+            "B": "f*dh/dr",
+            "P": "V_scalar/(f*d rho/dr)",
+            "gamma": characteristic_constraint_damping,
+        }
+        constraint_metadata = {
+            "definition": (
+                "C=H/(2*alpha_plus)-J/(2*alpha_minus)-d_rho(u)"
+            ),
+            "continuum_identity": "C=psi-d_rho(u)",
+            "endpoint_safe": True,
+            "saved_norms": "unweighted C",
+            "normalization": 1.0,
+            "damping_rate": characteristic_constraint_damping,
+            "damping_rate_units": "inverse coordinate time",
+            "dimensionless_rate": "gamma*M",
+            "continuum_propagation": "d_tau(C)=-gamma*C",
+            "damped_sector": "pi+psi (H); pi-psi (J) unchanged",
+            "probe_rho": constraint_probe_rho,
+            "probe_labels": constraint_probe_labels,
+            "probe_values": constraint_probe_values,
+            "probe_sample_times": "snapshot_times",
+            "note": (
+                "The endpoint factors are carried by the evolved fluxes; "
+                "alpha_plus and alpha_minus remain finite and nonzero at "
+                "the two null boundaries."
+            ),
+        }
+        characteristic_initialization = {
+            "evolved_variables": "u, H, J",
+            "H": "alpha_plus*(pi+psi)",
+            "J": "alpha_minus*(pi-psi)",
+        }
+    elif conservative_characteristic_variables:
+        equation_metadata = {
+            "variables": "h=pi+psi, j=pi-psi",
+            "flux_plus": (
+                "Fplus=(1-rho)*(alpha_plus*h)=A*(1+B)*h"
+            ),
+            "flux_minus": "Fminus=rho*(alpha_minus*j)=A*(1-B)*j",
+            "flux_discretization": "conservative_nested_endpoint_flux_v1",
+            "u": "dt(u)=(Fplus+Fminus)/2",
+            "h": "dt(h)=d_rho(Fplus)-P*u",
+            "j": "dt(j)=-d_rho(Fminus)-P*u",
+            "A": "(f*d rho/dr)/(1-B^2)",
+            "B": "f*dh/dr",
+            "P": "V_scalar/(f*d rho/dr)",
+        }
+        constraint_metadata = {
+            "definition": "C=(h-j)/2-d_rho(u)",
+            "continuum_identity": "C=psi-d_rho(u)",
+            "endpoint_safe": True,
+            "saved_norms": "unweighted C",
+            "normalization": 1.0,
+            "damping_rate": 0.0,
+            "continuum_propagation": "d_tau(C)=0",
+            "semidiscrete_propagation": (
+                "d_tau(C)=0 because identical Fplus and Fminus operators "
+                "are reused in all three equations"
+            ),
+            "probe_rho": constraint_probe_rho,
+            "probe_labels": constraint_probe_labels,
+            "probe_values": constraint_probe_values,
+            "probe_sample_times": "snapshot_times",
+        }
+        characteristic_initialization = {
+            "evolved_variables": "u, h, j",
+            "h": "pi+psi",
+            "j": "pi-psi",
+        }
+    else:
+        equation_metadata = {
+            "u": f"dt(u) = A*({outgoing_flux})",
+            "psi": f"dt(psi) = d_rho[A*({outgoing_flux})]",
+            "pi": f"dt(pi) = d_rho[A*({ingoing_flux})] - P*u",
+            "A": "(f*d rho/dr)/(1-B^2)",
+            "B": "f*dh/dr",
+            "P": "V_scalar/(f*d rho/dr)",
+        }
+        constraint_metadata = None
+        characteristic_initialization = {}
+
     metadata = {
         "background": background,
         "model": model.as_dict(),
@@ -366,14 +827,17 @@ def _run_scalar_simulation(
             "interval_sim_time": checkpoint_dt,
             "resumed": resumed_from_checkpoint,
         },
-        "equations": {
-            "u": f"dt(u) = A*({outgoing_flux})",
-            "psi": f"dt(psi) = d_rho[A*({outgoing_flux})]",
-            "pi": f"dt(pi) = d_rho[A*({ingoing_flux})] - P*u",
-            "A": "(f*d rho/dr)/(1-B^2)",
-            "B": "f*dh/dr",
-            "P": "V_scalar/(f*d rho/dr)",
-        },
+        "equations": equation_metadata,
+        **(
+            {"constraint": constraint_metadata}
+            if constraint_metadata is not None
+            else {}
+        ),
+        **(
+            {"factored_coefficient_audit": factored_coefficient_audit}
+            if endpoint_factored_characteristic_variables
+            else {}
+        ),
         "imex_split": {
             "potential_term": "explicit" if explicit_potential else "implicit",
             "transport_terms": "implicit",
@@ -383,7 +847,12 @@ def _run_scalar_simulation(
                 "bounded and of order unity, and therefore non-stiff."
             ),
         },
+        "dedalus_matrix_assembly": {
+            "ncc_cutoff": NCC_CUTOFF,
+            "entry_cutoff": ENTRY_CUTOFF,
+        },
         "initialization": {
+            **characteristic_initialization,
             "psi": (
                 "identically zero"
                 if isinstance(initial, ArealVelocityBumpInitialData)
@@ -528,6 +997,9 @@ def run_exterior_sds_simulation(
     checkpoint_path: Path | None = None,
     checkpoint_dt: float | None = None,
     explicit_potential: bool = False,
+    endpoint_factored_characteristic_variables: bool = False,
+    conservative_characteristic_variables: bool = False,
+    characteristic_constraint_damping: float = 0.0,
 ) -> SdSSimulationResult:
     """Evolve a scalar mode on the exterior-supported SdS background."""
 
@@ -559,6 +1031,9 @@ def run_exterior_sds_simulation(
         one_plus_boost_function=lambda rho: exterior_bridge_one_plus_boost(
             rho, model
         ),
+        one_minus_boost_function=lambda rho: exterior_bridge_one_minus_boost(
+            rho, model
+        ),
         initial_function=initial_function,
         horizon_metadata={
             "black_hole": model.black_hole_horizon,
@@ -571,4 +1046,11 @@ def run_exterior_sds_simulation(
         checkpoint_path=checkpoint_path,
         checkpoint_dt=checkpoint_dt,
         explicit_potential=explicit_potential,
+        endpoint_factored_characteristic_variables=(
+            endpoint_factored_characteristic_variables
+        ),
+        conservative_characteristic_variables=(
+            conservative_characteristic_variables
+        ),
+        characteristic_constraint_damping=characteristic_constraint_damping,
     )

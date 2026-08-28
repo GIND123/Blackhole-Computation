@@ -16,6 +16,10 @@ All graphics required by `SdS.tex` are stored under `figs/`. The generated
 `SdS.bbl` is tracked so that the REVTeX source package does not require BibTeX
 at submission time; `SdS_refs.bib` remains the editable bibliography.
 
+The standalone APS source bundle consists of `SdS.tex`, `SdS.bbl`,
+`SdS_refs.bib`, and the PDF files in `figs/`; the manuscript does not read any
+file outside this directory.
+
 ## Figure regeneration
 
 The foliation figure is evaluated directly from the analytic bridge formulas:

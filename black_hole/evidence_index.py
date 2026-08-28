@@ -15,6 +15,7 @@ that disagrees with the repository is a failure rather than a stale document.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from dataclasses import dataclass, field
@@ -34,14 +35,27 @@ GRAPHIC = re.compile(
 LABEL = re.compile(r"\\label\{(tab:[^}]*)\}")
 
 REGULATOR_PACKAGE = "results/regulator_production_v3"
-TAIL_PACKAGE = "results/large_l_tail"
+QNM_PACKAGE = "results/exterior_regulator_width_floor_qnm_v5"
+MATCHED_TAIL_PACKAGE = "results/curvature_coupling_production_v2"
+
+MANIFEST_NAMES = {
+    REGULATOR_PACKAGE: "manifest.json",
+    QNM_PACKAGE: "manifest.json",
+    MATCHED_TAIL_PACKAGE: "tail_manifest.json",
+}
 
 REGULATOR_COMMAND = (
     "python -m black_hole.regulator_analysis --output-dir " + REGULATOR_PACKAGE
 )
-TAIL_COMMAND = (
-    "python -m black_hole.large_l_tail --output-dir " + TAIL_PACKAGE
-    + " report-final 5120"
+QNM_COMMAND = (
+    "python -m black_hole.far_regulator_production_analysis "
+    f"--output-dir {QNM_PACKAGE} "
+    f"--control-dir {REGULATOR_PACKAGE} "
+    "--legacy-candidate-dir results/exterior_regulator_far_production_v1"
+)
+MATCHED_TAIL_COMMAND = (
+    "python -m black_hole.curvature_coupling_tail_analysis "
+    f"--root {MATCHED_TAIL_PACKAGE}"
 )
 
 
@@ -67,7 +81,9 @@ class Entry:
 
 
 # Figures are keyed by the basename used in the manuscript.  The artifact is
-# the file inside the owning package that the paper copy was taken from.
+# the owning package's source figure.  Submission copies may be rendered again
+# with embedded-font settings, so the index does not require identical PDF
+# container bytes.
 FIGURES: dict[str, Source] = {
     "minimalAnil.pdf": Source(
         package="paper", command="supplied with the manuscript",
@@ -97,6 +113,16 @@ FIGURES: dict[str, Source] = {
     "localized_source_regulator.pdf": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/localized_source_regulator.pdf",
+    ),
+    "exterior_qnm_residual_comparison.pdf": Source(
+        package=QNM_PACKAGE, command=QNM_COMMAND,
+        artifact=f"{QNM_PACKAGE}/width_floor_qnm_residual_comparison.pdf",
+        note="raw QNM-window residuals against the frozen Schwarzschild control",
+    ),
+    "tail_outer_boundary_comparison.pdf": Source(
+        package=MATCHED_TAIL_PACKAGE, command=MATCHED_TAIL_COMMAND,
+        artifact=f"{MATCHED_TAIL_PACKAGE}/tail_outer_boundary_comparison.pdf",
+        note="matched outer-boundary tail comparison",
     ),
     "D1_scaling.pdf": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
@@ -131,6 +157,16 @@ TABLES: dict[str, Source] = {
         ),
         note="sphere integrated modal norm on the common archived interval",
     ),
+    "tab:exterior-qnm-improvement": Source(
+        package=QNM_PACKAGE, command=QNM_COMMAND,
+        artifact=f"{QNM_PACKAGE}/tables/width_floor_vs_uniform_raw.csv",
+        note="unshifted QNM-window errors, refinement scales, and reductions",
+    ),
+    "tab:matched-tail": Source(
+        package=MATCHED_TAIL_PACKAGE, command=MATCHED_TAIL_COMMAND,
+        artifact=f"{MATCHED_TAIL_PACKAGE}/tables/tail_price_intervals.csv",
+        note="accepted Price-index intervals and pass/fail classifications",
+    ),
     "tab:extrapolant_audit": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/tables/flat_extrapolant_comparisons.csv",
@@ -143,62 +179,80 @@ TABLES: dict[str, Source] = {
     ),
 }
 
-# Results that exist in the repository and are intended for the manuscript but
-# are not yet cited by it.  Listing them keeps the index honest about what is
-# assembled and what is still outstanding.
-PENDING: dict[str, Source] = {
-    "large_L5120_tail_transition.pdf": Source(
-        package=TAIL_PACKAGE, command=TAIL_COMMAND,
-        artifact=f"{TAIL_PACKAGE}/large_L5120_tail_transition.pdf",
-        note="three panel tail figure, intended for the main text",
-    ),
-    "final_L5120_ladder_floor.csv": Source(
-        package=TAIL_PACKAGE, command=TAIL_COMMAND,
-        artifact=f"{TAIL_PACKAGE}/tables/final_L5120_ladder_floor.csv",
-        note="measured ladder floor and trusted window per observer",
-    ),
-    "final_L5120_numerical_sensitivities.csv": Source(
-        package=TAIL_PACKAGE, command=TAIL_COMMAND,
-        artifact=f"{TAIL_PACKAGE}/tables/final_L5120_numerical_sensitivities.csv",
-        note="three level and timestep sensitivities",
-    ),
-    "extrapolation_robustness_summary.csv": Source(
-        package=REGULATOR_PACKAGE,
-        command="python -m black_hole.regulator_robustness",
-        artifact=(
-            f"{REGULATOR_PACKAGE}/tables/extrapolation_robustness_summary.csv"
-        ),
-        note="alternative truncations and subsets, intended for an appendix",
-    ),
-}
+
+def _manifest_row_path(
+    package: str, section: str, row_path: str, manifest: dict
+) -> str:
+    """Return a repository-relative path for one manifest row.
+
+    The regulator and QNM manifests store repository-relative paths.  The
+    matched-tail manifest deliberately stores its raw and derived package
+    contents relative to the package root, while its formulation controls and
+    source files remain repository-relative.  Its verification block records
+    that distinction explicitly; honor it instead of guessing from whether a
+    file happens to exist.
+    """
+
+    scope = (
+        manifest.get("verification", {})
+        .get("path_scopes", {})
+        .get(section, "")
+    )
+    if "relative to the matched-tail package" in scope:
+        return (Path(package) / row_path).as_posix()
+    return Path(row_path).as_posix()
 
 
 def _load_manifest(package: str, root: Path) -> dict:
-    path = root / package / "manifest.json"
+    path = root / package / MANIFEST_NAMES.get(package, "manifest.json")
     if not path.exists():
         return {}
     manifest = json.loads(path.read_text(encoding="utf-8"))
     lookup = {}
-    for section in ("archives", "derived_artifacts"):
+    archive_rows = []
+    for section in (
+        "archives",
+        "raw_archives",
+        "formulation_control_archives",
+        "external_inputs",
+        "source_files",
+        "derived_artifacts",
+    ):
         for row in manifest.get(section, []):
-            lookup[row["path"]] = row
-    # The two packages record the simulation commit differently: the regulator
-    # package has a single one at the top level because every archive shares
-    # it, the tail package has a list because its campaign spans several.
+            normalized = _manifest_row_path(
+                package, section, row["path"], manifest
+            )
+            lookup[normalized] = row
+            if section in (
+                "archives", "raw_archives", "formulation_control_archives"
+            ):
+                archive_rows.append(row)
+
+    # The packages span three generations of provenance schema.  Preserve
+    # exact simulation commits where they exist, and use the named campaign
+    # records when the matched-tail package instead freezes its source by hash.
     commits = manifest.get("simulation_commits")
     if not commits:
         single = manifest.get("simulation_commit")
         commits = [single] if single else sorted(
             {
-                row["simulation_commit"]
-                for row in manifest.get("archives", [])
-                if row.get("simulation_commit")
+                commit
+                for row in archive_rows
+                for commit in (
+                    row.get("simulation_commit"),
+                    row.get("simulation_git_base_commit"),
+                    row.get("archived_git_commit"),
+                )
+                if commit
             }
         )
+    campaign_ids = [
+        row["campaign_id"] for row in manifest.get("simulation_campaigns", [])
+    ]
     grades = sorted(
         {
             row["provenance_grade"]
-            for row in manifest.get("archives", [])
+            for row in archive_rows
             if row.get("provenance_grade")
         }
     )
@@ -206,11 +260,30 @@ def _load_manifest(package: str, root: Path) -> dict:
         # The regulator package predates the grade field; its creation refuses
         # any archive that records a dirty worktree, so every entry is clean.
         grades = ["production (enforced at manifest creation)"]
+    if not grades and manifest.get("raw_archives"):
+        grades = ["hash-verified campaign archives"]
+        if any(
+            row.get("archived_worktree_dirty")
+            for row in manifest.get("formulation_control_archives", [])
+        ):
+            grades.append("formulation controls retained as screening evidence")
+
+    analysis_revision = manifest.get("analysis_commit")
+    if not analysis_revision and manifest.get("analysis_git_base_commit"):
+        analysis_revision = "base " + manifest["analysis_git_base_commit"]
+        if manifest.get("source_hashes_are_authoritative"):
+            analysis_revision += " + authoritative source hashes"
+    if not analysis_revision:
+        source_hash = manifest.get("analysis", {}).get("source_sha256")
+        if source_hash:
+            analysis_revision = "source " + source_hash
     return {
         "rows": lookup,
         "simulation_commits": commits,
-        "analysis_commit": manifest.get("analysis_commit"),
+        "simulation_records": [*commits, *campaign_ids],
+        "analysis_revision": analysis_revision,
         "grades": grades,
+        "manifest_path": path.relative_to(root).as_posix(),
     }
 
 
@@ -221,6 +294,18 @@ def _cited(manuscript: Path) -> tuple[list[str], list[str]]:
     return figures, tables
 
 
+def _artifact_sha256(path: Path, hash_mode: str) -> str:
+    """Hash an artifact using the convention declared by its manifest."""
+
+    data = path.read_bytes()
+    if hash_mode == "sha256_utf8_canonical_lf_v1":
+        text = data.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+        data = text.encode("utf-8")
+    elif hash_mode not in ("sha256_bytes", ""):
+        raise ValueError(f"unsupported manifest hash mode: {hash_mode}")
+    return hashlib.sha256(data).hexdigest()
+
+
 def build(root: Path = Path(".")) -> dict:
     """Return the index and every inconsistency found while building it."""
 
@@ -229,7 +314,7 @@ def build(root: Path = Path(".")) -> dict:
     figures, tables = _cited(manuscript)
     manifests = {
         package: _load_manifest(package, root)
-        for package in (REGULATOR_PACKAGE, TAIL_PACKAGE)
+        for package in MANIFEST_NAMES
     }
 
     entries: list[Entry] = []
@@ -237,6 +322,10 @@ def build(root: Path = Path(".")) -> dict:
 
     def record(kind: str, name: str, source: Source) -> None:
         entry = Entry(kind=kind, name=name, source=source)
+        if kind == "figure":
+            manuscript_figure = root / MANUSCRIPT.parent / "figs" / name
+            if not manuscript_figure.exists():
+                entry.issues.append("manuscript figure file is missing")
         if source.artifact:
             artifact = root / source.artifact
             if not artifact.exists():
@@ -245,9 +334,18 @@ def build(root: Path = Path(".")) -> dict:
             row = (manifest.get("rows") or {}).get(source.artifact)
             if row is None:
                 entry.issues.append("artifact not recorded in the package manifest")
-            else:
+            elif artifact.exists():
                 entry.manifest_path = source.artifact
                 entry.sha256 = row["sha256"]
+                try:
+                    actual = _artifact_sha256(
+                        artifact, row.get("hash_mode", "sha256_bytes")
+                    )
+                except (UnicodeDecodeError, ValueError) as error:
+                    entry.issues.append(str(error))
+                else:
+                    if actual != entry.sha256:
+                        entry.issues.append("artifact hash disagrees with its manifest")
         entries.append(entry)
         for issue in entry.issues:
             problems.append(f"{kind} {name}: {issue}")
@@ -264,9 +362,6 @@ def build(root: Path = Path(".")) -> dict:
             problems.append(f"table {name}: labelled in the manuscript but not indexed")
             continue
         record("table", name, source)
-    for name, source in PENDING.items():
-        record("pending", name, source)
-
     for name in FIGURES:
         if name not in figures:
             problems.append(f"figure {name}: indexed but not cited by the manuscript")
@@ -291,9 +386,15 @@ def build(root: Path = Path(".")) -> dict:
         ],
         "packages": {
             package: {
-                "analysis_commit": (manifests[package] or {}).get("analysis_commit"),
+                "manifest": (manifests[package] or {}).get("manifest_path"),
+                "analysis_revision": (manifests[package] or {}).get(
+                    "analysis_revision"
+                ),
                 "simulation_commits": (manifests[package] or {}).get(
                     "simulation_commits", []
+                ),
+                "simulation_records": (manifests[package] or {}).get(
+                    "simulation_records", []
                 ),
                 "provenance_grades": (manifests[package] or {}).get("grades", []),
             }
@@ -305,6 +406,11 @@ def build(root: Path = Path(".")) -> dict:
 
 def render(index: dict) -> str:
     """Return the index as a document."""
+
+    def short_identity(value: str) -> str:
+        if len(value) in (40, 64) and re.fullmatch(r"[0-9a-f]+", value):
+            return value[:12]
+        return value
 
     lines = [
         "# Evidence index",
@@ -318,37 +424,42 @@ def render(index: dict) -> str:
         "not edited by hand, and a disagreement with the repository is reported "
         "as a problem rather than silently absorbed.",
         "",
+        "Submission figures may be rendered again with embedded-font settings; "
+        "the indexed file is the manifest-verified source artifact, not a claim "
+        "that every PDF container in `paper/figs` is byte-identical.",
+        "",
         "## Packages",
         "",
-        "| package | analysis commit | simulation commits | provenance |",
+        "| package manifest | analysis revision | simulation records | provenance |",
         "|---|---|---|---|",
     ]
     for package, record in index["packages"].items():
-        commits = ", ".join(
-            f"`{value[:12]}`" for value in record.get("simulation_commits", [])
+        simulation_records = ", ".join(
+            f"`{short_identity(value)}`"
+            for value in record.get("simulation_records", [])
         ) or "n/a"
-        analysis = record.get("analysis_commit")
+        analysis = record.get("analysis_revision") or "n/a"
+        if analysis.startswith(("base ", "source ")):
+            words = analysis.split()
+            analysis = " ".join(
+                short_identity(word) for word in words
+            )
+        else:
+            analysis = short_identity(analysis)
+        manifest = record.get("manifest") or f"{package}/manifest missing"
         lines.append(
-            f"| `{package}` | `{(analysis or 'n/a')[:12]}` | {commits} | "
+            f"| `{manifest}` | `{analysis}` | {simulation_records} | "
             f"{', '.join(record.get('provenance_grades') or ['n/a'])} |"
         )
 
-    for kind, title, blurb in (
-        ("figure", "Figures in the manuscript", ""),
-        ("table", "Tables in the manuscript", ""),
-        (
-            "pending",
-            "Assembled but not yet cited",
-            "These results exist and are verified, and are intended for the "
-            "manuscript once their placement is settled.",
-        ),
+    for kind, title in (
+        ("figure", "Figures in the manuscript"),
+        ("table", "Tables in the manuscript"),
     ):
         rows = [entry for entry in index["entries"] if entry["kind"] == kind]
         if not rows:
             continue
         lines += ["", f"## {title}", ""]
-        if blurb:
-            lines += [blurb, ""]
         lines += [
             "| name | artifact | regenerate with | sha256 |",
             "|---|---|---|---|",

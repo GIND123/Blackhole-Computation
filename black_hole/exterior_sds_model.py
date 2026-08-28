@@ -51,6 +51,7 @@ class ExteriorSdSParameters:
     mass: float = 1.0
     cosmological_length: float = 80.0
     ell: int = 2
+    curvature_coupling: float = 0.0
 
     def __post_init__(self) -> None:
         # Reuse the uniform model's physical-domain validation and root
@@ -59,6 +60,7 @@ class ExteriorSdSParameters:
             mass=self.mass,
             cosmological_length=self.cosmological_length,
             ell=self.ell,
+            curvature_coupling=self.curvature_coupling,
         )
         r0, r1 = transition_radii(self)
         rc = self.cosmological_horizon
@@ -89,6 +91,7 @@ class ExteriorSdSParameters:
             "mass": self.mass,
             "cosmological_length": self.cosmological_length,
             "ell": self.ell,
+            "curvature_coupling": self.curvature_coupling,
             "black_hole_horizon": self.black_hole_horizon,
             "cosmological_horizon": self.cosmological_horizon,
             "transition_inner_radius": r0,
@@ -254,6 +257,22 @@ def smooth_step_derivative(x: np.ndarray) -> np.ndarray:
     return derivative
 
 
+def smooth_step_second_derivative(x: np.ndarray) -> np.ndarray:
+    """Analytic second derivative of :func:`smooth_step`."""
+
+    x = np.asarray(x, dtype=float)
+    derivative = np.zeros_like(x)
+    interior = (x > 0.0) & (x < 1.0)
+    xi = x[interior]
+    step = smooth_step(xi)
+    q = 1.0 / xi**2 + 1.0 / (1.0 - xi) ** 2
+    q_prime = -2.0 / xi**3 + 2.0 / (1.0 - xi) ** 3
+    derivative[interior] = step * (1.0 - step) * (
+        (1.0 - 2.0 * step) * q**2 + q_prime
+    )
+    return derivative
+
+
 def transition_profile(
     rho: np.ndarray, parameters: ExteriorSdSParameters
 ) -> np.ndarray:
@@ -288,6 +307,33 @@ def transition_rho_derivative(
     return derivative
 
 
+def transition_rho_second_derivative(
+    rho: np.ndarray, parameters: ExteriorSdSParameters
+) -> np.ndarray:
+    """Return the analytic derivative ``d^2 chi/d rho^2``."""
+
+    rho = np.asarray(rho, dtype=float)
+    rho0, rho1 = transition_compact_radii(parameters)
+    derivative = np.zeros_like(rho)
+    interior = (rho > rho0) & (rho < rho1)
+    theta0 = float(chebyshev_angle(np.array(rho0)))
+    theta1 = float(chebyshev_angle(np.array(rho1)))
+    width = theta0 - theta1
+    rho_interior = rho[interior]
+    theta = chebyshev_angle(rho_interior)
+    x = (theta0 - theta) / width
+    product = rho_interior * (1.0 - rho_interior)
+    dx_drho = 1.0 / (width * np.sqrt(product))
+    d2x_drho2 = (2.0 * rho_interior - 1.0) / (
+        2.0 * width * product ** 1.5
+    )
+    derivative[interior] = (
+        smooth_step_second_derivative(x) * dx_drho**2
+        + smooth_step_derivative(x) * d2x_drho2
+    )
+    return derivative
+
+
 def transition_radial_derivative(
     radius: np.ndarray, parameters: ExteriorSdSParameters
 ) -> np.ndarray:
@@ -298,6 +344,43 @@ def transition_radial_derivative(
     return transition_rho_derivative(
         rho, parameters
     ) * compactification_derivative(radius, parameters)
+
+
+def transition_radial_second_derivative(
+    radius: np.ndarray, parameters: ExteriorSdSParameters
+) -> np.ndarray:
+    """Return the analytic derivative ``d^2 chi/d r^2``."""
+
+    radius = np.asarray(radius, dtype=float)
+    rho = compact_radius(radius, parameters)
+    rho_prime = compactification_derivative(radius, parameters)
+    rho_second = -2.0 * rho_prime / radius
+    return (
+        transition_rho_second_derivative(rho, parameters) * rho_prime**2
+        + transition_rho_derivative(rho, parameters) * rho_second
+    )
+
+
+def ricci_scalar(
+    radius: np.ndarray, parameters: ExteriorSdSParameters
+) -> np.ndarray:
+    r"""Return the Ricci scalar of the exterior-supported metric.
+
+    For ``f=1-2M/r-r^2 chi/L^2``,
+
+    .. math::
+
+       R_\chi=L^{-2}(12\chi+8r\chi'+r^2\chi'').
+    """
+
+    radius = np.asarray(radius, dtype=float)
+    rho = compact_radius(radius, parameters)
+    chi = transition_profile(rho, parameters)
+    chi_prime = transition_radial_derivative(radius, parameters)
+    chi_second = transition_radial_second_derivative(radius, parameters)
+    return (
+        12.0 * chi + 8.0 * radius * chi_prime + radius**2 * chi_second
+    ) / parameters.cosmological_length**2
 
 
 def metric_f(
@@ -477,7 +560,7 @@ def propagation_coefficient(
 def rescaled_scalar_potential(
     rho: np.ndarray, parameters: ExteriorSdSParameters
 ) -> np.ndarray:
-    """Return ``P=[ell(ell+1)/r^2+f'/r]/(d rho/dr)``."""
+    r"""Return the reduced potential for ``(Box-xi R_chi)Phi=0``."""
 
     rho = np.asarray(rho, dtype=float)
     radius = areal_radius(rho, parameters)
@@ -487,11 +570,21 @@ def rescaled_scalar_potential(
     # Since d rho/dr=2M/(D r^2), this form avoids separate small terms at the
     # cosmological horizon and remains well conditioned as L grows.
     potential = compactification / (2.0 * mass) * (
-        ell * (ell + 1.0) + radius * metric_f_prime(radius, parameters)
+        ell * (ell + 1.0)
+        + radius * metric_f_prime(radius, parameters)
+        + parameters.curvature_coupling
+        * radius**2
+        * ricci_scalar(radius, parameters)
     )
     left = compactification / (2.0 * mass) * (ell * (ell + 1.0) + 1.0)
     right = compactification / (2.0 * mass) * (
-        ell * (ell + 1.0) - 2.0 + 6.0 * mass / parameters.cosmological_horizon
+        ell * (ell + 1.0)
+        - 2.0
+        + 6.0 * mass / parameters.cosmological_horizon
+        + parameters.curvature_coupling
+        * 12.0
+        * parameters.cosmological_horizon**2
+        / parameters.cosmological_length**2
     )
     potential = np.where(rho == 0.0, left, potential)
     return np.where(rho == 1.0, right, potential)

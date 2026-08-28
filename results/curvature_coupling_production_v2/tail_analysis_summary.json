@@ -1,0 +1,150 @@
+{
+  "accepted_interval_refinement": [
+    {
+      "delta_1536_2048_relative_L2": 0.00011696652834816386,
+      "delta_2048_3072_relative_L2": 7.276320912736176e-06,
+      "delta_dt_0p0025_0p00125_at_N2048_relative_L2": 3.4120732450223256e-08,
+      "end_U_over_M": 975.0274112874982,
+      "family": "schwarzschild",
+      "start_U_over_M": 140.37741127766628
+    },
+    {
+      "delta_1536_2048_relative_L2": 7.90181149342079e-05,
+      "delta_2048_3072_relative_L2": 7.970993203590555e-06,
+      "delta_dt_0p0025_0p00125_at_N2048_relative_L2": 3.2269784837072635e-08,
+      "end_U_over_M": 294.83980375633615,
+      "family": "uniform_xi1o6",
+      "start_U_over_M": 153.2898037564649
+    }
+  ],
+  "conclusion": "Uniform conformal SdS resolves an intermediate Schwarzschild Price interval. Neither exterior-supported coupling passes the 40M Price criterion; both contain convergent transition-supported late structure. Neither uniform case resolves its expected cosmological exponential rate through U/M=1000; no asymptotic rate target is assigned to the exterior construction.",
+  "exterior_finite_interval_fits": [
+    {
+      "amplitude_prefactor": 0.019759239141119562,
+      "curvature_coupling": 0.0,
+      "family": "exterior_xi0",
+      "fit_end_U_over_M": 250.0,
+      "fit_start_U_over_M": 120.0,
+      "power_law_exponent": 1.0858575413766456,
+      "r_squared": 0.9925777383239855,
+      "sample_count": 2600,
+      "status": "finite-interval transition-profile descriptor"
+    },
+    {
+      "amplitude_prefactor": 0.004474423751864291,
+      "curvature_coupling": 0.16666666666666666,
+      "family": "exterior_xi1o6",
+      "fit_end_U_over_M": 400.0,
+      "fit_start_U_over_M": 160.0,
+      "power_law_exponent": 0.9200933723971323,
+      "r_squared": 0.9910912307069899,
+      "sample_count": 4800,
+      "status": "finite-interval transition-profile descriptor"
+    }
+  ],
+  "kappa_c_M": 0.0015576037761352375,
+  "kappa_c_U_at_endpoint": 1.5576037761352375,
+  "maximum_auxiliary_compatibility_residual": {
+    "exterior_xi0": 1.0879792702257335e-08,
+    "exterior_xi1o6": 7.721808897621682e-09,
+    "schwarzschild": 1.1682537257383427e-08,
+    "uniform_xi0": 1.4658212703686633e-08,
+    "uniform_xi1o6": 1.2548373230538644e-08
+  },
+  "mode": 1,
+  "outer_observers": {
+    "finite_L": "future cosmological horizon",
+    "schwarzschild": "future null infinity"
+  },
+  "price_rows": [
+    {
+      "candidate_duration_over_M": 834.650000009832,
+      "candidate_end_U_over_M": 975.0274112874982,
+      "candidate_start_U_over_M": 140.37741127766628,
+      "curvature_coupling": 0.0,
+      "family": "schwarzschild",
+      "geometry": "Schwarzschild",
+      "minimum_required_duration_over_M": 40.0,
+      "passes_price_criterion": true
+    },
+    {
+      "candidate_duration_over_M": 9.599999999991269,
+      "candidate_end_U_over_M": 144.08980375647326,
+      "candidate_start_U_over_M": 134.489803756482,
+      "curvature_coupling": 0.0,
+      "family": "uniform_xi0",
+      "geometry": "uniform SdS",
+      "minimum_required_duration_over_M": 40.0,
+      "passes_price_criterion": false
+    },
+    {
+      "candidate_duration_over_M": 11.899999999989177,
+      "candidate_end_U_over_M": 304.7899347238822,
+      "candidate_start_U_over_M": 292.889934723893,
+      "curvature_coupling": 0.0,
+      "family": "exterior_xi0",
+      "geometry": "exterior SdS",
+      "minimum_required_duration_over_M": 40.0,
+      "passes_price_criterion": false
+    },
+    {
+      "candidate_duration_over_M": 141.54999999987126,
+      "candidate_end_U_over_M": 294.83980375633615,
+      "candidate_start_U_over_M": 153.2898037564649,
+      "curvature_coupling": 0.16666666666666666,
+      "family": "uniform_xi1o6",
+      "geometry": "uniform SdS",
+      "minimum_required_duration_over_M": 40.0,
+      "passes_price_criterion": true
+    },
+    {
+      "candidate_duration_over_M": 9.35000000020409,
+      "candidate_end_U_over_M": 628.0399347262894,
+      "candidate_start_U_over_M": 618.6899347260853,
+      "curvature_coupling": 0.16666666666666666,
+      "family": "exterior_xi1o6",
+      "geometry": "exterior SdS",
+      "minimum_required_duration_over_M": 40.0,
+      "passes_price_criterion": false
+    }
+  ],
+  "primary_estimator": {
+    "fine_medium_rate_tolerance": 0.1,
+    "local_log_fit_width_over_M": 40.0,
+    "measured_floor_multiplier": 10.0,
+    "medium_half_step_rate_tolerance": 0.1,
+    "minimum_duration_over_M": 40.0,
+    "price_target": 3.0,
+    "price_tolerance": 0.3,
+    "rms_envelope_width_over_M": 10.0
+  },
+  "tail_length_over_M": 640.0,
+  "uniform_exponential_audit": {
+    "relative_rate_tolerance": 0.1,
+    "rows": [
+      {
+        "candidate_duration_over_M": null,
+        "candidate_end_U_over_M": null,
+        "candidate_start_U_over_M": null,
+        "curvature_coupling": 0.0,
+        "expected_gamma_over_kappa": 1.0,
+        "family": "uniform_xi0",
+        "minimum_required_duration_over_M": 160.50294935744557,
+        "passes_exponential_criterion": false,
+        "relative_tolerance": 0.1
+      },
+      {
+        "candidate_duration_over_M": null,
+        "candidate_end_U_over_M": null,
+        "candidate_start_U_over_M": null,
+        "curvature_coupling": 0.16666666666666666,
+        "expected_gamma_over_kappa": 2.0,
+        "family": "uniform_xi1o6",
+        "minimum_required_duration_over_M": 160.50294935744557,
+        "passes_exponential_criterion": false,
+        "relative_tolerance": 0.1
+      }
+    ],
+    "semilog_fit_width_in_kappa_U": 0.25
+  }
+}

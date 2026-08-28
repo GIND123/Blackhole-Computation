@@ -17,17 +17,21 @@ from black_hole.exterior_sds_model import (
     chebyshev_angle,
     compact_radius,
     compactification_derivative,
+    compactification_scale,
     metric_f,
     metric_f_prime,
     propagation_coefficient,
     propagation_endpoint_coefficients,
+    ricci_scalar,
     rescaled_scalar_potential,
     retarded_time_offset,
     smooth_step,
     smooth_step_derivative,
+    smooth_step_second_derivative,
     transition_compact_radii,
     transition_profile,
     transition_radial_derivative,
+    transition_radial_second_derivative,
     transition_radii,
 )
 
@@ -144,6 +148,13 @@ class ExteriorSdSModelTests(unittest.TestCase):
         np.testing.assert_allclose(
             derivative[interior], numerical[interior], rtol=2.0e-4, atol=2.0e-7
         )
+        numerical_second = np.gradient(derivative, x, edge_order=2)
+        np.testing.assert_allclose(
+            smooth_step_second_derivative(x)[interior],
+            numerical_second[interior],
+            rtol=8.0e-4,
+            atol=3.0e-5,
+        )
 
     def test_exact_schwarzschild_and_uniform_sds_regions(self) -> None:
         r0, r1 = transition_radii(self.parameters)
@@ -186,6 +197,70 @@ class ExteriorSdSModelTests(unittest.TestCase):
             numerical_f_prime[interior],
             rtol=3.0e-4,
             atol=3.0e-7,
+        )
+        numerical_chi_second = np.gradient(
+            transition_radial_derivative(radius, self.parameters),
+            radius,
+            edge_order=2,
+        )
+        np.testing.assert_allclose(
+            transition_radial_second_derivative(radius, self.parameters)[interior],
+            numerical_chi_second[interior],
+            rtol=2.0e-3,
+            atol=2.0e-6,
+        )
+
+    def test_curvature_coupling_and_ricci_scalar(self) -> None:
+        r0, r1 = transition_radii(self.parameters)
+        radius = np.concatenate(
+            (
+                np.array([4.0, 0.9 * r0]),
+                np.linspace(
+                    r0 + 0.05 * (r1 - r0),
+                    r1 - 0.05 * (r1 - r0),
+                    500,
+                ),
+                np.array(
+                    [1.01 * r1, 0.9 * self.parameters.cosmological_horizon]
+                ),
+            )
+        )
+        curvature = ricci_scalar(radius, self.parameters)
+        np.testing.assert_allclose(curvature[:2], 0.0, rtol=0.0, atol=0.0)
+        np.testing.assert_allclose(
+            curvature[-2:],
+            12.0 / self.parameters.cosmological_length**2,
+            rtol=0.0,
+            atol=2.0e-18,
+        )
+
+        rho = np.linspace(0.0, 1.0, 20_001)
+        minimal = ExteriorSdSParameters(
+            mass=1.0,
+            cosmological_length=160.0,
+            ell=2,
+            curvature_coupling=0.0,
+        )
+        conformal = ExteriorSdSParameters(
+            mass=1.0,
+            cosmological_length=160.0,
+            ell=2,
+            curvature_coupling=1.0 / 6.0,
+        )
+        radii = areal_radius(rho, conformal)
+        expected = (
+            compactification_scale(conformal)
+            / (2.0 * conformal.mass)
+            * conformal.curvature_coupling
+            * radii**2
+            * ricci_scalar(radii, conformal)
+        )
+        np.testing.assert_allclose(
+            rescaled_scalar_potential(rho, conformal)
+            - rescaled_scalar_potential(rho, minimal),
+            expected,
+            rtol=2.0e-13,
+            atol=2.0e-13,
         )
 
     def test_horizons_and_regular_coefficients(self) -> None:

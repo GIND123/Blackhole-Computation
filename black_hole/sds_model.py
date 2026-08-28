@@ -33,6 +33,7 @@ class SdSParameters:
     mass: float = 1.0
     cosmological_length: float = 10.0
     ell: int = 2
+    curvature_coupling: float = 0.0
 
     def __post_init__(self) -> None:
         if self.mass <= 0:
@@ -46,6 +47,8 @@ class SdSParameters:
             )
         if self.ell < 0:
             raise ValueError("Scalar spherical-harmonic index ell must be >= 0.")
+        if not np.isfinite(self.curvature_coupling):
+            raise ValueError("Curvature coupling must be finite.")
 
     @property
     def cosmological_constant(self) -> float:
@@ -519,12 +522,26 @@ def propagation_coefficient(
 def rescaled_scalar_potential(
     rho: np.ndarray, parameters: SdSParameters
 ) -> np.ndarray:
-    """Return V/(d rho/d r_*) for the reduced scalar wave equation."""
+    r"""Return ``V/(d rho/d r_*)`` for ``(Box-xi R)Phi=0``.
+
+    For Schwarzschild--de Sitter, ``R=12/L^2`` and the reduced potential is
+
+    .. math::
+
+       V=f\left[\ell(\ell+1)/r^2+f'/r+\xi R\right].
+
+    The default ``xi=0`` preserves the archived minimally coupled model.
+    """
 
     r = areal_radius(rho, parameters)
     ell = parameters.ell
     angular = ell * (ell + 1.0) / r**2
-    curvature = metric_f_prime(r, parameters) / r
+    curvature = (
+        metric_f_prime(r, parameters) / r
+        + parameters.curvature_coupling
+        * 12.0
+        / parameters.cosmological_length**2
+    )
     return (angular + curvature) / compactification_derivative(r, parameters)
 
 

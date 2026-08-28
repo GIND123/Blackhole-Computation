@@ -1,0 +1,329 @@
+{
+  "analysis": {
+    "command": "python -m black_hole.curvature_coupling_tail_analysis --root results/curvature_coupling_production_v2",
+    "matplotlib": "3.10.8",
+    "numpy": "2.4.0",
+    "python": "3.12.9",
+    "source": "black_hole/curvature_coupling_tail_analysis.py",
+    "source_sha256": "c59acb4d8126c881234516c88fac62aee576371352e4f8c00da36de099c7973a"
+  },
+  "archive_count": 20,
+  "derived_artifacts": [
+    {
+      "bytes": 673,
+      "path": "tables/tail_price_intervals.csv",
+      "sha256": "19cb72ddcb9b7bf19a3bd3bac4d0124940f68e259505203b3a334742ac37801d"
+    },
+    {
+      "bytes": 3224,
+      "path": "tables/tail_numerical_refinement.csv",
+      "sha256": "680e347d60c360878a4633129d9d294871cb0b523d9401b79ab40c3ccab91b8c"
+    },
+    {
+      "bytes": 372,
+      "path": "tables/tail_accepted_interval_refinement.csv",
+      "sha256": "d467dc232f38eda5a12e8c01ea9e4c08620cd8801394cbc8697e6b245d0fe59a"
+    },
+    {
+      "bytes": 3871,
+      "path": "tables/tail_estimator_sensitivity.csv",
+      "sha256": "e4c00c633e6f7877f5b41ad59456551828dd3123a99fa85912984787014b484a"
+    },
+    {
+      "bytes": 329,
+      "path": "tables/tail_uniform_exponential_intervals.csv",
+      "sha256": "f5a6096224568533bff5f1005a9bba186759e0dcecd7fd716e3003ad2619848f"
+    },
+    {
+      "bytes": 427,
+      "path": "tables/tail_exterior_component_fits.csv",
+      "sha256": "a073998250b1d141111ab360a29c455004261b1d265fe42f84fd7778155ded89"
+    },
+    {
+      "bytes": 42757,
+      "path": "tail_outer_boundary_comparison.pdf",
+      "sha256": "c97374a254567a7104cc874a408f21502bf2e2c79fcd9867b74a0148bd63fbfa"
+    },
+    {
+      "bytes": 375756,
+      "path": "tail_outer_boundary_comparison.png",
+      "sha256": "2e1234a0655999ae4504d855b5b71ecf068138e643226a796f0cdaf9799bf120"
+    },
+    {
+      "bytes": 5518,
+      "path": "tail_analysis_summary.json",
+      "sha256": "a7213178e6c0317cd1a023b65cd2e7ec67404f1009ecf574945f728e2dee2ba1"
+    }
+  ],
+  "formulation_control_archive_count": 2,
+  "formulation_control_archives": [
+    {
+      "archived_git_commit": "451c662c05d524946840b79d51186e45c8714fcd",
+      "archived_worktree_dirty": true,
+      "bytes": 909216,
+      "curvature_coupling": 0.0,
+      "ell": 1,
+      "generating_module": "black_hole.exterior_tail_feasibility",
+      "length_over_M": 640.0,
+      "path": "results/exterior_tail_feasibility_v2/raw/exterior_factored_L640_N1536_dt0p0025.npz",
+      "resolution": 1536,
+      "retarded_end_time_over_M": 1000.0,
+      "sha256": "954bf623207cad96e76ad384a0f19a0356ad453908efc3da06de7584e8580850",
+      "state_variables": "endpoint-factored characteristic variables u, H, J",
+      "timestep_over_M": 0.0025
+    },
+    {
+      "archived_git_commit": "451c662c05d524946840b79d51186e45c8714fcd",
+      "archived_worktree_dirty": true,
+      "bytes": 1033515,
+      "curvature_coupling": 0.0,
+      "ell": 1,
+      "generating_module": "black_hole.exterior_tail_feasibility",
+      "length_over_M": 640.0,
+      "path": "results/exterior_tail_feasibility_v2/raw/exterior_factored_L640_N2048_dt0p0025.npz",
+      "resolution": 2048,
+      "retarded_end_time_over_M": 1000.0,
+      "sha256": "894a3dff5f909f53ae11e2e99dff481b0b05a68020f4574fb444a42b0b00fb4c",
+      "state_variables": "endpoint-factored characteristic variables u, H, J",
+      "timestep_over_M": 0.0025
+    }
+  ],
+  "legacy_control_snapshot_note": "The Schwarzschild and uniform-SdS controls store snapshots on the 3/2-dealiased grid. Tail conclusions use only their audited observer waveforms; the exterior archives store base-grid snapshots.",
+  "raw_archives": [
+    {
+      "bytes": 794185,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi0/L640/N1536_dt0p0025.npz",
+      "physical_contract_sha256": "fdac6ca14fb4d3d2836ef8f5933236c77f6507a34fb723dcdb06a28c8a4f6397",
+      "sha256": "e51707fc3d4394e9a309bbb1b3c20ecf6d658fc1743c63d671c7899f309cd4f4"
+    },
+    {
+      "bytes": 879080,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi0/L640/N2048_dt0p00125.npz",
+      "physical_contract_sha256": "864fe03b10f63162749f42791a2fb969965821aa2e99efa28b29cf55824e69e4",
+      "sha256": "11f7b6c354c4459a4aa33276b406692a68155033cd68f889199b6a39d11e8af7"
+    },
+    {
+      "bytes": 881030,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi0/L640/N2048_dt0p0025.npz",
+      "physical_contract_sha256": "83c59d67f3a8d8c7431e8629f56bbb05d90f56889baea2a78f12f8329d9ead6a",
+      "sha256": "e643844ee4e0050c1f645f2937a26219f9a728a47bd989fd3a561505881475e3"
+    },
+    {
+      "bytes": 1055197,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi0/L640/N3072_dt0p0025.npz",
+      "physical_contract_sha256": "b62968c7c6120162bc8c46337d628529564059faa7b69213731449495894f7c0",
+      "sha256": "a9da5a77eeec8ba5b85ec1dd7f5581c900a6de9c1fad56e3357a2c6bca67fa85"
+    },
+    {
+      "bytes": 794624,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi1o6/L640/N1536_dt0p0025.npz",
+      "physical_contract_sha256": "6375c15f09ebb4f1d03221b9923bd02613a852dad2abdc5185279562b21d38ad",
+      "sha256": "c2282e9f9ceb41930c051926181940657408c4e6c5b9a99417f915aaec2ab6d4"
+    },
+    {
+      "bytes": 879501,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi1o6/L640/N2048_dt0p00125.npz",
+      "physical_contract_sha256": "ce5c20f97fc0ae6d39bc2ef056c1a67b3ff96bd609ed0171c8557c95ad5c0fe4",
+      "sha256": "80d28f75c1710bce67bbf79bc09cd41e024fe53fbb6de30bbb1126e8efee1040"
+    },
+    {
+      "bytes": 881551,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi1o6/L640/N2048_dt0p0025.npz",
+      "physical_contract_sha256": "34b9a4fa96ca18f5bc586139977165135d02c07349a647b32f20b4aeeed6b93a",
+      "sha256": "149d6f0ffcddad5bf71d76d995089f60d07f4b8a5cc33baad794bf2f6dcd4023"
+    },
+    {
+      "bytes": 1052889,
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "path": "raw/tail/exterior/xi1o6/L640/N3072_dt0p0025.npz",
+      "physical_contract_sha256": "90cd1e088c431442c30433ebaaa2f068e0c40420dd7388fd86bd8be8915a69a8",
+      "sha256": "856364565b759d6e06ad2fc49a3f76b1aa5987a239888f022011c8f6d498da28"
+    },
+    {
+      "bytes": 905866,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/schwarzschild/xi0/schwarzschild/N1536_dt0p0025.npz",
+      "physical_contract_sha256": "ea3585b2195a3984c11f6dc746d79776c88e0c8805f0179593e96d2c3a80c8f5",
+      "sha256": "cb5eb50112defd4a79bef84196f7861c578c7025bd150e7462b3f36fb5055e71"
+    },
+    {
+      "bytes": 1031594,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/schwarzschild/xi0/schwarzschild/N2048_dt0p00125.npz",
+      "physical_contract_sha256": "f8803754512f24bb325be16d7d9997bb421dcfe3a24fa435e776c4a0c05faa51",
+      "sha256": "000c7e19d64c3e806f8b8dc21629ab74679a085b101cdfe884d75739baaa077a"
+    },
+    {
+      "bytes": 1033621,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/schwarzschild/xi0/schwarzschild/N2048_dt0p0025.npz",
+      "physical_contract_sha256": "ca104f74a3e2c5d6108da79e9bed5b0533991c1c2f48cf8b367d65db4a60d6ad",
+      "sha256": "3987307a7f64d762c7b39e8582bc454abbc999cfedc39f3e2488ced51a7de3bc"
+    },
+    {
+      "bytes": 1280249,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/schwarzschild/xi0/schwarzschild/N3072_dt0p0025.npz",
+      "physical_contract_sha256": "bb803992ff63b582a5b6bcb9981f7a1ae71cd65c6f046ee512924565b687b10d",
+      "sha256": "b5e4b1822b9f775d84bf7d16bfcc9277942309efe24035d07088887b19bf3400"
+    },
+    {
+      "bytes": 917096,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi0/L640/N1536_dt0p0025.npz",
+      "physical_contract_sha256": "51200f99ab1427064856cfbc767d0a4697aeb12af91e6dbef3d5827090615c41",
+      "sha256": "0f63405e709e5cb0e1ca392a4416d08d8f1d40b83500db1e252f6f922fe5de16"
+    },
+    {
+      "bytes": 1039975,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi0/L640/N2048_dt0p00125.npz",
+      "physical_contract_sha256": "4d0c58bf6ef288f4d407d5e2e1c95d75c8da9654c1db63341455c835f53eb47c",
+      "sha256": "d3bd196bdc2386af504e0e631f49dc9f89eddc1780fe64420fa32cdaf373b928"
+    },
+    {
+      "bytes": 1042221,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi0/L640/N2048_dt0p0025.npz",
+      "physical_contract_sha256": "85a928a0df1decdc420a59fc69e961d75077ad89d1e4f7e976c1ea8229a8ceb0",
+      "sha256": "5fd91047d7644f61b485c1d446bd18e08ea284af234a62808a0da45cc8c323e4"
+    },
+    {
+      "bytes": 1290488,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi0/L640/N3072_dt0p0025.npz",
+      "physical_contract_sha256": "ccb068bcf06b6d5c320aa28f21f5882fe1ebe1fe8fbf18501b42bfeab69b8c9e",
+      "sha256": "edee9aae51f33b1aadb1f9a460d1c6631ea63b102b77efce47062041f045a506"
+    },
+    {
+      "bytes": 914271,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi1o6/L640/N1536_dt0p0025.npz",
+      "physical_contract_sha256": "189e6daefa0ab8f8557d68bd4d5b334aeab332a1ea0584a4963ecfbfcee8b470",
+      "sha256": "8c48eb284e8d336b9fa3bd85e13a59259c23a3f745443f05d2fa7bf8581beab1"
+    },
+    {
+      "bytes": 1036736,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi1o6/L640/N2048_dt0p00125.npz",
+      "physical_contract_sha256": "9f518a1c22cab7c6a167d1691e07e492742f78ebb94326d8fbcddd9e1d21e1be",
+      "sha256": "7e2b803976a65fa9a63c17bc1d9373a098e394cf7f323a8a0dc810ff05ae7a43"
+    },
+    {
+      "bytes": 1038846,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi1o6/L640/N2048_dt0p0025.npz",
+      "physical_contract_sha256": "dbc270eeb8562fbc286a3d537402b0ba372d8b047a99ac4b6143efe84bd6b2f3",
+      "sha256": "2b115a0b9060de4f41afba1be94750009ac6e466a28925bedd042d2ac4faa12f"
+    },
+    {
+      "bytes": 1287331,
+      "campaign_id": "sds_curvature_20260826_v1",
+      "path": "raw/tail/uniform/xi1o6/L640/N3072_dt0p0025.npz",
+      "physical_contract_sha256": "f6c8767f538cda2f080b70a8039b1caeb457791d9b729a54fc91b9fb30a4ccff",
+      "sha256": "6cf4e8b9e0fab4ad6c6e0460fb36ea0b6d686da76f5c8de8de227191890f8fcf"
+    }
+  ],
+  "schema_version": 2,
+  "simulation_campaigns": [
+    {
+      "campaign_id": "exterior_tail_conservative_v2_20260827",
+      "campaign_source_sha256": "92203e276b58ccc8482d0e0cca5f9b06f8cd21002190bb0339d963c90fcd76e1"
+    },
+    {
+      "campaign_id": "sds_curvature_20260826_v1",
+      "campaign_source_sha256": "6a0d5b578c4a19558cbdcbac474b76d47bdaa500f5aa510a3eb34f272d55f593"
+    }
+  ],
+  "source_file_count": 12,
+  "source_files": [
+    {
+      "bytes": 24613,
+      "path": "black_hole/curvature_coupling_production.py",
+      "role": "matched tail production generator",
+      "sha256": "a7c41afa29c307c1f4452f6c88aca7017901bb5e262d6dae0da9732e434c74d3"
+    },
+    {
+      "bytes": 8055,
+      "path": "black_hole/run_curvature_campaign.py",
+      "role": "matched production campaign orchestrator",
+      "sha256": "2ef1f073307103fd73175283712c27f9711815de59550c7207ec5e1e0ce5bcfe"
+    },
+    {
+      "bytes": 41972,
+      "path": "black_hole/exterior_tail_feasibility.py",
+      "role": "endpoint-factored formulation-control generator and analysis",
+      "sha256": "d5960ea780158eef20c501642d9788b5d32f983e97b0c8fd8229934d0f94387e"
+    },
+    {
+      "bytes": 42840,
+      "path": "black_hole/curvature_coupling_tail_analysis.py",
+      "role": "matched tail analysis and manifest generator",
+      "sha256": "c59acb4d8126c881234516c88fac62aee576371352e4f8c00da36de099c7973a"
+    },
+    {
+      "bytes": 61111,
+      "path": "black_hole/large_l_tail.py",
+      "role": "tail-rate estimators",
+      "sha256": "3257c84f8251c2ba4185d02a762b6f8c252a2c5a89b9c8d5717a2458b4a876b4"
+    },
+    {
+      "bytes": 26473,
+      "path": "black_hole/exterior_sds_model.py",
+      "role": "exterior-supported model",
+      "sha256": "ef5e9d3b7bb969035aee002f1539326cab0158bce5172b6bfe74ba1c6cbf5a05"
+    },
+    {
+      "bytes": 24946,
+      "path": "black_hole/sds_model.py",
+      "role": "uniform SdS model and initial data",
+      "sha256": "5593c3bd55735132bd8572c742512106c7674d06e783a8f0fd894b6411d83206"
+    },
+    {
+      "bytes": 7306,
+      "path": "black_hole/schwarzschild_scalar.py",
+      "role": "Schwarzschild control model",
+      "sha256": "fd25e46bb34286b45935a10bd5d7787891f261ad80003be0ca071203bb46c3ad"
+    },
+    {
+      "bytes": 44150,
+      "path": "black_hole/sds_solver.py",
+      "role": "Dedalus scalar evolution solver",
+      "sha256": "c866b276bba1349d673529d169b29d78e26c3fcf21ddd04d0b7bfef59e6f822b"
+    },
+    {
+      "bytes": 2300,
+      "path": "black_hole/sds_result.py",
+      "role": "simulation archive serializer",
+      "sha256": "a5b11ac4ec1dbf3d06d31e8ebc72c67c6af5eefd651a3449628b0377de97d788"
+    },
+    {
+      "bytes": 10048,
+      "path": "black_hole/regulator_suite.py",
+      "role": "write-once archive helpers",
+      "sha256": "4aa57356006cddac8374ca25981dc57e5341a2bc4b76a094e7b992c7cb8abc12"
+    },
+    {
+      "bytes": 1698,
+      "path": "black_hole/reproducibility.py",
+      "role": "runtime provenance collector",
+      "sha256": "bd4abbb2733522b50a82cb1c5d7241cd4e531e647381468d0fd09edd44c2a884"
+    }
+  ],
+  "verification": {
+    "command": "python -m black_hole.curvature_coupling_tail_analysis --root results/curvature_coupling_production_v2 --verify-manifest",
+    "path_scopes": {
+      "derived_artifacts": "relative to the matched-tail package",
+      "formulation_control_archives": "relative to repository root",
+      "raw_archives": "relative to the matched-tail package",
+      "source_files": "relative to repository root"
+    }
+  }
+}

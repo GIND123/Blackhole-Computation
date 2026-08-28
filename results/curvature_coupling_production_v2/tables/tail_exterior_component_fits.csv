@@ -1,0 +1,3 @@
+family,curvature_coupling,fit_start_U_over_M,fit_end_U_over_M,sample_count,power_law_exponent,amplitude_prefactor,r_squared,status
+exterior_xi0,0.0,120.0,250.0,2600,1.0858575413766456,0.019759239141119562,0.9925777383239855,finite-interval transition-profile descriptor
+exterior_xi1o6,0.16666666666666666,160.0,400.0,4800,0.9200933723971323,0.004474423751864291,0.9910912307069899,finite-interval transition-profile descriptor

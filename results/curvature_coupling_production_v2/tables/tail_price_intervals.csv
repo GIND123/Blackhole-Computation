@@ -1,0 +1,6 @@
+family,geometry,curvature_coupling,candidate_start_U_over_M,candidate_end_U_over_M,candidate_duration_over_M,minimum_required_duration_over_M,passes_price_criterion
+schwarzschild,Schwarzschild,0.0,140.37741127766628,975.0274112874982,834.650000009832,40.0,True
+uniform_xi0,uniform SdS,0.0,134.489803756482,144.08980375647326,9.599999999991269,40.0,False
+exterior_xi0,exterior SdS,0.0,292.889934723893,304.7899347238822,11.899999999989177,40.0,False
+uniform_xi1o6,uniform SdS,0.16666666666666666,153.2898037564649,294.83980375633615,141.54999999987126,40.0,True
+exterior_xi1o6,exterior SdS,0.16666666666666666,618.6899347260853,628.0399347262894,9.35000000020409,40.0,False
