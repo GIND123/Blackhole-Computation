@@ -42,53 +42,27 @@ Maryland, College Park, Maryland 20742, USA}
 \date{\today}
 
 \begin{abstract}
-Conformal compactification of asymptotically flat evolution equations can
-introduce formally singular terms at future null infinity.  Misner proposed
-regulating them with a small positive cosmological constant, replacing null
-infinity by a cosmological horizon where the conformal factor remains nonzero.
-We test a fixed-background prerequisite for this proposal with
-curvature-coupled scalar waves on Schwarzschild--de Sitter (SdS) spacetime;
-the calculation does not test the regularity or conditioning of the conformal
-Einstein equations.  We formulate minimal coupling, $\xi=0$, and conformal
-coupling, $\xi=1/6$.  The former retains a curvature-dependent lower-order
-term after spacetime compactification, whereas the latter is the scalar
-analogue of Misner's conformally invariant Maxwell test.
-A controlled large-$L$ comparison requires the metric, foliation,
-compactification, initial-data map, and waveform clock to approach the same
-Schwarzschild problem.  We construct such a family with a bridge foliation
-and compare it with a separately evolved Schwarzschild reference.  The broad
-waveform and caustic suite uses $\xi=0$.  For
-$L/M=80,160,320,640$, the direct waveform error decreases, although its size
-depends on the observable.  Two nested extrapolants support recovery of the
-Schwarzschild waveform within a conservative $1\%$ for a cumulative,
-prompt-dominated
-pure-$\ell=2$ test through $U/M=160$ and for a localized multimode $3+1$
-response on the common interval $0\lesssim U/M\leq57.2$.  This bound is not
-uniform at late times.  Caustic-echo timing is consistent with local
-$\mathcal O((M/L)^2)$ and outer $\mathcal O(M/L)$ trends, but deterministic
-sensitivities preclude precise fit coefficients.
-We also construct a static, spherically symmetric exterior-supported family
-whose conserved cosmological tensor vanishes in the strong-field region and
-reaches the constant positive-$\Lambda$ form beyond a smooth transition.  At
-fixed exterior $\Lambda$, this construction improves the raw, unshifted
-pure-$\ell=2$ quasinormal-mode (QNM) window agreement with Schwarzschild.
-Across three fixed $30M$ windows, the relative error reduction ranges from
-$20.9$--$30.2\%$ at $L/M=80$ to $7.8$--$9.3\%$ at $L/M=640$.  The observed
-fine-grid ordering clears conservative level-to-level margins at every $L$,
-although the $L/M=640$ exterior ladder is nonmonotone and is not continuum
-extrapolated.  The improvement remains modest at large $L$ and does not
-determine the global quasinormal spectrum.
-A matched $\ell=1$ outer-boundary study through $U/M=1000$ compares both
-couplings.  Only uniform conformal SdS sustains a $142M$ intermediate interval
-consistent with the Schwarzschild $U^{-3}$ Price law.  Uniform minimal SdS and
-both exterior-supported cases fail the declared $40M$ persistence criterion;
-the exterior signals instead contain convergent slow components and broad
-secondary lobes produced by the altered scattering problem.  Neither uniform
-case resolves its expected asymptotic cosmological rate on the evolved
-interval, and no asymptotic rate is assigned to the exterior family.  The
-results support artificial cosmology as a finite-time waveform regulator but
-show that tail observables remain sensitive to the asymptotic structure.
-Application to the nonlinear Einstein equations is the next test.
+Misner proposed using a small positive cosmological constant to regulate the
+formally singular terms introduced by conformal compactification at future
+null infinity.  We test this idea for scalar waves on black-hole backgrounds.
+Our Schwarzschild--de Sitter families share a controlled Schwarzschild limit,
+which reveals that regularity at the cosmological horizon is not enough: the
+foliation must also have suitable asymptotic behavior.  In $3+1$ numerical
+evolutions, both single-mode and localized-source waveforms approach a
+separately evolved Schwarzschild reference as the cosmological length grows;
+over the tested finite-time intervals, extrapolated differences are consistent
+with a conservative $1\%$ bound.  We also introduce an exterior-supported
+artificial cosmology that leaves the strong-field region unchanged and turns
+on the cosmological modification only near the outer boundary.  At fixed
+cosmological length, it reduces ringdown-window waveform errors by roughly
+$8$--$30\%$ relative to uniform Schwarzschild--de Sitter.  Late-time tails
+expose the limitation of this approach: an intermediate Schwarzschild decay
+appears in the uniform conformally coupled case, whereas the exterior
+transition produces additional scattering and does not recover the same tail.
+Artificial cosmology is therefore a promising finite-time waveform regulator,
+especially for ringdown, but it cannot reproduce every observable that probes
+the asymptotic structure.  Its application to the nonlinear Einstein equations
+is the next test.
 \end{abstract}
 
 \maketitle
@@ -2582,19 +2556,6 @@ rejection carries no physical interpretation.
  which is what prevents a precision coefficient statement.}
  \label{fig:d1_errors}
 \end{figure*}
-
-\clearpage
-\begin{center}
-\begin{minipage}{\columnwidth}
- \centering
- \includegraphics[width=\columnwidth]{figs/L12_phase_exclusion.pdf}
- \captionof{figure}{Null geodesic residuals of the extracted minimally coupled
- ($\xi=0$) pulses for the $L/M=12$ generic angle pairs.  Every pair has at least one pulse outside the
- declared $1M$ tolerance, so all six are excluded from quantitative phase
- analysis.}
- \label{fig:l12}
-\end{minipage}
-\end{center}
 
 These checks distinguish reproducibility from demonstrated numerical
 resolution.  We report refinement changes and Richardson estimates separately,
