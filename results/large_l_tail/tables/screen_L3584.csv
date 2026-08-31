@@ -1,0 +1,4 @@
+length_over_M,observer,price_interval_start_U_over_M,price_interval_end_U_over_M,continuous_duration_U_over_M,passes_price_duration,covers_screen_anchor_U_over_M,passes_screen,price_target,relative_price_tolerance,required_duration_U_over_M,maximum_sds_refinement_in_interval,maximum_reference_refinement_in_interval,time_translation_fitted
+3584.0,r8M,206.7296399713673,400.52963997119105,193.79999999982374,True,True,True,5.0,0.05,150.0,0.005431137852177245,0.009943053337936075,False
+3584.0,r16M,227.22963997134866,474.97963997112333,247.74999999977467,True,True,True,5.0,0.05,150.0,0.0037869870385752948,0.006972401210348199,False
+3584.0,outer,154.47963997141483,455.4296399711411,300.9499999997263,True,True,True,3.0,0.05,150.0,0.0007004856129628236,0.0006799009633051716,False

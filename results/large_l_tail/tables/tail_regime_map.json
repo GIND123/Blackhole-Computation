@@ -17,14 +17,14 @@
   "lengths_establishing_price_at_the_outer_boundary": [
     5120.0
   ],
-  "lengths_reaching_the_cosmological_regime": [
+  "lengths_with_a_fine_grid_cosmological_rate_indication": [
     640.0
   ],
   "lengths_whose_record_reaches_the_required_scaled_time": [
     640.0
   ],
-  "table": "results\\large_l_tail\\tables\\tail_regime_map.csv",
-  "figure_png": "results\\large_l_tail\\tail_regime_map.png",
-  "figure_pdf": "results\\large_l_tail\\tail_regime_map.pdf",
+  "table": "results/large_l_tail/tables/tail_regime_map.csv",
+  "figure_png": "results/large_l_tail/tail_regime_map.png",
+  "figure_pdf": "results/large_l_tail/tail_regime_map.pdf",
   "time_translation_fitted": false
 }

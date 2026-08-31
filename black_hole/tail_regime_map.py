@@ -33,11 +33,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from .large_l_tail import (  # noqa: E402
+    ALL_SCREEN_LENGTHS,
     FLOOR_SAFETY_FACTOR,
     LocalFitSettings,
     OUTPUT_ROOT,
     PRICE_DURATION,
-    SCREEN_LENGTHS,
     _load_final_set,
     cosmological_rate,
     final_cases,
@@ -59,7 +59,7 @@ def completed_lengths(output_dir: Path = OUTPUT_ROOT) -> list[float]:
     """Return the lengths whose final ladder is complete on disk."""
 
     lengths = []
-    for length in SCREEN_LENGTHS:
+    for length in ALL_SCREEN_LENGTHS:
         if all(
             archive_path(Path(output_dir), case).exists()
             for case in final_cases(length)

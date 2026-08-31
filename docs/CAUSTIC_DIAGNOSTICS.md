@@ -231,6 +231,58 @@ The ridge trace is exactly that, the per angle radial maximum of `|Phi|`. It
 is not a claim to have located a mathematical cusp, and the code does not
 pretend otherwise.
 
+## 5. Presentation alternatives for the focus
+
+The height and colour sheet of section 4 is a development diagnostic and is
+not used in the paper. Its display range is the 60th percentile of the
+disturbed region, which at the narrow-source focus is `1.6935e-3` while the
+peak of the same snapshot is `2.0818e-2`. The strongest feature in the
+section is therefore saturated by a factor of `12.3`, and the sheet cannot be
+read as a rendering of the focus height.
+
+`black_hole/caustic_focus_figures.py` builds five alternatives from the narrow
+source near the spatial focus at `tau = 48.00M`. All five obey two rules.
+
+* **No clipping.** The colour limits are the signed extremes of the data that
+  is drawn, so the peak sample lands exactly on the end of the colour bar.
+  Each builder records `colour_limit`, `drawn_minimum`, and `drawn_maximum`,
+  and `caustic_focus_figures.json` carries `every_figure_is_unclipped` for the
+  set.
+* **A monotone transfer function.** Weak structure is recovered with a signed
+  `asinh` stretch rather than by clipping. The stretch is linear for
+  `|Phi| << beta`, logarithmic for `|Phi| >> beta`, invertible, and
+  sign preserving. `beta` is the median `|Phi|` of the disturbed region and is
+  recorded with each figure. Colour bar ticks carry physical field values, so
+  the nonlinearity does not cost the reader the amplitudes.
+
+| figure | what it shows |
+|---|---|
+| `focus_equatorial_inset` | four equatorial sections at `tau/M = 47.0, 47.5, 48.0, 48.5` on one shared scale, each with the antipodal axis magnified `2.7` times |
+| `focus_birdseye_surface` | the unclipped height and colour surface at the focus, camera at elevation `58` degrees and azimuth `200` degrees |
+| `focus_axial_cutaway` | the surface cut on the plane `y = 0` that contains the emitter and the focus, with the cross-section drawn on the cut face |
+| `focus_axial_time_stack` | nine curtains of the antipodal-axis profile from `tau/M = 46` to `50`, coded by their own bridge time |
+| `focus_axial_spacetime_map` | the antipodal-axis field against radius and bridge time, the same information without a projection |
+
+The cameras place the focus nearest the viewer. The bird's-eye azimuth of
+`200` degrees looks down the antipodal axis, so nothing on the retained
+surface stands between the viewer and the peak; the cutaway camera sits low
+and on the far side of the cut plane for the same reason.
+
+### The marker is the selected focus, not an extremum
+
+The strongest axial excursion between `tau/M = 46` and `50` is not the focus.
+It sits at `r = 4.00M` and `tau = 48.75M`, on the inner edge of the wave zone,
+which is the configuration `axial_focus` rejects because a maximum on a band
+edge means the front has already passed. The alternatives therefore mark the
+snapshot and radius that `axial_focus` accepts with the largest angular
+contrast, which is `tau = 48.00M`, `r = 6.25M`, `Phi = -2.0818e-2`, the same
+point the tables report. `tests/test_caustic_focus_figures.py` holds both the
+no-clipping rule and this selection in place.
+
+The focus is a negative excursion. The signed convention is kept rather than
+plotting `|Phi|`, so the rebound to positive values after `tau = 48.5M` stays
+visible in the same figures.
+
 ## Tests
 
 `tests/test_caustic_diagnostics.py` drives the estimators with analytic fields:
@@ -245,6 +297,12 @@ estimator must recover a known Gaussian to `2e-3` relative.
 python -m black_hole.caustic_narrow_source fine --budget-only
 python -m black_hole.caustic_narrow_source fine
 python -m black_hole.caustic_narrow_source coarse
-python -m black_hole.caustic_diagnostic_figures results/caustic_diagnostics/raw/narrow_source_L80_fine.npz
-python -m pytest tests/test_caustic_diagnostics.py
+python -m black_hole.caustic_diagnostic_figures results/caustic_visualizations/raw/sds_L80_dense.npz --prefix caustic
+python -m black_hole.caustic_diagnostic_figures results/caustic_diagnostics/raw/narrow_source_L80_fine.npz --prefix narrow
+python -m black_hole.caustic_focus_figures
+python -m pytest tests/test_caustic_diagnostics.py tests/test_caustic_focus_figures.py
 ```
+
+The `--prefix` option names the figure family. The narrow-source figures were
+previously produced by renaming the default outputs, which left them outside
+the reproduction command; they are now written directly.

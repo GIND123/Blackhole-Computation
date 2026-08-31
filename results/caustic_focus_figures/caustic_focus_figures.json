@@ -1,0 +1,163 @@
+{
+  "archive": "results/caustic_diagnostics/raw/narrow_source_L80_fine.npz",
+  "focus_bridge_time": 48.0,
+  "crop_radius_over_M": 12.0,
+  "figures": {
+    "equatorial_inset": {
+      "png": "results/caustic_focus_figures/focus_equatorial_inset.png",
+      "pdf": "results/caustic_focus_figures/focus_equatorial_inset.pdf",
+      "bridge_times": [
+        47.00000000004239,
+        47.50000000004478,
+        48.000000000047166,
+        48.50000000004955
+      ],
+      "crop_radius_over_M": 12.0,
+      "inset_half_width_over_M": 4.5,
+      "inset_magnification": 2.6666666666666665,
+      "focus": {
+        "bridge_time": 48.000000000047166,
+        "radius_over_M": 6.252544583254548,
+        "peak_abs_field": 0.02081811893288414,
+        "transverse_reference": 9.165230536170853e-05,
+        "amplification": 227.14233810840676,
+        "interior_maximum": true,
+        "amplification_peak": 231.47240961460446,
+        "amplification_peak_radius_over_M": 6.776768578285276,
+        "radial_index": 714
+      },
+      "display": {
+        "transfer_function": "signed asinh",
+        "linear_width_beta": 0.001787638557345567,
+        "colour_limit": 0.02607877206197453,
+        "drawn_minimum": -0.02607877206197453,
+        "drawn_maximum": 0.0033267496888474404,
+        "peak_is_clipped": false
+      }
+    },
+    "birdseye_surface": {
+      "png": "results/caustic_focus_figures/focus_birdseye_surface.png",
+      "pdf": "results/caustic_focus_figures/focus_birdseye_surface.pdf",
+      "bridge_time": 48.000000000047166,
+      "inner_radius_over_M": 2.2,
+      "focus_sign": "negative excursion",
+      "camera": {
+        "elevation_degrees": 58.0,
+        "azimuth_degrees": 200.0
+      },
+      "vertical_limit": 0.020818045392288213,
+      "focus": {
+        "bridge_time": 48.000000000047166,
+        "radius_over_M": 6.252544583254548,
+        "peak_abs_field": 0.02081811893288414,
+        "transverse_reference": 9.165230536170853e-05,
+        "amplification": 227.14233810840676,
+        "interior_maximum": true,
+        "amplification_peak": 231.47240961460446,
+        "amplification_peak_radius_over_M": 6.776768578285276,
+        "radial_index": 714
+      },
+      "display": {
+        "transfer_function": "signed asinh",
+        "linear_width_beta": 0.0006927287772152014,
+        "colour_limit": 0.020818045392288213,
+        "drawn_minimum": -0.020818045392288213,
+        "drawn_maximum": -2.073799202570894e-06,
+        "peak_is_clipped": false
+      }
+    },
+    "axial_cutaway": {
+      "png": "results/caustic_focus_figures/focus_axial_cutaway.png",
+      "pdf": "results/caustic_focus_figures/focus_axial_cutaway.pdf",
+      "bridge_time": 48.000000000047166,
+      "cut_plane": "y = 0, containing the emitter and the antipodal focus",
+      "camera": {
+        "elevation_degrees": 20.0,
+        "azimuth_degrees": 250.0
+      },
+      "focus": {
+        "bridge_time": 48.000000000047166,
+        "radius_over_M": 6.252544583254548,
+        "peak_abs_field": 0.02081811893288414,
+        "transverse_reference": 9.165230536170853e-05,
+        "amplification": 227.14233810840676,
+        "interior_maximum": true,
+        "amplification_peak": 231.47240961460446,
+        "amplification_peak_radius_over_M": 6.776768578285276,
+        "radial_index": 714
+      },
+      "display": {
+        "transfer_function": "signed asinh",
+        "linear_width_beta": 0.0006951950267690475,
+        "colour_limit": 0.02081811893288414,
+        "drawn_minimum": -0.02081811893288414,
+        "drawn_maximum": -2.073799202570894e-06,
+        "peak_is_clipped": false
+      }
+    },
+    "axial_time_stack": {
+      "png": "results/caustic_focus_figures/focus_axial_time_stack.png",
+      "pdf": "results/caustic_focus_figures/focus_axial_time_stack.pdf",
+      "first_bridge_time": 46.000000000037616,
+      "last_bridge_time": 50.000000000056716,
+      "curtains": 9,
+      "curtain_stride": 2,
+      "focus": {
+        "bridge_time": 48.000000000047166,
+        "radius_over_M": 6.252544583254548,
+        "peak_abs_field": 0.02081811893288414,
+        "transverse_reference": 9.165230536170853e-05,
+        "amplification": 227.14233810840676,
+        "interior_maximum": true,
+        "amplification_peak": 231.47240961460446,
+        "amplification_peak_radius_over_M": 6.776768578285276,
+        "radial_index": 714
+      },
+      "marked_bridge_time": 48.000000000047166,
+      "marked_radius_over_M": 6.252544583254548,
+      "marked_field": -0.02081811893288414,
+      "camera": {
+        "elevation_degrees": 22.0,
+        "azimuth_degrees": -72.0
+      },
+      "display": {
+        "transfer_function": "signed asinh",
+        "linear_width_beta": 0.010113210747847606,
+        "colour_limit": 0.037475739460048764,
+        "drawn_minimum": -0.037475739460048764,
+        "drawn_maximum": 0.012696549756946104,
+        "peak_is_clipped": false
+      }
+    },
+    "axial_spacetime_map": {
+      "png": "results/caustic_focus_figures/focus_axial_spacetime_map.png",
+      "pdf": "results/caustic_focus_figures/focus_axial_spacetime_map.pdf",
+      "first_bridge_time": 40.00000000000897,
+      "last_bridge_time": 54.000000000075815,
+      "snapshots": 57,
+      "focus": {
+        "bridge_time": 48.000000000047166,
+        "radius_over_M": 6.252544583254548,
+        "peak_abs_field": 0.02081811893288414,
+        "transverse_reference": 9.165230536170853e-05,
+        "amplification": 227.14233810840676,
+        "interior_maximum": true,
+        "amplification_peak": 231.47240961460446,
+        "amplification_peak_radius_over_M": 6.776768578285276,
+        "radial_index": 714
+      },
+      "marked_bridge_time": 48.000000000047166,
+      "marked_radius_over_M": 6.252544583254548,
+      "marked_field": -0.02081811893288414,
+      "display": {
+        "transfer_function": "signed asinh",
+        "linear_width_beta": 0.0036113153818612778,
+        "colour_limit": 0.037475739460048764,
+        "drawn_minimum": -0.037475739460048764,
+        "drawn_maximum": 0.01782279105111765,
+        "peak_is_clipped": false
+      }
+    }
+  },
+  "every_figure_is_unclipped": true
+}

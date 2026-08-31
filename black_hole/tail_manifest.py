@@ -64,6 +64,37 @@ def physical_contract() -> dict:
         "imex_split": (
             "explicit_potential" if tail.EXPLICIT_POTENTIAL else "implicit_potential"
         ),
+        # The estimator is frozen with the acceptance criteria, because a rate
+        # is only as reproducible as the window that produced it.  Changing any
+        # value below changes the digest and therefore invalidates the manifest
+        # rather than silently rewriting a published number.
+        "estimator": {
+            "envelope": "centered root mean square",
+            "envelope_width_over_M": tail.LocalFitSettings().envelope_width,
+            "price_log_window_over_M": tail.LocalFitSettings().price_window,
+            "cosmological_scaled_window": (
+                tail.LocalFitSettings().exponential_scaled_window
+            ),
+            "floating_point_floor_multiplier": (
+                tail.LocalFitSettings().floor_multiplier
+            ),
+            "floor_source": "spatial and timestep refinement ladders",
+            "floor_safety_factor": tail.FLOOR_SAFETY_FACTOR,
+            "trusted_record_start_U_over_M": tail.TRUSTED_RECORD_START_U,
+            "trusted_continuity_fraction": tail.TRUSTED_CONTINUITY_FRACTION,
+            "trusted_interval_is_common_to_both_backgrounds": True,
+        },
+        "selected_cases": {
+            "paper_lengths_over_M": list(tail.PAPER_LENGTHS),
+            "final_resolutions": list(tail.FINAL_RESOLUTIONS),
+            "final_timestep_over_M": tail.TIMESTEP,
+            "final_halved_timestep_over_M": tail.HALVED_TIMESTEP,
+            "cases": sorted(
+                case.name
+                for length in tail.PAPER_LENGTHS
+                for case in tail.final_cases(length)
+            ),
+        },
     }
 
 

@@ -81,6 +81,57 @@ number. Under the earlier implicit-potential split (below) the same screen
 returned \(98.80M\) from \(U=173.88M\) to \(272.68M\). Both values reject the
 length, and the \(L/M=5120\) interval is identical under either split.
 
+## Intermediate screening
+
+The dyadic sequence steps by a factor of two and leaves a wide gap: \(L/M=2560\)
+fails the Price criterion on duration alone while \(L/M=5120\) passes with more
+than twice the required interval. Because the cosmological regime needs
+\(\kappa_cU\) of order the Price index, and \(\kappa_c\sim1/L\), the smallest
+length that still resolves the power law is the one most likely to reach the
+exponential regime inside a finite record. Raising \(L\) further moves in the
+wrong direction.
+
+The three intermediate values \(L/M=3072\), 3584, and 4096 were therefore
+screened under the same preregistered criteria. The Schwarzschild screening
+references are independent of \(L\) and were reused, so this cost six new
+evolutions of about six minutes each.
+
+| \(L/M\) | outer interval \(U/M\) | duration\(/M\) | contains \(U=300M\) | max SdS refinement | max Schwarzschild refinement | screen |
+|---:|---|---:|---|---:|---:|---|
+| 640 | 32.94--35.49 | 2.55 | no | \(3.3\times10^{-9}\) | \(3.2\times10^{-9}\) | reject |
+| 1280 | 156.78--163.98 | 7.20 | no | \(2.7\times10^{-5}\) | \(1.7\times10^{-5}\) | reject |
+| 2560 | 173.98--304.18 | 130.20 | yes | \(9.5\times10^{-5}\) | \(1.6\times10^{-4}\) | reject |
+| **3072** | **172.28--381.33** | **209.05** | **yes** | \(1.3\times10^{-4}\) | \(3.6\times10^{-4}\) | **accept** |
+| 3584 | 154.48--455.43 | 300.95 | yes | \(7.0\times10^{-4}\) | \(6.8\times10^{-4}\) | accept |
+| 4096 | 154.33--474.98 | 320.65 | yes | \(1.1\times10^{-3}\) | \(7.9\times10^{-4}\) | accept |
+| 5120 | 154.13--474.98 | 320.85 | yes | \(1.4\times10^{-3}\) | \(7.9\times10^{-4}\) | accept |
+
+The accepted duration is monotone in \(L\) and crosses the \(150M\) requirement
+between 2560 and 3072. Thus \(L/M=3072\) is the smallest **screened** value
+that satisfies the Price criterion, with a margin of \(59.05M\) over the
+requirement, and refinement differences of 0.013 percent and 0.036 percent
+against the one percent limit. The earlier statement that \(L/M=5120\) is the
+smallest passing **dyadic** value is unchanged; 3072 is not a dyadic step of
+the original ladder.
+
+The three fixed-radius observers pass at \(L/M=3072\) as well, with continuous
+intervals of \(193.80M\) at \(r=8M\) and \(247.75M\) at \(r=16M\).
+
+This screen selects a candidate. It does not decide whether \(L/M=3072\)
+resolves the cosmological regime, because the screen runs only to
+\(U=500M\), which is \(\kappa_cU=0.163\). That question belongs to the final
+ladder, whose end time is \(4/\kappa_c=12296M\) against \(20488M\) at
+\(L/M=5120\): the smaller length reaches any given \(\kappa_cU\) at 60 percent
+of the retarded time, and therefore at a higher amplitude relative to the
+refinement floor.
+
+The screening decision above quotes \(129.75M\) from \(U=173.98M\) to
+\(303.73M\) for \(L/M=2560\). The archived decision file records \(130.20M\)
+from \(U=173.98M\) to \(304.18M\), which is the value the envelope repair
+produced and the value
+[TAIL_REPAIR.md](TAIL_REPAIR.md) quotes. The difference does not change the
+rejection. It is recorded here rather than corrected in place.
+
 ## Package manifest
 
 Every archive and derived artifact of the campaign is hashed and recorded by

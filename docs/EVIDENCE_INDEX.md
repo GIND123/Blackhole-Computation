@@ -29,7 +29,6 @@ Submission figures may be rendered again with embedded-font settings; the indexe
 | `tail_outer_boundary_comparison.pdf` | `results/curvature_coupling_production_v2/tail_outer_boundary_comparison.pdf` | `python -m black_hole.curvature_coupling_tail_analysis --root results/curvature_coupling_production_v2` | `c97374a25456` |
 | `D1_scaling.pdf` | `results/regulator_production_v3/D1_scaling.pdf` | `python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3` | `0b5fcc1d0521` |
 | `D1_error_separation.pdf` | `results/regulator_production_v3/D1_error_separation.pdf` | `python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3` | `3d2f9ae2b00d` |
-| `L12_phase_exclusion.pdf` | `results/regulator_production_v3/L12_phase_exclusion.pdf` | `python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3` | `45f2693bf723` |
 
 ## Tables in the manuscript
 
@@ -45,4 +44,6 @@ Submission figures may be rendered again with embedded-font settings; the indexe
 
 ## Consistency
 
-Every cited figure and table is indexed, present, and recorded in its package manifest.
+1 item(s) need attention:
+
+* figure L12_phase_exclusion.pdf: indexed but not cited by the manuscript
