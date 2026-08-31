@@ -14,7 +14,7 @@
 #     git sparse-checkout init --cone
 #     git sparse-checkout set black_hole tests
 #     git checkout
-#     OUT=/mnt/e/Blackhole-Computation/results/large_l_tail \
+#     OUT=/mnt/e/Blackhole-Computation/results/large_l_tail LENGTHS=3072 \
 #         bash /mnt/e/Blackhole-Computation/run_tail_production.sh
 #
 # The case list is generated from large_l_tail.PAPER_LENGTHS rather than
@@ -53,11 +53,25 @@ export PY OUT LOG
 
 # Slowest first, so the tail of the schedule is short.  The halved-timestep
 # cases are roughly twice the cost of their own resolution at the full step.
-CASES=$($PY - <<'PYEOF'
+# LENGTHS may narrow the run to a subset of the paper lengths, so a long
+# ladder can be taken one length at a time.  It cannot widen it: a length
+# that is not in the frozen contract is refused.
+LENGTHS=${LENGTHS:-}
+CASES=$(LENGTHS="$LENGTHS" $PY - <<'PYEOF'
+import os
+
 from black_hole.large_l_tail import PAPER_LENGTHS, final_cases
 
+requested = os.environ.get("LENGTHS", "").split()
+lengths = tuple(float(value) for value in requested) or PAPER_LENGTHS
+unknown = sorted(set(lengths) - set(PAPER_LENGTHS))
+if unknown:
+    raise SystemExit(
+        f"{unknown} are not paper lengths; the frozen contract lists "
+        f"{list(PAPER_LENGTHS)}."
+    )
 ordered = sorted(
-    (case for length in PAPER_LENGTHS for case in final_cases(length)),
+    (case for length in lengths for case in final_cases(length)),
     key=lambda case: -case.end_u / case.timestep * case.resolution,
 )
 print("\n".join(case.name for case in ordered))
@@ -69,7 +83,8 @@ echo "$CASES" | sed 's/^/    /'
 echo "$CASES" | xargs -P "$JOBS" -I{} bash -c 'run_case {}'
 
 echo "=== final reports ($(date)) ==="
-for L in $($PY -c "from black_hole.large_l_tail import PAPER_LENGTHS; print(' '.join(f'{v:g}' for v in PAPER_LENGTHS))"); do
+REPORT_LENGTHS=${LENGTHS:-$($PY -c "from black_hole.large_l_tail import PAPER_LENGTHS; print(' '.join(f'{v:g}' for v in PAPER_LENGTHS))")}
+for L in $REPORT_LENGTHS; do
     $PY -u -m black_hole.large_l_tail --output-dir "$OUT" report-final "$L" \
         > "$LOG/report_final_$L.log" 2>&1 && echo "OK   report-final $L" \
         || echo "FAIL report-final $L"
