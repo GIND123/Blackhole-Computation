@@ -11,7 +11,7 @@ Submission figures may be rendered again with embedded-font settings; the indexe
 | package manifest | analysis revision | simulation records | provenance |
 |---|---|---|---|
 | `results/regulator_production_v3/manifest.json` | `f5de22d3a0ea` | `2460d976fd02` | production (enforced at manifest creation) |
-| `results/exterior_regulator_width_floor_qnm_v5/manifest.json` | `base 451c662c05d5 + authoritative source hashes` | `2460d976fd02`, `31a83ed58984`, `7079fc2dc6bc` | production, screening |
+| `results/exterior_regulator_width_floor_qnm_v5/manifest.json` | `base 680de2e083b3 + authoritative source hashes` | `2460d976fd02`, `31a83ed58984`, `7079fc2dc6bc` | production, screening |
 | `results/curvature_coupling_production_v2/tail_manifest.json` | `source c59acb4d8126` | `451c662c05d5`, `exterior_tail_conservative_v2_20260827`, `sds_curvature_20260826_v1` | hash-verified campaign archives, formulation controls retained as screening evidence |
 
 ## Figures in the manuscript

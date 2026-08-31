@@ -4,7 +4,7 @@
   "package": "results/exterior_regulator_width_floor_qnm_v5",
   "control_package": "results/regulator_production_v3",
   "legacy_candidate_package": "results/exterior_regulator_far_production_v1",
-  "analysis_git_base_commit": "451c662c05d524946840b79d51186e45c8714fcd",
+  "analysis_git_base_commit": "680de2e083b36de553765a09a2a4fbdfa4e6a5ce",
   "analysis_source_files_are_dirty_relative_to_base": true,
   "source_hashes_are_authoritative": true,
   "provenance_note": "The exterior archives record dirty simulation worktrees and are therefore retained as screening-grade evidence. Their immutable bytes, embedded contracts, commands, numerical parameters, and compatibility with the released source are verified here; this manifest does not relabel them as clean-production archives.",
@@ -824,8 +824,8 @@
     {
       "path": "black_hole/reproducibility.py",
       "hash_mode": "sha256_bytes",
-      "sha256": "bd4abbb2733522b50a82cb1c5d7241cd4e531e647381468d0fd09edd44c2a884",
-      "bytes": 1698,
+      "sha256": "03053787c9f08eae4ea1fc529bf10ea50d94cbfabb908b4d225c006d2c0a2eef",
+      "bytes": 2900,
       "role": "active_reproduction_source"
     }
   ],

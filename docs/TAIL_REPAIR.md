@@ -329,6 +329,50 @@ The corrected code records `cosmological_rate_indication = True` and
 `cosmological_regime_resolved = False`, which is what the prose already said
 and what the refinement evidence supports.
 
+## 4b. Why nothing could reach production grade
+
+The clean rerun was set up, started from a frozen worktree that
+`git status --porcelain --untracked-files=no` reported as empty, and its first
+archives were still stamped `git_worktree_dirty`. Two independent faults were
+in the way, and the first hid the second.
+
+**The provenance probe could not see a clean tree.** `_command_output` returns
+`None` when a command prints nothing, and a clean worktree is exactly the case
+where `git status --porcelain` prints nothing. The flag read
+
+```python
+"git_worktree_dirty": status is None or bool(status),
+```
+
+so clean and unreadable were the same value and both were recorded as dirty.
+This was introduced in `72d4ef3`; before it the flag was `bool(status)`, which
+is why 127 older archives in the repository do record a clean worktree and
+nothing written after that commit does. **No archive produced since `72d4ef3`
+could have reached production grade regardless of the state of the checkout.**
+The probe now returns `clean`, `dirty`, or `unknown` and is recorded as
+`git_worktree_state` beside the flag. An unknown state is still counted as
+dirty, because an archive that cannot demonstrate its provenance must not be
+promoted, but it is no longer confused with a clean one.
+
+**Line endings made the tree dirty from Linux.** Git for Windows sets
+`core.autocrlf=true` at system level, so the working tree held CRLF while the
+index held LF. The evolutions run from WSL, where Git has no such setting and
+therefore reported 263 modified files. Every archive written from WSL was
+recorded against a tree that Windows called clean and Linux called dirty. The
+repository-local setting is now `core.autocrlf=false` with the tree
+renormalized to LF, so both report the same thing. This also removed a
+false hash mismatch in the exterior-QNM manifest, whose source files are
+hashed by raw bytes, and one in `tab:matched-tail`.
+
+Either fault alone is enough to prevent a production-grade archive, which is
+why the earlier reruns produced screening data and why the note in
+[LARGE_L_TAIL.md](LARGE_L_TAIL.md) attributing the grade to uncommitted solver
+changes is incomplete: the solver really was uncommitted for the screening set,
+but the final ladders would have been demoted in any case.
+
+`tests/test_reproducibility.py` drives the probe against real repositories in
+all three states, including the clean one that had no coverage.
+
 ## 5. Manifest completeness
 
 Verification checked that every listed file exists and hashes correctly, but

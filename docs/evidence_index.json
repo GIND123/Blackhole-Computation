@@ -198,7 +198,7 @@
     },
     "results/exterior_regulator_width_floor_qnm_v5": {
       "manifest": "results/exterior_regulator_width_floor_qnm_v5/manifest.json",
-      "analysis_revision": "base 451c662c05d524946840b79d51186e45c8714fcd + authoritative source hashes",
+      "analysis_revision": "base 680de2e083b36de553765a09a2a4fbdfa4e6a5ce + authoritative source hashes",
       "simulation_commits": [
         "2460d976fd023f7bcae892d760436248d32d0290",
         "31a83ed589842062e47764887411688daec711ae",
