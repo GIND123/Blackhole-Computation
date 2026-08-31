@@ -671,20 +671,6 @@
   including {Schwartz} decay}} (\bibinfo {year} {2026}),\ \Eprint
   {https://arxiv.org/abs/2603.23484} {arXiv:2603.23484 [gr-qc]} \BibitemShut
   {NoStop}%
-\bibitem [{\citenamefont {Brady}\ \emph {et~al.}(1999)\citenamefont {Brady},
-  \citenamefont {Chambers}, \citenamefont {Laarakkers},\ and\ \citenamefont
-  {Poisson}}]{brady_radiative_1999}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~R.}\ \bibnamefont
-  {Brady}}, \bibinfo {author} {\bibfnamefont {C.~M.}\ \bibnamefont {Chambers}},
-  \bibinfo {author} {\bibfnamefont {W.~G.}\ \bibnamefont {Laarakkers}},\ and\
-  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Poisson}},\ }\bibfield
-  {title} {\bibinfo {title} {Radiative falloff in {Schwarzschild--de Sitter}
-  spacetime},\ }\href {https://doi.org/10.1103/PhysRevD.60.064003} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
-  {60}},\ \bibinfo {pages} {064003} (\bibinfo {year} {1999})},\ \Eprint
-  {https://arxiv.org/abs/gr-qc/9902010} {arXiv:gr-qc/9902010} \BibitemShut
-  {NoStop}%
 \bibitem [{\citenamefont {Ashtekar}\ \emph
   {et~al.}(2015{\natexlab{a}})\citenamefont {Ashtekar}, \citenamefont {Bonga},\
   and\ \citenamefont {Kesavan}}]{Ashtekar:2014zfa}%
@@ -726,6 +712,20 @@
   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {92}},\ \bibinfo
   {pages} {104032} (\bibinfo {year} {2015}{\natexlab{c}})},\ \Eprint
   {https://arxiv.org/abs/1510.05593} {arXiv:1510.05593 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Brady}\ \emph {et~al.}(1999)\citenamefont {Brady},
+  \citenamefont {Chambers}, \citenamefont {Laarakkers},\ and\ \citenamefont
+  {Poisson}}]{brady_radiative_1999}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~R.}\ \bibnamefont
+  {Brady}}, \bibinfo {author} {\bibfnamefont {C.~M.}\ \bibnamefont {Chambers}},
+  \bibinfo {author} {\bibfnamefont {W.~G.}\ \bibnamefont {Laarakkers}},\ and\
+  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Poisson}},\ }\bibfield
+  {title} {\bibinfo {title} {Radiative falloff in {Schwarzschild--de Sitter}
+  spacetime},\ }\href {https://doi.org/10.1103/PhysRevD.60.064003} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {60}},\ \bibinfo {pages} {064003} (\bibinfo {year} {1999})},\ \Eprint
+  {https://arxiv.org/abs/gr-qc/9902010} {arXiv:gr-qc/9902010} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Price}(1972)}]{price1972nonspherical}%
   \BibitemOpen
