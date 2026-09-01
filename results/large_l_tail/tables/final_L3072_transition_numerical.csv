@@ -1,0 +1,5 @@
+observer,resolution,timestep_over_M,departure_U_over_M,entry_U_over_M,departure_kappa_U,entry_kappa_U,crossover_duration_U_over_M,cosmological_rate_relative_tolerance,minimum_cosmological_scaled_duration,status,floor_source,cosmological_entry_without_price_anchor_U_over_M,cosmological_entry_without_price_anchor_kappa_U,cosmological_entry_anchor,trusted_until_U_over_M
+outer,1536,0.0025,379.8800107505269,,0.12357830469291821,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,
+outer,2048,0.0025,381.33001075052556,,0.12405000243097646,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,
+outer,3072,0.0025,381.88001075052506,,0.12422892226265372,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,
+outer,2048,0.00125,381.3300107534201,,0.12405000243191808,,,0.1,0.4,no_cosmological_entry_before_round_off_floor,round_off_estimate,,,price_departure,

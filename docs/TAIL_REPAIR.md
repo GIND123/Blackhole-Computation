@@ -281,6 +281,71 @@ round-off floor, roughly three times beyond the point where its own
 resolutions stop agreeing; the wander it develops there would otherwise read
 as a measured Price index.
 
+## 3a. The candidate length does not resolve both regimes
+
+`L/M = 3072` was selected by the intermediate screen as the smallest length
+that satisfies the Price criterion, on the argument that a smaller length
+reaches a given `kappa_c U` at a smaller `U` and therefore at a higher
+amplitude. Its final ladder was run from a clean frozen worktree at
+`d43f25a`, eight evolutions, and is the first production-grade set in the
+package.
+
+**The Price plateau is resolved, to every criterion.** The outer departure is
+`U = 381.88M`, and the fitted interval is `231.88M` to `381.88M`.
+
+| criterion | SdS | Schwarzschild | limit |
+|---|---:|---:|---:|
+| envelope, `N=2048` against `N=3072` | `4.77e-5` | `2.20e-5` | `1e-2` |
+| envelope, `N=1536` against `N=2048` | `1.27e-4` | `3.58e-4` | `1e-2` |
+| envelope, `dt` against `dt/2` at `N=2048` | `3.29e-8` | `3.36e-8` | `1e-2` |
+
+The departure itself is stable across the ladder: `379.88M` at `N=1536`,
+`381.33M` at `N=2048`, `381.88M` at `N=3072`, and `381.33M` at the halved
+timestep, a spread of `2.0M`, or `0.5%`, with the timestep check moving it not
+at all.
+
+**The cosmological regime is not reached.** The status is
+`no_cosmological_entry_before_ladder_floor`, `U_dS` and the crossover interval
+are null, and the cosmological column of the sensitivity table is empty
+because there is no interval to measure. All twenty-seven combinations of fit
+window (`0.15`, `0.25`, `0.4`), measured-floor multiplier (`10`, `100`,
+`1000`), and observer return the same status. The result is not an artifact of
+the estimator settings.
+
+### Why the smaller length did not help
+
+The premise was right and the floor defeated it. `L/M = 3072` does reach a
+given `kappa_c U` earlier in `U` than `L/M = 5120`, but its refinement floor
+is far higher, so its record stops sooner in scaled time than the longer
+length it was meant to improve on:
+
+| `L/M` | trusted to `U/M` | trusted to `kappa_c U` | amplitude at that point | median spatial convergence ratio |
+|---:|---:|---:|---:|---:|
+| 640 | 2029.8 | **3.162** | `6.80e-9` | 9.98 |
+| 1280 | 1262.6 | 0.985 | `3.59e-9` | 10.00 |
+| 2560 | 1822.6 | 0.711 | `4.45e-9` | 3.26 |
+| 3072 | 1983.6 | 0.645 | `4.10e-9` | 2.66 |
+| 5120 | 4501.4 | 0.879 | `1.56e-10` | 3061.63 |
+
+Four of the five lengths stop between `3.6e-9` and `6.8e-9`. `L/M = 5120` is
+the exception by a factor of twenty-six, and its spatial convergence ratio is
+three orders of magnitude above every other length. Whatever makes that ladder
+so much better converged is not a property that `3072` inherits by being
+smaller, and it is the single reason `5120` still holds the deepest record in
+scaled time among the lengths that establish Price.
+
+**No tested length resolves both regimes.** Seven lengths have now been
+screened and five carry a final ladder. `L/M = 640` is the only one whose
+record reaches the required `kappa_c U = 3`, and it does not establish Price;
+`3072` and `5120` establish Price and do not reach the cosmological regime.
+The two requirements have not been met in one waveform, and this is reported
+as the outcome rather than treated as a reason to go straight to a more
+expensive strategy.
+
+The anomalous convergence of the `L/M = 5120` ladder is worth understanding
+before more computer time is spent. If it is reproducible and its cause is
+identified, it may be the lever, rather than the choice of `L`.
+
 ## 4a. The estimator and the selected cases are frozen
 
 The acceptance criteria were already in the campaign contract that

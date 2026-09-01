@@ -70,31 +70,39 @@ class ManifestTests(unittest.TestCase):
                 row["provenance_grade"] == "screening", row["git_worktree_dirty"]
             )
 
-    def test_no_final_archive_carries_production_provenance(self) -> None:
-        """Every final archive was written from a dirty worktree.
+    def test_only_the_reran_length_carries_production_provenance(self) -> None:
+        """The clean rerun has cleared exactly one length, and no more.
 
         Provenance is recorded when an archive is saved, not when its run is
         launched, so a campaign started from a clean commit still records a
         dirty worktree if anything in the repository is edited while it runs.
-        The whole final ladder is in that state.  Clearing it needs the
-        worktree frozen for the entire duration of the runs, not merely at the
-        moment they start.
+        The whole final ladder was in that state, for two reasons that had to
+        be fixed together: the probe could not distinguish a clean worktree
+        from an unreadable one, and core.autocrlf left the tree modified as
+        seen from the machine the evolutions run on.
 
-        The assertion is that the dirty set is exactly the whole final set: a
-        rerun that fixes some cases must shrink it, and this test must then be
-        updated to name what is left.
+        ``L/M = 3072`` was then rerun from a frozen sparse worktree and is
+        production grade.  The four earlier ladders are untouched and remain
+        screening.  This test names the split so that a later rerun has to
+        update it rather than quietly widen the production set.
         """
 
         final = {
             row["case"] for row in self.manifest["archives"] if row["role"] == "final"
         }
-        dirty = {
+        production = {
             row["case"]
             for row in self.manifest["archives"]
-            if row["role"] == "final" and row["provenance_grade"] != "production"
+            if row["role"] == "final" and row["provenance_grade"] == "production"
         }
-        self.assertEqual(dirty, final)
-        self.assertEqual(len(final), 32)
+        expected = {case for case in final if "L3072" in case}
+        self.assertEqual(production, expected)
+        self.assertEqual(len(production), 8)
+        self.assertEqual(len(final), 40)
+        # Everything still screening belongs to a length that has not been
+        # rerun, rather than to a case the rerun missed.
+        for case in final - production:
+            self.assertNotIn("L3072", case)
 
     def test_verification_detects_an_unlisted_artifact(self) -> None:
         """Hashes alone cannot catch a result that was never recorded."""

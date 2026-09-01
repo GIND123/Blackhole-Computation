@@ -1,0 +1,33 @@
+{
+  "length_over_M": 3072.0,
+  "primary_observer": "outer",
+  "primary": {
+    "departure_U_over_M": 381.88001075052506,
+    "entry_U_over_M": null,
+    "departure_kappa_U": 0.12422892226265372,
+    "entry_kappa_U": null,
+    "crossover_duration_U_over_M": null,
+    "cosmological_rate_relative_tolerance": 0.1,
+    "minimum_cosmological_scaled_duration": 0.4,
+    "status": "no_cosmological_entry_before_ladder_floor",
+    "floor_source": "refinement_ladder",
+    "cosmological_entry_without_price_anchor_U_over_M": null,
+    "cosmological_entry_without_price_anchor_kappa_U": null,
+    "cosmological_entry_anchor": "price_departure",
+    "trusted_until_U_over_M": 1983.580010782591
+  },
+  "fitted_law_intersection": null,
+  "price_fit_interval_U_over_M": [
+    231.88001075052506,
+    381.88001075052506
+  ],
+  "cosmological_fit_interval_U_over_M": [
+    0.0,
+    0.0
+  ],
+  "transition_sweep": "/mnt/e/Blackhole-Computation/results/large_l_tail/tables/final_L3072_transition_sweep.csv",
+  "transition_numerical": "/mnt/e/Blackhole-Computation/results/large_l_tail/tables/final_L3072_transition_numerical.csv",
+  "numerical_sensitivities": "/mnt/e/Blackhole-Computation/results/large_l_tail/tables/final_L3072_numerical_sensitivities.csv",
+  "figure_png": "/mnt/e/Blackhole-Computation/results/large_l_tail/large_L3072_tail_transition.png",
+  "figure_pdf": "/mnt/e/Blackhole-Computation/results/large_l_tail/large_L3072_tail_transition.pdf"
+}

@@ -117,6 +117,12 @@ the original ladder.
 The three fixed-radius observers pass at \(L/M=3072\) as well, with continuous
 intervals of \(193.80M\) at \(r=8M\) and \(247.75M\) at \(r=16M\).
 
+The final ladder for \(L/M=3072\) has since been run from a clean frozen
+worktree and is reported in [TAIL_REPAIR.md](TAIL_REPAIR.md): it resolves the
+Price plateau to every stated criterion and does not reach the cosmological
+regime, its record ending at \(\kappa_cU=0.645\). Its eight archives are the
+first production-grade cases in this package.
+
 This screen selects a candidate. It does not decide whether \(L/M=3072\)
 resolves the cosmological regime, because the screen runs only to
 \(U=500M\), which is \(\kappa_cU=0.163\). That question belongs to the final

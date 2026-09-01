@@ -3,6 +3,7 @@
     640.0,
     1280.0,
     2560.0,
+    3072.0,
     5120.0
   ],
   "observers": [
@@ -15,6 +16,7 @@
   "any_length_resolves_both_regimes": false,
   "lengths_resolving_both": [],
   "lengths_establishing_price_at_the_outer_boundary": [
+    3072.0,
     5120.0
   ],
   "lengths_with_a_fine_grid_cosmological_rate_indication": [
@@ -23,8 +25,8 @@
   "lengths_whose_record_reaches_the_required_scaled_time": [
     640.0
   ],
-  "table": "results/large_l_tail/tables/tail_regime_map.csv",
-  "figure_png": "results/large_l_tail/tail_regime_map.png",
-  "figure_pdf": "results/large_l_tail/tail_regime_map.pdf",
+  "table": "/mnt/e/Blackhole-Computation/results/large_l_tail/tables/tail_regime_map.csv",
+  "figure_png": "/mnt/e/Blackhole-Computation/results/large_l_tail/tail_regime_map.png",
+  "figure_pdf": "/mnt/e/Blackhole-Computation/results/large_l_tail/tail_regime_map.pdf",
   "time_translation_fitted": false
 }
