@@ -112,16 +112,6 @@
       "issues": []
     },
     {
-      "kind": "figure",
-      "name": "L12_phase_exclusion.pdf",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/L12_phase_exclusion.pdf",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "",
-      "sha256": "45f2693bf72355d6788c8533a03152b1c385025c56083883d259e6030d25eb55",
-      "issues": []
-    },
-    {
       "kind": "table",
       "name": "tab:flat_windows",
       "package": "results/regulator_production_v3",
@@ -241,5 +231,7 @@
       ]
     }
   },
-  "problems": []
+  "problems": [
+    "figure L12_phase_exclusion.pdf: indexed but not cited by the manuscript"
+  ]
 }

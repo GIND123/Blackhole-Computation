@@ -1,0 +1,100 @@
+{
+  "archive": "results/caustic_diagnostics/raw/narrow_source_L80_fine.npz",
+  "section_sequence": {
+    "png": "results/caustic_diagnostics/narrow_section_sequence.png",
+    "pdf": "results/caustic_diagnostics/narrow_section_sequence.pdf",
+    "display_scale": 0.003138790578734269,
+    "focus": {
+      "bridge_time": 48.000000000047166,
+      "radius_over_M": 6.252544583254548,
+      "peak_abs_field": 0.02081811893288414,
+      "transverse_reference": 9.168866146184182e-05,
+      "amplification": 227.0522723417447,
+      "interior_maximum": true,
+      "amplification_peak": 231.38011968527374,
+      "amplification_peak_radius_over_M": 6.776768578285276,
+      "radial_index": 714,
+      "snapshot_index": 33
+    },
+    "snapshot_cadence_over_M": 0.2500000000011937,
+    "shown_bridge_times": [
+      46.500000000040004,
+      46.7500000000412,
+      47.00000000004239,
+      47.250000000043585,
+      47.50000000004478,
+      47.75000000004597,
+      48.000000000047166,
+      48.25000000004836,
+      48.50000000004955,
+      48.75000000005075,
+      49.00000000005194,
+      49.250000000053134
+    ]
+  },
+  "focus_profile": {
+    "png": "results/caustic_diagnostics/narrow_focus_profile.png",
+    "pdf": "results/caustic_diagnostics/narrow_focus_profile.pdf",
+    "focus": {
+      "bridge_time": 48.000000000047166,
+      "radius_over_M": 6.252544583254548,
+      "peak_abs_field": 0.02081811893288414,
+      "transverse_reference": 9.168866146184182e-05,
+      "amplification": 227.0522723417447,
+      "interior_maximum": true,
+      "amplification_peak": 231.38011968527374,
+      "amplification_peak_radius_over_M": 6.776768578285276,
+      "radial_index": 714,
+      "snapshot_index": 33
+    },
+    "fwhm_degrees": 18.0,
+    "emitter_angular_width_degrees": 3.580986219567645,
+    "width_in_emitter_widths": 5.026548245743669,
+    "truncation_table": "results/caustic_diagnostics/tables/narrow_focus_profile_truncation.csv",
+    "focus_history_table": "results/caustic_diagnostics/tables/narrow_focus_profile_focus_history.csv",
+    "truncation_study": [
+      {
+        "ell_max": 20,
+        "peak_abs_field": 0.02050406519338418,
+        "fwhm_degrees": 18.269999999999982,
+        "relative_peak_change": 0.015085596374602607
+      },
+      {
+        "ell_max": 30,
+        "peak_abs_field": 0.02067965136069731,
+        "fwhm_degrees": 18.059999999999995,
+        "relative_peak_change": 0.006651300851591835
+      },
+      {
+        "ell_max": 40,
+        "peak_abs_field": 0.020793066377867424,
+        "fwhm_degrees": 18.0,
+        "relative_peak_change": 0.0012034014743351712
+      },
+      {
+        "ell_max": 50,
+        "peak_abs_field": 0.020818865268408166,
+        "fwhm_degrees": 18.0,
+        "relative_peak_change": 3.5850286302558786e-05
+      },
+      {
+        "ell_max": 60,
+        "peak_abs_field": 0.020818110444690313,
+        "fwhm_degrees": 18.0,
+        "relative_peak_change": 4.0773106618019526e-07
+      },
+      {
+        "ell_max": 80,
+        "peak_abs_field": 0.02081811893288414,
+        "fwhm_degrees": 18.0,
+        "relative_peak_change": 0.0
+      }
+    ]
+  },
+  "height_and_colour": {
+    "png": "results/caustic_diagnostics/narrow_height_colour.png",
+    "pdf": "results/caustic_diagnostics/narrow_height_colour.pdf",
+    "bridge_time": 48.000000000047166,
+    "display_scale": 0.001697360097937786
+  }
+}

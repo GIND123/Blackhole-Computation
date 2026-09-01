@@ -281,6 +281,54 @@ round-off floor, roughly three times beyond the point where its own
 resolutions stop agreeing; the wander it develops there would otherwise read
 as a measured Price index.
 
+## 4a. The estimator and the selected cases are frozen
+
+The acceptance criteria were already in the campaign contract that
+`tail_manifest` hashes. The estimator that produces the numbers they act on
+was not, so a window width could have moved without invalidating a manifest.
+The contract now carries both, and the cases the paper quotes:
+
+| frozen quantity | value |
+|---|---:|
+| envelope | centered root mean square |
+| envelope width | `10M` |
+| Price log window | `40M` |
+| cosmological scaled window | `0.25` |
+| floating-point floor multiplier | `100` |
+| floor source | spatial and timestep refinement ladders |
+| floor safety factor | `10` |
+| record start | `U = 100M` |
+| trusted continuity fraction | `0.95` |
+| trusted interval | common to both backgrounds |
+
+`trusted_interval_is_common_to_both_backgrounds` records the correction that
+reads a rate only where the SdS waveform and its Schwarzschild reference are
+both above their own floors. The `selected_cases` block names the paper
+lengths, `L/M = 3072` and `5120`, the three spatial resolutions, both
+timesteps, and the sixteen case names they generate.
+
+Changing any of these changes `physical_contract_sha256` and therefore
+invalidates the manifest, which is the intended behaviour: a published rate is
+only as reproducible as the window that produced it. The manifest recorded
+before this freeze fails verification on `physical_contract`, correctly, and is
+rebuilt rather than patched.
+
+### What the estimator correction moved
+
+The four archived final ladders were reanalyzed with the corrected estimator
+before any new evolution was started. Every summary JSON and every CSV table
+is unchanged. All four transition figures change, because the record is now
+truncated at the limit common to both backgrounds rather than at the larger of
+the two. The effect is largest at `L/M = 1280`, where the SdS curve was drawn
+to `U = 4649M`, its Schwarzschild reference's limit, while its own record ends
+at `U = 1263M`.
+
+The regime map changes a reported classification. Its archived table recorded
+`cosmological_regime_resolved = True` for `L/M = 640` at the outer boundary.
+The corrected code records `cosmological_rate_indication = True` and
+`cosmological_regime_resolved = False`, which is what the prose already said
+and what the refinement evidence supports.
+
 ## 5. Manifest completeness
 
 Verification checked that every listed file exists and hashes correctly, but

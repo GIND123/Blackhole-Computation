@@ -421,17 +421,35 @@ def height_and_colour(
     }
 
 
-def build_all(archive: str | Path, *, output_dir: Path = OUTPUT_ROOT) -> dict:
-    """Build every diagnostic and record what was measured."""
+def build_all(
+    archive: str | Path,
+    *,
+    output_dir: Path = OUTPUT_ROOT,
+    prefix: str = "caustic",
+) -> dict:
+    """Build every diagnostic and record what was measured.
+
+    ``prefix`` names the figure family so that two emitters can be written
+    into one directory without overwriting each other.  The narrow-source
+    figures under ``results/caustic_diagnostics`` carry the ``narrow`` prefix
+    and were previously produced by renaming, which left them outside the
+    reproduction command.
+    """
 
     summary = {
         "archive": str(archive),
-        "section_sequence": section_sequence(archive, output_dir=output_dir),
-        "focus_profile": focus_profile(archive, output_dir=output_dir),
-        "height_and_colour": height_and_colour(archive, output_dir=output_dir),
+        "section_sequence": section_sequence(
+            archive, output_dir=output_dir, stem=f"{prefix}_section_sequence"
+        ),
+        "focus_profile": focus_profile(
+            archive, output_dir=output_dir, stem=f"{prefix}_focus_profile"
+        ),
+        "height_and_colour": height_and_colour(
+            archive, output_dir=output_dir, stem=f"{prefix}_height_colour"
+        ),
     }
     output_dir.mkdir(parents=True, exist_ok=True)
-    record = output_dir / "caustic_diagnostics.json"
+    record = output_dir / f"{prefix}_diagnostics.json"
     with record.open("w", encoding="utf-8") as stream:
         json.dump(summary, stream, indent=2, default=float)
     return summary
@@ -443,8 +461,17 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_ROOT)
+    parser.add_argument(
+        "--prefix",
+        default="caustic",
+        help="figure family name; use 'narrow' for the narrow-source archive",
+    )
     arguments = parser.parse_args()
-    summary = build_all(arguments.archive, output_dir=arguments.output_dir)
+    summary = build_all(
+        arguments.archive,
+        output_dir=arguments.output_dir,
+        prefix=arguments.prefix,
+    )
     print(json.dumps(summary, indent=2, default=float))
 
 

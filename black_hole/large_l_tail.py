@@ -40,6 +40,19 @@ OUTPUT_ROOT = Path("results/large_l_tail")
 REFERENCE_RADIUS = 4.0
 FINITE_OBSERVERS = (8.0, 16.0)
 SCREEN_LENGTHS = (640.0, 1280.0, 2560.0, 5120.0)
+# The preregistered dyadic ladder above selected L_* and its decision is not
+# reopened.  It left a gap: L/M=2560 fails the Price criterion on duration
+# alone (130.20M against 150M) while L/M=5120 passes with 320.85M, and the
+# cosmological regime needs kappa_c U of order the Price index, which favours
+# the smallest length that still resolves the power law.  These intermediate
+# values probe that gap directly instead of increasing L further.
+INTERMEDIATE_SCREEN_LENGTHS = (3072.0, 3584.0, 4096.0)
+# Every length a case may be built for.  ``select_length`` deliberately keeps
+# iterating the dyadic ladder alone, so adding intermediates cannot rewrite the
+# recorded screening decision.
+ALL_SCREEN_LENGTHS = tuple(
+    sorted(SCREEN_LENGTHS + INTERMEDIATE_SCREEN_LENGTHS)
+)
 SCREEN_RESOLUTIONS = (1536, 2048)
 FINAL_RESOLUTIONS = (1536, 2048, 3072)
 TIMESTEP = 0.0025
@@ -59,6 +72,21 @@ COSMOLOGICAL_MINIMUM_SCALED_DURATION = 0.4
 # A rate is read only where the envelope clears the ladder spread by this
 # factor, so a decay law is never fitted to inter-resolution disagreement.
 FLOOR_SAFETY_FACTOR = 10.0
+# A record may contain a brief excursion below the floor without being
+# truncated there, provided this fraction of the samples between its first and
+# last admissible point are themselves admissible.  Below that the record stops
+# at the end of the longest unbroken run.
+TRUSTED_CONTINUITY_FRACTION = 0.95
+# The interval before which no rate is read at all, so the estimator never
+# fits the prompt response or the ringdown.
+TRUSTED_RECORD_START_U = 100.0
+# The lengths whose final ladders the paper quotes.  The dyadic screen selected
+# L/M=5120; the intermediate screen then showed that L/M=3072 already satisfies
+# the same Price criterion with a 209.05M continuous outer interval, and it
+# reaches a given kappa_c U at 60 percent of the retarded time, which is what
+# the cosmological measurement needs.  The larger length is retained as the
+# control that the smaller one is compared against.
+PAPER_LENGTHS = (3072.0, 5120.0)
 INITIAL_DATA = ArealVelocityBumpInitialData(
     center_radius=6.0, support_half_width=3.0, amplitude=1.0
 )
@@ -124,8 +152,10 @@ def final_end_u(length: float) -> float:
 def screening_cases(length: float) -> tuple[TailCase, ...]:
     """Return the two SdS cases and matched Schwarzschild references."""
 
-    if length not in SCREEN_LENGTHS:
-        raise ValueError(f"Screening length must be one of {SCREEN_LENGTHS}.")
+    if length not in ALL_SCREEN_LENGTHS:
+        raise ValueError(
+            f"Screening length must be one of {ALL_SCREEN_LENGTHS}."
+        )
     cases: list[TailCase] = []
     for resolution in SCREEN_RESOLUTIONS:
         cases.append(
@@ -460,7 +490,7 @@ def trusted_samples(
     amplitude: np.ndarray,
     floor: np.ndarray,
     *,
-    after: float = 100.0,
+    after: float = TRUSTED_RECORD_START_U,
 ) -> np.ndarray:
     """Return the mask of samples whose envelope clears the measured floor."""
 
@@ -478,7 +508,7 @@ def trusted_runs(
     amplitude: np.ndarray,
     floor: np.ndarray,
     *,
-    after: float = 100.0,
+    after: float = TRUSTED_RECORD_START_U,
 ) -> list[tuple[float, float, int]]:
     """Return the contiguous runs of trusted samples as start, end, count."""
 
@@ -506,8 +536,8 @@ def trusted_interval_end(
     amplitude: np.ndarray,
     floor: np.ndarray,
     *,
-    after: float = 100.0,
-    continuity: float = 0.95,
+    after: float = TRUSTED_RECORD_START_U,
+    continuity: float = TRUSTED_CONTINUITY_FRACTION,
 ) -> float | None:
     """Return the last retarded time at which a rate may be read.
 
@@ -1572,13 +1602,13 @@ def main() -> None:
     run = subparsers.add_parser("run", help="run named screening or final cases")
     run.add_argument("cases", nargs="+")
     screen = subparsers.add_parser("screen", help="run one two-level screening set")
-    screen.add_argument("length", type=float, choices=SCREEN_LENGTHS)
+    screen.add_argument("length", type=float, choices=ALL_SCREEN_LENGTHS)
     analyze = subparsers.add_parser("analyze-screen")
-    analyze.add_argument("length", type=float, choices=SCREEN_LENGTHS)
+    analyze.add_argument("length", type=float, choices=ALL_SCREEN_LENGTHS)
     final = subparsers.add_parser("final", help="run the final ladder for one length")
-    final.add_argument("length", type=float, choices=SCREEN_LENGTHS)
+    final.add_argument("length", type=float, choices=ALL_SCREEN_LENGTHS)
     final_report = subparsers.add_parser("report-final")
-    final_report.add_argument("length", type=float, choices=SCREEN_LENGTHS)
+    final_report.add_argument("length", type=float, choices=ALL_SCREEN_LENGTHS)
     campaign = subparsers.add_parser(
         "campaign",
         help="resume screening in increasing L and run the first accepted final case",
@@ -1593,13 +1623,13 @@ def main() -> None:
 
     catalogue = {
         case.name: case
-        for length in SCREEN_LENGTHS
+        for length in ALL_SCREEN_LENGTHS
         for case in screening_cases(length)
     }
     catalogue.update(
         {
             case.name: case
-            for length in SCREEN_LENGTHS
+            for length in ALL_SCREEN_LENGTHS
             for case in final_cases(length)
         }
     )

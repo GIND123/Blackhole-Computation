@@ -1,15 +1,15 @@
 {
-  "archive": "results\\caustic_visualizations\\raw\\sds_L80_dense.npz",
+  "archive": "results/caustic_visualizations/raw/sds_L80_dense.npz",
   "section_sequence": {
-    "png": "results\\caustic_diagnostics\\caustic_section_sequence.png",
-    "pdf": "results\\caustic_diagnostics\\caustic_section_sequence.pdf",
+    "png": "results/caustic_diagnostics/caustic_section_sequence.png",
+    "pdf": "results/caustic_diagnostics/caustic_section_sequence.pdf",
     "display_scale": 0.004245678733055286,
     "focus": {
       "bridge_time": 47.75000000004597,
       "radius_over_M": 4.7213947178015525,
       "peak_abs_field": 0.008528052794486327,
-      "transverse_reference": 0.00010256897054915813,
-      "amplification": 83.14456846770335,
+      "transverse_reference": 0.00010256897054915814,
+      "amplification": 83.14456846770334,
       "interior_maximum": true,
       "amplification_peak": 86.81775112435295,
       "amplification_peak_radius_over_M": 5.803600981733701,
@@ -33,14 +33,14 @@
     ]
   },
   "focus_profile": {
-    "png": "results\\caustic_diagnostics\\caustic_focus_profile.png",
-    "pdf": "results\\caustic_diagnostics\\caustic_focus_profile.pdf",
+    "png": "results/caustic_diagnostics/caustic_focus_profile.png",
+    "pdf": "results/caustic_diagnostics/caustic_focus_profile.pdf",
     "focus": {
       "bridge_time": 47.75000000004597,
       "radius_over_M": 4.7213947178015525,
       "peak_abs_field": 0.008528052794486327,
-      "transverse_reference": 0.00010256897054915813,
-      "amplification": 83.14456846770335,
+      "transverse_reference": 0.00010256897054915814,
+      "amplification": 83.14456846770334,
       "interior_maximum": true,
       "amplification_peak": 86.81775112435295,
       "amplification_peak_radius_over_M": 5.803600981733701,
@@ -50,8 +50,8 @@
     "fwhm_degrees": 40.169999999999995,
     "emitter_angular_width_degrees": 7.16197243913529,
     "width_in_emitter_widths": 5.608790084208977,
-    "truncation_table": "results\\caustic_diagnostics\\tables\\caustic_focus_profile_truncation.csv",
-    "focus_history_table": "results\\caustic_diagnostics\\tables\\caustic_focus_profile_focus_history.csv",
+    "truncation_table": "results/caustic_diagnostics/tables/caustic_focus_profile_truncation.csv",
+    "focus_history_table": "results/caustic_diagnostics/tables/caustic_focus_profile_focus_history.csv",
     "truncation_study": [
       {
         "ell_max": 20,
@@ -80,9 +80,9 @@
     ]
   },
   "height_and_colour": {
-    "png": "results\\caustic_diagnostics\\caustic_height_colour.png",
-    "pdf": "results\\caustic_diagnostics\\caustic_height_colour.pdf",
+    "png": "results/caustic_diagnostics/caustic_height_colour.png",
+    "pdf": "results/caustic_diagnostics/caustic_height_colour.pdf",
     "bridge_time": 47.75000000004597,
-    "display_scale": 0.004983453691876837
+    "display_scale": 0.0009981856299598939
   }
 }
