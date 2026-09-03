@@ -37,11 +37,13 @@ LABEL = re.compile(r"\\label\{(tab:[^}]*)\}")
 REGULATOR_PACKAGE = "results/regulator_production_v3"
 QNM_PACKAGE = "results/exterior_regulator_width_floor_qnm_v5"
 MATCHED_TAIL_PACKAGE = "results/curvature_coupling_production_v2"
+LARGE_TAIL_PACKAGE = "results/large_l_tail"
 
 MANIFEST_NAMES = {
     REGULATOR_PACKAGE: "manifest.json",
     QNM_PACKAGE: "manifest.json",
     MATCHED_TAIL_PACKAGE: "tail_manifest.json",
+    LARGE_TAIL_PACKAGE: "manifest.json",
 }
 
 REGULATOR_COMMAND = (
@@ -56,6 +58,10 @@ QNM_COMMAND = (
 MATCHED_TAIL_COMMAND = (
     "python -m black_hole.curvature_coupling_tail_analysis "
     f"--root {MATCHED_TAIL_PACKAGE}"
+)
+LARGE_TAIL_COMMAND = (
+    "python -m black_hole.large_l_tail "
+    f"--output-dir {LARGE_TAIL_PACKAGE} report-final 3072"
 )
 
 
@@ -102,14 +108,6 @@ FIGURES: dict[str, Source] = {
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/flat_waveform_sequence.pdf",
     ),
-    "flat_window_errors.pdf": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/flat_window_errors.pdf",
-    ),
-    "nested_extrapolants.pdf": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/nested_extrapolants.pdf",
-    ),
     "localized_source_regulator.pdf": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/localized_source_regulator.pdf",
@@ -117,65 +115,47 @@ FIGURES: dict[str, Source] = {
     "exterior_qnm_residual_comparison.pdf": Source(
         package=QNM_PACKAGE, command=QNM_COMMAND,
         artifact=f"{QNM_PACKAGE}/width_floor_qnm_residual_comparison.pdf",
-        note="raw QNM-window residuals against the frozen Schwarzschild control",
+        note="raw ringdown-window residuals against the frozen Schwarzschild control",
     ),
     "tail_outer_boundary_comparison.pdf": Source(
         package=MATCHED_TAIL_PACKAGE, command=MATCHED_TAIL_COMMAND,
         artifact=f"{MATCHED_TAIL_PACKAGE}/tail_outer_boundary_comparison.pdf",
         note="matched outer-boundary tail comparison",
     ),
+    "large_L3072_tail_transition.pdf": Source(
+        package=LARGE_TAIL_PACKAGE, command=LARGE_TAIL_COMMAND,
+        artifact=f"{LARGE_TAIL_PACKAGE}/large_L3072_tail_transition.pdf",
+        note="resolved Schwarzschild Price-rate interval and later dynamic range",
+    ),
     "D1_scaling.pdf": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/D1_scaling.pdf",
     ),
-    "D1_error_separation.pdf": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/D1_error_separation.pdf",
-    ),
-    "L12_phase_exclusion.pdf": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/L12_phase_exclusion.pdf",
-    ),
 }
 
 TABLES: dict[str, Source] = {
-    "tab:flat_windows": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/tables/flat_waveform_metrics.csv",
-        note="direct errors on the declared windows",
-    ),
     "tab:extrapolants": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/tables/flat_extrapolant_comparisons.csv",
         note="headline nested extrapolants",
     ),
-    "tab:localized": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=(
-            f"{REGULATOR_PACKAGE}/tables/"
-            "localized_source_extrapolant_comparisons.csv"
-        ),
-        note="sphere integrated modal norm on the common archived interval",
-    ),
     "tab:exterior-qnm-improvement": Source(
         package=QNM_PACKAGE, command=QNM_COMMAND,
         artifact=f"{QNM_PACKAGE}/tables/width_floor_vs_uniform_raw.csv",
-        note="unshifted QNM-window errors, refinement scales, and reductions",
-    ),
-    "tab:matched-tail": Source(
-        package=MATCHED_TAIL_PACKAGE, command=MATCHED_TAIL_COMMAND,
-        artifact=f"{MATCHED_TAIL_PACKAGE}/tables/tail_price_intervals.csv",
-        note="accepted Price-index intervals and pass/fail classifications",
-    ),
-    "tab:extrapolant_audit": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/tables/flat_extrapolant_comparisons.csv",
-        note="full audit including the diagnostic disjoint windows",
+        note="unshifted ringdown-window errors, refinement scales, and reductions",
     ),
     "tab:timing": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/tables/D1_measurements.csv",
         note="deterministic timing sensitivities",
+    ),
+    "tab:large-L-tail-convergence": Source(
+        package=LARGE_TAIL_PACKAGE, command=LARGE_TAIL_COMMAND,
+        artifact=(
+            f"{LARGE_TAIL_PACKAGE}/tables/"
+            "final_L3072_numerical_sensitivities.csv"
+        ),
+        note="spatial and timestep sensitivity on the accepted Price interval",
     ),
 }
 

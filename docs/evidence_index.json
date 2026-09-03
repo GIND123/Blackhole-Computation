@@ -43,26 +43,6 @@
     },
     {
       "kind": "figure",
-      "name": "flat_window_errors.pdf",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/flat_window_errors.pdf",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "",
-      "sha256": "7d04b23d8f2021171de7a1ba0e1ba7b571d7f2e64195c56e2ee1f23e1ff7e16a",
-      "issues": []
-    },
-    {
-      "kind": "figure",
-      "name": "nested_extrapolants.pdf",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/nested_extrapolants.pdf",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "",
-      "sha256": "56b63bbae99a1a476b4f5cafc7f651a3e841346c0fd4af11a7e1ca9cb53b6a41",
-      "issues": []
-    },
-    {
-      "kind": "figure",
       "name": "localized_source_regulator.pdf",
       "package": "results/regulator_production_v3",
       "artifact": "results/regulator_production_v3/localized_source_regulator.pdf",
@@ -77,7 +57,7 @@
       "package": "results/exterior_regulator_width_floor_qnm_v5",
       "artifact": "results/exterior_regulator_width_floor_qnm_v5/width_floor_qnm_residual_comparison.pdf",
       "command": "python -m black_hole.far_regulator_production_analysis --output-dir results/exterior_regulator_width_floor_qnm_v5 --control-dir results/regulator_production_v3 --legacy-candidate-dir results/exterior_regulator_far_production_v1",
-      "note": "raw QNM-window residuals against the frozen Schwarzschild control",
+      "note": "raw ringdown-window residuals against the frozen Schwarzschild control",
       "sha256": "e2ba8b6e84b2812ed8a9011d3e7c6741a6320145f3aa1921e4855aecc7114a17",
       "issues": []
     },
@@ -103,22 +83,12 @@
     },
     {
       "kind": "figure",
-      "name": "D1_error_separation.pdf",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/D1_error_separation.pdf",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "",
-      "sha256": "3d2f9ae2b00d2f30fab2552d3a89f007a9c2443b889e1cd66ce36afb6b9f1497",
-      "issues": []
-    },
-    {
-      "kind": "table",
-      "name": "tab:flat_windows",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/tables/flat_waveform_metrics.csv",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "direct errors on the declared windows",
-      "sha256": "6fd7d543a4c16537dfc279c9e67a027f8e56a8dee873c38df1b21c45a9c32480",
+      "name": "large_L3072_tail_transition.pdf",
+      "package": "results/large_l_tail",
+      "artifact": "results/large_l_tail/large_L3072_tail_transition.pdf",
+      "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072",
+      "note": "resolved Schwarzschild Price-rate interval and later dynamic range",
+      "sha256": "48883405583b875c4c573fb686fc33e32f736a8509fa31634854d581c74f3c01",
       "issues": []
     },
     {
@@ -133,42 +103,12 @@
     },
     {
       "kind": "table",
-      "name": "tab:localized",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/tables/localized_source_extrapolant_comparisons.csv",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "sphere integrated modal norm on the common archived interval",
-      "sha256": "e1537dd6667a0c80a7040ed1811a2a802709e6abb47e21a908d800826dc4d9cf",
-      "issues": []
-    },
-    {
-      "kind": "table",
       "name": "tab:exterior-qnm-improvement",
       "package": "results/exterior_regulator_width_floor_qnm_v5",
       "artifact": "results/exterior_regulator_width_floor_qnm_v5/tables/width_floor_vs_uniform_raw.csv",
       "command": "python -m black_hole.far_regulator_production_analysis --output-dir results/exterior_regulator_width_floor_qnm_v5 --control-dir results/regulator_production_v3 --legacy-candidate-dir results/exterior_regulator_far_production_v1",
-      "note": "unshifted QNM-window errors, refinement scales, and reductions",
+      "note": "unshifted ringdown-window errors, refinement scales, and reductions",
       "sha256": "ad0113d08df5fb23878f4cc48fc042d5550bf02e1490d09fc3b1235d99487f07",
-      "issues": []
-    },
-    {
-      "kind": "table",
-      "name": "tab:matched-tail",
-      "package": "results/curvature_coupling_production_v2",
-      "artifact": "results/curvature_coupling_production_v2/tables/tail_price_intervals.csv",
-      "command": "python -m black_hole.curvature_coupling_tail_analysis --root results/curvature_coupling_production_v2",
-      "note": "accepted Price-index intervals and pass/fail classifications",
-      "sha256": "19cb72ddcb9b7bf19a3bd3bac4d0124940f68e259505203b3a334742ac37801d",
-      "issues": []
-    },
-    {
-      "kind": "table",
-      "name": "tab:extrapolant_audit",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/tables/flat_extrapolant_comparisons.csv",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "full audit including the diagnostic disjoint windows",
-      "sha256": "e8959f0e1141c4c6b2a836b131287f53014f675698ca572c4d51a128fcfd3523",
       "issues": []
     },
     {
@@ -179,6 +119,16 @@
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "note": "deterministic timing sensitivities",
       "sha256": "101328a84680848693b28a5cf1315122a38359a293b83c5e6fd52156ec36b22c",
+      "issues": []
+    },
+    {
+      "kind": "table",
+      "name": "tab:large-L-tail-convergence",
+      "package": "results/large_l_tail",
+      "artifact": "results/large_l_tail/tables/final_L3072_numerical_sensitivities.csv",
+      "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072",
+      "note": "spatial and timestep sensitivity on the accepted Price interval",
+      "sha256": "131642741b0912e958d5b132c719302a0fecf0a9db173814ccbedd1b777b7830",
       "issues": []
     }
   ],
@@ -229,9 +179,33 @@
         "hash-verified campaign archives",
         "formulation controls retained as screening evidence"
       ]
+    },
+    "results/large_l_tail": {
+      "manifest": "results/large_l_tail/manifest.json",
+      "analysis_revision": "d43f25ae61aeafd0e1aea213e9ffa5c2c79dace1",
+      "simulation_commits": [
+        "1d1b5c2073474831248cebe34b9dfec6ea1c4d72",
+        "1faf9961dd06258ca77a0bfe81f5da7c28aa9d2c",
+        "4ac07414444d18ea4d66d31f0c99ad7915e3e057",
+        "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+        "ab71597893365e20a8eddff417727251c5296754",
+        "bca72d0fa61b50e0f7462b2aa6f6b070a3a23b59",
+        "d43f25ae61aeafd0e1aea213e9ffa5c2c79dace1"
+      ],
+      "simulation_records": [
+        "1d1b5c2073474831248cebe34b9dfec6ea1c4d72",
+        "1faf9961dd06258ca77a0bfe81f5da7c28aa9d2c",
+        "4ac07414444d18ea4d66d31f0c99ad7915e3e057",
+        "72d4ef358a9eea8269ecb690f70657c35bb015bb",
+        "ab71597893365e20a8eddff417727251c5296754",
+        "bca72d0fa61b50e0f7462b2aa6f6b070a3a23b59",
+        "d43f25ae61aeafd0e1aea213e9ffa5c2c79dace1"
+      ],
+      "provenance_grades": [
+        "production",
+        "screening"
+      ]
     }
   },
-  "problems": [
-    "figure L12_phase_exclusion.pdf: indexed but not cited by the manuscript"
-  ]
+  "problems": []
 }

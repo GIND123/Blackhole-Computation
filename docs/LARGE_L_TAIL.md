@@ -59,10 +59,10 @@ that short interval are \(3.3\times10^{-9}\) for SdS and
 \(3.2\times10^{-9}\) for Schwarzschild.
 
 The \(L/M=1280\) and 2560 screens are also rejected. Their longest accepted
-outer intervals last \(7.20M\) and \(129.75M\), respectively. The latter runs
-from \(U=173.98M\) to \(303.73M\), with maximum SdS and Schwarzschild
+outer intervals last \(7.20M\) and \(130.20M\), respectively. The latter runs
+from \(U=173.98M\) to \(304.18M\), with maximum SdS and Schwarzschild
 refinement differences below \(1.9\times10^{-4}\). That interval does contain
-the \(U=300M\) anchor, so \(L/M=2560\) fails on duration alone: \(129.75M\) is
+the \(U=300M\) anchor, so \(L/M=2560\) fails on duration alone: \(130.20M\) is
 short of the preregistered \(150M\). The screening sequence therefore
 continues to \(L/M=5120\).
 
@@ -130,13 +130,6 @@ ladder, whose end time is \(4/\kappa_c=12296M\) against \(20488M\) at
 \(L/M=5120\): the smaller length reaches any given \(\kappa_cU\) at 60 percent
 of the retarded time, and therefore at a higher amplitude relative to the
 refinement floor.
-
-The screening decision above quotes \(129.75M\) from \(U=173.98M\) to
-\(303.73M\) for \(L/M=2560\). The archived decision file records \(130.20M\)
-from \(U=173.98M\) to \(304.18M\), which is the value the envelope repair
-produced and the value
-[TAIL_REPAIR.md](TAIL_REPAIR.md) quotes. The difference does not change the
-rejection. It is recorded here rather than corrected in place.
 
 ## Package manifest
 
