@@ -18,7 +18,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 import numpy as np
 
 from .sds_model import (
@@ -1323,85 +1322,70 @@ def analyze_final(output_dir: Path, length: float) -> dict:
         writer.writeheader()
         writer.writerows(sensitivity_rows)
 
-    fig, axes = plt.subplots(3, 1, figsize=(7.2, 7.8), sharex=True)
-    colors_by_observer = ("#0072B2", "#009E73", "#D55E00")
-    labels = (r"$r=8M$", r"$r=16M$", r"$\mathcal{H}_c^+$")
+    fig, axes = plt.subplots(3, 1, figsize=(7.2, 7.2), sharex=True)
     kappa = cosmological_rate(length)
-    trusted_marks: dict[int, float] = {}
-    for observer, color, label in zip(range(3), colors_by_observer, labels):
-        measurement = primary[observer]
-        reference_times, reference_signal = retarded_series(
-            primary_reference, observer
-        )
-        # The Schwarzschild reference carries its own refinement ladder and its
-        # own floor.  Without it the reference curve runs on past the point
-        # where the resolutions disagree, and the wander it develops there
-        # would read as a measured Price index rather than as noise.
-        reference_ladder = ladder_envelope_floor(
-            results, observer, LocalFitSettings(), background="schwarzschild"
-        )
-        reference_amplitude, reference_power, _ = effective_rates(
-            reference_times,
-            reference_signal,
-            LocalFitSettings(),
-            kappa=kappa,
-            measured_floor=reference_ladder["floor"],
-        )
-        # Comparisons are supported only on the interval trusted by both the
-        # SdS waveform and its Schwarzschild reference.
-        trusted_marks[observer] = min(
-            value
-            for value in (
-                trusted_interval_end(
-                    measurement["times"],
-                    measurement["amplitude"],
-                    ladder[observer]["floor"],
-                )
-                or 0.0,
-                trusted_interval_end(
-                    reference_ladder["times"],
-                    reference_ladder["amplitude"],
-                    reference_ladder["floor"],
-                )
-                or 0.0,
+    measurement = primary_outer
+    reference_times, reference_signal = retarded_series(primary_reference, 2)
+    # The Schwarzschild reference carries its own refinement ladder and floor.
+    # Comparisons stop where either outer-boundary ladder loses support, even
+    # though an individual curve may remain visible up to its own floor.
+    reference_ladder = ladder_envelope_floor(
+        results, 2, LocalFitSettings(), background="schwarzschild"
+    )
+    reference_amplitude, reference_power, _ = effective_rates(
+        reference_times,
+        reference_signal,
+        LocalFitSettings(),
+        kappa=kappa,
+        measured_floor=reference_ladder["floor"],
+    )
+    outer_trusted = min(
+        value
+        for value in (
+            trusted_interval_end(
+                measurement["times"], measurement["amplitude"], ladder[2]["floor"]
             )
+            or 0.0,
+            trusted_interval_end(
+                reference_ladder["times"],
+                reference_ladder["amplitude"],
+                reference_ladder["floor"],
+            )
+            or 0.0,
         )
-        axes[0].semilogy(
-            measurement["times"], measurement["amplitude"], color=color, label=label
-        )
-        axes[0].semilogy(
-            reference_times,
-            reference_amplitude,
-            color=color,
-            linestyle="--",
-            alpha=0.72,
-        )
-        axes[1].plot(measurement["times"], measurement["power"], color=color)
-        axes[1].plot(
-            reference_times,
-            reference_power,
-            color=color,
-            linestyle="--",
-            alpha=0.72,
-        )
-        axes[2].plot(
-            measurement["times"], measurement["normalized_gamma"], color=color
-        )
-    axes[1].axhspan(2.85, 3.15, color="#D55E00", alpha=0.12)
-    axes[1].axhspan(4.75, 5.25, color="#0072B2", alpha=0.08)
+    )
+    axes[0].semilogy(
+        measurement["times"],
+        measurement["amplitude"],
+        color="#D55E00",
+        label=r"SdS at $\mathcal{H}_c^+$",
+    )
+    axes[0].semilogy(
+        reference_times,
+        reference_amplitude,
+        color="0.2",
+        linestyle="--",
+        label=r"Schwarzschild at $\mathscr{I}^+$",
+    )
+    axes[1].plot(
+        measurement["times"], measurement["power"], color="#D55E00"
+    )
+    axes[1].plot(
+        reference_times,
+        reference_power,
+        color="0.2",
+        linestyle="--",
+    )
+    axes[2].plot(
+        measurement["times"],
+        measurement["normalized_gamma"],
+        color="#D55E00",
+    )
+    axes[1].axhspan(2.85, 3.15, color="#F0E442", alpha=0.22)
     axes[1].text(
         0.99,
         3.16,
-        r"$p=3$ at the outer boundary",
-        transform=axes[1].get_yaxis_transform(),
-        ha="right",
-        va="bottom",
-        fontsize=8,
-    )
-    axes[1].text(
-        0.99,
-        5.26,
-        r"$p=5$ at fixed radius",
+        r"$p=3\pm5\%$",
         transform=axes[1].get_yaxis_transform(),
         ha="right",
         va="bottom",
@@ -1418,11 +1402,15 @@ def analyze_final(output_dir: Path, length: float) -> dict:
         va="bottom",
         fontsize=8,
     )
-    outer_trusted = trusted_marks.get(2)
     if outer_trusted:
         for axis in axes:
-            axis.axvline(outer_trusted, color="#7f2704", linestyle="-", linewidth=1.1,
-                         alpha=0.85)
+            axis.axvline(
+                outer_trusted,
+                color="#7f2704",
+                linestyle="-",
+                linewidth=1.1,
+                alpha=0.85,
+            )
         axes[1].text(
             outer_trusted,
             0.97,
@@ -1462,8 +1450,15 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             fontsize=7,
             color="#8B4513",
         )
-    if departure is not None and entry is None:
+    if departure is not None:
         for axis in axes:
+            axis.axvspan(
+                price_interval[0],
+                price_interval[1],
+                color="#F0E442",
+                alpha=0.12,
+            )
+            axis.axvline(price_interval[0], color="0.4", linestyle=":")
             axis.axvline(departure, color="0.25", linestyle=":")
         axes[0].text(
             departure,
@@ -1474,18 +1469,6 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             va="bottom",
         )
     if departure is not None and entry is not None:
-        for axis in axes:
-            axis.axvspan(departure, entry, color="#F0E442", alpha=0.22)
-            axis.axvline(departure, color="0.25", linestyle=":")
-            axis.axvline(entry, color="0.25", linestyle="--")
-        axes[0].text(
-            departure,
-            0.03,
-            r"$U_{\rm P}$",
-            transform=axes[0].get_xaxis_transform(),
-            ha="right",
-            va="bottom",
-        )
         axes[0].text(
             entry,
             0.03,
@@ -1494,28 +1477,33 @@ def analyze_final(output_dir: Path, length: float) -> dict:
             ha="left",
             va="bottom",
         )
+    zoom = axes[1].inset_axes([0.08, 0.52, 0.43, 0.42])
+    zoom.axhspan(2.85, 3.15, color="#F0E442", alpha=0.3)
+    zoom.plot(measurement["times"], measurement["power"], color="#D55E00")
+    zoom.plot(reference_times, reference_power, color="0.2", linestyle="--")
+    zoom.axvspan(
+        price_interval[0], price_interval[1], color="#F0E442", alpha=0.14
+    )
+    zoom.axvline(price_interval[0], color="0.4", linestyle=":")
+    zoom.axvline(price_interval[1], color="0.25", linestyle=":")
+    zoom.set_xlim(price_interval[0] - 20.0, price_interval[1] + 20.0)
+    zoom.set_ylim(2.75, 3.25)
+    zoom.set_title("accepted interval", fontsize=7.5)
+    zoom.tick_params(labelsize=7)
+    zoom.grid(alpha=0.2)
     axes[0].set_ylabel(r"RMS envelope $A$")
     axes[1].set_ylabel(r"$p_{\rm eff}$")
     axes[2].set_ylabel(r"$\gamma_{\rm eff}/\kappa_c$")
     axes[2].set_xlabel(r"geometric retarded time $U/M$")
-    observer_handles, observer_labels = axes[0].get_legend_handles_labels()
-    style_handles = [
-        Line2D([0], [0], color="0.2", linestyle="-", label="SdS"),
-        Line2D([0], [0], color="0.2", linestyle="--", label="Schwarzschild"),
-    ]
-    axes[0].legend(
-        observer_handles + style_handles,
-        observer_labels + ["SdS", "Schwarzschild"],
-        frameon=False,
-        ncols=3,
-    )
+    axes[0].legend(frameon=False, ncols=2)
     for axis in axes:
         axis.grid(alpha=0.2)
     fig.tight_layout()
     png = Path(output_dir) / f"large_L{length:g}_tail_transition.png"
     pdf = Path(output_dir) / f"large_L{length:g}_tail_transition.pdf"
-    fig.savefig(png, dpi=300)
-    fig.savefig(pdf)
+    fig.savefig(png, dpi=300, bbox_inches="tight")
+    with plt.rc_context({"pdf.fonttype": 42, "ps.fonttype": 42}):
+        fig.savefig(pdf, bbox_inches="tight")
     plt.close(fig)
     summary = {
         "length_over_M": length,

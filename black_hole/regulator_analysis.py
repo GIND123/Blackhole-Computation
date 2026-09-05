@@ -1882,7 +1882,7 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     source_times = waveform["times"]
     source_metrics = waveform["metrics"]
     source_extrapolation = waveform["extrapolation"]
-    fig, axes = plt.subplots(2, 2, figsize=(12.2, 8.2))
+    fig, axes = plt.subplots(2, 2, figsize=(10.8, 7.4))
     axes[0, 0].loglog(
         [row["cosmological_length_over_M"] for row in source_metrics],
         [row["E2"] for row in source_metrics],
@@ -1894,9 +1894,9 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[0, 0].set(
         xlabel=r"$L/M$",
         ylabel=r"sphere-integrated $E_2$",
-        title="Direct error on common simulated interval",
+        title="(a) Direct errors",
     )
-    axes[0, 0].legend(fontsize=8)
+    axes[0, 0].legend(fontsize=10)
     labels = [
         r"$W_\infty^{(80)}-W_{\rm Schw}$",
         r"$W_\infty^{(160)}-W_{\rm Schw}$",
@@ -1909,8 +1909,10 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     )
     axes[0, 1].set_yscale("log")
     axes[0, 1].axhline(0.01, color="0.45", linestyle="--", linewidth=0.9)
-    axes[0, 1].set_xticks(np.arange(3), labels, rotation=12, ha="right")
-    axes[0, 1].set(ylabel=r"sphere-integrated $E_2$", title="Nested extrapolants")
+    axes[0, 1].set_xticks(np.arange(3), labels, rotation=8, ha="right")
+    axes[0, 1].set(
+        ylabel=r"sphere-integrated $E_2$", title="(b) Nested extrapolants"
+    )
     sphere_plot = waveform["sphere_plot"]
     axes[1, 0].semilogy(source_times, sphere_plot["reference"], color="black", label="Schwarzschild norm")
     axes[1, 0].semilogy(source_times, sphere_plot["L320_residual"], label=r"$L/M=320$ residual")
@@ -1919,25 +1921,30 @@ def create_plots(output_dir: Path, flat: dict, source: dict, l12_rows: list[dict
     axes[1, 0].set(
         xlabel=r"$U/M$",
         ylabel=r"instantaneous $L^2(S^2)$ norm",
-        title="Common-interval modal residuals",
+        title="(c) Modal residuals",
     )
     axes[1, 0].set_xlim(23.0, source_times[-1])
     axes[1, 0].set_ylim(1e-7, None)
-    axes[1, 0].legend(fontsize=7)
+    axes[1, 0].legend(fontsize=9.5)
     direction = waveform["direction_plot"]["gamma_pi"]
     axes[1, 1].plot(source_times, direction["reference"], color="black", linewidth=1.5, label="Schwarzschild")
     axes[1, 1].plot(source_times, direction["L320"], linewidth=1.0, label=r"$L/M=320$")
     axes[1, 1].plot(source_times, direction["L640"], linewidth=1.0, label=r"$L/M=640$")
     axes[1, 1].plot(source_times, direction["Winf160"], linestyle="--", linewidth=1.0, label=r"$W_\infty^{(160)}$")
-    axes[1, 1].set(xlabel=r"$U/M$", ylabel="directional waveform", title=r"Secondary caustic diagnostic ($\gamma=\pi$)")
+    axes[1, 1].set(
+        xlabel=r"$U/M$",
+        ylabel="directional waveform",
+        title=r"(d) Caustic direction, $\gamma=\pi$",
+    )
     axes[1, 1].set_xlim(35.0, source_times[-1])
-    axes[1, 1].legend(fontsize=7)
+    axes[1, 1].legend(fontsize=9.5)
     for axis in axes.flat:
         axis.grid(alpha=0.2)
-    fig.suptitle(
-        "Localized source on the common simulated interval: primary modal norm and supporting caustic diagnostic"
-    )
-    fig.tight_layout()
+        axis.tick_params(labelsize=10.5)
+        axis.xaxis.label.set_size(11.5)
+        axis.yaxis.label.set_size(11.5)
+        axis.title.set_size(12)
+    fig.tight_layout(pad=0.8)
     paths.extend(_save_publication_figure(fig, output_dir, "localized_source_regulator"))
     plt.close(fig)
     return paths

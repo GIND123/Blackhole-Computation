@@ -119,7 +119,7 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
   {Frauendiener}},\ }\bibfield  {title} {\bibinfo {title} {Numerical treatment
   of the hyperboloidal initial value problem for the vacuum {Einstein}
-  equations. {II}. the evolution equations},\ }\href
+  equations. {II}. {The} evolution equations},\ }\href
   {https://doi.org/10.1103/PhysRevD.58.064003} {\bibfield  {journal} {\bibinfo
   {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {58}},\ \bibinfo
   {pages} {064003} (\bibinfo {year} {1998})},\ \Eprint
@@ -171,9 +171,9 @@
 \bibitem [{\citenamefont {Friedrich}(1995)}]{Friedrich:1995general}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
-  {Friedrich}},\ }\bibfield  {title} {\bibinfo {title} {Einstein equations and
-  conformal structure: Existence of anti-de sitter-type space-times},\ }\href
-  {https://doi.org/10.1016/0393-0440(94)00042-3} {\bibfield  {journal}
+  {Friedrich}},\ }\bibfield  {title} {\bibinfo {title} {{Einstein} equations
+  and conformal structure: Existence of anti-de {Sitter}-type space-times},\
+  }\href {https://doi.org/10.1016/0393-0440(94)00042-3} {\bibfield  {journal}
   {\bibinfo  {journal} {J. Geom. Phys.}\ }\textbf {\bibinfo {volume} {17}},\
   \bibinfo {pages} {125} (\bibinfo {year} {1995})}\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Friedrich}(2003)}]{Friedrich:2003geodesics}%
@@ -206,12 +206,12 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
   {Frauendiener}}\ and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
   {Stevens}},\ }\bibfield  {title} {\bibinfo {title} {The non-linear
-  perturbation of a black hole by gravitational waves. {I}. the {Bondi--Sachs}
-  mass loss},\ }\href {https://doi.org/10.1088/1361-6382/ac1be3} {\bibfield
-  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo
-  {volume} {38}},\ \bibinfo {pages} {194002} (\bibinfo {year} {2021})},\
-  \Eprint {https://arxiv.org/abs/2105.09515} {arXiv:2105.09515 [gr-qc]}
-  \BibitemShut {NoStop}%
+  perturbation of a black hole by gravitational waves. {I}. {The}
+  {Bondi--Sachs} mass loss},\ }\href {https://doi.org/10.1088/1361-6382/ac1be3}
+  {\bibfield  {journal} {\bibinfo  {journal} {Class. Quant. Grav.}\ }\textbf
+  {\bibinfo {volume} {38}},\ \bibinfo {pages} {194002} (\bibinfo {year}
+  {2021})},\ \Eprint {https://arxiv.org/abs/2105.09515} {arXiv:2105.09515
+  [gr-qc]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Frauendiener}\ \emph {et~al.}(2025)\citenamefont
   {Frauendiener}, \citenamefont {Stevens},\ and\ \citenamefont
   {Thwala}}]{FrauendienerStevensThwala:2025}%
@@ -249,8 +249,8 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
   {Frauendiener}}\ and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
   {Stevens}},\ }\bibfield  {title} {\bibinfo {title} {The non-linear
-  perturbation of a black hole by gravitational waves. {II}. quasinormal modes
-  and the compactification problem},\ }\href
+  perturbation of a black hole by gravitational waves. {II}. {Quasinormal}
+  modes and the compactification problem},\ }\href
   {https://doi.org/10.1088/1361-6382/acd4b1} {\bibfield  {journal} {\bibinfo
   {journal} {Class. Quant. Grav.}\ }\textbf {\bibinfo {volume} {40}},\ \bibinfo
   {pages} {125006} (\bibinfo {year} {2023})},\ \Eprint
@@ -405,18 +405,6 @@
    {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {105}},\ \bibinfo
   {pages} {104033} (\bibinfo {year} {2022})},\ \Eprint
   {https://arxiv.org/abs/2202.01794} {arXiv:2202.01794 [gr-qc]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Zhou}\ and\ \citenamefont
-  {Panosso~Macedo}(2025)}]{ZhouPanossoMacedo:2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
-  {Zhou}}\ and\ \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Panosso~Macedo}},\ }\bibfield  {title} {\bibinfo {title} {Limiting geometry
-  and spectral instability in {Schwarzschild--de Sitter} spacetimes},\ }\href
-  {https://doi.org/10.1103/n948-jnfh} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {112}},\ \bibinfo
-  {pages} {084063} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2507.05370} {arXiv:2507.05370 [gr-qc]} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {Zengino{\u{g}}lu}\ and\ \citenamefont
   {Kidder}(2010)}]{ZenginogluKidder:2010}%
@@ -786,6 +774,18 @@
   {\bibinfo {volume} {57}},\ \bibinfo {pages} {75} (\bibinfo {year} {2025})},\
   \Eprint {https://arxiv.org/abs/2502.08581} {arXiv:2502.08581 [gr-qc]}
   \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zhou}\ and\ \citenamefont
+  {Panosso~Macedo}(2025)}]{ZhouPanossoMacedo:2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
+  {Zhou}}\ and\ \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Panosso~Macedo}},\ }\bibfield  {title} {\bibinfo {title} {Limiting geometry
+  and spectral instability in {Schwarzschild--de Sitter} spacetimes},\ }\href
+  {https://doi.org/10.1103/n948-jnfh} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {112}},\ \bibinfo
+  {pages} {084063} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2507.05370} {arXiv:2507.05370 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Schlue}(2015)}]{Schlue:2012pq}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
@@ -882,7 +882,7 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
   {Casals}}\ and\ \bibinfo {author} {\bibfnamefont {B.~C.}\ \bibnamefont
   {Nolan}},\ }\bibfield  {title} {\bibinfo {title} {Global {Hadamard} form for
-  the green function in {Schwarzschild} spacetime},\ }\href
+  the {Green} function in {Schwarzschild} spacetime},\ }\href
   {https://doi.org/10.1103/PhysRevD.108.044033} {\bibfield  {journal} {\bibinfo
    {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo
   {pages} {044033} (\bibinfo {year} {2023})},\ \Eprint
@@ -947,5 +947,8 @@
   {https://github.com/GIND123/Blackhole-Computation} {\bibinfo {title}
   {{Blackhole-Computation}: Scalar-wave bridge evolutions in {Schwarzschild--de
   Sitter} spacetime}},\ \bibinfo {howpublished} {Public software and data
-  repository} (\bibinfo {year} {2026})\BibitemShut {NoStop}%
+  repository, \url{https://github.com/GIND123/Blackhole-Computation}} (\bibinfo
+  {year} {2026}),\ \bibinfo {note} {snapshot
+  \href{https://github.com/GIND123/Blackhole-Computation/tree/a3735e0a7c73a6ca9752ee97218e8541e0b30772}{\texttt{a3735e0}}}\BibitemShut
+  {NoStop}%
 \end{thebibliography}%
