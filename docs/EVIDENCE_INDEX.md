@@ -11,9 +11,9 @@ Submission figures may be rendered again with embedded-font settings; the indexe
 | package manifest | analysis revision | simulation records | provenance |
 |---|---|---|---|
 | `results/regulator_production_v3/manifest.json` | `f5de22d3a0ea` | `2460d976fd02` | production (enforced at manifest creation) |
-| `results/exterior_regulator_width_floor_qnm_v5/manifest.json` | `base 680de2e083b3 + authoritative source hashes` | `2460d976fd02`, `31a83ed58984`, `7079fc2dc6bc` | production, screening |
+| `results/exterior_regulator_width_floor_qnm_v5/manifest.json` | `base cfd4225aa97c + authoritative source hashes` | `2460d976fd02`, `31a83ed58984`, `7079fc2dc6bc` | production, screening |
 | `results/curvature_coupling_production_v2/tail_manifest.json` | `source c59acb4d8126` | `451c662c05d5`, `exterior_tail_conservative_v2_20260827`, `sds_curvature_20260826_v1` | hash-verified campaign archives, formulation controls retained as screening evidence |
-| `results/large_l_tail/manifest.json` | `d43f25ae61ae` | `1d1b5c207347`, `1faf9961dd06`, `4ac07414444d`, `72d4ef358a9e`, `ab7159789336`, `bca72d0fa61b`, `d43f25ae61ae` | production, screening |
+| `results/large_l_tail/manifest.json` | `cfd4225aa97c` | `1d1b5c207347`, `1faf9961dd06`, `4ac07414444d`, `72d4ef358a9e`, `ab7159789336`, `bca72d0fa61b`, `d43f25ae61ae` | production, screening |
 
 ## Figures in the manuscript
 
@@ -24,7 +24,7 @@ Submission figures may be rendered again with embedded-font settings; the indexe
 | `foliation_flat_limit.pdf` | foliation diagnostic, reproducible from the analytic formulas | `python -m black_hole.foliation_diagnostics` | not recorded |
 | `flat_waveform_sequence.pdf` | `results/regulator_production_v3/flat_waveform_sequence.pdf` | `python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3` | `6adc23d5b510` |
 | `localized_source_regulator.pdf` | `results/regulator_production_v3/localized_source_regulator.pdf` | `python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3` | `e55f19cf4800` |
-| `large_L3072_tail_transition.pdf` | `results/large_l_tail/large_L3072_tail_transition.pdf` | `python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072` | `48883405583b` |
+| `large_L3072_tail_transition.pdf` | `results/large_l_tail/large_L3072_tail_transition.pdf` | `python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072` | `7659b86d01e2` |
 | `exterior_qnm_residual_comparison.pdf` | `results/exterior_regulator_width_floor_qnm_v5/width_floor_qnm_residual_comparison.pdf` | `python -m black_hole.far_regulator_production_analysis --output-dir results/exterior_regulator_width_floor_qnm_v5 --control-dir results/regulator_production_v3 --legacy-candidate-dir results/exterior_regulator_far_production_v1` | `e2ba8b6e84b2` |
 | `tail_outer_boundary_comparison.pdf` | `results/curvature_coupling_production_v2/tail_outer_boundary_comparison.pdf` | `python -m black_hole.curvature_coupling_tail_analysis --root results/curvature_coupling_production_v2` | `c97374a25456` |
 | `D1_scaling.pdf` | `results/regulator_production_v3/D1_scaling.pdf` | `python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3` | `0b5fcc1d0521` |
@@ -40,6 +40,4 @@ Submission figures may be rendered again with embedded-font settings; the indexe
 
 ## Consistency
 
-1 item(s) need attention:
-
-* figure large_L3072_tail_transition.pdf: artifact hash disagrees with its manifest
+Every cited figure and table is indexed, present, and recorded in its package manifest.

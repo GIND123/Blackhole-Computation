@@ -58,10 +58,8 @@
       "artifact": "results/large_l_tail/large_L3072_tail_transition.pdf",
       "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072",
       "note": "resolved Schwarzschild Price-rate interval and later dynamic range",
-      "sha256": "48883405583b875c4c573fb686fc33e32f736a8509fa31634854d581c74f3c01",
-      "issues": [
-        "artifact hash disagrees with its manifest"
-      ]
+      "sha256": "7659b86d01e239bd1fc2296c5589d3ae5ea94b330492d66278391edf7fd5c136",
+      "issues": []
     },
     {
       "kind": "figure",
@@ -150,7 +148,7 @@
     },
     "results/exterior_regulator_width_floor_qnm_v5": {
       "manifest": "results/exterior_regulator_width_floor_qnm_v5/manifest.json",
-      "analysis_revision": "base 680de2e083b36de553765a09a2a4fbdfa4e6a5ce + authoritative source hashes",
+      "analysis_revision": "base cfd4225aa97cfcdb14f3a5a634434b3021f75d22 + authoritative source hashes",
       "simulation_commits": [
         "2460d976fd023f7bcae892d760436248d32d0290",
         "31a83ed589842062e47764887411688daec711ae",
@@ -184,7 +182,7 @@
     },
     "results/large_l_tail": {
       "manifest": "results/large_l_tail/manifest.json",
-      "analysis_revision": "d43f25ae61aeafd0e1aea213e9ffa5c2c79dace1",
+      "analysis_revision": "cfd4225aa97cfcdb14f3a5a634434b3021f75d22",
       "simulation_commits": [
         "1d1b5c2073474831248cebe34b9dfec6ea1c4d72",
         "1faf9961dd06258ca77a0bfe81f5da7c28aa9d2c",
@@ -209,7 +207,5 @@
       ]
     }
   },
-  "problems": [
-    "figure large_L3072_tail_transition.pdf: artifact hash disagrees with its manifest"
-  ]
+  "problems": []
 }

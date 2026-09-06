@@ -4,7 +4,7 @@
   "package": "results/exterior_regulator_width_floor_qnm_v5",
   "control_package": "results/regulator_production_v3",
   "legacy_candidate_package": "results/exterior_regulator_far_production_v1",
-  "analysis_git_base_commit": "f357f7688bc6533c0ee5d2dd9f628ffc0e35f144",
+  "analysis_git_base_commit": "cfd4225aa97cfcdb14f3a5a634434b3021f75d22",
   "analysis_source_files_are_dirty_relative_to_base": false,
   "source_hashes_are_authoritative": true,
   "provenance_note": "The exterior archives record dirty simulation worktrees and are therefore retained as screening-grade evidence. Their immutable bytes, embedded contracts, commands, numerical parameters, and compatibility with the released source are verified here; this manifest does not relabel them as clean-production archives.",
