@@ -293,8 +293,10 @@ frozen worktree at `d43f25a`, eight evolutions, and is the first
 production-grade set in the package.
 
 **The Price plateau is resolved, to every criterion.** The outer departure is
-`U = 381.88M`, and the fitted interval is `231.88M` to `381.88M`, a continuous
-`150M` of recovered Schwarzschild decay at the asymptotic boundary.
+`U = 381.88M`, and the reported fit interval is `231.88M` to `381.88M`: the
+preregistered `150M` of required persistence, taken back from the departure.
+The screen measured a longer continuous outer interval of `209.05M` on its own
+shorter grids, so the requirement is met with margin rather than exactly.
 
 | criterion | SdS | Schwarzschild | limit |
 |---|---:|---:|---:|
