@@ -243,6 +243,10 @@ read as a rendering of the focus height.
 `black_hole/caustic_focus_figures.py` builds five alternatives from the narrow
 source near the spatial focus at `tau = 48.00M`. All five obey two rules.
 
+The five are retained for presentation and outreach use and are deliberately
+not cited by the manuscript, so they are not registered in the evidence index
+and carry no manuscript figure label.
+
 * **No clipping.** The colour limits are the signed extremes of the data that
   is drawn, so the peak sample lands exactly on the end of the colour bar.
   Each builder records `colour_limit`, `drawn_minimum`, and `drawn_maximum`,

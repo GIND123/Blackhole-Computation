@@ -4,8 +4,8 @@
   "package": "results/exterior_regulator_width_floor_qnm_v5",
   "control_package": "results/regulator_production_v3",
   "legacy_candidate_package": "results/exterior_regulator_far_production_v1",
-  "analysis_git_base_commit": "680de2e083b36de553765a09a2a4fbdfa4e6a5ce",
-  "analysis_source_files_are_dirty_relative_to_base": true,
+  "analysis_git_base_commit": "f357f7688bc6533c0ee5d2dd9f628ffc0e35f144",
+  "analysis_source_files_are_dirty_relative_to_base": false,
   "source_hashes_are_authoritative": true,
   "provenance_note": "The exterior archives record dirty simulation worktrees and are therefore retained as screening-grade evidence. Their immutable bytes, embedded contracts, commands, numerical parameters, and compatibility with the released source are verified here; this manifest does not relabel them as clean-production archives.",
   "simulation_contract_sha256": "9b8b6ab94ed8a223bf848077c8382f78ac09a08a12e438148e3ec2b5d7660a92",
@@ -810,8 +810,8 @@
     {
       "path": "black_hole/regulator_analysis.py",
       "hash_mode": "sha256_bytes",
-      "sha256": "fd2ee85a9e05437189bd7fe7b8d4dfbb8094104ca0594b555808baea2fb16b59",
-      "bytes": 82536,
+      "sha256": "f09f3c96f7f23af04322e3e5c8d1f352a6b047223dae74b20c6e7ceb0ae36eab",
+      "bytes": 82567,
       "role": "active_reproduction_source"
     },
     {

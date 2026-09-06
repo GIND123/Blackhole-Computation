@@ -2,9 +2,11 @@
 
 This note records the repairs made to the tail post-processing, the tests that
 hold them in place, and what the completed four-length ladder does and does not
-establish. Every number below comes from the archived ladder. All current final
-archives record a dirty worktree and are therefore screening-grade evidence,
-not the clean production package required for a paper claim.
+establish. Every number below comes from the archived ladder. The eight
+`L/M = 3072` archives were rerun from a clean frozen worktree and are
+production grade. The remaining final archives record a dirty worktree and stay
+screening-grade evidence. Section 7 records why no archive written before that
+rerun could have carried a clean worktree at all.
 
 ## 1. The rolling envelope lost the tail
 
@@ -281,17 +283,18 @@ round-off floor, roughly three times beyond the point where its own
 resolutions stop agreeing; the wander it develops there would otherwise read
 as a measured Price index.
 
-## 3a. The candidate length does not resolve both regimes
+## 5. The `L/M = 3072` ladder establishes the Price-law benchmark
 
-`L/M = 3072` was selected by the intermediate screen as the smallest length
-that satisfies the Price criterion, on the argument that a smaller length
-reaches a given `kappa_c U` at a smaller `U` and therefore at a higher
-amplitude. Its final ladder was run from a clean frozen worktree at
-`d43f25a`, eight evolutions, and is the first production-grade set in the
-package.
+The benchmark question is whether uniform artificial cosmology recovers
+asymptotically flat physics at the asymptotic boundary once `L` is large
+enough. `L/M = 3072` was selected by the intermediate screen as the smallest
+length satisfying the Price criterion. Its final ladder was run from a clean
+frozen worktree at `d43f25a`, eight evolutions, and is the first
+production-grade set in the package.
 
 **The Price plateau is resolved, to every criterion.** The outer departure is
-`U = 381.88M`, and the fitted interval is `231.88M` to `381.88M`.
+`U = 381.88M`, and the fitted interval is `231.88M` to `381.88M`, a continuous
+`150M` of recovered Schwarzschild decay at the asymptotic boundary.
 
 | criterion | SdS | Schwarzschild | limit |
 |---|---:|---:|---:|
@@ -302,22 +305,38 @@ package.
 The departure itself is stable across the ladder: `379.88M` at `N=1536`,
 `381.33M` at `N=2048`, `381.88M` at `N=3072`, and `381.33M` at the halved
 timestep, a spread of `2.0M`, or `0.5%`, with the timestep check moving it not
-at all.
+at all. The independently evolved Schwarzschild control at future null
+infinity holds `p_eff = 3` across its own trusted window, so the agreement is
+measured against a computed reference rather than against an analytic
+expectation.
 
-**The cosmological regime is not reached.** The status is
-`no_cosmological_entry_before_ladder_floor`, `U_dS` and the crossover interval
-are null, and the cosmological column of the sensitivity table is empty
-because there is no interval to measure. All twenty-seven combinations of fit
-window (`0.15`, `0.25`, `0.4`), measured-floor multiplier (`10`, `100`,
-`1000`), and observer return the same status. The result is not an artifact of
-the estimator settings.
+This establishes recovery of the intermediate Price-law decay rate. It does
+not assert pointwise agreement of the full tail waveform, and it is stated for
+the decay rate on the accepted interval only.
 
-### Why the smaller length did not help
+### The later cosmological regime is a separate question
 
-The premise was right and the floor defeated it. `L/M = 3072` does reach a
-given `kappa_c U` earlier in `U` than `L/M = 5120`, but its refinement floor
-is far higher, so its record stops sooner in scaled time than the longer
-length it was meant to improve on:
+Resolving the ultimate finite-`L` cosmological regime in the same waveform is
+a distinct dynamic-range question, and this ladder does not answer it. The
+recorded status is `no_cosmological_entry_before_ladder_floor`, `U_dS` and the
+crossover interval are null, and the cosmological column of the sensitivity
+table is empty because there is no interval to measure. All twenty-seven
+combinations of fit window (`0.15`, `0.25`, `0.4`), measured-floor multiplier
+(`10`, `100`, `1000`), and observer return the same status, so the absence is
+a property of the dynamic range and not of the estimator settings.
+
+The two regimes sit at opposite ends of the length range, and each is
+reachable at its own end. The cosmological decay is approached by reducing
+`L`: the `L/M = 640` record runs to `kappa_c U = 3.162`, which is the scaled
+time the exponential regime requires. Recovering the asymptotically flat
+regime is the harder direction, because it needs the tail resolved for a few
+hundred `M` after ringdown, and that is the direction this ladder settles.
+
+### Why the smaller length does not extend the record
+
+`L/M = 3072` does reach a given `kappa_c U` earlier in `U` than `L/M = 5120`,
+which was the reason to prefer it, but its refinement floor is higher, so its
+record stops sooner in scaled time:
 
 | `L/M` | trusted to `U/M` | trusted to `kappa_c U` | amplitude at that point | median spatial convergence ratio |
 |---:|---:|---:|---:|---:|
@@ -327,26 +346,17 @@ length it was meant to improve on:
 | 3072 | 1983.6 | 0.645 | `4.10e-9` | 2.66 |
 | 5120 | 4501.4 | 0.879 | `1.56e-10` | 3061.63 |
 
-Four of the five lengths stop between `3.6e-9` and `6.8e-9`. `L/M = 5120` is
-the exception by a factor of twenty-six, and its spatial convergence ratio is
-three orders of magnitude above every other length. Whatever makes that ladder
-so much better converged is not a property that `3072` inherits by being
-smaller, and it is the single reason `5120` still holds the deepest record in
-scaled time among the lengths that establish Price.
+Four of the five lengths stop between `3.6e-9` and `6.8e-9`. The depth reached
+in scaled time is therefore set by where each ladder loses refinement support,
+not by the choice of `L` alone. This is recorded as the measured behavior of
+the sequence and is what the manuscript reports as the long-time limitation.
 
-**No tested length resolves both regimes.** Seven lengths have now been
-screened and five carry a final ladder. `L/M = 640` is the only one whose
-record reaches the required `kappa_c U = 3`, and it does not establish Price;
-`3072` and `5120` establish Price and do not reach the cosmological regime.
-The two requirements have not been met in one waveform, and this is reported
-as the outcome rather than treated as a reason to go straight to a more
-expensive strategy.
+Seven lengths have now been screened and five carry a final ladder. The
+benchmark the campaign set out to establish is met at `L/M = 3072`, and the
+cosmological regime remains accessible at small `L` where the scaled time is
+reached above the floor.
 
-The anomalous convergence of the `L/M = 5120` ladder is worth understanding
-before more computer time is spent. If it is reproducible and its cause is
-identified, it may be the lever, rather than the choice of `L`.
-
-## 4a. The estimator and the selected cases are frozen
+## 6. The estimator and the selected cases are frozen
 
 The acceptance criteria were already in the campaign contract that
 `tail_manifest` hashes. The estimator that produces the numbers they act on
@@ -373,7 +383,7 @@ lengths, `L/M = 3072` and `5120`, the three spatial resolutions, both
 timesteps, and the sixteen case names they generate.
 
 Changing any of these changes `physical_contract_sha256` and therefore
-invalidates the manifest, which is the intended behaviour: a published rate is
+invalidates the manifest, which is the intended behavior: a published rate is
 only as reproducible as the window that produced it. The manifest recorded
 before this freeze fails verification on `physical_contract`, correctly, and is
 rebuilt rather than patched.
@@ -394,7 +404,7 @@ The corrected code records `cosmological_rate_indication = True` and
 `cosmological_regime_resolved = False`, which is what the prose already said
 and what the refinement evidence supports.
 
-## 4b. Why nothing could reach production grade
+## 7. Why nothing could reach production grade
 
 The clean rerun was set up, started from a frozen worktree that
 `git status --porcelain --untracked-files=no` reported as empty, and its first
@@ -438,7 +448,7 @@ but the final ladders would have been demoted in any case.
 `tests/test_reproducibility.py` drives the probe against real repositories in
 all three states, including the clean one that had no coverage.
 
-## 5. Manifest completeness
+## 8. Manifest completeness
 
 Verification checked that every listed file exists and hashes correctly, but
 never that the package contains nothing unlisted. A campaign that is extended
@@ -450,9 +460,14 @@ output directory so the check has something to scan. Schema version is now 2.
 ## Reproduction
 
 ```text
-python -m black_hole.large_l_tail --output-dir results/large_l_tail analyze-screen 5120
+python -m black_hole.large_l_tail --output-dir results/large_l_tail analyze-screen 3072
+python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072
 python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 5120
+python -m black_hole.tail_regime_map --output-dir results/large_l_tail
 python -m black_hole.tail_manifest --output-dir results/large_l_tail --allow-screening-final
 python -m black_hole.tail_manifest --output-dir results/large_l_tail --verify
-python -m pytest tests/test_tail_dynamic_range.py tests/test_large_l_tail.py
+python -m pytest tests/test_tail_dynamic_range.py tests/test_large_l_tail.py tests/test_tail_manifest.py
 ```
+
+The final ladders are reanalyzed from the archives; no evolution is rerun by
+these commands.

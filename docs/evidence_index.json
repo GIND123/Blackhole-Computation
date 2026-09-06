@@ -53,6 +53,18 @@
     },
     {
       "kind": "figure",
+      "name": "large_L3072_tail_transition.pdf",
+      "package": "results/large_l_tail",
+      "artifact": "results/large_l_tail/large_L3072_tail_transition.pdf",
+      "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072",
+      "note": "resolved Schwarzschild Price-rate interval and later dynamic range",
+      "sha256": "48883405583b875c4c573fb686fc33e32f736a8509fa31634854d581c74f3c01",
+      "issues": [
+        "artifact hash disagrees with its manifest"
+      ]
+    },
+    {
+      "kind": "figure",
       "name": "exterior_qnm_residual_comparison.pdf",
       "package": "results/exterior_regulator_width_floor_qnm_v5",
       "artifact": "results/exterior_regulator_width_floor_qnm_v5/width_floor_qnm_residual_comparison.pdf",
@@ -79,16 +91,6 @@
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
       "note": "",
       "sha256": "0b5fcc1d0521550bdb89b5698906b0fdcb0d39d7899397b95a1644d49cf5de0e",
-      "issues": []
-    },
-    {
-      "kind": "figure",
-      "name": "large_L3072_tail_transition.pdf",
-      "package": "results/large_l_tail",
-      "artifact": "results/large_l_tail/large_L3072_tail_transition.pdf",
-      "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072",
-      "note": "resolved Schwarzschild Price-rate interval and later dynamic range",
-      "sha256": "48883405583b875c4c573fb686fc33e32f736a8509fa31634854d581c74f3c01",
       "issues": []
     },
     {
@@ -207,5 +209,7 @@
       ]
     }
   },
-  "problems": []
+  "problems": [
+    "figure large_L3072_tail_transition.pdf: artifact hash disagrees with its manifest"
+  ]
 }
