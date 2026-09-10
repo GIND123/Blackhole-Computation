@@ -9,3 +9,10 @@ __pycache__/
 *.incomplete.npz
 .venv/
 gen-lang-client-0569749083-442d2bdcffc6.json
+
+# Personal documents must never enter this public repository.  The
+# Data Availability statement points readers at it, so anything committed
+# here is published and stays in the history even after deletion.
+Testudo*
+*Transcript*
+*Unofficial*
