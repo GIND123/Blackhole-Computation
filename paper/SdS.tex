@@ -1418,6 +1418,10 @@ $L/M$ & $100E_{\rm SdS}$ & $100\eta_{\rm SdS}$
 This fixed-mode comparison neither repeats the localized-source calculation
 nor separately determines quasinormal frequencies or damping rates; it makes
 no claim about the global quasinormal spectrum.
+Distant perturbations can strongly alter that spectrum
+\cite{CheungEtAl:2022elephant} while leaving early ringdown nearly unchanged,
+as demonstrated for a black hole surrounded by a dynamical thin shell
+\cite{LaeugerEtAl:2025shell}.
 
 \subsection{Exterior-supported tail comparison}
 \label{sec:matched-tail-result}
@@ -1455,11 +1459,17 @@ $p_{\rm eff}=3\pm10\%$ are $140.4$--$975.0M$ for Schwarzschild
 ($\geq834.7M$); $134.5$--$144.1M$ and $292.9$--$304.8M$ for minimally
 coupled uniform and exterior-supported SdS ($9.6M$ and $11.9M$); and
 $153.3$--$294.8M$ and $618.7$--$628.0M$ for their conformally coupled
-counterparts ($141.5M$ and $9.4M$).  Thus, among the four matched $L/M=640$
+counterparts ($141.5M$ and $9.4M$).  Durations are calculated before rounding
+the endpoints.  Thus, among the four matched $L/M=640$
 cases, only uniform conformal SdS meets the required $40M$ duration.  This
 conclusion is unchanged across all nine estimator combinations tested.  The
 Schwarzschild upper endpoint is set by the finite record, not a departure from
 the Price-law behavior.
+
+The uniform conformal result is consistent with the Schwarzschild endpoint
+limit in Eq.~\eqref{eq:coupling_endpoint_limits}, but that limit alone does
+not determine the tail: the conformally coupled exterior family shares it
+and fails the same plateau criterion.
 
 Three resolutions and a halved timestep support both exterior classifications;
 an independent endpoint-factored formulation additionally confirms the
@@ -1790,6 +1800,8 @@ of $p=3$ for a continuous $150M$ interval containing $U=300M$, while the two
 finest envelopes differ by less than $1\%$.  The final reported interval is
 $231.88\leq U/M\leq381.88$; it is distinct from the longer two-grid interval
 used to select this value of $L$ for the final ladder.
+Table~\ref{tab:large-L-tail-convergence} gives the spatial and temporal
+refinement changes on the reported interval.
 
 \begin{table}[t]
  \caption{Numerical control on the final $L/M=3072$ Price-law interval.  Entries

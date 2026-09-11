@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{75}%
+\begin{thebibliography}{77}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -938,6 +938,36 @@
   {volume} {79}},\ \bibinfo {pages} {064016} (\bibinfo {year} {2009})},\
   \Eprint {https://arxiv.org/abs/0812.1806} {arXiv:0812.1806 [hep-th]}
   \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Cheung}\ \emph {et~al.}(2022)\citenamefont {Cheung},
+  \citenamefont {Destounis}, \citenamefont {Macedo}, \citenamefont {Berti},\
+  and\ \citenamefont {Cardoso}}]{CheungEtAl:2022elephant}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.~H.-Y.}\
+  \bibnamefont {Cheung}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
+  {Destounis}}, \bibinfo {author} {\bibfnamefont {R.~P.}\ \bibnamefont
+  {Macedo}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Berti}},\ and\
+  \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Cardoso}},\ }\bibfield
+  {title} {\bibinfo {title} {Destabilizing the fundamental mode of black holes:
+  The elephant and the flea},\ }\href
+  {https://doi.org/10.1103/PhysRevLett.128.111103} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {128}},\
+  \bibinfo {pages} {111103} (\bibinfo {year} {2022})},\ \Eprint
+  {https://arxiv.org/abs/2111.05415} {arXiv:2111.05415 [gr-qc]} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Laeuger}\ \emph {et~al.}(2025)\citenamefont
+  {Laeuger}, \citenamefont {Weller}, \citenamefont {Li},\ and\ \citenamefont
+  {Chen}}]{LaeugerEtAl:2025shell}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Laeuger}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Weller}},
+  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Li}},\ and\ \bibinfo
+  {author} {\bibfnamefont {Y.}~\bibnamefont {Chen}},\ }\bibfield  {title}
+  {\bibinfo {title} {Ringdown of a black hole surrounded by a thin shell of
+  matter},\ }\href {https://doi.org/10.1103/gkj4-m1c1} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {112}},\
+  \bibinfo {pages} {084042} (\bibinfo {year} {2025})},\ \Eprint
+  {https://arxiv.org/abs/2506.00367} {arXiv:2506.00367 [gr-qc]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Kumar}\ and\ \citenamefont
   {Zengino{\u{g}}lu}(2026)}]{blackhole_computation_2026}%
   \BibitemOpen
@@ -948,7 +978,5 @@
   {{Blackhole-Computation}: Scalar-wave bridge evolutions in {Schwarzschild--de
   Sitter} spacetime}},\ \bibinfo {howpublished} {Public software and data
   repository, \url{https://github.com/GIND123/Blackhole-Computation}} (\bibinfo
-  {year} {2026}),\ \bibinfo {note} {snapshot
-  \href{https://github.com/GIND123/Blackhole-Computation/tree/a3735e0a7c73a6ca9752ee97218e8541e0b30772}{\texttt{a3735e0}}}\BibitemShut
-  {NoStop}%
+  {year} {2026})\BibitemShut {NoStop}%
 \end{thebibliography}%
