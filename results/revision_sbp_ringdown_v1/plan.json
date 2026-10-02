@@ -1,0 +1,87 @@
+{
+  "purpose": "Independent second-order u,v check of matched quadrupole waveforms; not shared-flux constraint validation",
+  "physics": {
+    "mass": 1,
+    "ell": 2,
+    "xi": 0,
+    "initial_data": "u=b((r-4M)/(1.5M)); u_tau=0",
+    "bump": "b(x)=exp(1-1/(1-x^2)) for |x|<1, otherwise zero",
+    "geometries": [
+      [
+        "schwarzschild",
+        null
+      ],
+      [
+        "uniform",
+        320
+      ],
+      [
+        "uniform",
+        640
+      ],
+      [
+        "exterior",
+        320
+      ],
+      [
+        "exterior",
+        640
+      ]
+    ],
+    "end_U": 80,
+    "reference_radius": 4,
+    "exterior_profile": "frozen width-floor switch and exact endpoint coefficients",
+    "clock": "U=tau-q, exact geometric q; no fitted alignment or amplitude"
+  },
+  "numerics": {
+    "levels": [
+      [
+        "coarse",
+        24,
+        "0.05"
+      ],
+      [
+        "medium",
+        32,
+        "0.05"
+      ],
+      [
+        "fine",
+        40,
+        "0.05"
+      ],
+      [
+        "half_dt",
+        32,
+        "0.025"
+      ]
+    ],
+    "layout": "wave-resolved for every background",
+    "arithmetic": "double-double",
+    "coefficient_digits": 50,
+    "integrator": "Radau IIA order 3",
+    "output_every": 1,
+    "windows": [
+      [
+        0.0,
+        80.0
+      ],
+      [
+        15.0,
+        45.0
+      ],
+      [
+        10.0,
+        40.0
+      ],
+      [
+        20.0,
+        50.0
+      ]
+    ],
+    "analysis_step": 0.025,
+    "interpolation": "cubic with half-output-cadence check and linear sensitivity",
+    "reference": "same-level Schwarzschild for paired residual refinement; fine Schwarzschild for headline errors"
+  },
+  "interpretation": "Observed changes diagnose resolution; no Richardson extrapolation or claimed rigorous bound."
+}

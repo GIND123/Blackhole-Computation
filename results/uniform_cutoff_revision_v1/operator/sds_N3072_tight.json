@@ -1,0 +1,64 @@
+{
+  "rhs": [
+    {
+      "datum": "actual_initial_velocity",
+      "tau": 0.0,
+      "constraint_linf": 0.0,
+      "implicit_constraint_rhs_linf": 1.639211970336996e-14,
+      "explicit_constraint_rhs_linf": 0.0,
+      "complete_constraint_rhs_linf": 1.639211970336996e-14
+    },
+    {
+      "datum": "constraint_satisfying_polynomial",
+      "tau": 0.0,
+      "constraint_linf": 2.033098929747408e-16,
+      "implicit_constraint_rhs_linf": 9.674302967819239e-18,
+      "explicit_constraint_rhs_linf": 0.0,
+      "complete_constraint_rhs_linf": 9.674302967819239e-18
+    },
+    {
+      "datum": "evolved_state",
+      "tau": 0.0025,
+      "constraint_linf": 1.8363696255865268e-12,
+      "implicit_constraint_rhs_linf": 4.936123781742959e-14,
+      "explicit_constraint_rhs_linf": 0.0,
+      "complete_constraint_rhs_linf": 4.936123781742959e-14
+    }
+  ],
+  "history": [
+    {
+      "tau": 0.0,
+      "constraint_linf": 0.0,
+      "constraint_velocity_scale": 0.0
+    },
+    {
+      "tau": 0.0025,
+      "constraint_linf": 1.8363696255865268e-12,
+      "constraint_velocity_scale": 1.83637091717422e-12
+    }
+  ],
+  "ncc_cutoff": 1e-10,
+  "entry_cutoff": 0.0,
+  "history_dt": 1.0,
+  "sampled_not_continuous_maxima": true,
+  "assembly_seconds": 11.789266582985874,
+  "matrix_shape": [
+    9216,
+    9216
+  ],
+  "matrix_nnz": 459806,
+  "dedalus_version": "3.0.4",
+  "fixed_velocity_scale": 0.9999992966629558,
+  "normalization": "M*||G_v||_infinity (not a waveform error)",
+  "evolution_seconds": 3.420689709018916,
+  "wall_seconds": 20.149620582989883,
+  "source_sha256": {
+    "uniform_cutoff_audit.py": "77964fd6094bc5af7b2a5e34afc097d424083dfca8517f0fcbe6244308f37cdd",
+    "sds_solver.py": "c866b276bba1349d673529d169b29d78e26c3fcf21ddd04d0b7bfef59e6f822b",
+    "large_l_tail.py": "0568f1e344d64208af858335416f2f8615e5f4b81dbface49c42b1931f7a7ff6",
+    "sds_model.py": "5593c3bd55735132bd8572c742512106c7674d06e783a8f0fd894b6411d83206",
+    "schwarzschild_scalar.py": "fd25e46bb34286b45935a10bd5d7787891f261ad80003be0ca071203bb46c3ad"
+  },
+  "sampled_maximum_constraint_linf": 1.8363696255865268e-12,
+  "sampled_maximum_constraint_velocity_scale": 1.83637091717422e-12
+}

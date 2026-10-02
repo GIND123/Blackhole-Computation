@@ -35,14 +35,14 @@ GRAPHIC = re.compile(
 LABEL = re.compile(r"\\label\{(tab:[^}]*)\}")
 
 REGULATOR_PACKAGE = "results/regulator_production_v3"
-QNM_PACKAGE = "results/exterior_regulator_width_floor_qnm_v5"
-MATCHED_TAIL_PACKAGE = "results/curvature_coupling_production_v2"
+QNM_PACKAGE = "results/revision_sbp_ringdown_v1"
+MATCHED_TAIL_PACKAGE = "results/sbp_matched_tail_revision_v1"
 LARGE_TAIL_PACKAGE = "results/large_l_tail"
 
 MANIFEST_NAMES = {
     REGULATOR_PACKAGE: "manifest.json",
-    QNM_PACKAGE: "manifest.json",
-    MATCHED_TAIL_PACKAGE: "tail_manifest.json",
+    QNM_PACKAGE: "analysis/manifest.json",
+    MATCHED_TAIL_PACKAGE: "analysis/matched_tail_manifest.json",
     LARGE_TAIL_PACKAGE: "manifest.json",
 }
 
@@ -50,13 +50,11 @@ REGULATOR_COMMAND = (
     "python -m black_hole.regulator_analysis --output-dir " + REGULATOR_PACKAGE
 )
 QNM_COMMAND = (
-    "python -m black_hole.far_regulator_production_analysis "
-    f"--output-dir {QNM_PACKAGE} "
-    f"--control-dir {REGULATOR_PACKAGE} "
-    "--legacy-candidate-dir results/exterior_regulator_far_production_v1"
+    "python -m black_hole.sbp_ringdown_validation analyze "
+    f"--root {QNM_PACKAGE}"
 )
 MATCHED_TAIL_COMMAND = (
-    "python -m black_hole.curvature_coupling_tail_analysis "
+    "python -m black_hole.sbp_matched_tail_figure "
     f"--root {MATCHED_TAIL_PACKAGE}"
 )
 LARGE_TAIL_COMMAND = (
@@ -111,25 +109,18 @@ FIGURES: dict[str, Source] = {
     "localized_source_regulator.pdf": Source(
         package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
         artifact=f"{REGULATOR_PACKAGE}/localized_source_regulator.pdf",
+        note=("submission copy retains direct errors and modal residuals; "
+              "rendered by paper/make_submission_figures.py"),
     ),
-    "exterior_qnm_residual_comparison.pdf": Source(
-        package=QNM_PACKAGE, command=QNM_COMMAND,
-        artifact=f"{QNM_PACKAGE}/width_floor_qnm_residual_comparison.pdf",
-        note="raw ringdown-window residuals against the frozen Schwarzschild control",
-    ),
-    "tail_outer_boundary_comparison.pdf": Source(
+    "matched_tail_comparison.pdf": Source(
         package=MATCHED_TAIL_PACKAGE, command=MATCHED_TAIL_COMMAND,
-        artifact=f"{MATCHED_TAIL_PACKAGE}/tail_outer_boundary_comparison.pdf",
-        note="matched outer-boundary tail comparison",
+        artifact=f"{MATCHED_TAIL_PACKAGE}/analysis/matched_tail_comparison.pdf",
+        note="matched outer-boundary tails from the SBP revision",
     ),
     "large_L3072_tail_transition.pdf": Source(
         package=LARGE_TAIL_PACKAGE, command=LARGE_TAIL_COMMAND,
         artifact=f"{LARGE_TAIL_PACKAGE}/large_L3072_tail_transition.pdf",
         note="resolved Schwarzschild Price-rate interval and later dynamic range",
-    ),
-    "D1_scaling.pdf": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/D1_scaling.pdf",
     ),
 }
 
@@ -141,13 +132,8 @@ TABLES: dict[str, Source] = {
     ),
     "tab:exterior-qnm-improvement": Source(
         package=QNM_PACKAGE, command=QNM_COMMAND,
-        artifact=f"{QNM_PACKAGE}/tables/width_floor_vs_uniform_raw.csv",
-        note="unshifted ringdown-window errors, refinement scales, and reductions",
-    ),
-    "tab:timing": Source(
-        package=REGULATOR_PACKAGE, command=REGULATOR_COMMAND,
-        artifact=f"{REGULATOR_PACKAGE}/tables/D1_measurements.csv",
-        note="deterministic timing sensitivities",
+        artifact=f"{QNM_PACKAGE}/analysis/compact_summary.csv",
+        note="SBP ringdown-window errors, refinement scales, and reductions",
     ),
     "tab:large-L-tail-convergence": Source(
         package=LARGE_TAIL_PACKAGE, command=LARGE_TAIL_COMMAND,
@@ -156,6 +142,11 @@ TABLES: dict[str, Source] = {
             "final_L3072_numerical_sensitivities.csv"
         ),
         note="spatial and timestep sensitivity on the accepted Price interval",
+    ),
+    "tab:matched-tail-intervals": Source(
+        package=MATCHED_TAIL_PACKAGE, command=MATCHED_TAIL_COMMAND,
+        artifact=f"{MATCHED_TAIL_PACKAGE}/analysis/matched_tail_intervals.csv",
+        note="refinement-supported Price-rate intervals at the outer boundary",
     ),
 }
 
@@ -190,6 +181,11 @@ def _load_manifest(package: str, root: Path) -> dict:
     manifest = json.loads(path.read_text(encoding="utf-8"))
     lookup = {}
     archive_rows = []
+    # The SBP revision manifests use repository-relative hash dictionaries.
+    for section in ("files", "outputs", "inputs_sha256", "source_sha256"):
+        for row_path, digest in manifest.get(section, {}).items():
+            normalized = Path(row_path).as_posix()
+            lookup[normalized] = {"path": normalized, "sha256": digest}
     for section in (
         "archives",
         "raw_archives",
@@ -404,7 +400,8 @@ def render(index: dict) -> str:
         "not edited by hand, and a disagreement with the repository is reported "
         "as a problem rather than silently absorbed.",
         "",
-        "Submission figures may be rendered again with embedded-font settings; "
+        "Submission figures may select panels or be rendered again with "
+        "publication layouts and embedded-font settings; "
         "the indexed file is the manifest-verified source artifact, not a claim "
         "that every PDF container in `paper/figs` is byte-identical.",
         "",

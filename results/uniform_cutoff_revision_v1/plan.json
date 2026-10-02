@@ -1,0 +1,19 @@
+{
+  "purpose": "Targeted operator-cutoff regression of the retained uniform minimally coupled dipole L/M=3072 benchmark and Schwarzschild reference",
+  "recorded_before_trajectory_results": true,
+  "backgrounds": ["sds_L3072", "schwarzschild"],
+  "resolution": 2048,
+  "timestep": 0.0025,
+  "end_U": 450,
+  "production_cutoffs": {"ncc_cutoff": 1e-6, "entry_cutoff": 1e-12},
+  "first_tightened_cutoffs": {"ncc_cutoff": 1e-10, "entry_cutoff": 0},
+  "unchanged": ["physical initial data", "model", "minimal gauge", "geometric clock", "RK222", "implicit transport and explicit potential", "dealias 1.5", "signal cadence .05M", "snapshot cadence 25M", "observers"],
+  "constraint_normalization": "absolute C and fixed M||G_v||inf; no displacement normalization and no waveform-error interpretation",
+  "fixed_interval": [231.88, 381.88],
+  "criteria": "reuse large_l_tail original 10M RMS / 40M local log fit; both p within 5% of3; mutual difference <=.15; continuous150M containing300M; unchanged archived refinement-envelope floor",
+  "padding": "25M composed envelope/local-power padding; U450 exceeds381.88+25M",
+  "comparison": "archived same-N and same-dt production baseline with explicit metadata; compatible3.0.4/3.0.5 radial operator paths audited separately; do not attribute platform-level numerical changes solely to cutoff",
+  "initial_estimate": "25–40 minutes for two concurrent laptop trajectories; first1M benchmark assembly3.35s,400 steps9.37s including startup",
+  "conditional_expansion": "second stricter setting only if first comparison fails to establish sensitivity; N3072 trajectory only if finest-operator/threshold evidence warrants it",
+  "scope_limit": "U450 does not validate the long record nearU1984; no full ladder rerun"
+}

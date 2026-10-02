@@ -108,3 +108,98 @@ The first command regenerates `foliation_conditioning.csv`,
 `paper/figs/data`. The regenerated files are byte for byte identical to the
 archived ones, and `tests/test_foliation_diagnostics.py` asserts both that
 identity and the underlying values to nine decimal places.
+
+## Later manuscript calculations: implementation details
+
+The manuscript uses the high-precision spectral-element solver for the
+exterior ringdown and matched `L/M=640` tail results, including the latter's
+Schwarzschild and uniform-SdS controls. The uniform fixed-mode waveform
+sequence and the `L/M=3072` Price-law benchmark use Dedalus. The
+[SBP solver note](SBP_HERMITE_PILOT.md) records the earlier development of the
+spectral-element method; its opening description refers to the pilot stage.
+The final calculations are specified in
+[the ringdown package](../results/revision_sbp_ringdown_v1/) and
+[the matched-tail plan](../results/sbp_matched_tail_revision_v1/PLAN.md).
+
+### Spectral-element formulation and mesh
+
+The continuous Legendre–Gauss–Lobatto discretization evolves `u` and
+`v = partial_tau u` through `M partial_tau v = C v - K u`. Each element has
+a quadrature matrix `H` and derivative matrix `D` satisfying
+`H D + D^T H = E`, where `E` is the signed boundary matrix. The mass,
+stiffness, and transport matrices are assembled from
+
+```text
+M_e = H/A
+K_e = D^T H p D + H P
+C_e = H B D - D^T H B + E B.
+```
+
+Coefficient functions denote diagonal matrices of their nodal values.
+Continuity of `u` and `v` cancels internal boundary terms. The physical
+boundaries are outflow and require no prescribed data. The semidiscrete
+energy `E_wave = (v^T M v + u^T K u)/2` obeys
+`partial_tau E_wave = -v(0)^2 - v(1)^2`; positivity also requires positive
+semidefinite `K`. This identity alone does not establish waveform accuracy.
+Geometry and operators use 50 decimal digits; evolution uses double-double
+arithmetic (about 31 digits) and third-order, L-stable Radau IIA.
+
+Element boundaries include the initial-data support, `rho=0.55,0.70,0.90,0.97`,
+and the transition edges. Schwarzschild and uniform-SdS controls use fixed
+template positions for the latter. Exterior tails and all ringdown runs
+divide the transition or template interval into four elements and add
+boundaries at `r/M=80,120,160,200` where these radii lie between `rho=0.97`
+and the inner transition or template boundary. The matched-tail controls
+retain the standard nine-element mesh; the exterior tail cases use sixteen
+elements. The operator configurations record the exact boundaries.
+
+### Independent shared-flux check
+
+The first-order exterior check uses the characteristic fields and fluxes
+
+```text
+h = pi + psi,    j = pi - psi
+F_plus  = A(1+B)h
+F_minus = A(1-B)j
+partial_tau u = (F_plus + F_minus)/2
+partial_tau h =  partial_rho F_plus  - P u
+partial_tau j = -partial_rho F_minus - P u.
+```
+
+Reusing the same discrete fluxes preserves
+`C_ch = (h-j)/2 - partial_rho u = C` at the semidiscrete level:
+`partial_tau C_ch = 0`. No damping is added. The boundary factors are
+retained as `A(1+B)=(1-rho)alpha_plus` and `A(1-B)=rho alpha_minus`, with
+finite `alpha_plus` and `alpha_minus`.
+
+At `L/M=320,640`, this check uses `N=512,768,1024` and `Delta tau=0.01M`,
+with an `N=768` check at `0.005M`, through `U=80M`. RK222 treats transport
+implicitly and the potential explicitly, with `3/2` dealiasing. On
+`15 <= U/M <= 45`, the largest successive spatial waveform changes decrease
+from `1.08e-4` to `6.70e-6`, and timestep halving gives at most `5.12e-6`.
+The finest shared-flux and spectral-element exterior waveforms agree to
+`1.12e-5`, normalized by the fine Schwarzschild waveform's `L2` norm.
+The exterior-supported error remains smaller than the uniform-SdS error
+at every tested resolution and timestep. Sampling the absolute reduction
+constraint every `0.1M` gives a maximum `5.17e-10`; this sampled diagnostic
+is distinct from the waveform comparison.
+
+Earlier single-domain exterior runs are excluded from the manuscript's
+ringdown table because coefficient and matrix truncation could force the
+discrete reduction constraint. The shared-flux formulation removes that
+semidiscrete forcing, and the spectral-element formulation evolves no
+independent derivative field. The
+[constraint and waveform checks](../results/ringdown_constraint_revision_v1/)
+retain the implementation history and numerical evidence.
+
+### Sourced-waveform comparison quoted in the manuscript
+
+The manuscript's `5.58e-4` sphere-integrated relative difference comes from
+the sourced calculation described in [GREEN_FUNCTION.md](GREEN_FUNCTION.md).
+It compares Schwarzschild and uniform SdS at `L/M=80`, using `ell_max=42`,
+`Delta tau=0.002M`, and evolution through `72M`. The finite-difference run
+uses `N_r=768` and RK4; Dedalus uses 512 Chebyshev modes, `3/2` dealiasing,
+and RK443. Both evaluate the source at each integrator stage. This is a
+different comparison from the fixed-time visualization check at the start
+of this document, and it is independent of the matched-template timing
+measurements.

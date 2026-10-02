@@ -1,0 +1,6 @@
+family,envelope_width_over_M,rate_fit_width_over_M,start_U_over_M,end_U_over_M,duration_over_M,passes_price_criterion
+schwarzschild,10.0,40.0,140.4,975.0,834.6,True
+uniform640_minimal,10.0,40.0,134.5,144.1,9.599999999999994,False
+uniform640_conformal,10.0,40.0,153.25,294.7,141.45,True
+exterior640_minimal,10.0,40.0,299.0,312.3,13.300000000000011,False
+exterior640_conformal,10.0,40.0,617.6,626.1,8.5,False

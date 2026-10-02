@@ -1,0 +1,490 @@
+{
+  "reports": [
+    {
+      "background": "uniform",
+      "L_over_M": 640.0,
+      "resolution": 128,
+      "profile": "flat",
+      "dedalus": "3.0.4",
+      "ncc_cutoff": 1e-06,
+      "entry_cutoff": 1e-12,
+      "max_ncc_terms": null,
+      "split": "implicit transport and potential; zero explicit RHS",
+      "timestepper": "RK222",
+      "dealias": 1.5,
+      "steps_taken": 0,
+      "L_nnz": 27434,
+      "M_nnz": 636,
+      "states": [
+        {
+          "label": "actual_initial_data",
+          "state_constraint": {
+            "grid_linf": 3.2958537525551645e-15,
+            "endpoints": [
+              -2.919630078793657e-15,
+              1.6683954716089647e-15
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 2.360933118998513e-13,
+            "endpoints": [
+              2.657458834893932e-14,
+              2.846157409724294e-13
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 2.360933118998513e-13,
+            "endpoints": [
+              2.657458834893932e-14,
+              2.846157409724294e-13
+            ]
+          }
+        },
+        {
+          "label": "constraint_satisfying_polynomial_and_momentum",
+          "state_constraint": {
+            "grid_linf": 9.185384288327229e-17,
+            "endpoints": [
+              1.0534141893982497e-18,
+              2.443017959518178e-19
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 2.239342106430231e-16,
+            "endpoints": [
+              -5.709261070978843e-17,
+              -2.1797366461833006e-16
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 2.239342106430231e-16,
+            "endpoints": [
+              -5.709261070978843e-17,
+              -2.1797366461833006e-16
+            ]
+          }
+        }
+      ],
+      "endpoint_treatment": "natural/outflow; no boundary or tau rows",
+      "seconds": 92.07427245902363,
+      "label": "production"
+    },
+    {
+      "background": "uniform",
+      "L_over_M": 640.0,
+      "resolution": 128,
+      "profile": "flat",
+      "dedalus": "3.0.4",
+      "ncc_cutoff": 1e-10,
+      "entry_cutoff": 0.0,
+      "max_ncc_terms": null,
+      "split": "implicit transport and potential; zero explicit RHS",
+      "timestepper": "RK222",
+      "dealias": 1.5,
+      "steps_taken": 0,
+      "L_nnz": 35963,
+      "M_nnz": 792,
+      "states": [
+        {
+          "label": "actual_initial_data",
+          "state_constraint": {
+            "grid_linf": 3.2958537525551645e-15,
+            "endpoints": [
+              -2.919630078793657e-15,
+              1.6683954716089647e-15
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 3.50104802258332e-13,
+            "endpoints": [
+              -4.728396282113777e-13,
+              -4.406368252760481e-13
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 3.50104802258332e-13,
+            "endpoints": [
+              -4.728396282113777e-13,
+              -4.406368252760481e-13
+            ]
+          }
+        },
+        {
+          "label": "constraint_satisfying_polynomial_and_momentum",
+          "state_constraint": {
+            "grid_linf": 9.185384288327229e-17,
+            "endpoints": [
+              1.0534141893982497e-18,
+              2.443017959518178e-19
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 1.3479122688529167e-16,
+            "endpoints": [
+              1.3482130903955103e-16,
+              1.3173220470678649e-16
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 1.3479122688529167e-16,
+            "endpoints": [
+              1.3482130903955103e-16,
+              1.3173220470678649e-16
+            ]
+          }
+        }
+      ],
+      "endpoint_treatment": "natural/outflow; no boundary or tau rows",
+      "seconds": 62.50529958301922,
+      "label": "tight",
+      "production_action_changes": {
+        "actual_initial_data_implicit": {
+          "variable_linf": [
+            1.1360587320406979e-16,
+            2.326851135588032e-13,
+            0.0005572831588835925
+          ],
+          "relative_l2": 7.264752667004108e-06
+        },
+        "actual_initial_data_explicit": {
+          "variable_linf": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "relative_l2": 0.0
+        },
+        "actual_initial_data_complete": {
+          "variable_linf": [
+            1.1360587320406979e-16,
+            2.326851135588032e-13,
+            0.0005572831588835925
+          ],
+          "relative_l2": 7.264752667004108e-06
+        },
+        "constraint_satisfying_polynomial_and_momentum_implicit": {
+          "variable_linf": [
+            8.929586813588575e-07,
+            1.984456452169825e-05,
+            2.008321704216609e-05
+          ],
+          "relative_l2": 2.4354821264914955e-05
+        },
+        "constraint_satisfying_polynomial_and_momentum_explicit": {
+          "variable_linf": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "relative_l2": 0.0
+        },
+        "constraint_satisfying_polynomial_and_momentum_complete": {
+          "variable_linf": [
+            8.929586813588575e-07,
+            1.984456452169825e-05,
+            2.008321704216609e-05
+          ],
+          "relative_l2": 2.4354821264914955e-05
+        }
+      }
+    },
+    {
+      "background": "uniform",
+      "L_over_M": 640.0,
+      "resolution": 128,
+      "profile": "flat",
+      "dedalus": "3.0.4",
+      "ncc_cutoff": 1e-14,
+      "entry_cutoff": 0.0,
+      "max_ncc_terms": null,
+      "split": "implicit transport and potential; zero explicit RHS",
+      "timestepper": "RK222",
+      "dealias": 1.5,
+      "steps_taken": 0,
+      "L_nnz": 114139,
+      "M_nnz": 792,
+      "states": [
+        {
+          "label": "actual_initial_data",
+          "state_constraint": {
+            "grid_linf": 3.2958537525551645e-15,
+            "endpoints": [
+              -2.919630078793657e-15,
+              1.6683954716089647e-15
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 8.625877243977475e-13,
+            "endpoints": [
+              -2.1229020480342793e-13,
+              -1.2156597115014617e-12
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 8.625877243977475e-13,
+            "endpoints": [
+              -2.1229020480342793e-13,
+              -1.2156597115014617e-12
+            ]
+          }
+        },
+        {
+          "label": "constraint_satisfying_polynomial_and_momentum",
+          "state_constraint": {
+            "grid_linf": 9.185384288327229e-17,
+            "endpoints": [
+              1.0534141893982497e-18,
+              2.443017959518178e-19
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 7.1643597590517e-17,
+            "endpoints": [
+              2.2273347722710808e-17,
+              3.01455732823799e-17
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 7.1643597590517e-17,
+            "endpoints": [
+              2.2273347722710808e-17,
+              3.01455732823799e-17
+            ]
+          }
+        }
+      ],
+      "endpoint_treatment": "natural/outflow; no boundary or tau rows",
+      "seconds": 62.31531958299456,
+      "label": "roundoff",
+      "production_action_changes": {
+        "actual_initial_data_implicit": {
+          "variable_linf": [
+            2.879331137374823e-16,
+            5.093616930154928e-13,
+            0.0005572891782463785
+          ],
+          "relative_l2": 7.264789345831969e-06
+        },
+        "actual_initial_data_explicit": {
+          "variable_linf": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "relative_l2": 0.0
+        },
+        "actual_initial_data_complete": {
+          "variable_linf": [
+            2.879331137374823e-16,
+            5.093616930154928e-13,
+            0.0005572891782463785
+          ],
+          "relative_l2": 7.264789345831969e-06
+        },
+        "constraint_satisfying_polynomial_and_momentum_implicit": {
+          "variable_linf": [
+            8.929753238656746e-07,
+            1.9845383301797526e-05,
+            2.0084919356566644e-05
+          ],
+          "relative_l2": 2.4355375362057517e-05
+        },
+        "constraint_satisfying_polynomial_and_momentum_explicit": {
+          "variable_linf": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "relative_l2": 0.0
+        },
+        "constraint_satisfying_polynomial_and_momentum_complete": {
+          "variable_linf": [
+            8.929753238656746e-07,
+            1.9845383301797526e-05,
+            2.0084919356566644e-05
+          ],
+          "relative_l2": 2.4355375362057517e-05
+        }
+      }
+    },
+    {
+      "background": "uniform",
+      "L_over_M": 640.0,
+      "resolution": 128,
+      "profile": "flat",
+      "dedalus": "3.0.4",
+      "ncc_cutoff": 0.0,
+      "entry_cutoff": 0.0,
+      "max_ncc_terms": null,
+      "split": "implicit transport and potential; zero explicit RHS",
+      "timestepper": "RK222",
+      "dealias": 1.5,
+      "steps_taken": 0,
+      "L_nnz": 114173,
+      "M_nnz": 792,
+      "states": [
+        {
+          "label": "actual_initial_data",
+          "state_constraint": {
+            "grid_linf": 3.2958537525551645e-15,
+            "endpoints": [
+              -2.919630078793657e-15,
+              1.6683954716089647e-15
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 1.898823221731186e-12,
+            "endpoints": [
+              -7.535126524193846e-13,
+              -2.3575218788780357e-12
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 1.898823221731186e-12,
+            "endpoints": [
+              -7.535126524193846e-13,
+              -2.3575218788780357e-12
+            ]
+          }
+        },
+        {
+          "label": "constraint_satisfying_polynomial_and_momentum",
+          "state_constraint": {
+            "grid_linf": 9.185384288327229e-17,
+            "endpoints": [
+              1.0534141893982497e-18,
+              2.443017959518178e-19
+            ]
+          },
+          "implicit_constraint_rhs": {
+            "grid_linf": 9.235174844406463e-17,
+            "endpoints": [
+              9.235681208187416e-17,
+              6.147789048267109e-17
+            ]
+          },
+          "explicit_constraint_rhs": {
+            "grid_linf": 0.0,
+            "endpoints": [
+              0.0,
+              0.0
+            ]
+          },
+          "complete_constraint_rhs": {
+            "grid_linf": 9.235174844406463e-17,
+            "endpoints": [
+              9.235681208187416e-17,
+              6.147789048267109e-17
+            ]
+          }
+        }
+      ],
+      "endpoint_treatment": "natural/outflow; no boundary or tau rows",
+      "seconds": 75.32277837500442,
+      "label": "zero",
+      "production_action_changes": {
+        "actual_initial_data_implicit": {
+          "variable_linf": [
+            9.53362457005748e-15,
+            7.542146870625903e-12,
+            0.0005572891783032219
+          ],
+          "relative_l2": 7.264789265754015e-06
+        },
+        "actual_initial_data_explicit": {
+          "variable_linf": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "relative_l2": 0.0
+        },
+        "actual_initial_data_complete": {
+          "variable_linf": [
+            9.53362457005748e-15,
+            7.542146870625903e-12,
+            0.0005572891783032219
+          ],
+          "relative_l2": 7.264789265754015e-06
+        },
+        "constraint_satisfying_polynomial_and_momentum_implicit": {
+          "variable_linf": [
+            8.929753171627031e-07,
+            1.9845386111994046e-05,
+            2.0084926949270887e-05
+          ],
+          "relative_l2": 2.435537086319135e-05
+        },
+        "constraint_satisfying_polynomial_and_momentum_explicit": {
+          "variable_linf": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "relative_l2": 0.0
+        },
+        "constraint_satisfying_polynomial_and_momentum_complete": {
+          "variable_linf": [
+            8.929753171627031e-07,
+            1.9845386111994046e-05,
+            2.0084926949270887e-05
+          ],
+          "relative_l2": 2.435537086319135e-05
+        }
+      }
+    }
+  ],
+  "archive_sha256": "2ae82f155b21d442c5b8c7b9721e91073d1f0c1f2732c47024ebfd3c601df95e",
+  "source_sha256": "3caf39c89c3b55d00c37b8d64567d6dbd60d48a6901f28278e3107c79cec5b0d",
+  "simulation_source_sha256": "c866b276bba1349d673529d169b29d78e26c3fcf21ddd04d0b7bfef59e6f822b",
+  "limitation": "Static operator audit, not finite-time waveform validation"
+}

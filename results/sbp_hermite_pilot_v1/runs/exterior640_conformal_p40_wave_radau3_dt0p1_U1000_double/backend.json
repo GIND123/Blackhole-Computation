@@ -1,0 +1,18 @@
+{
+  "completed": true,
+  "precision": "binary64",
+  "integrator": "radau3",
+  "method": "Radau IIA order 3 Pade [1/2], conjugate resolvents",
+  "n": 641,
+  "bandwidth": 40,
+  "full_steps": 10027,
+  "partial_step": "6.00652758743080994463525712490082e-02",
+  "decimal_underflow_count": 0,
+  "decimal_subnormal_count": 0,
+  "dt": "1.00000000000000005551115123125783e-01",
+  "endtime": "1.00276006527587435357418144121766e+03",
+  "discarded_imaginary_max": "2.55393680919345009624685145256591e-14",
+  "state_max": "1.13539896874494572465152941731503e+00",
+  "setup_seconds": 5.03599999999999967809083400993586e-03,
+  "total_seconds": 7.16999000000000030752289603697136e+00
+}

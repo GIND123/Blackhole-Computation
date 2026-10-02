@@ -1,0 +1,263 @@
+{
+  "status": "independent pilot analysis; frozen archives unchanged",
+  "estimator": {
+    "envelope_width": 10.0,
+    "power_fit_width": 40.0,
+    "roundoff_floor_multiplier": 100.0,
+    "uniform_U_step": 0.1
+  },
+  "numerical_warning": "Raw indices and diagnostic Price durations do not establish convergence. Decimal differences avoid float64 cancellation but do not prove 31-digit accuracy.",
+  "interpolation_warning": "Half-cadence cubic spline differences estimate interpolation sensitivity, not a rigorous bound.",
+  "inputs": {
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p24_radau3_dt0p1_U1000": {
+      "configuration.json": "447f8c29d2a3037681f0add46c0e89fff1bc981de39320c44366830476bfd43d",
+      "backend.json": "66c42c6f9051bcb3dc797b2dcd0ae13064de552c6f67760194f8f71aa65e01be",
+      "history.csv": "b47fd06e465b48af316cfad82ee703e4c0a318771985f93dc289e2693c5f4f66"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p32_radau3_dt0p1_U1000": {
+      "configuration.json": "c3fca9664f4848355b3c61a3c51b63bfe45fa0e325942e2b2c97c616b7cf07db",
+      "backend.json": "2f308f1e9cbec3d204dcb742af0495067b37d3cf123a1007835704e57c772bc0",
+      "history.csv": "af7c073732d52be900d79160686b538988ce122b2a9132adef8c74470ca4e682"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p32_split_radau3_dt0p1_U1000": {
+      "configuration.json": "4ce45d8f6ea1e637179c77c2c3988a5b30af54817ef971ad582e95a6f6f25bb1",
+      "backend.json": "efdfaf82a12bc057a30e5c879d6263fc664743e48f731434417e0c703c1e0bb7",
+      "history.csv": "2100915d9939274d37a91146b1eaa701d21671e1a40ddfc51f71b691212ac609"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p32_wave_radau3_dt0p1_U1000": {
+      "configuration.json": "8a8d4c1e9b6e9b4109e2ecc1003b42e250dd63bbe2c2b6df011d46dfdea3e60f",
+      "backend.json": "06809af55f5235c381ffafd6fd141cab790a599433ce0bb2976768fcce9ca521",
+      "history.csv": "9be80dca5022857033c19d7d5c92d1656b616d5758fa4828b0a4be352001bb4c"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p32_wave_radau3_dt0p1_U1000_double": {
+      "configuration.json": "5fe2345049258fc4cf9f18ddcfbba176e1eb8335db1c5311bd150f344b756039",
+      "backend.json": "0688d2239469f410eb66528576e858ae6974ed1f2c30e36e1cd16dea6d1dedb7",
+      "history.csv": "099d23bfebe7823e792e7306491c78cb558d674024f9c475c4e1fce53ab4e21b"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_radau3_dt0p1_U1000": {
+      "configuration.json": "4e496fc300008f61c7affe89fa30c9f84b1eaf931bc1077980fa0edd0ef52cad",
+      "backend.json": "be63a5ed938494d032b97dca3c55b3238be4c19105deb61e88809b1b1a6da03d",
+      "history.csv": "012606f16239f8043d375bb66a2b3d90c3e23a5f915ea37cc828ca2cd1e64ddd"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_split_radau3_dt0p05_U1000": {
+      "configuration.json": "0ee644595389679b90dfda1ed0733d5d5ececeb4bc2a8c0d5cce2e737e5ebc1c",
+      "backend.json": "ac2e522a8105e2c85a8a23fb85d4bc0adaaee2b56aaf975f8e9aee908200a6a3",
+      "history.csv": "b76d80177e6ba5a8d470a2143909a04a305a674475b9a3e311eb97c41f1069a5"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_split_radau3_dt0p1_U1000": {
+      "configuration.json": "c83008427f9c02a125dee6a6629442187aaa2c73156acfd0d0e4c3a3bfb316e8",
+      "backend.json": "f34b0e272e1bea7831317e598bb8b4b208576631a99160ad03c2b8290ce39210",
+      "history.csv": "9fccc6f209cfee21d2e2160c245800e927f5a93e97e195f238f7dbde28765f72"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_wave_radau3_dt0p05_U1000": {
+      "configuration.json": "3dff9f2dbbcee7818513a0fc583a4b41f326e2be98f470e1eea0487c1b6a54b7",
+      "backend.json": "77324239c5bd7fdc341e9d7bf981341fbe7b60fee15ee7461db9e4ffbe5c00cd",
+      "history.csv": "a5b5eb20c1c0319402c07ad70c16f419928c2ae3589e15e0b01927a602522def"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_wave_radau3_dt0p1_U1000": {
+      "configuration.json": "53d073a302c7d2b24fc30350b2b0533504ab76aae8f1991c689ccd68742c11c3",
+      "backend.json": "907368c6689fc0c3266eef7f3be0b06c61ea9dcef9d45b5c97f4a738d7d2b511",
+      "history.csv": "443d39a809addac38317b21e6d5705bd9e175f9aa6c494f4f752eda67f57ed4f"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_wave_radau3_dt0p1_U1000_double": {
+      "configuration.json": "66c4a707b129caf687887fe1e8dc1ca963addaa9232e50d5b27b3fd53f087443",
+      "backend.json": "3ce77638dc0d9c898006faed7562a3d193c3ba4fa75fbd50da6d43827d1d1403",
+      "history.csv": "accda94bf3369777ca95c2bd0f08ba88654981348209f359028002084ad8ca04"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p48_split_radau3_dt0p1_U1000_double": {
+      "configuration.json": "643416c5ae05990e73f524c0c5a6af61d1ed5170122b19fcb1836c7456a31fe9",
+      "backend.json": "c9b3bcc5b2d5bd3923c3f31618d7765139e0c7687784919516d51ffb281b3195",
+      "history.csv": "8b61bd31c82e3c8f396479fc7afc43bef9fe15f991635f718104ffa3b547fa72"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p48_wave_radau3_dt0p1_U1000_double": {
+      "configuration.json": "4f60375eda4213ca93865c9c5880ee2698020fc2da329eb20d9b1d04cffedb4c",
+      "backend.json": "f8a9715b4aa1b4b5dbc6b234e1894b5490a97a09f6de917467885bc5afd4db3b",
+      "history.csv": "4d4b8ca082127a060943f38507a01bd1fe78bd8304dc83a933026daa58f3b574"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p64_split_radau3_dt0p1_U1000_double": {
+      "configuration.json": "ea1dedd5114587a4ffa40197ef7046fd790dcda810660022cd289ed078ff8844",
+      "backend.json": "9fa95e9922603fe53bde58f9f4e7066bc856a0145924c35f0e20d2a0e52518fa",
+      "history.csv": "9de881c2d4d05cc6e211a6880a7a08e49b2f595d2f137cc71dc6e95661b43a45"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p24_radau3_dt0p1_U1000": {
+      "configuration.json": "44bf339cf11bf0547146b7f321d3969aed4b3cea5465e7f2620e349238b2d6be",
+      "backend.json": "b18bcfea6dd25fe734ef34e476b277f6b04ac90227292caba3383c13a6710426",
+      "history.csv": "001dd6bcf0995181305826fbc9487b4ad77129d07242205d46046dc0bfd1bfe2"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p32_radau3_dt0p1_U1000": {
+      "configuration.json": "11ebdd3b3c0e606d340e4a6a27289ba5dbda7ea28614afea4a26dd97b965b8c0",
+      "backend.json": "182570efd2b7f774f60c365a075d7eb4dfe116c1cfe40afd4a6a96559f2df5da",
+      "history.csv": "180f2501ea3a8c031ff3edacd15e799a4f17669c79fef1ac405f58b3e0023fe5"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p32_split_radau3_dt0p1_U1000": {
+      "configuration.json": "290ed66269ad540a6e00179f71b80068638273a23e256d4b5786694914ca116d",
+      "backend.json": "74977043a4837793e4446c2e90295bc2bc35427f76a6979a88673763c4d746c1",
+      "history.csv": "b4af14f5a218b3f04ae62c8776c64ff81c2af7140e3ffa0b5df915c0a828234a"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p32_wave_radau3_dt0p1_U1000": {
+      "configuration.json": "23aec7cd7b781575c7ae38ed32cc782e11144e7acb064400ccc99de1e5ed641d",
+      "backend.json": "63e0b56d25cd083dddaf2e38de0716e44a146f13d9424e1ff9598c1ccd360857",
+      "history.csv": "38daee469fa3d4574d7bad0ff60f3a646c34960eb349e8f84ba0ad0721517eba"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p40_radau3_dt0p1_U1000": {
+      "configuration.json": "0f682dc18af161cd50b70af89a2a568951e71f816ff64cc37aa9b1d6a37c1892",
+      "backend.json": "4b1bf204ff888e816dcb61a16f93a2ee081f0cbe44df7e87a1c83e327c6c593e",
+      "history.csv": "fb5d60a7e99bbdf96b68dd401441b10f787f38886da5f138f5bfaa92db239942"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p40_split_radau3_dt0p05_U1000": {
+      "configuration.json": "29cce0f4b76582584f6c2d46b5a829439a2ecab443c9b59d19674fd19b7fddda",
+      "backend.json": "3e68725582ec926d486593a51331fad3f703527e267c9d16f7ad2509d1de4378",
+      "history.csv": "da24a376de5319fffe9729bb628834a9a999b1fda541b4efc183fa835f576835"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p40_split_radau3_dt0p1_U1000": {
+      "configuration.json": "dcedf094606b08e9d9344780e17fa70b60f3fe796453fb50f722677e39aff177",
+      "backend.json": "50cc41325aac1051427a5ead9a21d0507a4b88a6f2617d6c3254cb991d4767ba",
+      "history.csv": "320d8c8c9e53835eeed8f341a7ef737d1db737c6c0979e92994a6ca751966931"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p40_wave_radau3_dt0p05_U1000": {
+      "configuration.json": "24af91be8a964a48381d3550c66ac577f2e18c468af4223eb76573f0681834d0",
+      "backend.json": "2e42b560a616a73f69f9765906733eb21a19266b67ada7761c761e2ed2d8fa6f",
+      "history.csv": "3bf265c932707bbc35ba163ae9c1989ce9a7a9c872791a5df9a4ffb3e09d0281"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p40_wave_radau3_dt0p1_U1000": {
+      "configuration.json": "879b6f829d420c741d51557702bee237bc37e01777cfcd2db8bc2dc7d3b96b76",
+      "backend.json": "9c2ab0124fe5640298a98b5b017f835135ad2cf7afc303642ce54fd47e32bbc8",
+      "history.csv": "823dddb702544b604d7c2234c226c9262480429c0f83b96eb4fb6742264a8389"
+    },
+    "results/sbp_hermite_pilot_v1/runs/exterior640_minimal_p48_wave_radau3_dt0p1_U1000_double": {
+      "configuration.json": "b597daa20ec6778f8c6db5a79cbf47c6bc29f92eacf46398233411e8816d7bba",
+      "backend.json": "0d435e8f0fe9a5e8e11934dd9e935dab71f135874546712c1474f9e544202806",
+      "history.csv": "06f6e0e84a33c482a7e241c7c827d560f33ea0a7ed41ab39273e3e8464b9b19b"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p16_dt0p1_U100": {
+      "configuration.json": "ac497ac1b94b5291a5a31ff16af8d4e54b6dc7270c6442401df33ff4cedb3ec5",
+      "backend.json": "2a81462d421bdf1d03e32e692ca9220996075cd9d4ec5abb8bacb9fb1f1f532e",
+      "history.csv": "136076055fc28f857b62efbd9f7d9b883362f67e73121e03667f3e80076d14c9"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p24_dt0p1_U1000": {
+      "configuration.json": "4cb3ac1f092cac2332b54343632b77853e3d9ae8add9d3a4d9cb6c44d1d9d84a",
+      "backend.json": "c98a84bd743bcac55269f7117724cf53968c2f51c067e33b08e2f6be1df5a5a2",
+      "history.csv": "8e0be8300c263d6f08adffcab9cde5bd401744419905db35dff1b41c59737f39"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p24_radau3_dt0p1_U1000_verified": {
+      "configuration.json": "8e4f6102db6c58907588237848070c2e4d273975ec57475aa349f5ac1e643493",
+      "backend.json": "65566393dd5092c58847531d13507d5a8a78c6840118175567f32a2139852ba5",
+      "history.csv": "94b03a4d9055ebadee9e54cbf6f8a0b0f28863c6b4d26861b34d39645eea1b67"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p32_dt0p01_U500": {
+      "configuration.json": "50f2e28342250fed9d7d6c632a3d2c63100cd80fa90f7fda7a9c78b4d69bc27d",
+      "backend.json": "0b435115102cf13823c3b7f4a59a3d2c11b353c71d478d5024099c143e90c037",
+      "history.csv": "c220eb42bbcabc99c6194b0882d719d0da709c2c4d3d3b566ea1699cf5005cd0"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p32_dt0p1_U1000": {
+      "configuration.json": "4e31862850689a18739fcee56cf3efe2c0f2daec3bf2037d8ae6d01b4af1f45f",
+      "backend.json": "c0f49a3bc718d6b868eb7dbe3d85b0c51ffff9a5873c8d75050cad1c727e13ae",
+      "history.csv": "04b31e751ccd4809a3866370abf8a8b94b1c1ae421dc72301383e58a389ea057"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p32_radau3_dt0p1_U1000": {
+      "configuration.json": "3eb299ad23beca85b478284d03b3827c2f30962c2c3673b0c3944d736346af1c",
+      "backend.json": "3cd3ec8a1ea7a3dec21c35af94eeab2f95aec97e7aa5a24b9ea911664a4e7930",
+      "history.csv": "1d00bd854921f7daf5e15e031b86720e723a25c64455c03709d17c375111dd9b"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p40_radau3_dt0p05_U1000": {
+      "configuration.json": "b7d390f776778e8506ea16cbd0d7a4a91487a269521c8119409460705675bec6",
+      "backend.json": "55987db8c249bbdc6c367c28abe525a163a98ad1bb3f26bf9aa09604682ae372",
+      "history.csv": "f631118fb70842b3d053dd5d27d5fbf0581e1a7d7c6262aa91f2543f15db96b2"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p40_radau3_dt0p05_U1000_double": {
+      "configuration.json": "84f39d8f0fba9f1fec3fa10e5a6d9da3eb6b4d14e9abe8def2ab9be5f0fd577e",
+      "backend.json": "1f256b62b90e9886d5322806f09b938a97f5396edc531af60e389bd775b01cd4",
+      "history.csv": "3a827ab75cd343c951dfded63ef79ad7c4920aa1eb6f2aebcc17987f220cc25e"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p40_radau3_dt0p1_U1000": {
+      "configuration.json": "cc7db416589808cd5aa408480adf4316cff4cac4a7528f67e88fd1b0c779f345",
+      "backend.json": "3d884710683b90c4e64b82a36ec8c7c62d0bf65c17fb700877d45a72c7523061",
+      "history.csv": "a0e38d876982a117703d239e76c7265f28365231ac3f6d98da88efff106433be"
+    },
+    "results/sbp_hermite_pilot_v1/runs/schwarzschild_p40_shifted_radau3_dt0p1_U1000": {
+      "configuration.json": "25c2688a2a62c85ebf51da0665f828fb9bee5b90d64f3609abbbb94094243f0f",
+      "backend.json": "01cf11c84998fba8b2cf86d33e09de92b0b7778e4d87b7e0b92aa32655bb0056",
+      "history.csv": "4e50f2c9977da102dc4ebfda61d991124fbbe29359da91d335d77001e910655d"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform3072_minimal_p24_radau3_dt0p1_U1000": {
+      "configuration.json": "111f2b16b4dc4f01e24be256f9ea4c0eabecf80faa8bf12e15fe918ccee56e09",
+      "backend.json": "10573cb0fc5e6047fc21586540d89cb3c28ea31a27539a601a4a8552d158eb43",
+      "history.csv": "a59e47bbd79a8c2ec8a1c448b39e88a3d4230324fe40d59f518635649f07cc7e"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform3072_minimal_p32_radau3_dt0p1_U1000": {
+      "configuration.json": "19d9ae3a5e9e8f8c6b7a729a0334316aeb802e2e6ea929912e15dccd9f7b7359",
+      "backend.json": "a278eef09609cd31a2dc6987244bc86714ea2115652d314278ad9f5eec5984a5",
+      "history.csv": "dabea31fdc478118705ed9cfb22c20ec70a611fcbebbef0264eae567469c9b7c"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform3072_minimal_p40_radau3_dt0p05_U1000": {
+      "configuration.json": "82bf4f5c5960c0aff5c2311a5adc0d61b49dc90e1a8662cc377d7dfad52b044e",
+      "backend.json": "a81a53073e1820bd3eaa973ce2c276f85bb7f6935900ee7032799a4b61dbc7b2",
+      "history.csv": "1f119513fc8935acda37b0e7a7b5260e9db9c10875a3fa8f33eabf27dba73b68"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform3072_minimal_p40_radau3_dt0p1_U1000": {
+      "configuration.json": "59c9029414f14605c868a841f2ad54b1b540150099250930bd059b1f0d0900c3",
+      "backend.json": "beb8ff7377ec2e814512a43a28f1baefcf2dcc8b9213809d3d090a12fe123b1d",
+      "history.csv": "92df6327d4a6a6fe329eb5f17952b79329da2f2e1c9507f50ae00e6f317286a3"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform640_conformal_p24_radau3_dt0p1_U1000_verified": {
+      "configuration.json": "684046e3a6108f76a017875901b99a328f9f84ca63a69a566f1c9c9d524b76f0",
+      "backend.json": "ec2f2b2a941194014eec5ba88940cb2eacde4843e31cf6d4d3e9bbeb508a34b0",
+      "history.csv": "7a03e1faed91a5b007fba6fed2d146a91608339a75443abc8c3581e717a054aa"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform640_conformal_p24_radau3_dt0p1_U300_recheck_dd": {
+      "configuration.json": "1a4c8a2c2676baf601f202562bab2088b34f687b6d06bd89c59aa63348be142d",
+      "backend.json": "d05554202595588a1f703d85482951aaa9dc66fadc09ba41026cf56f015a700f",
+      "history.csv": "d631c894e76a7e79ab19a8a34cb529dd693b0e5a67105df2fe89bbca1b0186b0"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform640_conformal_p24_radau3_dt0p1_U300_recheck_double": {
+      "configuration.json": "bd74402b720f07e75fb6a7f5cd6d86bcef4b9953ebe85655ab12da5bf2fdc0b3",
+      "backend.json": "904794361c5eef1b8ea6cc084633439d16f568ce051f97a8adaddbd712ec3c43",
+      "history.csv": "a3c382ad6379e36c03b0040f6cef743f1f667de546a9a06e1c41c66ad91d4f27"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform640_conformal_p32_radau3_dt0p1_U1000": {
+      "configuration.json": "e067340a007ffe95500c2dee3ce602c9e68257fe1803ac081c7641e500917c19",
+      "backend.json": "d29a991c8c8ce070f6efdeb65210cfe0f2e8724126591a1bde5f953a130e51aa",
+      "history.csv": "49cd7e5b48d4a3fa7d8f21cca9496da5ec19df62e3626754c2de7e8465c32961"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform640_conformal_p40_radau3_dt0p05_U1000": {
+      "configuration.json": "480e9282a10025bd1e49c7f52509499459719a0015d17cf0a9d8019e5211232d",
+      "backend.json": "1fe9e98f9bbb337e986a7805d6c678d7c3ed07b2f73fcf3c8a769f4e15c12fde",
+      "history.csv": "d381246648953733f50cc29269c9c86e1c46f99b1d6b14300ba9976b0a6f92bc"
+    },
+    "results/sbp_hermite_pilot_v1/runs/uniform640_conformal_p40_radau3_dt0p1_U1000": {
+      "configuration.json": "d9c0be6e4bc5f68c69de089455abe2ccb9c3ac19617b0330925be33e97db9461",
+      "backend.json": "5a9b8cf13277b712f39083764085c050c5d917dbc56b2584f86a49d50c8e47a5",
+      "history.csv": "19e9ace7db211a07c29168ddfbe9680b0f9dac7905bdc4c7a55978740018a708"
+    }
+  },
+  "frozen_inputs": {
+    "results/curvature_coupling_production_v2/raw/tail/exterior/xi1o6/L640/N3072_dt0p0025.npz": "856364565b759d6e06ad2fc49a3f76b1aa5987a239888f022011c8f6d498da28",
+    "results/curvature_coupling_production_v2/raw/tail/exterior/xi0/L640/N3072_dt0p0025.npz": "a9da5a77eeec8ba5b85ec1dd7f5581c900a6de9c1fad56e3357a2c6bca67fa85",
+    "results/curvature_coupling_production_v2/raw/tail/schwarzschild/xi0/schwarzschild/N3072_dt0p0025.npz": "b5e4b1822b9f775d84bf7d16bfcc9277942309efe24035d07088887b19bf3400",
+    "results/large_l_tail/raw/final_sds_L3072_N3072_dt0p0025.npz": "5bba8c40d97504a41625faf885dcf32aa448e4b79ee5a2d044a982c9eb6c7c95",
+    "results/curvature_coupling_production_v2/raw/tail/uniform/xi1o6/L640/N3072_dt0p0025.npz": "6cf4e8b9e0fab4ad6c6e0460fb36ea0b6d686da76f5c8de8de227191890f8fcf"
+  },
+  "analysis_sha256": "59094a9f3f2fccdcf7213c0ee043c5290ee34ee0b6e978d3acd448230472f3fa",
+  "excluded_runs": {
+    "schwarzschild_p24_radau3_dt0p1_U1000": "Superseded preliminary backend (82c6390), before robust decimal parsing. Excluded conservatively together with the affected uniform run; original output retained.",
+    "uniform640_conformal_p24_radau3_dt0p1_U1000": "Preliminary backend (82c6390), before robust decimal parsing, disagrees with independent band-LU Radau applied to the identical operator. Rechecked with corrected backend aa347daa; original output retained. Not spatial truncation error."
+  },
+  "exclusion_list_sha256": "2bd7a11351dbc94c2bf623fa49162ae2bcb9d779c389b40868894ef0a1e5a341",
+  "figure_files": [
+    "exterior_L640_xi0_ell1_radau3.pdf",
+    "exterior_L640_xi0_ell1_radau3.png",
+    "exterior_L640_xi1o6_ell1_radau3.pdf",
+    "exterior_L640_xi1o6_ell1_radau3.png",
+    "schwarzschild_ell1_hermite4.pdf",
+    "schwarzschild_ell1_hermite4.png",
+    "schwarzschild_ell1_radau3.pdf",
+    "schwarzschild_ell1_radau3.png",
+    "uniform_L3072_xi0_ell1_radau3.pdf",
+    "uniform_L3072_xi0_ell1_radau3.png",
+    "uniform_L640_xi1o6_ell1_radau3.pdf",
+    "uniform_L640_xi1o6_ell1_radau3.png"
+  ],
+  "completed_runs": 44,
+  "independent_control_rows": 221,
+  "archived_comparison_rows": 168
+}

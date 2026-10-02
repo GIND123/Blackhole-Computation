@@ -12,10 +12,9 @@
 \usepackage{graphicx}
 \usepackage{mathrsfs}
 \usepackage{capt-of}
-\usepackage{placeins}
 \usepackage[hidelinks]{hyperref}
 \hypersetup{
- pdftitle={Testing artificial cosmology as a regulator with Schwarzschild--de Sitter scalar waves},
+ pdftitle={Flat-limit of artificial cosmology for Schwarzschild--de Sitter scalar waves},
  pdfauthor={Anil Zenginoglu and Govind Arun Kumar},
  pdfsubject={Curvature-coupled scalar-wave evolution on Schwarzschild--de Sitter and Schwarzschild spacetimes},
  pdfkeywords={general relativity, black holes, numerical relativity, null infinity, wave propagation, conformal coupling}
@@ -27,8 +26,7 @@
 
 \begin{document}
 
-\title{Testing artificial cosmology as a regulator with
-Schwarzschild--de Sitter scalar waves}
+\title{Flat limit of artificial cosmology for scalar waves in Schwarzschild--de Sitter}
 
 \author{An\i l Zengino\u{g}lu}
 \email[Corresponding author: ]{anil@umd.edu}
@@ -40,151 +38,74 @@ Maryland, College Park, Maryland 20742, USA}
 \affiliation{Institute for Physical Science and Technology, University of
 Maryland, College Park, Maryland 20742, USA}
 
-\date{\today}
-
 \begin{abstract}
-Misner proposed using a small positive cosmological constant to regulate the
-formally singular terms introduced by conformal compactification at future
-null infinity.  The proposal raises a practical question: how can a spacetime
-with a cosmological horizon approximate radiation from an isolated system?
-Scalar waves on Schwarzschild--de Sitter backgrounds provide a setting in
-which to examine the geometric choices behind this approximation,
-particularly the foliation and the identification of the asymptotically flat
-limit.  Confining the cosmological modification to an exterior region opens a
-further possibility: preserving the black-hole near zone while regulating the
-asymptotic domain.  We investigate the promise and limitations of artificial
-cosmology from this perspective.
+How do cosmological waveforms approximate waveforms from isolated systems for a small cosmological constant? This question is motivated by the observed small value of the cosmological constant, and also by Misner's idea to regulate the formally singular terms introduced into the Einstein equations by conformal compactification. We
+investigate this question quantitatively using scalar waves on Schwarzschild--de Sitter backgrounds. A suitable flat limit requires the foliation to remain regular at the future conformal boundary. We compare bridge foliations extending from the black hole horizon to the cosmological horizon with a regular asymptotically flat limit. Comparisons of cosmological and asymptotically flat waveforms on geometrically matched data show that the flat limit is numerically well behaved and recovers the essential features of the asymptotically flat waveform. We extend Misner's artificial cosmology by introducing a cosmological source that leaves the near-zone geometry unchanged and show that it improves agreement of the ringdown waveform but fails to capture the intermediate polynomial tail behavior accurately.
 \end{abstract}
 
 \maketitle
+\raggedbottom
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Radiation from isolated systems has a clean definition at future null
-infinity, $\scri^+$.  Hyperboloidal evolution brings this boundary onto the
-computational domain with spacelike slices that become asymptotically null;
-compactification then places infinity at a finite outflow boundary.  The
-remaining challenge is a regular, well-conditioned evolution of the nonlinear
-Einstein equations.  Misner proposed regulating their formally singular
-conformal terms with a small positive cosmological constant
-\cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006}.
-At finite cosmological length $L$, a cosmological horizon replaces the
-$\Omega=0$ endpoint by one with $\Omega_L>0$, at the price of a physical
-bias.  A useful finite-$L$ family must approach one asymptotically flat
-problem in its metric, foliation, compactification, data, and waveform clock;
-regular horizon crossing alone is insufficient.
+Gravitational radiation from isolated systems is unambiguously defined at future null infinity, $\scri^+$. It is therefore important to include null infinity in the computational domain when calculating waveforms. In hyperboloidal compactification, we use spacelike slices that approach cuts of null infinity and solve for conformal variables rescaled by suitable powers of the conformal factor, $\Omega$. A difficulty in this approach is the treatment of formally singular terms at infinity. Misner proposed regulating such terms with a small positive cosmological constant \cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006}. At finite cosmological length $L$, we replace replace null infinity where $\Omega=0$ with a cosmological horizon where $\Omega_L>0$.  This raises to question how such a construction can approximate the asymptotically flat waveform. Another motivation for this work comes from the fact that cosmological observations are consistent with a small positive cosmological constant in our Universe \cite{Planck:2018cosmology}.  This gives a physical
+motivation for numerically investigating how well asymptotically flat waveforms approximate those in a spacetime with small positive $\Lambda$.  We address this question using scalar waves in Schwarzschild--de Sitter (SdS) spacetimes.
 
-Several complementary programs reach or include the asymptotic boundary.
-Characteristic evolution and Cauchy--characteristic matching now extend to
-nonlinear binary-black-hole mergers and tails
-\cite{Winicour:2012characteristic,MaEtAl:2025CCM}.  Friedrich's conformal
-field equations enlarge the regular variable set \cite{friedrich1983cauchy};
-early global calculations exposed constraint, gauge, and moving-boundary
-resolution difficulties
-\cite{Frauendiener:1998II,Hubner:1999scheme,Hubner:2001timelike,
-FrauendienerHein:2002,Husa:2002problems}.  Generalized conformal field
-equations based on a Weyl connection and conformal geodesics have enabled
-nonlinear black-hole scattering, although their current initial-boundary
-framework does not fix $\scri^+$ spatially
-\cite{Friedrich:1995general,Friedrich:2003geodesics,
-BeyerEtAl:2017GCFE,FrauendienerStevens:2021massloss,
+There are various approaches to include the asymptotic boundary in a computational domain. Characteristic evolution and Cauchy--characteristic matching can now successfully calculate nonlinear binary-black-hole mergers and tails \cite{Winicour:2012characteristic,MaEtAl:2025CCM}.  The hyperboloidal approach uses spacelike slices instead \cite{friedrich1983cauchy}. Early calculations exposed difficulties related to constraints, gauge conditions, and moving boundaries \cite{Frauendiener:1998II,Hubner:1999scheme,Hubner:2001timelike,FrauendienerHein:2002,Husa:2002problems}.  More recently, generalized conformal field equations based on a Weyl connection and conformal geodesics have demonstrated global calculations and nonlinear black-hole scattering \cite{Friedrich:1995general,Friedrich:2003geodesics,
+zenginouglu2007numerical, zenginouglu2007conformal, BeyerEtAl:2017GCFE,FrauendienerStevens:2021massloss,
 FrauendienerStevensThwala:2025,CamdenEtAl:2025,
-FrauendienerStevens:2023compactification}.
+FrauendienerStevens:2023compactification}. While the coordinate location of the conformal boundary is a priori known in this approach, the problem of moving boundaries and the associated loss of resolution remains.
 
-Scri fixing instead anchors $\scri^+$ and, on fixed black-hole backgrounds,
-removes artificial outer data and finite-radius waveform extrapolation
-\cite{zenginoglu_hyperboloidal_2008,Zenginoglu:2008pw}.  Time-domain
-Schwarzschild and Kerr calculations demonstrated accurate long evolutions,
-including power-law tails
-\cite{zengin2008hyperboloidal,ZenginogluNunezHusa:2009,
+Scri fixing maps null infinity to a time-independent boundary by using a suitable conformal compactification on stationary hyperboloidal foliations \cite{zenginoglu_hyperboloidal_2008}, which proved very useful in black-hole perturbation theory. Time-domain Schwarzschild and Kerr calculations demonstrated accurate long evolutions, including power-law tails \cite{zengin2008hyperboloidal,ZenginogluNunezHusa:2009,
 ZenginogluTiglio:2009,RaczToth:2011,Bernuzzi:2011aj,
-ZenginogluKhanna:2011,Harms:2014dqa}; frequency-domain work later exploited
-the same regularity for spectral and self-force calculations
-\cite{AnsorgMacedo:2016,Macedo:2020,MacedoEtAl:2022}.  This record motivates
-our use of a finite-$L$ family that approaches a scri-fixed Schwarzschild
-gauge.
+ZenginogluKhanna:2011,HarmsBernuzziBrugmann:2013,PanossoMacedoAnsorg:2014,
+Harms:2014dqa,CsukasRaczToth:2019}.
+Applications also include particle-source evolutions
+\cite{GomesDaSilvaEtAl:2023,VaswaniEtAl:2026}, second-order Kerr perturbations
+\cite{RipleyEtAl:2021}, ringdown analysis \cite{ZhuEtAl:2024}, and free
+3+1 evolutions \cite{ZenginogluKidder:2010, ZenginogluGalley:2012, yang2013quasinormal, Peterson:2023bha,Rinne:2025nonlinear,
+ZenginogluBernuzziNutzi:2026}. This idea has also been applied in the
+frequency domain to quasinormal-mode calculations
+\cite{Zenginoglu:2011jz,AnsorgMacedo:2016,MacedoJaramilloAnsorg:2018,
+Macedo:2020,PanossoMacedo:2024nkw,BessonJaramillo:2025}, pseudospectrum analyses
+\cite{JaramilloMacedoAlSheikh:2021,GasperinJaramillo:2022,
+DestounisBoyanovMacedo:2024}, and self-force calculations
+\cite{MacedoEtAl:2022,MacedoEtAl:2024selfforce,Leather:2025selfforce,
+LeatherEtAl:2026Teukolsky}.
 
-Model-field evolutions test such infrastructure directly
-\cite{ZenginogluKidder:2010,Peterson:2023bha,Rinne:2025nonlinear,
-ZenginogluBernuzziNutzi:2026}.  Gravitational approaches include
-prescribed-conformal-factor formulations
-\cite{zenginoglu_hyperboloidal_2008,Zenginoglu:2008pw}, nonlinear conformal
-BSSN/Z4 systems in spherical symmetry
+Applying scri-fixing to nonlinear Einstein equations is a difficult problem due to formally singular terms \cite{Frauendiener:2000mk, Zenginoglu:2008pw}. Implementations have been demonstrated in spherical symmetry using conformal BSSN/Z4 systems
 \cite{Vano-Vinuales:2014koa,Vano-Vinuales:2017qij,
-VanoVinuales:2024reference,Alvares:2025emkg}, and constrained CMC schemes that
-have reached axisymmetry
-\cite{Moncrief:2008ie,Rinne:2009qx,RinneMoncrief:2013,
-BuchmanPfeifferBardeen:2009,BardeenSarbachBuchman:2011}.  Dual-foliation
-generalized harmonic evolution has advanced from model problems to spherical
-Einstein evolution
-\cite{Hilditch:2015aba,HilditchEtAl:2018,DuarteEtAl:2023,
-Peterson:2024spherical,Peterson:2025strong}, while N\"utzi's
-symmetric-hyperbolic system fixes null infinity for nonlinear small data
-\cite{Nutzi:2023,Nutzi:2025,Nutzi:2026}.  A robust free-evolution code that
-fixes $\scri^+$ for generic three-dimensional binary-black-hole spacetimes
-remains open.
+VanoVinuales:2024reference,Alvares:2025emkg} and 
+dual-foliation generalized harmonic gauge \cite{Hilditch:2015aba,HilditchEtAl:2018,DuarteEtAl:2023,
+Peterson:2024spherical,Peterson:2025strong}. Beyond spherical symmetry, the only implementations of hyperboloidal scri-fixing use constrained evolution \cite{Moncrief:2008ie,Rinne:2009qx,RinneMoncrief:2013,
+BuchmanPfeifferBardeen:2009,BardeenSarbachBuchman:2011}. Building a robust, free-evolution hyperboloidal code that
+fixes $\scri^+$ for generic three-d`imensional spacetimes remains an open problem.
 
-Scalar waves on Schwarzschild--de Sitter (SdS) provide a black-hole test
-between $\hb$ and $\hc$.  For $\Lambda>0$, the future
-conformal boundary is spacelike, with different asymptotic symmetries,
-radiative degrees of freedom, and fluxes from those at $\scri^+$
-\cite{Ashtekar:2014zfa,Ashtekar:2015lla,Ashtekar:2015lxa}.  We restrict the
-fixed-background question: how closely a finite cosmological calculation
-approximates a specified asymptotically flat solution.  We compare minimal and
-conformal scalar coupling, $\xi=0$ and $1/6$, separating common regulator
-behavior from dependence on the asymptotic field equation
-\cite{brady_radiative_1999}.
+Misner's idea of using a small positive cosmological constant to regulate formally singular terms is an attractive alternative approach. This idea has only been tested in de Sitter spacetime with a Minkowski limit by Misner and collaborators \cite{misner_hyperboloidal_2006,misner_over_2006,misner_excising_2006}. The Minkowski case is special due to the Huygens' principle according to which the support of the solution is confined to the light cone. In this paper, we study Misner's proposal in the presence of a black hole. We investigate the flat limit of artificial cosmology in the context of SdS spacetimes using scalar waves as a toy problem. For $\Lambda>0$, the future conformal boundary is spacelike, with different asymptotic symmetries, radiative degrees of freedom, and fluxes from those at $\scri^+$ \cite{Ashtekar:2014zfa,Ashtekar:2015lla,Ashtekar:2015lxa}.  We ask: how does a cosmological calculation approximate an asymptotically flat solution?  We compare minimal and conformal scalar coupling, $\xi=0$ and $1/6$, separating common regulator behavior from dependence on the asymptotic field equation \cite{brady_radiative_1999}.
 
-Writing $\Lambda=3/L^2$, SdS approaches Schwarzschild at fixed radius while
-retaining its global causal structure at every finite $L$.  Schwarzschild
-fields have inverse-power tails
-\cite{price1972nonspherical,zengin2008hyperboloidal,
-Angelopoulos:2016wcv}; radiative SdS modes eventually display cosmological
-decay at a coupling-dependent rate
-\cite{Brady:1996za,brady_radiative_1999,Molina:2003dc}.  In the large-horizon
-limit, Brady et al. find the decay rate
-\begin{equation}
- \frac{\gamma_{\ell,\xi}}{\kappa_c}
- =\ell+\frac32-\frac12\sqrt{9-48\xi}
- +\mathcal O(M/L),
- \label{eq:intro_brady_exponent}
-\end{equation}
-so the leading $\ell=1$ values are
-$\gamma_{1,0}/\kappa_c=1$ and
-$\gamma_{1,1/6}/\kappa_c=2$.
-A finite-$L$ waveform can therefore agree with Schwarzschild only over a
-finite interval.
+The flat limit changes the global causal and conformal
+structure.  Writing $\Lambda=3/L^2$ and holding $M$ fixed, the SdS metric approaches Schwarzschild as $L\to\infty$. The asymptotic limit, however, is singular: the cosmological horizon moves to infinite areal radius, and the spacelike future conformal boundary becomes null \cite{Geroch:1969limits, Ashtekar:2014zfa,BugdenPaganini:2019,ZhouPanossoMacedo:2025}.
+Comparing waveforms at the outer boundary therefore requires a controlled
+limit of the foliation and the extraction surfaces.  A regular hyperboloidal
+flat limit requires the limiting slices to meet distinct cuts of future
+null infinity, with a smooth, nondegenerate conformal spatial metric
+\cite{zenginoglu_bridge_2025,ZhouPanossoMacedo:2025}.
 
-The geometric setting is not new: we use the bridge construction of
-Ref.~\cite{zenginoglu_bridge_2025} and the SdS limiting geometry of
-Ref.~\cite{ZhouPanossoMacedo:2025}.  Our contribution is a quantitative
-time-domain test of artificial cosmology.  We diagnose the waveform clock and
-compactified coefficients, compare geometrically matched SdS and
-Schwarzschild evolutions, measure controlled finite-time recovery, and
-construct a conserved exterior-supported cosmological source.  An
-intermediate Price-law interval provides a regulator benchmark; the
-qualitative asymptotic distinction between Schwarzschild and SdS tails is
-already established \cite{Brady:1996za,brady_radiative_1999,Molina:2003dc}.
-The exterior construction improves the tested ringdown waveform at fixed
-$L$, but its transition also generates long-time structure.  These are
-fixed-background scalar results, not a test of the conformal Einstein
-equations.
+As a dynamical demonstration of this singular limit, consider late-time decay. Schwarzschild fields have inverse-power tails \cite{price1972nonspherical}, whereas SdS fields decay exponentially \cite{Brady:1996za,brady_radiative_1999,Molina:2003dc}. Recovering a Schwarzschild signal over a finite interval is therefore different from recovering its asymptotic decay.  We test how far finite-time agreement extends as $L$ increases.
+Building on the bridge construction of \cite{zenginoglu_bridge_2025} and the SdS limiting geometry of
+\cite{ZhouPanossoMacedo:2025}, we give a quantitative time-domain test of artificial cosmology. To potentially improve Misner's proposal, we also test a varying cosmological source supported in the asymptotic domain based on a construction by Dymnikova \cite{Dymnikova:2000algebraic,Dymnikova:2002mass}. 
 
-Section~\ref{sec:bridges} reviews the selected bridge and its flat limit,
-Sec.~\ref{sec:scalar} defines the scalar comparison, and
-Secs.~\ref{sec:results} and~\ref{sec:exterior-supported} give the uniform and
-exterior-supported results.  The appendices collect numerical and
-implementation audits.
+Section~\ref{sec:bridges} reviews the bridge foliations of SdS and their flat limit, Sec.~\ref{sec:scalar} defines the scalar comparison, and Secs.~\ref{sec:results} and~\ref{sec:exterior-supported} give the uniform and exterior-supported results.  The appendices present numerical details.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Controlled flat limit and benchmark foliation}
+\section{Flat limit of SdS bridges}
 \label{sec:bridges}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Schwarzschild--de Sitter static patch}
+\subsection{SdS static patch}
 
 The SdS metric in static coordinates is
 \begin{align}
@@ -194,28 +115,23 @@ The SdS metric in static coordinates is
  \qquad d\omega^2=d\theta^2+\sin^2\theta\,d\varphi^2.
  \label{eq:f}
 \end{align}
-We use geometrized units $G_{\rm N}=c=1$.  The simulations set $M=1$;
-coordinates are quoted in units of $M$, and comparison measures are
-dimensionless.
-For $0<M<L/(3\sqrt{3})$, $f$ has a black-hole root $r_b$, a
-cosmological root $r_c$, and a negative root $r_u=-(r_b+r_c)$.  They obey
+We use geometrized units $G_{\rm N}=c=1$. The coordinates are given in units of $M$. For $0<M<L/(3\sqrt{3})$, $f$ has a black-hole root $r_b$, a cosmological root $r_c$, and a negative root $r_u=-(r_b+r_c)$.  They satisfy
 \begin{align}
- L^2&=r_b^2+r_br_c+r_c^2,
- &2ML^2&=r_br_c(r_b+r_c),
+ L^2&=r_b^2+r_br_c+r_c^2, \qquad
+ 2ML^2=r_br_c(r_b+r_c),
  \label{eq:root_relations}\\
  f(r)&=\frac{(r-r_b)(r_c-r)(r-r_u)}{L^2r}.
  \label{eq:f_factorized}
 \end{align}
-For $i=b,c$, the positive surface gravities follow from
-Eq.~\eqref{eq:kappa}.  The partial-fraction formulas use the positive
-algebraic coefficient $\kappa_u:=|f'(r_u)|/2$ at the negative root:
+For $i=b,c$, the surface gravities follow from
+\eqref{eq:kappa}.  We use the positive algebraic coefficient $\kappa_u:=|f'(r_u)|/2$ at the negative root:
 \begin{equation}
  \kappa_i=\frac12\left|f'(r_i)\right|
  =\frac12\left|\frac{1}{r_i}-\frac{3r_i}{L^2}\right|,
  \qquad i\in\{b,c,u\}.
  \label{eq:kappa}
 \end{equation}
-With an arbitrary reference radius $r_0\in(r_b,r_c)$, the normalized
+Using a reference radius $r_0\in(r_b,r_c)$, the normalized
 tortoise coordinate is
 \begin{align}
 r_{*,L}(r)={}&\frac{1}{2\kappa_b}
@@ -227,20 +143,17 @@ r_{*,L}(r)={}&\frac{1}{2\kappa_b}
  \ln\frac{r-r_u}{r_0-r_u}.
 \label{eq:tortoise}
 \end{align}
-The tortoise coordinate tends to $-\infty$ at $r_b$ and to $+\infty$ at
-$r_c$.  In the large-$L$ limit,
+The tortoise coordinate goes to $-\infty$ at $r_b$ and to $+\infty$ at
+$r_c$.  In the large-$L$ limit, the static patch expands to the Schwarzschild exterior \cite{ZhouPanossoMacedo:2025} with
 \begin{equation}
- r_b\to2M,\qquad r_c=L-M+\mathcal{O}(M^2/L),
+ r_b\to2M,\qquad r_c=L-M+\mathcal{O}(M^2/L).
  \label{eq:horizon_flat_limit}
 \end{equation}
-so the static patch expands to the Schwarzschild exterior.  A precise
-geometric identification of this limit is given in
-Ref.~\cite{ZhouPanossoMacedo:2025}.
 
-\subsection{Global bridge criterion}
+\subsection{Global bridge foliation}
 
-To determine whether a horizon-regular foliation also has a controlled
-Schwarzschild limit, introduce a stationary height function,
+For a regular stationary foliation, we introduce a
+stationary height function \cite{zenginoglu_hyperboloidal_2008,zenginoglu_bridge_2025},
 \begin{equation}
  \tau=t+h(r),\qquad B(r):=f(r)h'(r),
  \label{eq:height}
@@ -257,16 +170,14 @@ A future-directed spacelike bridge within the static patch satisfies
  |B|<1,\qquad B(r_b)=+1,\qquad B(r_c)=-1,
 \label{eq:boost_conditions}
 \end{equation}
-where $(1-B^2)/f$ must tend to a finite positive nonzero value at each
-horizon for a radial map with finite nonzero endpoint values of $G$.
-Equivalently, $h\sim+r_*$ at $\hb$ and $h\sim-r_*$ at $\hc$.  These conditions
-make the leaves null-transverse and give the transformed coefficients regular
-horizon limits \cite{zenginoglu_bridge_2025}.  They are local conditions,
-however, and do not determine the foliation beyond $\hc$.  On the future
-branch of the expanding region, where $f<0$, spacelike continuation requires
-$B<-1$.  How $B$ continues from its horizon value $B(r_c)=-1$ determines how
-the leaves approach the spacelike future boundary.  This region also supports
-forward and scattering problems \cite{Schlue:2012pq,Bernhardt:2024hfs}.
+At each horizon, the radial metric coefficient $(1-B^2)/(fG^2)$ must
+approach a finite positive value.  For each finite $L$, our radial map has
+nonzero boundary values of $G$, so this is equivalent to requiring a finite
+positive limit of $(1-B^2)/f$.  
+The horizons give $h\sim+r_*$ at $\hb$ and
+$h\sim-r_*$ at $\hc$ \cite{zenginoglu_bridge_2025}. Note that these are local conditions at the horizons, and do not determine the foliation beyond $\hc$.  On the future
+branch of the expanding region, where $f<0$, spacelike continuation beyond the cosmological horizon requires
+$B<-1$.  How $B$ continues from its horizon value $B(r_c)=-1$ determines how the leaves approach the spacelike future boundary.  
 
 Two height functions demonstrate this remaining freedom.  Both are normalized
 by $h(r_0)=0$ and have the same horizon data:
@@ -285,35 +196,21 @@ h_{\rm mg}(r)={}&
 \ln\left|\frac{(r-r_u)r_0}{(r_0-r_u)r}\right|.
 \label{eq:minimal_height}
 \end{align}
-Local horizon regularity supplies only the two logarithms in $h_{\rm min}$.
-The construction arose in hyperboloidal QNM expansions
-\cite{AnsorgMacedo:2016,MacedoJaramilloAnsorg:2018}, and the term ``minimal
-gauge'' was introduced in Ref.~\cite{Macedo:2020}.  Its derivation for static
-spherical metrics uses the in--out and out--in strategies of
-Ref.~\cite{PanossoMacedo:2023qzp}.  For SdS, the out--in construction adds the
-regular third-root contribution and yields a controlled Schwarzschild limit
-\cite{ZhouPanossoMacedo:2025}.
-Equation~\eqref{eq:minimal_height} gives that construction in our sign and
-normalization conventions.
+The two logarithms in the minimum height function $h_{\rm min}$ are sufficient for horizon regularity. The second height function comes from the minimal gauge which was first discussed in hyperboloidal QNM calculations \cite{AnsorgMacedo:2016,MacedoJaramilloAnsorg:2018, Macedo:2020}.  Its derivation for static spherical metrics uses the in-out and out-in strategies of \cite{PanossoMacedo:2023qzp}.  For SdS, the out--in construction adds the regular third-root contribution and gives a regular Schwarzschild limit \cite{ZhouPanossoMacedo:2025}.
 
-Both families satisfy Eq.~\eqref{eq:boost_conditions}, but their global limits
-differ.  Figure~\ref{fig:bridge_foliations} follows the leaves beyond $\hc$.
-The curves are constant-time leaves, not a sequence in $L$.  Their geometric
-continuation distinguishes the two families: the analytic large-$L$ limit of
-the minimum-height family closes toward a Cauchy-like asymptotic end, whereas
-the minimal-gauge family opens toward Schwarzschild $\scri^+$.  Regular
-horizon crossing alone therefore does not select the desired flat limit.
+Figure~\ref{fig:bridge_foliations} shows how these horizon-regular slices
+continue toward the conformal boundary at finite $L$.  The minimum-height
+slices meet at the asymptotic end.  The minimal-gauge slices reach distinct
+cuts of the future conformal boundary.  A regular hyperboloidal flat limit
+requires this boundary foliation to remain smooth as $L\to\infty$, with a
+nondegenerate conformal spatial metric \cite{zenginoglu_bridge_2025,ZhouPanossoMacedo:2025}.  Below, we express this geometric requirement as an asymptotic condition on the boost.
 
-Zhou and Panosso Macedo~\cite{ZhouPanossoMacedo:2025} already demonstrated
-that horizon-regular SdS foliations need not admit a regular Schwarzschild
-limit.  Here we examine the consequences for artificial-cosmology evolution
-through clock and coefficient diagnostics and matched time-domain comparisons.
 
 \begin{figure*}[t]
  \centering
  \begin{minipage}[t]{0.49\textwidth}
   \centering
-  \textbf{(a) Minimum-height family}\\
+  \textbf{(a) Minimum height}\\
   \includegraphics[width=\linewidth]{figs/minimalAnil.pdf}
  \end{minipage}
  \begin{minipage}[t]{0.49\textwidth}
@@ -321,63 +218,76 @@ through clock and coefficient diagnostics and matched time-domain comparisons.
   \textbf{(b) Minimal gauge}\\
   \includegraphics[width=\linewidth]{figs/minimalRodrigo.pdf}
  \end{minipage}
- \caption{Conformal diagrams of two horizon-regular SdS bridge families.
- Curves show constant-time leaves of a representative member of each family:
- dashed segments use the black-hole-horizon chart and solid segments the
- cosmological-horizon chart.  The inferred large-$L$ behavior follows from
- the corresponding analytic families, not from reading the curves as an
- $L$ sequence.  Panels are cropped and relabeled from Fig.~11 of
- Ref.~\cite{zenginoglu_bridge_2025} under the
- \href{https://creativecommons.org/licenses/by/4.0/}{Creative Commons
- Attribution 4.0 International License}.}
+ \caption{Conformal diagrams of two SdS bridge families that are regular at both horizons, given by \eqref{eq:minimum_height} and \eqref{eq:minimal_height}.
+ Curves show constant-time surfaces for each family.
+The dashed lines use the chart regular beyond the  black-hole horizon; the solid lines use the chart regular beyond the
+ cosmological horizon. The figure is taken from Fig.~11 of \cite{zenginoglu_bridge_2025}.}
  \label{fig:bridge_foliations}
 \end{figure*}
 
-Matched waveforms also require a common retarded-time origin.  For a bridge
-normalized by $h(r_0)=0$ and $r_{*,L}(r_0)=0$, the offset between $\tau$ and
-the outgoing null coordinate is
-\begin{equation}
- q_B(L;r_0):=\lim_{r\to r_c}(h+r_{*,L})
- =\int_{r_0}^{r_c}\frac{1+B}{f}\,dr.
- \label{eq:general_q}
-\end{equation}
-The integrand is regular at $r_c$.  If $q_B$ diverges, the finite-$L$ waveform
-clock has no finite Schwarzschild limit.  A finite $q_B$ supplies the required
-common time origin.
+\subsection{Compactification and the flat limit}
 
-For the minimal-gauge Schwarzschild limit and the normalization used below,
-\begin{equation}
- q_0=4M\ln\frac{r_0}{r_0-2M},
- \label{eq:q_zero}
-\end{equation}
-which gives $q_0=4M\ln2$ at $r_0=4M$.
-
-\subsection{Compactification, clock, and coefficient behavior}
-
-In addition to Eqs.~\eqref{eq:minimum_height} and
-\eqref{eq:minimal_height}, we consider four boosts specified directly:
+In addition to \eqref{eq:minimum_height} and
+\eqref{eq:minimal_height}, we consider the following foliations as determined by the boost functions \cite{zenginoglu_bridge_2025}:
 \begin{align}
 B_{\rm lin}&=-1+2\frac{r_c-r}{r_c-r_b},
 \label{eq:linear_boost}\\
 B_{\rm fl}&=-1+2\frac{r_c-r}{r_c-r_b}\frac{r_b^2}{r^2},
-\label{eq:flat_linear_boost}\\
+\label{eq:flat_linear_boost}\displaybreak[1]\\
 B_{\rm Mav}&=-\frac{1-3M/r}{\sqrt{1-9M^2\Lambda}}
  \sqrt{1+\frac{6M}{r}},
 \label{eq:mav_boost}\\
-B_{\rm sr}&=-\gamma r+\frac{\beta}{r^2},
-\label{eq:slow_roll_boost}\\
-\gamma&=\frac{r_c^2+r_b^2}{r_c^3-r_b^3},\qquad
+B_{\rm sr}&=-\gamma r+\frac{\beta}{r^2};
+\ \gamma=\frac{r_c^2+r_b^2}{r_c^3-r_b^3},\
 \beta=\frac{r_c^2r_b^2(r_c+r_b)}{r_c^3-r_b^3}.
-\label{eq:slow_roll_parameters}
+\label{eq:slow_roll_boost}
 \end{align}
-The Mavrogiannis boost is motivated by wave estimates on SdS and turns at the
-photon sphere $r=3M$
-\cite{mavrogiannis2024quasilinear,mavrogiannis2023morawetz}.
+The linear boost $B_{\rm lin}$ is a simple interpolation between the required horizon values $+1$ and $-1$ from \eqref{eq:boost_conditions}.  The modified-linear boost $B_{\rm fl}$ adds the
+factor $r_b^2/r^2$ to obtain a flat Schwarzschild limit to the minimal gauge as $L\to\infty$ \cite{zenginoglu_bridge_2025}.
+The boost $B_{\rm Mav}$ was used in wave estimates on SdS by Mavrogiannis \cite{mavrogiannis2024quasilinear,mavrogiannis2023morawetz}.
+The slow-roll boost $B_{\rm sr}$ comes from coordinates adapted to slow-roll
+scalar evolution around a black hole \cite{GregoryKastorTraschen:2018},
+also used in quantum-field correlation calculations
+\cite{AndersonTraschen:2022,AndersonScofieldTraschen:2023}.
+Its constants $\gamma$ and $\beta$ are fixed by the two horizon conditions. All these families are regular across both SdS horizons and are suitable for numerics with finite $L$. However, not all of them have a regular flat limit across future null infinity, which imposes an additional condition on their asymptotic behavior. To see this, map the horizons to fixed coordinate locations using
+\begin{align}
+ \rho&=\frac{1-r_b/r}{1-r_b/r_c},
+ \qquad r(\rho)=\frac{r_b}{1-(1-r_b/r_c)\rho},
+ \label{eq:compactification}\\
+ G(r)&=\frac{d\rho}{dr}
+ =\frac{r_b}{(1-r_b/r_c)r^2}.
+ \label{eq:G}
+\end{align}
+The black-hole and cosmological horizons are at $\rho=0$ and $1$.
+We use subscript $0$ to denote the Schwarzschild limit, $\Lambda\to0$
+($L\to\infty$) at fixed $M$. At fixed $r$,
+\begin{equation}
+ \rho\to\rho_0:=1-\frac{2M}{r}.
+ \label{eq:rho_limit}
+\end{equation}
 
-At fixed areal radius, with $x=M/r$, the six boosts have the limits
+For the compactification \eqref{eq:compactification}, we choose the conformal factor as
+\begin{equation}
+ \Omega_L:=\frac{r_b}{r}
+ =1-\left(1-\frac{r_b}{r_c}\right)\rho .
+ \label{eq:conformal_factor}
+\end{equation}
+At the cosmological horizon for each finite $L$,
+\begin{equation}
+ \Omega_L(1)=\frac{r_b}{r_c}>0.
+ \label{eq:finite_L_conformal_factor}
+\end{equation}
+In the Schwarzschild limit,
+$\Omega_L\to\Omega_0=2M/r=1-\rho_0$, and the outer boundary becomes
+$\scri^+$, where $\Omega_0=0$.
+
+To determine which horizon-regular SdS bridges approach outgoing hyperboloidal slices in Schwarzschild, we compare their fixed-radius flat
+limits and behavior at large radius.
+For each family, define $B_0(r):=\lim_{L\to\infty}B(r;L)$ with $M$ and $r$ held fixed. With $x:=M/r$, the table below lists
+the limits for the six families.
 \begin{equation}
 \begin{array}{lcc}
-\text{bridge}&B_0(r)&B_0(\infty)\\
+\text{bridge}&B_0(r)&\displaystyle\lim_{r\to\infty}B_0(r)\\[1ex]
 \hline
 \text{minimum height}&3x-\tfrac12&-\tfrac12\\
 \text{minimal gauge}&-1+8x^2&-1\\
@@ -389,144 +299,51 @@ At fixed areal radius, with $x=M/r$, the six boosts have the limits
 \label{eq:boost_limits}
 \end{equation}
 An outgoing Schwarzschild hyperboloidal slice must satisfy $B_0\to-1$ as
-$r\to\infty$.  With compactification~\eqref{eq:compactification}, regularity
-at null infinity further requires $1+B_0=\mathcal{O}(M^2/r^2)$ with a finite
-positive leading coefficient.  These conditions exclude the minimum-height,
-linear, and slow-roll families.  The minimal, modified-linear, and
-Mavrogiannis families satisfy the pointwise criterion.  Pointwise convergence
-does not by itself control a compactified evolution.  For this comparison, we
-adopt uniform convergence and nondegeneracy of the principal and
-characteristic coefficients on the compact interval as a design criterion.
-This is not a proof that every observable requires the same conditions.  We
-examine the lower-order potential separately; in particular, its minimally
-coupled endpoint limit remains nonuniform in
-Eq.~\eqref{eq:coupling_endpoint_limits}.  An outer layer in the
-modified-linear family already violates the principal-coefficient criterion
-near $\rho=1$.
+$r\to\infty$.  Regularity of its conformal spatial metric fixes the rate
+of approach.  With $G_0=2M/r^2$ and $f_0=1-2M/r$, the radial coefficient is
+\begin{equation}
+ \bar g_{0,\rho\rho}
+ =\Omega_0^2\frac{1-B_0^2}{f_0G_0^2}
+ =\frac{r^2(1-B_0^2)}{f_0}.
+ \label{eq:conformal_spatial_limit}
+\end{equation}
+A finite, positive boundary value requires
+$B_0=-1+aM^2/r^2+o(M^2/r^2)$ with $a>0$, giving
+$\bar g_{0,\rho\rho}\to2aM^2$.
+This falloff also makes $h_0+r_{*,0}$ approach a finite constant; the
+retarded time $t-r_{*,0}=\tau-(h_0+r_{*,0})$ therefore labels distinct cuts
+of $\scri^+$ as $\tau$ varies.
+These conditions exclude the minimum-height, linear, and slow-roll
+families.  The minimal, modified-linear, and Mavrogiannis families give
+regular hyperboloidal limiting slices.
+We use the minimal gauge for its simple analytic form and regular
+hyperboloidal Schwarzschild limit
+\cite{PanossoMacedo:2023qzp,ZhouPanossoMacedo:2025}.
+The Mavrogiannis foliation provides another
+suitable family.
 
-We place both horizons at fixed coordinate locations using
-\begin{align}
- \rho&=\frac{1-r_b/r}{1-r_b/r_c},
- &r(\rho)&=\frac{r_b}{1-(1-r_b/r_c)\rho},
- \label{eq:compactification}\\
- G(r)&=\frac{d\rho}{dr}
- =\frac{r_b}{(1-r_b/r_c)r^2}.
- \label{eq:G}
-\end{align}
-The black-hole and cosmological horizons are at $\rho=0$ and $1$,
-respectively.  At fixed $r$,
-\begin{equation}
- \rho\to\rho_0:=1-\frac{2M}{r},
- \label{eq:rho_limit}
-\end{equation}
-which is also the compactification used by the separate Schwarzschild
-implementation.
-
-The corresponding dimensionless spacetime conformal factor may be chosen as
-\begin{equation}
- \Omega_L:=\frac{r_b}{r}
- =1-\left(1-\frac{r_b}{r_c}\right)\rho .
- \label{eq:conformal_factor}
-\end{equation}
-At every finite $L$ the outer endpoint is the cosmological horizon and
-\begin{equation}
- \Omega_L(1)=\frac{r_b}{r_c}>0.
- \label{eq:finite_L_conformal_factor}
-\end{equation}
-In the Schwarzschild limit,
-$\Omega_L\to\Omega_0=1-\rho$ and $\Omega_0(1)=0$, so the same endpoint becomes
-$\scri^+$.  Misner's regulator relies on the contrast between this vanishing
-limit and the finite-$L$ value in
-Eq.~\eqref{eq:finite_L_conformal_factor}.  To expose the relevant scale,
+Misner's regulator uses the positive finite-$L$ boundary value
+\eqref{eq:finite_L_conformal_factor} to keep the cosmological horizon at a
+nonvanishing conformal factor.  To demonstrate the relevant scale,
 suppose that $g$ satisfies $G_{ab}[g]+\Lambda g_{ab}=0$ and define
-$\bar g=\Omega_L^2g$.  Then
+the conformal metric $\bar g=\Omega_L^2g$.  Then
 \begin{equation}
  G_{ab}[\bar g]=\mathcal T_{ab}[\Omega_L]
  -\frac{\Lambda}{\Omega_L^2}\bar g_{ab},
  \label{eq:conformal_einstein_scaling}
 \end{equation}
-where $\mathcal T_{ab}$ collects derivatives of $\Omega_L$
-\cite{Zenginoglu:2008pw}.  At the cosmological horizon,
-$\Lambda/\Omega_L^2\to3/(4M^2)$ as $L/M\to\infty$.  A nonzero $\Omega_L$,
-however, neither proves regularity nor guarantees good conditioning.  The
-scalar equations contain no tensorial conformal Einstein source terms, gauge
-couplings, or gravitational constraints and therefore cannot test those
-properties.  Minimal scalar coupling nevertheless retains a lower-order
-endpoint term with the same $\Lambda/\Omega_L^2$ scaling, whereas conformal
-coupling cancels it.  The two cases provide, respectively, an algebraic stress
-test and a conformally regular radiative analogue.  They test whether matched
-scalar observables recover their Schwarzschild counterparts in a controlled
-large-$L$ limit, not whether the Einstein system does so.
-
-For the coefficient diagnostics, define
-\begin{align}
- p&:=\frac{d\rho}{dr_*}=fG,
- &A&:=\frac{p}{1-B^2},
- \label{eq:coefficients}\\
- c_-&=-A(1+B)=-\frac{p}{1-B},
- &c_+&=A(1-B)=\frac{p}{1+B}.
- \label{eq:characteristic_speeds}
-\end{align}
-Figure~\ref{fig:foliation_limit} tests the six bridge families under the fixed
-compactification~\eqref{eq:compactification}.  The minimum-height, linear,
-and slow-roll clock offsets diverge as
-\begin{equation}
-\begin{split}
- q_{\rm min}&=\tfrac12L\ln2+\mathcal O\!\left[M\ln(L/M)\right],\\
- q_{\rm lin}&=2L\ln2+\mathcal O\!\left[M\ln(L/M)\right],\\
- q_{\rm sr}&=L\ln2+\mathcal O\!\left[M\ln(L/M)\right].
-\end{split}
-\label{eq:offset_asymptotics}
-\end{equation}
-Across $20\leq L/M\leq160$, the minimal-gauge offset moves from
-$2.4619M$ to $2.7243M$ toward $q_0=2.7726M$.  The modified-linear family
-approaches the same value, whereas the finite Mavrogiannis offset approaches a
-different Schwarzschild hyperboloidal clock.
-
-\begin{figure*}[t]
- \centering
- \includegraphics[width=0.94\textwidth]{figs/foliation_flat_limit.pdf}
- \caption{Large-$L$ bridge diagnostics.  (a) Fixed-$r$ boost limits;
- (b) outer-boundary clock offsets; (c) maximum characteristic speeds; and
- (d) minimum $A$ on the compact interval.  The minimal gauge has the required
- asymptotic end, finite clock, and bounded coefficients.}
- \label{fig:foliation_limit}
-\end{figure*}
-
-Under the adopted matched-protocol criteria, the coefficient panels exclude
-the minimum-height, linear, and slow-roll families, while the modified-linear
-family fails uniform principal-part convergence at the outer endpoint.  The
-Mavrogiannis family remains bounded but approaches a different Schwarzschild
-hyperboloidal clock.
-For the linear boost at $L/M=160$,
-$M\max|c_\pm|=19.86$ and $M\min A=3.88\times10^{-5}$, with the maximum speed
-growing linearly in $L/M$.  The minimum of $MA$ falls as $(M/L)^2$ for the
-minimum-height and slow-roll families, and linear slices share this decay.
-The minimal and Mavrogiannis gauges instead keep coefficients of order
-$M^{-1}$; at $L/M=160$ their
-$(M\max|c_\pm|,M\min A)$ pairs are $(0.2498,0.06324)$ and
-$(0.1499,0.07495)$.  The modified-linear family has the right pointwise boost
-but a nonuniform outer layer,
-\begin{equation}
- \lim_{L\to\infty}M A_{\rm fl}(1)=\frac14
- \ne
- \lim_{\rho\to1^-}\lim_{L\to\infty}M A_{\rm fl}(\rho)=\frac18,
-\label{eq:modified_linear_layer}
-\end{equation}
-with $Mc_{+,\rm fl}(1)\to1/2$ rather than the interior Schwarzschild value
-$1/4$.  Thus some horizon-regular families have the wrong asymptotic end,
-some have divergent clocks, and others develop degenerate or nonuniform
-compactified coefficients.  The minimal gauge provides the required end,
-the chosen Schwarzschild clock, and bounded coefficients, and we use it for
-the matched numerical sequence
-\cite{PanossoMacedo:2023qzp,ZhouPanossoMacedo:2025}.
+where $\mathcal T_{ab}$ includes the derivative terms of $\Omega_L$
+\cite{Zenginoglu:2008pw}.  Evaluated at the cosmological horizon for each
+finite $L$, the coefficient $\Lambda/\Omega_L^2$ approaches $3/(4M^2)$ as
+$L/M\to\infty$, while the outer boundary of the compactified domain becomes Schwarzschild
+future null infinity.  At fixed areal radius, by contrast, this coefficient goes to zero.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Scalar-wave benchmark and comparison protocol}
+\section{Scalar waves}
 \label{sec:scalar}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Curvature coupling and regular first-order system}
+\subsection{Curvature coupling and first-order system}
 
 We study the massless curvature-coupled equation
 \begin{equation}
@@ -544,9 +361,9 @@ Write
 \end{equation}
 Each mode satisfies
 \begin{align}
- \left(-\partial_t^2+\partial_{r_*}^2-V_{\ell,\xi}\right)u&=0,
+ \left(-\partial_t^2+\partial_{r_*}^2-V_{\ell,\xi}\right)u=0,
  \label{eq:wave_equation}\\
- V_{\ell,\xi}&=f\left[\frac{\ell(\ell+1)}{r^2}
+ V_{\ell,\xi}=f\left[\frac{\ell(\ell+1)}{r^2}
  +\frac{f'(r)}{r}+\xi R[g]\right].
  \label{eq:scalar_potential}
 \end{align}
@@ -556,45 +373,47 @@ For uniform SdS, $R[g]=12/L^2$ and therefore
  +\frac{2M}{r^3}+\frac{2(6\xi-1)}{L^2}\right].
  \label{eq:uniform_coupled_potential}
 \end{equation}
-The explicit $-2/L^2$ term occurs at $\xi=0$ and cancels at $\xi=1/6$.
-In Schwarzschild, $R[g]=0$, so both couplings give the same equation and the
+There is a $-2/L^2$ term at $\xi=0$ which cancels at $\xi=1/6$. In Schwarzschild, $R[g]=0$, so both couplings give the same equation and the
 same reference waveform.
 
-The conformal transformation isolates the role of curvature coupling.  Let
-$\bar g=\Omega_L^2 g$ and $\phi=\Omega_L^{-1}\Phi$.  For the sourced equation,
-conformal covariance gives \cite{ZenginogluKidder:2010}
+To see the role of curvature coupling, we write the conformal transformation for the scalar wave equation.  Let
+$\bar g=\Omega_L^2 g$ and $\phi=\Omega_L^{-1}\Phi$.  For the sourced wave equation,
+conformal covariance gives
 \begin{equation}
  \left(\Box_{\bar g}-\frac{R[\bar g]}6\right)\phi
  +\left(\frac16-\xi\right)\frac{R[g]}{\Omega_L^2}\phi
  =\Omega_L^{-3}S.
  \label{eq:conformal_source_transform}
 \end{equation}
-The second term survives at $\xi=0$ but vanishes at $\xi=1/6$.  Because
-$\Omega_L=r_b/r$, the evolved modal field is proportional to its unphysical
-counterpart, $\phi_{\ell m}=(u_{\ell m}/r_b)Y_{\ell m}$.  The distinction
-therefore lies not in whether the field is rescaled, but in the physical
-curvature coupling represented by that field.  The same identity marks the
-limits of the analogy with the motivating Einstein system: neither coupling
-captures all of its tensorial, gauge, and constraint structure.  The uniform,
-localized-source, cross-code, caustic, and ringdown-window results below use
-$\xi=0$.  The uniform large-$L$ Price-law ladder also uses $\xi=0$; the
-matched $L/M=640$ uniform and exterior tail comparison uses both $\xi=0$ and
-$1/6$.  Finally, ``minimal'' in ``minimal gauge'' describes the foliation and
-is unrelated to minimal scalar coupling.
+The curvature-coupling coefficient vanishes at $\xi=1/6$.  Because
+$\Omega_L=r_b/r$, the evolved field is proportional to its conformal
+counterpart, $\phi_{\ell m}=(u_{\ell m}/r_b)Y_{\ell m}$.
 
-We suppress the mode labels below.  With $p$ and $A$ defined in
-Eq.~\eqref{eq:coefficients}, set
+The scalar equations contain no tensorial conformal Einstein source terms,
+and therefore do not fully test the regularization idea.  Nevertheless, minimal scalar coupling has a lower-order term with the same $\Lambda/\Omega_L^2$ scaling as \eqref{eq:conformal_einstein_scaling}, whereas conformal coupling cancels
+it.  The two cases provide, respectively, an algebraic stress test and a
+conformally regular radiative analogue.  They test whether matched scalar
+observables recover their Schwarzschild counterparts in a controlled
+large-$L$ limit.
+
+Next, we discuss the first-order reduction used in the numerical implementation.  We suppress the mode labels below.  For the time evolution, define
+\begin{equation}
+ p:=\frac{d\rho}{dr_*}=fG, \qquad
+ A:=\frac{p}{1-B^2},
+ \label{eq:coefficients}
+\end{equation}
+and the potential coefficient
 \begin{equation}
  P_{\ell,\xi}:=\frac{V_{\ell,\xi}}{p}.
  \label{eq:potential_coefficient}
 \end{equation}
-The first-order fields are
+We write the equation in first-order symmetric hyperbolic form using auxiliary variables defined as
 \begin{equation}
  \psi:=\partial_\rho u,\qquad
  \pi:=\frac{1-B^2}{p}\partial_\tau u-B\psi.
  \label{eq:first_order_variables}
 \end{equation}
-The evolution system is
+The evolution system becomes
 \begin{align}
  \partial_\tau u&=A(B\psi+\pi),
  \label{eq:evolve_u}\\
@@ -603,22 +422,19 @@ The evolution system is
  \partial_\tau\pi&=\partial_\rho\!\left[A(\psi+B\pi)\right]-P_{\ell,\xi}u.
  \label{eq:evolve_pi}
 \end{align}
-We monitor the reduction constraint
+To check the accuracy of the evolution, we monitor the constraint
 \begin{equation}
  C:=\psi-\partial_\rho u.
  \label{eq:constraint}
 \end{equation}
-
-The long exterior-tail calculation uses a conservative characteristic
-reduction and is checked independently against an algebraically equivalent
-endpoint-factored formulation.  Appendix~\ref{app:latetime} gives the
-reduction and comparison.
-
-The radial characteristic speeds are given in
-Eq.~\eqref{eq:characteristic_speeds}.
-The endpoint speeds are $(c_+,c_-)=(0,c_-<0)$ at $\rho=0$ and
+The radial characteristic speeds are
+\begin{equation}
+ c_-=-A(1+B)=-\frac{p}{1-B}, \quad c_+=A(1-B)=\frac{p}{1+B}.
+ \label{eq:characteristic_speeds}
+\end{equation}
+The boundary speeds are $(c_+,c_-)=(0,c_-<0)$ at $\rho=0$ and
 $(c_+,c_-)=(c_+>0,0)$ at $\rho=1$.  The characteristic flow determines all
-endpoint values.  For a
+boundary values.  For a
 simple crossing with $B'(r_h)\ne0$, analytic cancellation gives
 \begin{equation}
  A_h=\frac{f'(r_h)G(r_h)}{-2s_hB'(r_h)},\qquad
@@ -626,26 +442,22 @@ simple crossing with $B'(r_h)\ne0$, analytic cancellation gives
  \label{eq:A_endpoint}
 \end{equation}
 We cancel every height-function pole algebraically and assign
-Eq.~\eqref{eq:A_endpoint} directly at each endpoint.
+\eqref{eq:A_endpoint} at each horizon.
 
-The evolution domain ends on $\hc$; no data from beyond it enter the
-calculation.  We use the analytic continuation of the height function only as
+The evolution domain ends at the cosmological horizon, $\hc$. No data from beyond the horizon is needed. This is similar to the excision procedure in numerical relativity, which motivates the title of Misner's paper \cite{misner_excising_2006}. We use the analytic continuation of the height function only as
 a geometric diagnostic of the foliation family and of the asymptotic end it
 approaches as $L/M\to\infty$.  The finite-$L$ evolutions test the regular
 horizon coefficients and extract the outer waveform on $\hc$.
 
 For the minimal gauge, the limiting Schwarzschild coefficients are
 \begin{align}
- B_0&=-1+2(1-\rho_0)^2,
- &A_0&=\frac{1}{8M(2-\rho_0)},
+ B_0&=-1+2(1-\rho_0)^2, \quad A_0=\frac{1}{8M(2-\rho_0)},
  \label{eq:schwarz_coefficients}\\
- P_{\rm Schw}&=\frac{\ell(\ell+1)+(1-\rho_0)}{2M}.
+ &P_{\rm Schw}=\frac{\ell(\ell+1)+(1-\rho_0)}{2M}.
  \label{eq:schwarz_potential}
 \end{align}
-The Schwarzschild code implements these closed-form expressions separately
-from the finite-$L$ geometry.
-For uniform SdS at fixed interior $\rho$, both finite-$L$ potentials approach
-this result.  At the moving outer endpoint, however, the limits are
+The Schwarzschild code implements these expressions separately from the finite-$L$ geometry.
+For uniform SdS at fixed interior $\rho$, both finite-$L$ potentials approach this result.  At the cosmological horizon, however, the limits are
 \begin{align}
  \lim_{L\to\infty}P_{\ell,0}(1)
  &=\frac{\ell(\ell+1)-2}{2M},\notag\\
@@ -653,17 +465,12 @@ this result.  At the moving outer endpoint, however, the limits are
  &=\frac{\ell(\ell+1)}{2M}=P_{\rm Schw}(1).
  \label{eq:coupling_endpoint_limits}
 \end{align}
-For $\ell=1$, the minimal-coupling endpoint limit vanishes while the
-conformal-coupling limit equals the Schwarzschild value $1/M$.  This
-nonuniformity is a lower-order effect and does not alter the characteristics,
-but it can change the waveform tail at the outer boundary.
 
 \subsection{Matched data, sources, clocks, and observables}
 \label{sec:protocol}
+\label{sec:localized_source}
 
-The physical data and source are matched geometrically, not by assigning the
-same compact-coordinate profile.
-Define the peak-normalized bump
+To isolate the effect of artificial cosmology, we compare waveforms using matched data and a common time normalization.  We match the physical data and source geometrically so that changes in their coordinate representation do not introduce a different physical solution. For the data choices below, we use the peak-normalized bump
 \begin{equation}
  b(x)=
  \begin{cases}
@@ -674,19 +481,22 @@ Define the peak-normalized bump
 \end{equation}
 
 \paragraph{Fixed-window data.}
+We first test prompt and ringdown waveform recovery on retarded-time
+intervals held fixed as $L$ varies, separating finite-time agreement from
+the eventual cosmological decay.
 The finite-time comparison uses the same areal-radius profile on every
 background,
 \begin{equation}
- u(0,r)=b\!\left(\frac{r-4M}{1.5M}\right),\qquad
- \psi=D_\rho u,\qquad \pi=-B\psi,
+ u(0,r)=b\!\left(\frac{r-4M}{1.5M}\right),\quad
+ \psi=D_\rho u,\quad \pi=-B\psi,
 \label{eq:displacement_data}
 \end{equation}
 with support $2.5M<r<5.5M$.  Here $D_\rho$ is the spectral differentiation
-operator; $\partial_\tau u=\partial_tu=0$ initially, so the data are
-Killing-stationary while retaining a nonzero bridge-normal derivative.
+operator; $\partial_\tau u=\partial_tu=0$ initially, so the data are stationary with respect to Killing time.
 
 \paragraph{Tail data.}
-For the late-time study,
+To probe weak late-time decay separately, we use an initially dynamical
+pulse with zero displacement and nonzero velocity.  The Schwarzschild solution has the Price-law decay. We prescribe
 \begin{equation}
  \begin{aligned}
  u&=\psi=0, &G_{\rm v}(r)&=b\!\left(\frac{r-6M}{3M}\right),\\
@@ -694,33 +504,44 @@ For the late-time study,
  \end{aligned}
  \label{eq:velocity_profile}
 \end{equation}
-with support $3M<r<9M$.  The factor $A^{-1}$ fixes the Killing-time derivative
-across the $L$-dependent bridge hypersurfaces.  Equations
-\eqref{eq:displacement_data} and \eqref{eq:velocity_profile} thus define the
-geometric data map.
+with support $3M<r<9M$.  In Eqs.~\eqref{eq:displacement_data} and
+\eqref{eq:velocity_profile}, the common areal profiles and prescribed
+Killing-time derivatives define data on $L$-dependent slices approaching the
+chosen Schwarzschild slice.
 
 \paragraph{Retarded time.}
-We set $r_0=4M$ and normalize
+Matched waveforms require a common retarded-time origin.  We set $r_0=4M$
+and normalize
 \begin{equation}
  h_L(r_0)=0,\qquad r_{*,L}(r_0)=0.
 \end{equation}
-For the minimal gauge, the cosmological-horizon logarithms in
-$h_L+r_{*,L}$ cancel exactly, giving
-\begin{align}
-q_L={}&\frac{1}{2\kappa_b}
-\ln\frac{(r_c-r_b)^2r_0}{r_c(r_0-r_b)^2}
-\notag\\
-&+\left(\frac{1}{2\kappa_u}-\frac{1}{2\kappa_c}\right)
-\ln\frac{r_c}{r_0}.
+For a bridge with this normalization, the offset between $\tau$ and the
+outgoing null coordinate at the cosmological horizon is
+\begin{equation}
+ q_B(L;r_0):=\lim_{r\to r_c}(h_L+r_{*,L})
+ =\int_{r_0}^{r_c}\frac{1+B}{f}\,dr.
+ \label{eq:general_q}
+\end{equation}
+The integrand is regular at $r_c$, where $U=\tau-q_B=t-r_{*,L}$.
+For the minimal gauge, cancellation of the horizon logarithms and the
+identity $(2\kappa_b)^{-1}-(2\kappa_c)^{-1}+(2\kappa_u)^{-1}=0$ give
+\begin{equation}
+q_L=\frac{1}{\kappa_b}
+\ln\frac{r_0(r_c-r_b)}{r_c(r_0-r_b)}
+\longrightarrow q_0.
 \label{eq:q_L}
-\end{align}
+\end{equation}
+The finite Schwarzschild limit is
+\begin{equation}
+ q_0=4M\ln\frac{r_0}{r_0-2M},
+ \label{eq:q_zero}
+\end{equation}
+which reduces to $q_0=4M\ln2$ for the reference radius $r_0=4M$.
 Waveforms are compared at the geometric retarded time
 \begin{equation}
  U=\tau-q_L.
 \label{eq:retarded_time}
 \end{equation}
-No relative time translation, amplitude rescaling, time dilation, or transfer
-correction is fitted.
 At $\hc$, $U$ is the outgoing retarded-time coordinate.  The same
 normalization reaches Schwarzschild $\scri^+$ in the limit.  At finite
 radius, $U$ is a stationary clock normalized at the outer boundary.  Its
@@ -729,26 +550,32 @@ relation to the local outgoing coordinate is
  U-(t-r_{*,L})=h_L(r)+r_{*,L}(r)-q_L.
 \label{eq:finite_radius_clock}
 \end{equation}
-Because an additive clock offset does not affect a decay rate, we quote
-transition times using the geometric origin in Eq.~\eqref{eq:retarded_time}.
+An additive clock offset preserves the asymptotic decay exponent but changes
+the finite-time logarithmic slope used to estimate it.  We therefore use the
+common geometric time origin in \eqref{eq:retarded_time} when comparing local
+power indices and transition times.
 
 \paragraph{Localized source.}
 \label{sec:localized_protocol}
 
-We also use a normalized source localized in radius, time, and angle.  Its
-independent spherical-harmonic modes coherently reconstruct a multimode and
-caustic response
-\cite{DolanOttewill:2011,ZenginogluGalley:2012,CasalsNolan:2023}; no
-nonspherical or nonlinear evolution is involved.  With zero initial data,
+To test artificial cosmology beyond single-mode radial evolution, we consider
+a spatially localized scalar response with nontrivial angular structure.
+This tests Schwarzschild recovery for multidimensional wave propagation,
+including focusing and caustic echoes
+\cite{DolanOttewill:2011,ZenginogluGalley:2012,CasalsNolan:2023}.
+We exploit the spherical background to evolve independent radial modes and
+reconstruct the three-dimensional field.  We use a normalized source localized
+in radius, time, and angle as a smooth approximation to a Dirac delta function.  The resulting field is the retarded Green function integrated
+against this source profile.
+We compare the full localized response across backgrounds.  With zero initial data,
 \begin{equation}
  \left(\Box_g-\xi R[g]\right)\Phi=S,
  \qquad \Phi|_{\tau=0}=\partial_\tau\Phi|_{\tau=0}=0.
  \label{eq:sourced_wave_equation}
 \end{equation}
 The same physical source $S$ is used on every background; its conformal
-representation is $\Omega_L^{-3}S$ by
-Eq.~\eqref{eq:conformal_source_transform}.  Let $\gamma$ be the angle from
-$(\theta_s,\varphi_s)=(\pi/2,0)$ and set
+representation is $\Omega_L^{-3}S$.  Let $\gamma$ be the angle from the
+source direction $(\theta_s,\varphi_s)$ and set
 \begin{equation}
  S=\mathcal A\,T(t)\,R(r)\,\mathcal P_\kappa(\gamma),
  \label{eq:source_product}
@@ -764,12 +591,7 @@ $(\theta_s,\varphi_s)=(\pi/2,0)$ and set
 \end{align}
 Here $\beta_0=\int_{-1}^{1}b(x)dx$ and
 $\beta_2=\int b[(r-r_s)/\sigma_r]r^2dr$, so each factor has unit integral and
-$\int\sqrt{-g}S\,d^4x=\mathcal A$.  We use $r_s=6M$,
-$\sigma_r=0.75M$, $t_s=30M$, $\sigma_t=2M$, and $\kappa=64$, corresponding
-to radial support $5.25M<r<6.75M$, temporal support $28M<t<32M$, and angular
-scale $\kappa^{-1/2}=0.125$ radians.  Source width is therefore a matched
-physical parameter, not a numerical error bar.  The production sequence uses
-$\xi=0$.
+$\int\sqrt{-g}S\,d^4x=\mathcal A$. The parameter choices are given in Sec.~\ref{sec:localized_results}.
 
 The real-spherical-harmonic coefficients are
 \begin{equation}
@@ -777,9 +599,8 @@ The real-spherical-harmonic coefficients are
  Y_{\ell m}(\theta_s,\varphi_s),
  \label{eq:source_modal_amplitudes}
 \end{equation}
-where $i_\ell$ is a modified spherical Bessel function.  Modes below
-$10^{-13}$ of the maximum are dropped.  The $m$ dependence factors out, so
-one response per retained $\ell$ solves
+where $i_\ell$ is a modified spherical Bessel function.  The $m$ dependence
+factors out, so one response per retained $\ell$ solves
 \begin{equation}
  \left(-\partial_t^2+\partial_{r_*}^2-V_{\ell,\xi}\right)v_\ell
  =f r\,\mathcal A T(t)R(r).
@@ -793,15 +614,15 @@ $u_{\ell m}=a_{\ell m}v_\ell$, the reconstructed waveform is
  =\sum_{\ell m}a_{\ell m}v_\ell(U)Y_{\ell m}(\theta,\varphi),
  \label{eq:angular_reconstruction}
 \end{equation}
-at $r=8M$, $r=12M$, and the outer boundary, always using
-Eq.~\eqref{eq:retarded_time}.
+at the extraction radius, using the common retarded time
+\eqref{eq:retarded_time}.
 
-At the outer endpoint, the $\xi=0$ fixed-mode observable is the
+At the outer boundary, the $\xi=0$ observable is the
 reduced field $W_L(U)\equiv W_{L,0}(U):=u_2(U,\rho=1)$ on $\hc$; its
 Schwarzschild counterpart $W_{\rm Schw}(U):=u_2(U,\rho_0=1)$ is evaluated at
 $\scri^+$.  Thus $W$ is the
 relevant spherical-harmonic coefficient of the radiation-scaled field
-$r\Phi$, not the full field $\Phi$.  For a common time interval
+$r\Phi$.  For a common time interval
 $\mathcal J$, the direct fixed-mode waveform error is
 \begin{equation}
  E_2(L;\mathcal J)=
@@ -809,10 +630,8 @@ $\mathcal J$, the direct fixed-mode waveform error is
       {\|W_{\rm Schw}\|_{L^2(\mathcal J)}},
  \label{eq:regulator_E2}
 \end{equation}
-where $W_{\rm Schw}$ is computed with the separate closed-form Schwarzschild
-coefficient implementation.  For the localized source, $W$ denotes the
-outer-boundary modal
-collection $\{u_{\ell m}\}$ and the primary comparison uses the
+where $W_{\rm Schw}$ is computed with the separate Schwarzschild implementation.  For the localized source, $W$ denotes the
+outer-boundary fields $\{u_{\ell m}\}$ and the primary comparison uses the
 sphere-integrated Parseval norm
 \begin{equation}
  \|W\|_{\mathcal J,S^2}^2=
@@ -826,325 +645,304 @@ The corresponding relative error is
       {\|W_{\rm Schw}\|_{\mathcal J,S^2}}.
  \label{eq:localized_regulator_E2}
 \end{equation}
-For the minimally coupled production sequence, we use the fixed-window
-asymptotic ansatz
+Besides comparing individual finite-$L$ waveforms with Schwarzschild, we
+test whether combining several cosmological lengths improves the recovery.
+For minimal coupling, we model the large-$L$ dependence at each common
+retarded time $U$ as
 \begin{equation}
  W_{L,0}=W_{\rm Schw}+c_{1,0}\frac{M}{L}
  +c_{2,0}\left(\frac{M}{L}\right)^2
  +\mathcal O\!\left((M/L)^3\right).
  \label{eq:regulator_expansion}
 \end{equation}
-This is an empirical asymptotic ansatz for each fixed comparison interval,
-not an analytically derived expansion uniform in retarded time.  Its adequacy
-on the stated intervals is tested by the two nested triples and by comparison
-with the independently evolved Schwarzschild waveform.  We make no
-corresponding claim for the unresolved late-time regime.
-
-The three-level combination
+At each $U$, the coefficients $c_{1,0}$ and $c_{2,0}$ are independent of $L$. Waveforms at cosmological lengths $L$, $2L$, and $4L$ then give the
+extrapolated estimate
 \begin{equation}
  W_\infty^{(L)}=
  \frac{W_L-6W_{2L}+8W_{4L}}{3},
  \label{eq:nested_extrapolant}
 \end{equation}
-cancels the two displayed finite-$L$ corrections.  We test this extrapolation,
-rather than assume it, by comparing the nested triples based at $L/M=80$ and
-$160$ with one another and with $W_{\rm Schw}$.  A conformally coupled
-sequence must establish its own finite-$L$ expansion rather than inherit
-these coefficients.
+which cancels the terms proportional to $M/L$ and $(M/L)^2$ without using
+the Schwarzschild waveform as input.  Repeating the construction with
+$(2L,4L,8L)$ gives a second, overlapping extrapolant.  We compare the two
+estimates with each other and with the separately evolved Schwarzschild
+control to test the extrapolation. A conformally coupled sequence
+requires a separate test of its finite-$L$ expansion.
 
 The fixed-mode comparison uses cumulative intervals that begin at $U=0$ and
 end at $U/M=40$, $80$, and $160$, together with the disjoint intervals
 $40\leq U/M\leq80$ and $80\leq U/M\leq160$.  The localized-source comparison
-uses the common simulated interval $0\lesssim U/M\leq57.2$, from the first
-nonnegative output time through the last time reached by every evolution.
-Before evaluating a norm, we linearly interpolate all samples onto a common
-$U$ grid.
+uses the common simulated interval, from the first nonnegative output time
+through the last time reached by every evolution.
+The uniform waveform and localized-source sequences use linear interpolation
+onto a common $U$ grid; the exterior ringdown and matched-tail comparisons
+use cubic interpolation.
 
-\subsection{Numerical implementations and error control}
+\subsection{Numerical methods and error control}
+\label{sec:numerical-methods}
 
-Two double-precision implementations use independent spatial discretizations
-and time integrators.  The fixed-mode family uses Dedalus~3
-\cite{burns_dedalus_2020}, a Chebyshev-$T$ basis, and RK222.  The localized
-source uses a uniform radial grid, eighth-order finite differences, and
-classical RK4 with staged source evaluation.  Its radial derivative uses a
-centered nine-point stencil in the interior and polynomially matched
-one-sided nine-point closures at the first and last four nodes.  The closures
-use only physical grid values; there are no ghost points, artificial
-dissipation, or filters.  Both characteristic endpoints are evolved without
-prescribed boundary data.  The implementations share the analytic geometry,
-comparison protocol, and modal reconstruction, but not the spatial or
-temporal discretization.  Appendix~\ref{app:convergence} gives a direct
-sourced-waveform comparison.
+We tested artificial cosmology using different numerical methods. The uniform waveform sequence and the large-$L$ tail benchmark
+use Dedalus~3 \cite{burns_dedalus_2020} with a Chebyshev-$T$ basis and RK222.
+The localized source uses eighth-order finite differences on a uniform
+radial grid and classical RK4, with source evaluation at each stage.
+The exterior ringdown and matched-tail comparisons use continuous
+Legendre--Gauss--Lobatto spectral elements \cite{Gassner:2013SBP} and
+third-order Radau IIA \cite{HairerWanner:1999Radau}, evolving $u$ and
+$\partial_\tau u$ directly. All calculations evolve the characteristic boundaries without prescribed boundary data and use the geometric clock
+normalization defined above.
 
-Every production family has a three-level refinement ladder.  Uniform and
-localized-source comparisons use matched Schwarzschild controls; when the
-exterior ringdown sequence shares a frozen Schwarzschild reference, its
-independently measured floor enters the ordering audit.  We distinguish
-discretization error from estimator, window, and cadence sensitivities and
+Each simulation sequence is tested at three resolutions.  Uniform and
+localized-source comparisons use matched Schwarzschild controls.  We distinguish
+discretization error from sensitivity to the estimator, comparison window,
+and sampling interval, and
 from physical source-width dependence.  Appendix~\ref{app:convergence} gives
-the complete ladders and numerical audit; Appendix~\ref{app:reproducibility}
-records the exterior implementation and provenance.
+the resolution sequences and independent checks;
+Appendix~\ref{app:latetime} gives the tail-specific criteria and convergence
+results.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Schwarzschild recovery with uniform artificial cosmology}
+\section{Recovering Schwarzschild solutions with artificial cosmology}
 \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-With the minimal-gauge family, the finite-$L$ waveforms converge directly
-toward the separately evolved Schwarzschild reference, and the two nested
-extrapolants support agreement at the conservative $1\%$ level for the tested
-prompt-dominated observables.  Unless stated otherwise, the results in this
-section use minimal coupling, $\xi=0$.
+In this section, we quantify the waveform error when a cosmological horizon
+replaces null infinity at finite $L$.
+The same comparisons also test the isolated-system approximation in a
+cosmological spacetime, motivated by the small positive cosmological constant.  Increasing $L/M$, we study how scalar waveforms approach their asymptotically flat limits over finite observation intervals. We also check different aspects of the regulator, including the convergence of extrapolated waveforms and the recovery of a localized multimode response.  The results show that the Misner regulator is effective for both minimal and conformal coupling, and that the finite-$L$ error can be reduced to a few percent with $L/M\sim 10^2$.
 
 \subsection{Direct and extrapolated fixed-mode recovery}
 \label{sec:direct_recovery}
 \label{sec:extrapolated_recovery}
 
-For the minimally coupled, prompt-dominated pure-$\ell=2$ sequence, direct
-agreement---including the case-specific numerical margin---first reaches
-$5\%$ at $L/M=320$ and $2\%$ at $L/M=640$.  It does not reach $1\%$ through
-$L/M=640$.  These results answer the practical scalar-wave question of how
-large $L/M$ must be for a finite cosmological calculation to approximate the
-chosen Schwarzschild observable.  The answer depends on the observable and
-accuracy threshold; in particular, these thresholds do not apply to the
-localized-source response.
+Figure~\ref{fig:flat_sequence} shows how the boundary waveforms approach
+the Schwarzschild solution as $L/M$ increases from $20$ to $640$.  The
+prompt-pulse and ringdown structure is maintained throughout the sequence.
+In the large-$L$ regime, the dominant residual amplitude falls by about a
+factor of two with each doubling of $L$.
 
-Across $L/M=20$ through $640$, the boundary waveforms retain the prompt-pulse
-and ringdown morphology of the Schwarzschild reference
-(Fig.~\ref{fig:flat_sequence}).  In the large-$L$ regime, the dominant
-residual amplitude falls by about a factor of two with each doubling of $L$,
-while its prompt-interval shape changes little.  This behavior motivates the
-expansion in Eq.~\eqref{eq:regulator_expansion}.
-
-\begin{figure*}[t]
+\begin{figure}[t]
  \centering
- \includegraphics[width=\textwidth]{figs/flat_waveform_sequence.pdf}
- \caption{Minimally coupled ($\xi=0$), fixed-data, pure-$\ell=2$ sequence at
+ \includegraphics[width=1.05\columnwidth]{figs/flat_waveform_sequence.pdf}
+ \caption{Minimally coupled ($\xi=0$), pure-$\ell=2$ sequence at
  the outer boundary.  Upper
  panel: waveforms for $L/M=20$ to $640$ against the separately evolved
  Schwarzschild reference.  Lower panel: the residual $W_L-W_{\rm Schw}$ on
- the same retarded time $U=\tau-q_L$, with no relative time translation
- fitted.  The residual amplitude falls with $L$ while its prompt-interval
- morphology changes only weakly.}
+ the same retarded time $U=\tau-q_L$, with no other fitting or rescaling.  The residual amplitude falls with $L$. Compare with Table \ref{tab:direct-regulator-errors}.}
  \label{fig:flat_sequence}
-\end{figure*}
+\end{figure}
 
-At fixed $L$, the three cumulative $E_2$ values differ only in the fourth
-digit as the window length increases fourfold, confirming prompt dominance.
-Through $U/M=160$, $E_2$ decreases from $5.57\%$ at $L/M=160$ (with a
-$0.091\%$ numerical scale) to $2.72\%$ at $L/M=320$ and $1.34\%$ at
-$L/M=640$.  The latter two have medium-to-fine changes of $0.148\%$ and
-$0.0465\%$ and peak-normalized errors of $2.82\%$ and $1.39\%$, resolving
-the $5\%$ and $2\%$ crossings.  On $40\leq U/M\leq80$, $E_2$ is $2.41\%$
-and $1.15\%$ at $L/M=320$ and $640$; on $80\leq U/M\leq160$, it is
-$5.58\%$ and $7.01\%$, with refinement changes of $145\%$ and $43.5\%$.
-These late-window values are only convergence diagnostics.
+Table~\ref{tab:direct-regulator-errors} quantifies this convergence and gives
+the benchmark for the regulator: the direct waveform error $E_2$ against the separately
+evolved Schwarzschild solution, measured over the same interval
+$0\leq U/M\leq80$ for every $L$.  The error decreases from $63.96\%$ at
+$L/M=20$ to $1.34\%$ at $L/M=640$.  The numerical medium-to-fine changes
+are much smaller, showing that the finite-$L$ difference significantly dominates over discretization error.
 
-Across the cumulative windows, the largest pairwise fine-grid residual among
+\begin{table}[t]
+ \caption{Direct waveform error for the minimally coupled pure-$\ell=2$
+ sequence on $0\leq U/M\leq80$.  $E_2$ is the fine-grid discrepancy from
+ Schwarzschild [Eq.~\eqref{eq:regulator_E2}]; $\delta_{mf}$ is the numerical
+ medium-to-fine change of the paired residual
+ [Eq.~\eqref{eq:paired_refinement_change}].  Both columns are percentages
+ of the Schwarzschild norm.}
+ \label{tab:direct-regulator-errors}
+ \begin{ruledtabular}
+ \begin{tabular}{rrr}
+ $L/M$ & $E_2$ (\%) & $\delta_{mf}$ (\%)\\
+ \colrule
+ 20  & 63.96 & 0.033\\
+ 40  & 26.08 & 0.094\\
+ 80  & 11.75 & 0.069\\
+ 160 & 5.57  & 0.041\\
+ 320 & 2.72  & 0.064\\
+ 640 & 1.34  & 0.024\\
+ \end{tabular}
+ \end{ruledtabular}
+\end{table}
+
+For these data and this norm, the first tested lengths to meet $5\%$ and
+$2\%$ tolerances are $L/M=320$ and $640$, respectively. 
+The approximate $M/L$ falloff is encoded in the extrapolation model
+\eqref{eq:regulator_expansion}.
+At fixed outgoing retarded time $\widehat U=t-r_{*,0}$, a smooth
+Schwarzschild field can have the expansion
+$u=F(\widehat U)+G(\widehat U)/r+\mathcal O(r^{-2})$, with
+$2\,dG/d\widehat U=\ell(\ell+1)F$.  Since $r_c\sim L$, such corrections
+show how an $\mathcal O(M/L)$ boundary discrepancy can coexist with
+an $\mathcal O(L^{-2})$ local metric deformation.
+
+To test sensitivity to higher-order finite-$L$ corrections, we use extrapolation and combine triples $(80,160,320)$ and
+$(160,320,640)$ in units of $L/M$. The largest fine-grid residual among
 $W_\infty^{(80)}$, $W_\infty^{(160)}$, and the separately evolved
-Schwarzschild waveform is $0.0313\%$.  Refinement sets the supported accuracy:
-the largest medium-to-fine change of a derived extrapolant is $0.409\%$, and
-the largest propagated Richardson estimate is $0.119\%$.  These scales
-support agreement with the tested Schwarzschild waveform at the conservative
-$1\%$ level.
-
-The extrapolants use the overlapping triples $(80,160,320)$ and
-$(160,320,640)$ in units of $L/M$.  Because they share the $160$ and $320$
-calculations, their difference is not an independent replication; it tests
-sensitivity to the higher-order terms omitted from
-Eq.~\eqref{eq:regulator_expansion}.  On the cumulative windows, each
-extrapolant residual is about
-$50$ to $125$ times smaller than the direct residual of its largest-$L$
- member.  Table~\ref{tab:extrapolants} separates this residual, the paired
- medium-to-fine change in Eq.~\eqref{eq:paired_refinement_change}, and
- Richardson estimate.  Because refinement exceeds the residual, it sets the
- conservative $1\%$ accuracy estimate.  Appendix~\ref{app:convergence} gives
- the disjoint intervals, for which refinement dominates.
-
-\begin{table*}[t]
- \caption{Minimally coupled nested extrapolants on the cumulative intervals,
- each of which
- begins at $U=0$ and ends at $U_{\max}$.  Fine-grid residual, observed
- medium-to-fine paired-residual change, and propagated Richardson estimate are
- distinct quantities and are not combined.}
-\label{tab:extrapolants}
-\begin{ruledtabular}
-\begin{tabular}{lrrrr}
-comparison & $U_{\max}/M$ & fine grid & refinement & Richardson\\
- & & (\%) & (\%) & (\%)\\
-\colrule
-$W_\infty^{(80)}-W_{\rm Schw}$ & 40 & 0.0217 & 0.0469 & 0.0271\\
-$W_\infty^{(80)}-W_{\rm Schw}$ & 80 & 0.0222 & 0.1124 & 0.0428\\
-$W_\infty^{(80)}-W_{\rm Schw}$ & 160 & 0.0222 & 0.2666 & 0.0777\\
-$W_\infty^{(160)}-W_{\rm Schw}$ & 40 & 0.0109 & 0.0190 & 0.0091\\
-$W_\infty^{(160)}-W_{\rm Schw}$ & 80 & 0.0142 & 0.0523 & 0.0195\\
-$W_\infty^{(160)}-W_{\rm Schw}$ & 160 & 0.0265 & 0.1430 & 0.0413\\
-$W_\infty^{(80)}-W_\infty^{(160)}$ & 40 & 0.0186 & 0.0657 & 0.0362\\
-$W_\infty^{(80)}-W_\infty^{(160)}$ & 80 & 0.0211 & 0.1643 & 0.0623\\
-$W_\infty^{(80)}-W_\infty^{(160)}$ & 160 & 0.0313 & 0.4092 & 0.1189\\
-\end{tabular}
-\end{ruledtabular}
-\end{table*}
+Schwarzschild waveform is $0.0313\%$.  The largest numerical medium-to-fine change
+among these residuals is $0.409\%$, and
+the largest propagated Richardson estimate is $0.119\%$. We can conclude that the extrapolated waveforms agree with the separately evolved Schwarzschild waveform at $1\%$. 
+Appendix~\ref{app:convergence} gives
+the numerical refinement and extrapolation checks.
 
 \subsection{Localized multimode response}
 \label{sec:localized_results}
 
-The localized-source family extends the $\xi=0$ benchmark beyond a single
-spherical harmonic on the common simulated interval
-$0\lesssim U/M\leq57.2$.  This interval ends before the complete late-time
-signal.  In the
-sphere-integrated norm \eqref{eq:parseval_norm}, the direct differences are
+To extend the $\xi=0$ benchmark beyond a single spherical harmonic, we solve for the localized source family described in Section~\ref{sec:localized_source}.  We use $r_s=6M$, $\sigma_r=0.75M$, $t_s=30M$,
+$\sigma_t=2M$, $\kappa=64$, and $(\theta_s,\varphi_s)=(\pi/2,0)$.
+These choices give radial support $5.25M<r<6.75M$, temporal support
+$28M<t<32M$, and angular scale $\kappa^{-1/2}=0.125$ radians.  Modes with
+$|a_{\ell m}|$ below $10^{-13}$ of the maximum are omitted.  We extract
+waveforms at $r=8M$, $r=12M$, and the outer boundary; the comparison
+uses the outer-boundary field on the common interval
+$0\lesssim U/M\leq57.2$, before the late-time signal.
+
+In the sphere-integrated norm \eqref{eq:parseval_norm}, the direct differences are
 $E_{2,S^2}(320)=5.27\%$ and $E_{2,S^2}(640)=2.63\%$.  The
 $W_\infty^{(80)}$ and $W_\infty^{(160)}$ extrapolants differ by $0.0517\%$;
 their Schwarzschild differences are $0.0584\%$ and
-$0.00672\%$, respectively.  Both therefore support agreement at the
-conservative $1\%$ level.  Parseval orthogonality converts
-the sphere integral of $|u|^2$ into a sum over modal coefficients, avoiding
-any preference for an observer within the caustic pattern.
-Figure~\ref{fig:localized} shows the $\gamma=\pi$ waveform only as an
-illustration of this modal result.
+$0.00672\%$, respectively. Figure~\ref{fig:localized} shows how the error decreases with $L$ and how the residuals vary over the signal.
 
-\begin{figure*}[t]
+\begin{figure}[t]
  \centering
- \includegraphics[width=0.98\textwidth]{figs/localized_source_regulator.pdf}
+ \includegraphics[width=\columnwidth]{figs/localized_source_regulator.pdf}
  \caption{Minimally coupled localized source on the common simulated
- interval.  Panels show (a) direct sphere-integrated errors, (b) nested
- extrapolant comparisons, (c) instantaneous $L^2(S^2)$ norms, and (d) the
- caustic direction $\gamma=\pi$ as a secondary illustration of the
- reconstructed multimode waveform.}
+ interval.  (a) Direct sphere-integrated errors $E_{2,S^2}$ in percent;
+ the dashed line marks $1\%$.  (b) Instantaneous absolute $L^2(S^2)$ norms
+ of the Schwarzschild field, the
+ finite-$L$ residuals against Schwarzschild, and the difference between
+ the two nested extrapolants.  The norms include all retained modes and
+ integrate over the entire observation sphere.}
  \label{fig:localized}
-\end{figure*}
-
-The medium-to-fine changes are at the $10^{-4}\%$ level, more than a factor
-of $60$ below the smallest difference.  They establish that refinement is
-subdominant but do not justify digit-level accuracy.  The identical source
-parameters in Eqs.~\eqref{eq:source_product}--\eqref{eq:source_angular} make
-emitter width a physical parameter rather than a numerical error.
+\end{figure}
 
 \subsection{Large-\texorpdfstring{$L$}{L} Price-law benchmark}
 \label{sec:uniform-price-benchmark}
 
-Tails provide a stricter regulator benchmark than prompt-dominated norms.
-We ask whether uniform artificial cosmology recovers the Schwarzschild decay
-rate at the asymptotic boundary when $L$ is sufficiently large; resolving the
-ultimate finite-$L$ cosmological regime in the same waveform is a separate
-dynamic-range question.  We evolve matched $\ell=1$, $\xi=0$ data at
-$L/M=3072$, extracting uniform SdS at $\hc$ and an independently evolved
-Schwarzschild reference at $\scri^+$.
+Tails provide a stricter test than the prompt waveform. To test Schwarzschild decay-rate at the asymptotic boundary with artificial cosmology, we evolve matched $\ell=1$, $\xi=0$ data at $L/M=3072$, extracting the SdS waveform at $\hc$, and we compare to an independently evolved Schwarzschild reference at $\scri^+$.
 
-The SdS local power index remains within $5\%$ of the Schwarzschild value
-$p=3$ on $231.88\leq U/M\leq381.88$.  We denote the fine-grid endpoint of
-this accepted interval by $U_{\rm P}=381.88M$; it varies by only $2.0M$ across
-three spatial resolutions and a halved-timestep check.  On the interval, the
-largest relative envelope changes are $1.27\times10^{-4}$ for SdS and
-$3.58\times10^{-4}$ for the Schwarzschild control; timestep changes are below
-$3.4\times10^{-8}$.  This establishes recovery of the intermediate
-Price-law decay rate, not pointwise agreement of the full tail waveform.
+For each extracted waveform $W(U)$, we define the centered root-mean-square
+envelope
+\begin{equation}
+ A(U)=\left[\frac{1}{\Delta U}
+ \int_{U-\Delta U/2}^{U+\Delta U/2}|W(s)|^2\,ds\right]^{1/2},
+ \label{eq:rms-envelope}
+\end{equation}
+with $\Delta U=10M$, evaluated as an average of squared waveform samples.
+We estimate the local power index $p_{\rm eff}=-d\ln A/d\ln U$ by fitting
+$\ln A$ against $\ln U$ over a centered $40M$ window.
+For a slowly varying power-law tail, $A\simeq|W|$, so this index approximates
+the decay exponent.
 
-\begin{figure*}[t]
+The SdS local power index remains within $5\%$ of $p=3$ on
+$232\lesssim U/M\lesssim382$.
+Spatial and timestep checks give a spread of about $2M$ (see Appendix~\ref{app:large-L-tail} for details).  These checks indicate that an intermediate interval is compatible with the Schwarzschild Price-law rate. 
+
+Figure~\ref{fig:large-L-tail} shows the Price-law interval within
+the longer waveform.  The common evolution extends to $U/M\simeq1984$, or $\kappa_cU=0.645$. In the experiments that demonstrate the polynomial decay, the cosmological exponential regime is not reached before the numerical floor. This is reasonable and supports the well-known idea that the isolated system approximation is valid for long times before cosmological effects become relevant. Appendix \ref{app:large-L-tail} gives further details.
+
+\begin{figure}[tbp]
  \centering
- \includegraphics[width=.88\textwidth]{figs/large_L3072_tail_transition.pdf}
- \caption{Uniform, minimally coupled $\ell=1$ calculation at $L/M=3072$.
- The upper two panels compare SdS at $\hc$ (solid orange) with the matched
- Schwarzschild control at $\scri^+$ (dashed black) through the centered $10M$
- root-mean-square envelope and local power index; the lower panel shows the
- SdS normalized exponential rate.  The accepted interval
- $231.88\leq U/M\leq381.88$ is highlighted; the inset resolves the
- $p=3\pm5\%$ band.  Individual curves are masked at their own numerical floors,
- while the marked common ladder limit bounds matched comparisons.  No
- cosmological entry, relative time shift, or amplitude rescaling is inferred.}
+ \includegraphics[width=\columnwidth]{figs/large_L3072_tail_transition.pdf}
+ \caption{Intermediate, polynomial tail decay rate in minimally coupled
+ $\ell=1$ SdS at $L/M=3072$.  Upper panel: the local power indices at
+ $\hc$ (solid orange) and Schwarzschild $\scri^+$ (dashed black). The polynomial rate is compatible within the range $p=3\pm5\%$ in the interval $232\lesssim U/M\lesssim382$. The decay slightly is stronger in SdS. Lower panel: the centered $10M$
+ root-mean-square envelopes defined in \eqref{eq:rms-envelope}. We see that the SdS waveform is slightly smaller than the Schwarzschild one, but the difference is small and consistent with the expected cosmological expansion.}
  \label{fig:large-L-tail}
-\end{figure*}
+\end{figure}
 
-Figure~\ref{fig:large-L-tail} retains the longer-time context.  The common
-refinement-supported record extends to $U/M=1983.58$, or
-$\kappa_cU=0.645$, but no cosmological exponential regime is resolved before
-the numerical floor.  We therefore infer no crossover time.  Appendix
-\ref{app:large-L-tail} gives the estimator, masking, and refinement audit.
-
-\subsection{Supporting Schwarzschild--de Sitter physics}
+\subsection{Cosmological decay}
 \label{sec:sds_physics}
 
-Caustic timing supplies an independent probe of the global SdS geometry.  In
-the minimally coupled localized response, we measure the shift $D_1$ in the
-spacing between the direct pulse and the first echo.  Its scaling is
-compatible with a local correction of order $(M/L)^2$ at fixed areal radius
-and a larger outer response approaching order $M/L$.  The combined
-deterministic timing sensitivities exceed the specified tolerance in all four
-target-bearing cases.  The fits therefore test these powers but do not
-determine precise coefficients.
+At smaller $L$, the exponential cosmological decay becomes accessible within
+the resolved evolution.  A separate minimally coupled $\ell=1$ study at
+$r=8M$ measures both departure from the Schwarzschild decay rate and entry
+into the cosmological regime.  For $L/M=80$ and $160$, the median departure
+times are $U=115.9M$ and $133.5M$, respectively, whereas cosmological decay
+begins at $\kappa_cU=2.83$ and $2.94$.  Doubling $L$ therefore changes the
+departure time only modestly in black-hole units, while entry occurs at
+nearly the same time in cosmological units.  These two cases provide
+qualitative evidence for distinct timescales.
 
-Appendices~\ref{app:convergence} and~\ref{app:latetime} give the complete
-timing estimator, selection, fit, and sensitivity audit.
+Both departures precede a settled Schwarzschild Price tail: at the same
+radius, the reference decay index does not remain within $5\%$ of its
+$\ell=1$ Price-law value until $U=220.3M$.  These runs resolve a transition
+from a Schwarzschild-like transient to cosmological decay.  The large-$L$
+boundary test above resolves an intermediate Price-law interval; its later
+cosmological regime remains numerically unresolved.
+Appendix~\ref{app:finite-radius-crossover} gives the transition criteria
+and their sensitivity to the decay-rate estimator.
 
-The cosmological scale also limits how long a finite-$L$, minimally coupled
-waveform can track Schwarzschild.  At $r=8M$, the $\ell=1$ waveform departs
-from Schwarzschild decay at $U=115.9M$ for $L/M=80$ and at $133.5M$ for
-$L/M=160$.  The near constancy of these times in units of $M$ identifies a
-black-hole scale.  Cosmological decay begins at $\kappa_cU=2.83$ and $2.94$,
-whose near constancy instead identifies the scale $\kappa_c^{-1}$.  These
-scales separate as $L$ increases.
-
-The $L/M=80$ and $160$ waveforms depart before the Schwarzschild Price-law
-regime is established: at the same radius, the independent reference does not
-settle within $5\%$ of its $\ell=1$ power law until $U=220.3M$.  This
-short-length sequence therefore shows a Schwarzschild-like transient,
-departure, and cosmological decay, rather than a power-law plateau followed by
-a cosmological tail.  Appendix~\ref{app:latetime} gives the rate-estimator
-sweep and radius dependence.  Section~\ref{sec:uniform-price-benchmark} gives
-the large-$L$ recovery benchmark, while
-Sec.~\ref{sec:matched-tail-result} compares uniform and exterior-supported
-tails at $L/M=640$ for both curvature couplings.
-
-\FloatBarrier
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Exterior-supported artificial cosmology}
 \label{sec:exterior-supported}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The uniform construction alters the metric throughout the static patch,
-including the strong-field region.  To reduce this finite-$L$ bias while
-retaining a cosmological horizon, we choose the same exterior value
+Uniform SdS alters the metric throughout the static patch, including the
+strong-field region. But Misner's proposal primarily concerns the regularization of the asymptotic domain. Therefore, it makes sense to confine the cosmological source to an exterior
+region while retaining the same asymptotic value
 \begin{equation}
- \Lambda=\frac{3}{L^2},
+ \Lambda=\frac{3}{L^2}.
  \label{eq:exterior_lambda}
 \end{equation}
-but make its conserved source vanish across a domain containing the event
-horizon, initial-data support, scalar emitter, and photon sphere.  The metric,
-boost, curvature, and scalar potential are then exactly Schwarzschild there;
-differences arise only from the outer layer, cosmological boundary, and clock.
-Comparison with uniform SdS at fixed $L$ tests whether removing the near-zone
-deformation reduces the total waveform bias.  The two families also differ in
-their outer geometry and foliation, including the $R/6$ layer term for
-conformal coupling.  The bridge and clock still obey the global limit of
-Sec.~\ref{sec:bridges}.  Exact near-zone shielding is special to the static
-spherical ansatz and need not survive the constraints of a nonlinear $3+1$
-problem.
+We would like the cosmological source to vanish in a domain containing the event horizon and the photon sphere. Then, in an interior domain, the metric, boost, and scalar potential are exactly Schwarzschild. However, the outer layer, cosmological boundary, and clock still affect the waveform.
+We perform comparisons with uniform SdS at fixed $L$ to test whether this construction
+reduces the total waveform error. We first construct the source and its metric based on an idea by Dymnikova \cite{Dymnikova:2000algebraic,Dymnikova:2002mass} relying on the static spherical ansatz. We then specify
+the foliation and compare ringdown and tail signals.  
 
 \subsection{Conserved cosmological tensor and exact metric}
 
-A coordinate-dependent substitution $\Lambda\mapsto\lambda(r)$ in the
-vacuum equations is inconsistent:
+Restricting the cosmological term to an exterior region is not immediately trivial. The term $\Lambda$ is called cosmological \emph{constant} for a geometric reason. Simply replacing $\Lambda$ by a radial profile $\lambda(r)$ in the vacuum
+equations violates the contracted Bianchi identity unless it is constant:
 \begin{equation}
  G_{ab}+\lambda g_{ab}=0
  \quad\Longrightarrow\quad
- 0=\nabla^aG_{ab}=-\nabla_b\lambda,
+ 0=\nabla^aG_{ab}=-\nabla_b\lambda.
  \label{eq:variable_lambda_bianchi}
 \end{equation}
-so $\lambda$ must be constant.  We instead use a conserved tensor,
+But we can replace the cosmological term by a conserved \emph{tensor},
 \begin{equation}
- G^a{}_b+\mathcal{\Lambda}^a{}_b=0,
- \qquad \nabla_a\mathcal{\Lambda}^a{}_b=0,
+ G^a{}_b+\boldsymbol{\Lambda}^a{}_b=0,
+ \qquad \nabla_a\boldsymbol{\Lambda}^a{}_b=0.
  \label{eq:cosmological_tensor_equations}
 \end{equation}
-which becomes $\Lambda\delta^a{}_b$ wherever the cosmological term is
-constant.  This uses Dymnikova's radially boost-invariant anisotropic-vacuum
-framework \cite{Dymnikova:2000algebraic,Dymnikova:2002mass}, with the usual
-regular-center profile reversed: the tensor vanishes for $r\leq R_0$ and
-reaches the constant-$\Lambda$ form for $r\geq R_1$.
+In static spherical symmetry, radial variation is compatible with
+conservation if the source includes suitable anisotropic stresses.
+Following Dymnikova's anisotropic-vacuum framework
+\cite{Dymnikova:2000algebraic,Dymnikova:2002mass}, we choose equal temporal
+and radial eigenvalues $\Lambda_{\parallel}$ and angular eigenvalues
+$\Lambda_{\perp}$:
+\begin{equation}
+ \boldsymbol{\Lambda}^a{}_b
+ =\operatorname{diag}\!\left(
+ \Lambda_{\parallel},\Lambda_{\parallel},
+ \Lambda_{\perp},\Lambda_{\perp}\right).
+ \label{eq:exterior_cosmological_tensor}
+\end{equation}
+For an arbitrary smooth profile $\lambda(r)$, set
+\begin{align}
+ \Lambda_{\parallel}(r)&=\lambda+\frac{r}{3}\lambda',
+ \label{eq:lambda_parallel}\\
+ \Lambda_{\perp}(r)&=\lambda+r\lambda'
+ +\frac{r^2}{6}\lambda''.
+ \label{eq:lambda_perp}
+\end{align}
+Equality of the temporal and radial eigenvalues cancels the metric-derivative
+terms in the radial conservation equation, leaving
+\begin{equation}
+ \nabla_a\boldsymbol{\Lambda}^a{}_r
+ =\Lambda_{\parallel}'
+ +\frac{2}{r}\left(\Lambda_{\parallel}-\Lambda_{\perp}\right)=0.
+ \label{eq:exterior_conservation_check}
+\end{equation}
+The contributions proportional to $\lambda'$ and $\lambda''$ cancel exactly
+for any smooth profile; symmetry makes the other components vanish.
+Where $\lambda$ is constant, the tensor reduces to
+$\lambda\delta^a{}_b$.  Where it varies, the derivative terms supply the
+additional stresses required by conservation.  Thus $\lambda(r)$
+parametrizes a conserved anisotropic source, allowing us to circumvent the obstacle against  a variable vacuum term $\lambda(r)g_{ab}$.
 
-Let $\eta(x)=e^{-1/x}$ for $x>0$ and zero otherwise, and
-$S(x)=\eta(x)/[\eta(x)+\eta(1-x)]$.  For $2M<R_0<R_1<r_c$, choose
+We now choose the profile to give a Schwarzschild interior and an SdS
+exterior.  Set
+$\lambda(r)=\Lambda\chi_L(r)$, with $\chi_L=0$ below $R_0$ and $\chi_L=1$
+above $R_1$.  To join these regions smoothly, let $\eta(x)=e^{-1/x}$ for
+$x>0$ and zero otherwise, and define
+$S(x)=\eta(x)/[\eta(x)+\eta(1-x)]$.  For $2M<R_0<R_1<r_c$, the switch is
 \begin{equation}
  \chi_L(r)=
  \begin{cases}
@@ -1156,15 +954,17 @@ $S(x)=\eta(x)/[\eta(x)+\eta(1-x)]$.  For $2M<R_0<R_1<r_c$, choose
 \end{equation}
 where $\zeta_L$ is a smooth monotone map with
 $\zeta_L(R_0)=0$ and $\zeta_L(R_1)=1$.
-The production prescription keeps both the transition and exact-SdS cap
-resolved at large $L$ (Appendix~\ref{app:reproducibility}).  Set
-$\lambda(r)=\Lambda\chi_L(r)$.
+We choose the transition radii so that both the transition layer and the
+outer exact-SdS region retain nonzero
+widths in the compactified radial coordinate as $L\to\infty$.
+Appendix~\ref{app:exterior-implementation} gives the explicit profile.
 
-The metric that preserves the exterior Kottler mass parameter $M$ is
+The Einstein equations with this source admit the metric
 \begin{equation}
  ds^2=-f_\chi(r)dt^2+\frac{dr^2}{f_\chi(r)}+r^2d\omega^2,
  \label{eq:exterior_metric}
 \end{equation}
+with
 \begin{equation}
  \begin{aligned}
  f_\chi(r)&=1-\frac{2M}{r}-\frac{r^2}{3}\lambda(r)\\
@@ -1172,116 +972,94 @@ The metric that preserves the exterior Kottler mass parameter $M$ is
  \end{aligned}
  \label{eq:exterior_f}
 \end{equation}
-For $M>0$, this metric is exactly Schwarzschild below $R_0$ and SdS above
-$R_1$.  The layer is nonvacuum in ordinary Einstein gravity but exactly
-solves Eq.~\eqref{eq:cosmological_tensor_equations} with an anisotropic source.
+The integration constant $M$ is the same mass parameter in the interior and
+exterior.  For $M>0$, the metric is exactly Schwarzschild below $R_0$ and SdS
+above $R_1$.  Between them, the derivative terms in the source support a
+smooth, nonvacuum transition layer.
 
-Write
+The enclosed Misner--Sharp mass is
 \begin{equation}
  f_\chi=1-\frac{2m_\chi}{r},
  \qquad
  m_\chi(r)=M+\frac{r^3\lambda(r)}{6}.
  \label{eq:exterior_mass_function}
 \end{equation}
-Define the two source eigenvalues
-\begin{align}
- \Lambda_{\parallel}(r)&=\lambda+\frac{r}{3}\lambda',
- \label{eq:lambda_parallel}\\
- \Lambda_{\perp}(r)&=\lambda+r\lambda'
- +\frac{r^2}{6}\lambda''.
- \label{eq:lambda_perp}
-\end{align}
-The exact cosmological tensor is
-\begin{equation}
- \mathcal{\Lambda}^a{}_b
- =\operatorname{diag}\!\left(
- \Lambda_{\parallel},\Lambda_{\parallel},
- \Lambda_{\perp},\Lambda_{\perp}\right).
- \label{eq:exterior_cosmological_tensor}
-\end{equation}
-The only nontrivial component of the conservation law reduces to
-\begin{equation}
- \nabla_a\mathcal{\Lambda}^a{}_r
- =\Lambda_{\parallel}'
- +\frac{2}{r}\left(\Lambda_{\parallel}-\Lambda_{\perp}\right)=0,
- \label{eq:exterior_conservation_check}
-\end{equation}
-which follows directly from the eigenvalues; the other components vanish by
-symmetry.  Thus $\mathcal{\Lambda}^a{}_b=0$ below $R_0$ and
-$\mathcal{\Lambda}^a{}_b=\Lambda\delta^a{}_b$ above $R_1$, while conservation
-requires the derivative terms in the layer.
+It includes the cosmological source as well as the central mass parameter
+$M$, which remains unchanged.
 
-On the matter side,
-$T^a{}_b=-(8\pi)^{-1}\mathcal{\Lambda}^a{}_b
+Interpreting the source as a stress tensor gives
+$T^a{}_b=-(8\pi)^{-1}\boldsymbol{\Lambda}^a{}_b
 =\operatorname{diag}(-\varepsilon,p_r,p_\perp,p_\perp)$, with
 $\varepsilon=\Lambda_{\parallel}/(8\pi)$,
-$p_r=-\varepsilon$, and $p_\perp=-\Lambda_{\perp}/(8\pi)$.  Hence
+$p_r=-\varepsilon$, and $p_\perp=-\Lambda_{\perp}/(8\pi)$.
+The density $\varepsilon=(\lambda+r\lambda'/3)/(8\pi)$ obeys
+$m_\chi'=4\pi r^2\varepsilon$.  The energy-condition combinations are
 \begin{equation}
  \varepsilon+p_r=0,
  \qquad
  \varepsilon+p_\perp=-\frac{r}{16\pi}\Lambda_{\parallel}'.
  \label{eq:exterior_nec}
 \end{equation}
-The radial null energy condition is saturated.  Since
+The radial null energy condition is satisfied.  Since
 $\int_{R_0}^{R_1}\Lambda_{\parallel}'dr=\Lambda>0$, the tangential condition
-is violated somewhere in the layer.  This artificial medium is therefore not
-ordinary matter, an important limitation for stability and any covariant
-nonlinear completion.
+is violated somewhere in the layer.  The regulator therefore cannot be
+interpreted as ordinary matter satisfying the null energy condition.
 
-We do not claim here that $\mathcal{\Lambda}^a{}_b$ follows from a covariant
-matter action or possesses a consistent independent dynamics.
+Extending the construction to nonlinear Einstein evolution would require
+an evolution law for the source, beyond background conservation.  A metric
+perturbation changes the
+connection, so source perturbations must also satisfy
+\begin{equation}
+ \delta\!\left(\nabla_a\boldsymbol{\Lambda}^a{}_b\right)=0.
+ \label{eq:perturbed_conservation}
+\end{equation}
+The background tensor therefore cannot, in general, be held fixed during
+nonlinear evolution.  Such an extension needs a covariant conserved regulator.
 
-The curvature scalar is
+The Ricci scalar quantifies the curvature introduced by the source:
 \begin{equation}
  R_\chi=4\lambda+\frac{8}{3}r\lambda'
- +\frac{1}{3}r^2\lambda'',
+ +\frac{1}{3}r^2\lambda''.
  \label{eq:exterior_ricci_scalar}
 \end{equation}
-and is zero in the interior and $4\Lambda$ in the exterior.  The layer is
-smooth; Appendix~\ref{app:reproducibility} gives further diagnostics.  The
-Misner--Sharp mass accumulated across the layer is
+It vanishes in the Schwarzschild interior and equals $4\Lambda$ in the SdS
+exterior.  The Misner--Sharp mass accumulated across the smooth layer is
 \begin{equation}
  \frac{\Delta m_{\rm tr}}{M}
  :=\frac{m_\chi(R_1)-m_\chi(R_0)}{M}
  =\frac12\frac{(R_1/M)^3}{(L/M)^2}.
  \label{eq:transition_mass}
 \end{equation}
-Appendix~\ref{app:reproducibility} gives its large-$L$ scaling.
-The tested sequence is still preasymptotic: at $L/M=640$ this quantity is
-$104.3$, which is not perturbatively small.  Its large value is compatible
-with small local curvature because the source is diffuse and distant, but it
-need not be weak in nonlinear Einstein evolution.  We retain it as a global
-diagnostic.
+Appendix~\ref{app:exterior-implementation} gives the large-$L$ scaling of
+the curvature and accumulated mass.
+At $L/M=640$, the layer ends at $R_1\simeq440.4M$ and contains
+$\Delta m_{\rm tr}=104.3M$.  Uniform SdS has
+$m_{\rm SdS}(r)=M+r^3/(2L^2)$, so both constructions have exactly the same
+enclosed mass at $R_1$ and beyond.  The derivative contribution to the
+source density compensates for removing the cosmological source from the
+interior, while retaining the same exterior mass parameter.  
+The outer geometry can differ significantly from Schwarzschild:
+$|f_\chi(R_1)-f_{\rm Schw}(R_1)|=(R_1/L)^2\simeq0.474$ in this example.
+This is compatible with the fixed-radius Schwarzschild limit; at finite
+$L$, neither construction need approximate Schwarzschild closely at radii
+comparable to $L$.  The effect on extracted radiation must instead be
+assessed through waveform comparisons, as in the following subsections.
 
-A narrow transition can produce large derivatives and scattering even when
-$\Lambda$ is small; the production profile therefore uses a broad,
-spectrally resolved layer.
+\subsection{Bridge foliation, compactification, and clock}
 
-Because $0\leq\chi_L\leq1$,
-$f_{\rm SdS}\leq f_\chi\leq f_{\rm Schw}$.  For $R_0>6M$ and $R_1<r_c$,
-this excludes a transition-region horizon: $f_\chi>0$ on $(2M,r_c)$.  The
-black-hole horizon and surface gravity are exactly $2M$ and $(4M)^{-1}$, and
-$r_c$ obeys $1-2M/r_c-r_c^2/L^2=0$.  The inner photon sphere and ISCO also
-retain their Schwarzschild radii, $3M$ and $6M$.  The layer can nevertheless
-create additional orbit structure, and finite-$\ell$ QNMs remain a global
-two-horizon problem; only the leading photon-sphere expectation is local
-\cite{CardosoEtAl:2009geodesic}.
-
-\subsection{Flat-limit-adapted bridge and compactification}
-
-For the $M>0$ black-hole case, the production bridge adapted to
-Eq.~\eqref{eq:exterior_f} is
+The exterior metric needs a bridge that crosses both horizons and recovers
+the Schwarzschild foliation as $L\to\infty$.  For $M>0$, we choose
 \begin{equation}
  B_\chi(r)=-1+\frac{8M^2}{r^2}
  -\frac{8M^2}{r_c^2}\chi_L(r).
  \label{eq:exterior_bridge}
 \end{equation}
 It has $B_\chi(2M)=1$, $B_\chi(r_c)=-1$, and $-1<B_\chi<1$ between the
-horizons; beyond $r_c$, $B_\chi<-1$.  The height satisfies
-$h_\chi'=B_\chi/f_\chi$, with regular crossings verified in
-Appendix~\ref{app:reproducibility}.  Above $L_\star/M=160$ the production
-switch has fixed compact endpoints, but its contribution to the boost is
-$\mathcal O(M^2/L^2)$ at fixed $r$.  Hence
+horizons; beyond $r_c$, $B_\chi<-1$.  The height function satisfies
+$h_\chi'=B_\chi/f_\chi$; the horizon crossings are regular, as verified in
+Appendix~\ref{app:exterior-implementation}.  Since $0\leq\chi_L\leq1$ and
+$r_c/L\to1$, the cosmological correction to the boost vanishes as
+$\mathcal O(M^2/L^2)$.  Hence, at fixed $r$,
 \begin{equation}
  B_\chi(r)=-1+\frac{8M^2}{r^2}
  \qquad(L\to\infty),
@@ -1292,132 +1070,84 @@ $r^2\chi_L/L^2\to0$, so the
 metric and bridge recover Schwarzschild at fixed radius even if $\chi_L$ has
 a nonzero limiting profile.
 
-Define
+The compact radial coordinate maps the two horizons to fixed boundary points:
 \begin{equation}
  D_L=1-\frac{2M}{r_c},
  \qquad
  \rho_\chi(r)=\frac{1-2M/r}{D_L}.
  \label{eq:exterior_compactification}
 \end{equation}
-This places $2M$ and $r_c$ at $\rho_\chi=0$ and $1$ and tends to
-$1-2M/r$.  Choose
+It places $2M$ and $r_c$ at $\rho_\chi=0$ and $1$ and goes to
+$1-2M/r$ at fixed radius.  The conformal factor is
 \begin{equation}
  \Omega_{\chi,L}=\frac{2M}{r},
- \qquad \Omega_{\chi,L}(1)=\frac{2M}{r_c}>0,
+ \qquad \Omega_{\chi,L}(1)=\frac{2M}{r_c}>0.
  \label{eq:exterior_conformal_factor}
 \end{equation}
-whose positive endpoint value vanishes in the Schwarzschild limit.
+Its value at the outer boundary is positive at finite $L$ and vanishes in the
+Schwarzschild limit. The coefficients multiplying spatial derivatives at the outer boundary
+approach their Schwarzschild values as $L\to\infty$
+(Appendix~\ref{app:exterior-implementation}).  
 
-The principal endpoint coefficients recover Schwarzschild
-(Appendix~\ref{app:reproducibility}).  Conformal coupling also recovers
-$P_{\rm Schw}(1)$, whereas minimal coupling retains the lower-order offset of
-uniform SdS because every member has an exact-SdS cap.  This nonuniformity
-anticipates the tail sensitivity below.
-
-With the same normalization $r_0=4M$, define
+To compare waveforms on the same geometric clock, we keep the normalization
+$r_0=4M$ and define
 \begin{equation}
  q_\chi=\int_{r_0}^{r_c}\frac{1+B_\chi}{f_\chi}\,dr,
  \qquad U=\tau-q_\chi.
  \label{eq:exterior_clock}
 \end{equation}
-The endpoint is regular.  Comparison with the integrable Schwarzschild tail
-gives
+The integrand has a finite horizon limit.  Comparing its large-radius
+behavior with the Schwarzschild expression gives
 \begin{equation}
  q_\chi=q_0-\frac{8M^2}{r_c}
  +o\!\left(\frac{M^2}{r_c}\right)
- \longrightarrow q_0=4M\ln\frac{r_0}{r_0-2M}.
+ \Rightarrow q_0=4M\ln\frac{r_0}{r_0-2M}.
  \label{eq:exterior_clock_flat_limit}
 \end{equation}
-Thus the fixed-angle-width exterior-supported family shares the common
-Schwarzschild clock used above.
+Therefore, the exterior family approaches the same Schwarzschild clock as the
+uniform construction.
 
-\subsection{Ringdown-window comparison}
+\subsection{Ringdown comparison}
 \label{sec:exterior-tests}
 
-We compare the $\xi=0$, compact $\ell=2$ waveform at
-$L/M=80,160,320,640$ with the same data, clock, Schwarzschild reference, and
-uniform-SdS controls.  Although the potential is Schwarzschild below $R_0$,
-waves still cross the layer and end at $r_c$, so improvement is not automatic.
-All resolution and stability guards pass; Appendix~\ref{app:reproducibility}
-records the production audit.
-
-Against the same separately evolved Schwarzschild waveform $W_{\rm Schw}$, define
+We test whether preserving the near-zone geometry
+improves the waveform at the outer boundary.  We compare minimally coupled
+($\xi=0$), compact $\ell=2$ data at $L/M=320,640$, using matched initial
+data and clocks for Schwarzschild, uniform SdS, and exterior-supported SdS.
+For either cosmological background, the relative waveform error against the
+same separately evolved Schwarzschild reference is
 \begin{equation}
  E_X(L;\mathcal J)
- =\frac{\|W_X-W_{\rm Schw}\|_{\mathcal J}}{\|W_{\rm Schw}\|_{\mathcal J}},
- \qquad X\in\{\mathrm{SdS},\chi\}.
+ =\frac{\|W_X-W_{\rm Schw}\|_{\mathcal J}}{\|W_{\rm Schw}\|_{\mathcal J}}.
  \label{eq:exterior_waveform_error}
 \end{equation}
-We compare raw outer-boundary waveforms on the ringdown window
-$15\leq U/M\leq45$.  The equal-duration windows $10$--$40M$
-and $20$--$50M$ test window sensitivity; these overlapping windows are
-correlated diagnostics, not independent measurements.  The $0$--$80M$ norm is
-a secondary audit.
+Here $X\in\{\mathrm{SdS},\chi\}$.  We compare waveforms at the outer boundary
+over the ringdown interval $15\leq U/M\leq45$.
 
-The refinement scale $\eta_X$, normalized by
-$\|W_{\rm Schw}\|_{\mathcal J}$, is the larger of the medium-to-fine residual
-change and its remaining fine-grid estimate; for a nonmonotone ladder it is
-the larger successive change.  We call the ordering margin-separated when
-$E_\chi+\eta_\chi<E_{\rm SdS}-\eta_{\rm SdS}$.  The common Schwarzschild floor
-is not counted twice.  The more pessimistic test---adding it to the exterior
-upper bound and subtracting it from the uniform lower bound---also preserves
-all four orderings.  This is an observed-grid, not continuum, criterion.
-
-Figure~\ref{fig:exterior-qnm-residuals} compares the signed residuals.  Moving
-the cosmological term outward reduces the residual norm across each ringdown
-window.
-
-\begin{figure*}[t]
- \centering
- \includegraphics[width=\textwidth]{figs/exterior_qnm_residual_comparison.pdf}
- \caption{Minimally coupled ($\xi=0$) raw fine-grid residuals relative to the
- same Schwarzschild waveform for uniform SdS (top) and the exterior-supported
- family (bottom).  Both
- panels use identical axes and colors.  Shading marks the nominal
- $15\leq U/M\leq45$ ringdown window.  No fitted time shift or amplitude
- rescaling has been applied; interpolation only places the signals on the
- common Schwarzschild $U$ grid.}
- \label{fig:exterior-qnm-residuals}
-\end{figure*}
-
-Table~\ref{tab:exterior-qnm-improvement} quantifies the comparison.  On the
-nominal window the error reduction decreases from $25.7\%$ at $L/M=80$ to
-$8.6\%$ at $L/M=640$, while all three windows give a positive reduction at
-every $L$.  Each nominal improvement clears the adopted family-specific
-numerical margins.  The $L/M=640$ exterior ladder is nonmonotone, so its
-$\eta_\chi$ is the larger observed level-to-level change.  Its observed-grid
-ordering is margin-separated, not continuum-converged.
-
-\begin{table*}[t]
-\caption{Minimally coupled ($\xi=0$) raw ringdown-window agreement with
- Schwarzschild.  Errors and numerical scales refer to
- $15\leq U/M\leq45$ and are percentages; $\eta$ is a
- conservative coupled refinement scale, not a statistical uncertainty.  The
- $L/M=640$ exterior value is the larger observed level-to-level change and
- has no Richardson interpretation.  The
- last column gives the relative-reduction range across the fixed
- $10$--$40M$, $15$--$45M$, and $20$--$50M$ windows.  The common
- Schwarzschild medium-to-fine floor is $0.02696$ percentage points; assigning
- it independently and adversely to both sides leaves a minimum separation of
- $0.03263$ percentage points at $L/M=640$.}
+\begin{table}[t]
+\caption{Ringdown waveform errors relative to Schwarzschild for uniform
+ and exterior-supported SdS, using minimally coupled ($\xi=0$), $\ell=2$
+ data on $15\leq U/M\leq45$.  The relative error reduction is
+ $100(1-E_\chi/E_{\rm SdS})\%$.}
 \label{tab:exterior-qnm-improvement}
 \begin{ruledtabular}
-\begin{tabular}{rrrrrrr}
-$L/M$ & $100E_{\rm SdS}$ & $100\eta_{\rm SdS}$
-& $100E_\chi$ & $100\eta_\chi$
-& reduction (\%) & window range (\%)\\
+\begin{tabular}{rrrr}
+$L/M$ & uniform SdS & exterior SdS & reduction\\
+ & error (\%) & error (\%) & (\%)\\
 \hline
-80  &14.593&0.0756&10.839&0.0178&25.7&20.9--30.2\\
-160 & 6.679&0.0472& 5.446&0.00521&18.5&15.6--21.2\\
-320 & 3.189&0.0725& 2.780&0.00146&12.8&11.3--14.3\\
-640 & 1.558&0.0299& 1.424&0.0176& 8.6& 7.8--9.3\\
+320 & 3.18 & 2.77 & 12.8\\
+640 & 1.55 & 1.42 &  8.6\\
 \end{tabular}
 \end{ruledtabular}
-\end{table*}
+\end{table}
 
-This fixed-mode comparison neither repeats the localized-source calculation
-nor separately determines quasinormal frequencies or damping rates; it makes
-no claim about the global quasinormal spectrum.
+Restricting the cosmological source to the exterior reduces the ringdown
+waveform error by $12.8\%$ at $L/M=320$ and $8.6\%$ at $L/M=640$
+(Table~\ref{tab:exterior-qnm-improvement}).  
+
+This fixed-mode test quantifies ringdown waveform agreement for the specified
+initial data.
+Determining the global quasinormal spectrum requires a separate spectral analysis.
 Distant perturbations can strongly alter that spectrum
 \cite{CheungEtAl:2022elephant} while leaving early ringdown nearly unchanged,
 as demonstrated for a black hole surrounded by a dynamical thin shell
@@ -1426,556 +1156,332 @@ as demonstrated for a black hole surrounded by a dynamical thin shell
 \subsection{Exterior-supported tail comparison}
 \label{sec:matched-tail-result}
 
-We compare uniform and exterior-supported tails at the common length
-$L/M=640$.  These matched $\ell=1$ evolutions extend through $U/M=1000$ and
-use both $\xi=0$ and $1/6$; Schwarzschild has one common reference because
-$R[g]=0$.  Figure~\ref{fig:matched-tail} gives the comparison.
+Tail recovery tests the construction beyond the ringdown window.
+Matched $\ell=1$ evolutions at
+$L/M=640$ through $U/M=1000$ compare uniform and exterior-supported SdS at
+$\hc$ with Schwarzschild at $\scri^+$, for both $\xi=0$ and $1/6$.  Here we
+require the local decay index to remain within $10\%$ of $p=3$ for at least
+$40M$.  Uniform conformal SdS meets this criterion; uniform minimal coupling
+does not.
+At fixed $L$, the field equation therefore matters for the intermediate polynomial decay rates.
 
-\begin{figure*}[!t]
+At $L/M=640$, the exterior-supported construction fails to recover the
+Schwarzschild tail decay rate for either coupling
+(Fig.~\ref{fig:matched-tail}).  Both evolutions develop slowly decaying
+components and secondary lobes that persist under refinement, and neither
+meets the $40M$ criterion.  This behavior is consistent with the sensitivity
+of tails to scattering in the outer geometry, which remains modified by the
+regulator.  Appendix~\ref{app:matched-tail-protocol} gives the intervals and
+convergence evidence.
+
+\begin{figure}[t]
  \centering
- \includegraphics[width=.94\textwidth]{figs/tail_outer_boundary_comparison.pdf}
- \caption{Matched $\ell=1$, $L/M=640$ outer-boundary tail comparison for
- minimal coupling (left) and conformal coupling (right).  The rows show the
- signed fine-grid waveform, its centered $10M$ root-mean-square envelope, and
- the local power index.  Schwarzschild is extracted at $\scri^+$; both
- finite-$L$ signals are extracted at $\hc$.  The shaded band marks
- $p_{\rm eff}=3\pm10\%$; only refinement-supported indices are shown.  No
- time shift or amplitude rescaling is fitted.}
+ \includegraphics[width=\columnwidth]{figs/matched_tail_comparison.pdf}
+ \caption{Matched dipole tails at $L/M=640$, compared at $\hc$ with
+ Schwarzschild at $\scri^+$.  (a) Centered $10M$ RMS envelopes.
+ (b) Local power indices from $40M$ fits; the gray band marks
+ $p=3\pm10\%$ and the gold shading the uniform-conformal Price-compatible interval.}
  \label{fig:matched-tail}
-\end{figure*}
+\end{figure}
 
-Figure~\ref{fig:matched-tail} shows the signed waveforms, root-mean-square
-envelopes, and local power indices.  The Schwarzschild signal settles to
-$p_{\rm eff}=3$, and uniform conformal SdS remains in the same band for a
-substantial intermediate interval.  Neither exterior-supported signal does.
-Both instead develop a slowly decaying component followed by broad secondary
-lobes.  Appendix~\ref{app:latetime} gives the finite-interval fits and full
-estimator and refinement audits.  The uniform conformal result is
-compatibility of the local decay rate, not recovery of the complete tail
-waveform.
-
-The longest refinement-supported candidate intervals within
-$p_{\rm eff}=3\pm10\%$ are $140.4$--$975.0M$ for Schwarzschild
-($\geq834.7M$); $134.5$--$144.1M$ and $292.9$--$304.8M$ for minimally
-coupled uniform and exterior-supported SdS ($9.6M$ and $11.9M$); and
-$153.3$--$294.8M$ and $618.7$--$628.0M$ for their conformally coupled
-counterparts ($141.5M$ and $9.4M$).  Durations are calculated before rounding
-the endpoints.  Thus, among the four matched $L/M=640$
-cases, only uniform conformal SdS meets the required $40M$ duration.  This
-conclusion is unchanged across all nine estimator combinations tested.  The
-Schwarzschild upper endpoint is set by the finite record, not a departure from
-the Price-law behavior.
-
-The uniform conformal result is consistent with the Schwarzschild endpoint
-limit in Eq.~\eqref{eq:coupling_endpoint_limits}, but that limit alone does
-not determine the tail: the conformally coupled exterior family shares it
-and fails the same plateau criterion.
-
-Three resolutions and a halved timestep support both exterior classifications;
-an independent endpoint-factored formulation additionally confirms the
-minimally coupled result (Appendix~\ref{app:latetime}).  The matched
-$L/M=640$ record ends at $\kappa_cU=1.558$ before either uniform waveform
-sustains its expected asymptotic rate, $\gamma/\kappa_c=1$ or $2$; we
-therefore quote no cosmological rate or entry time.  The supported statement
-is narrower: exterior localization improves ringdown, but the tested tail is
-sensitive to the combined effect of the layer, SdS cap, and cosmological
-boundary; these data do not separate their contributions.
-
-The conserved background tensor cannot generally remain fixed under a metric
-perturbation, because
-\begin{equation}
- \delta\!\left(\nabla_a\mathcal{\Lambda}^a{}_b\right)=0.
- \label{eq:perturbed_conservation}
-\end{equation}
-A nonlinear test must instead evolve a covariant conserved regulator.
-
-\FloatBarrier
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 \label{sec:conclusions}
 
-Artificial cosmology is a controlled limit, not merely the addition of a
-positive cosmological constant.  The metric, foliation, compactification,
-data map, and waveform clock must approach the same asymptotically flat
-problem.  Horizon regularity alone does not select it.  The minimal gauge
-satisfies the adopted global and principal-coefficient criteria for the
-matched Schwarzschild comparison.
+We tested Misner's artificial cosmology as a regulator at the conformal boundary using scalar radiation from a compact source in a black-hole spacetime.  The regulator introduces a small positive cosmological constant and a smooth foliation that reaches the cosmological horizon.  The resulting SdS spacetime is asymptotically de Sitter, with a conformal boundary at finite radius. An important aspect of the construction is that the foliation must resolve the conformal boundary of the cosmological spacetime for it to have a numerically useful limit to the asymptotically flat case (see Fig.~\ref{fig:bridge_foliations} and \cite{zenginoglu_bridge_2025, ZhouPanossoMacedo:2025}). Then, the limiting slices meet distinct cuts of future null
+infinity, and their conformal spatial metric remains smooth and
+nondegenerate.  In this paper, we have used a minimal-gauge foliation that recovers the Schwarzschild slices in the limit of vanishing cosmological constant
+\cite{AnsorgMacedo:2016,Macedo:2020,PanossoMacedo:2023qzp,ZhouPanossoMacedo:2025}.
 
-With these structures matched, the uniform fixed-mode and localized multimode
-sequences support extrapolated agreement with the Schwarzschild waveform at
-the conservative $1\%$ level on their prompt-dominated intervals.  A separate
-large-$L$ calculation recovers the Schwarzschild dipole Price-law rate over a
-refinement-supported intermediate interval, without establishing the full
-tail waveform or a later cosmological crossover.  The caustic scalings remain
-consistency evidence rather than precision measurements.
+Beyond testing Misner's numerical regulator on wave propagation, these calculations provide a model for understanding the effects of a small positive cosmological constant on outgoing waveforms.  The single-mode and localized-source comparisons show how Schwarzschild recovery improves with increasing $L$ and provide benchmarks for choosing a cosmological scale.  At sufficiently large $L$, we demonstrated that uniform SdS provides accurate ringdown waveforms and even gives the polynomial Price-law decay rate in intermediate intervals. The coupling comparison shows that tail recovery depends on
+the asymptotic field equation.
+This construction can also be used to numerically test the asymptotically flat approximation for isolated systems in a Universe with a small positive cosmological constant
+\cite{Ashtekar:2014zfa,Ashtekar:2015lxa}.
 
-The exterior-supported family leaves the strong-field metric exactly
-Schwarzschild, and its conserved anisotropic layer reduces the quadrupole
-ringdown-window error at every tested length.  The same profile generates
-additional long-lived tail structure, showing that near-zone shielding does
-not remove sensitivity to the outer scattering problem.  This proof of
-principle is neither an optimized regulator nor a universal tail or
-quasinormal-spectrum result.  The decisive next test is finite-$L$ nonlinear
-Einstein evolution with a covariant conserved regulator, especially because
-generic three-dimensional scri-fixed metric evolution remains open.
+
+We extend Misner's artificial cosmology by restricting the cosmological modification to an exterior layer, based on Dymnikova's conserved anisotropic source \cite{Dymnikova:2000algebraic,Dymnikova:2002mass}. This approach preserves the strong-field geometry and improves ringdown agreement relative to uniform SdS at fixed $L$.
+However, it does not improve tail recovery.
+The transition layer changes the scattering potential, and tails are sensitive to the outer geometry and source history
+\cite{DeAmicisEtAl:2024tails,RosatoEtAl:2026GreenFunction}.
+Extending this construction to nonlinear Einstein evolution is more
+difficult.  Source conservation must hold as the metric evolves, requiring
+a covariant evolution law beyond the static spherical ansatz.  The stresses in the transition layer also violate the null energy condition.
+
+A natural next step is to compute gravitational waveforms from particle
+sources inspiraling into the central black hole.  This would test
+cosmological effects on long, astrophysically relevant signals.  A separate
+nonlinear Einstein study is needed to determine whether Misner's artificial cosmology
+is a practical proposal for the treatment of the asymptotic boundary.
+
+\begin{acknowledgments}
+A.Z. thanks Ted Jacobson, Rodrigo Panosso Macedo, and Alex
+Va\~n\'o-Vi\~nuales for discussions.  This work was inspired by Charles
+Misner's investigations of artificial cosmology and by the memorial
+symposium held in his honor at the University of Maryland in 2023.  This material is
+supported by NSF Grant No.~2309084. A.Z. used OpenAI Codex and G.A.K. used Anthropic Claude to assist with code
+development, numerical analysis, and manuscript review.
+\end{acknowledgments}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 
-\section{Numerical verification and deterministic sensitivities}
+\section{Numerical verification}
 \label{app:convergence}
 
-\subsection{Production ladders and residual refinement}
+This appendix details the numerical evidence supporting the waveform
+comparisons.  Tail-specific criteria and refinement results are 
+in Appendix~\ref{app:latetime}.
 
-The uniform fixed-mode ladder is
+Independent implementations give consistent results for the sourced response
+and exterior ringdown.  Finite-difference and spectral sourced waveforms on
+Schwarzschild and uniform SdS at $L/M=80$ agree to $5.58\times10^{-4}$
+in the relative sphere-integrated norm.  At $L/M=320,640$, the exterior
+ringdown waveforms from the spectral-element solver and an independent
+first-order calculation agree to $1.12\times10^{-5}$ in the
+Schwarzschild-normalized $L^2$ norm on $15\leq U/M\leq45$.
+These differences are small compared with the reported finite-$L$ effects;
+the exterior-supported improvement persists under spatial and temporal
+refinement.
+
+\subsection{Fixed-mode and localized-source convergence}
+
+The minimally coupled uniform fixed-mode sequence uses
 $(N,\Delta\tau/M)=(384,0.005)$, $(512,0.00375)$, and $(768,0.0025)$,
-evolved to $\tau=200M$ with boundary output every $0.03M$.  The localized
-source ladder is
+evolved to $\tau=200M$ with boundary output every $0.03M$.  The
+localized-source sequence uses
 $(N_r,\Delta\tau/M,\ell_{\max})=(1024,0.001,42)$,
-$(1536,1/1500,46)$, and $(2048,0.0005,50)$, evolved to $\tau=60M$ with output
-at the stepping cadence and observers at $r=8M$, $r=12M$, and the outer
-boundary.  Each finite-$L$ run has a separately evolved Schwarzschild control
-at the same level.  Radial resolution, timestep, and, for the localized
-source, angular truncation are refined together.
+$(1536,1/1500,46)$, and $(2048,0.0005,50)$, evolved to $\tau=60M$
+with output at every timestep.  Each finite-$L$ run has a separately
+evolved Schwarzschild control at the same resolution.  Radial resolution,
+timestep, and, for the localized source, angular truncation are refined
+together.
 
-Let $R_q=X_q-Y_q$ be a residual waveform at refinement level $q$.  The direct
-medium-to-fine change is
+We test convergence of waveform differences directly.  For a residual
+$R_q=X_q-Y_q$ at refinement level $q$, the medium-to-fine change is
 \begin{equation}
  \delta_{mf}=
  \frac{\|R_{\rm medium}-R_{\rm fine}\|}
  {\|W_{{\rm Schw},{\rm fine}}\|},
  \label{eq:paired_refinement_change}
 \end{equation}
-using the fixed-mode or Parseval norm as appropriate.  It is not
-$|E_{2,\rm medium}-E_{2,\rm fine}|$.  Coarse-to-medium and medium-to-fine
-changes determine the observed coupled order and Richardson estimate.  We use
-the effective ladder parameter $h_q^{\rm eff}=N_q^{-1}$, which indexes the
-joint refinement of radial resolution and timestep---and of $\ell_{\max}$ for
-the sourced runs---rather than a pure spatial mesh width.  For normalized
-successive changes $d_{cm}$ and $d_{mf}$, the coupled order $p$ solves
-\begin{equation}
- \frac{d_{cm}}{d_{mf}}
- =\frac{(h_c^{\rm eff})^p-(h_m^{\rm eff})^p}
- {(h_m^{\rm eff})^p-(h_f^{\rm eff})^p},
- \label{eq:coupled_refinement_order}
-\end{equation}
-using the actual, generally unequal resolution ratios.  The corresponding
-fine-grid scale is $d_{mf}/[(N_f/N_m)^p-1]$.  Direct thresholds retain the
-larger of $d_{mf}$ and this scale.  If an exterior ladder is nonmonotone, no
-Richardson order is assigned and the larger successive change is used
-instead.
+using the fixed-mode or Parseval norm as appropriate. Richardson estimates use an effective refinement
+parameter $h_q=N_q^{-1}$ and an order $p$ inferred from the two successive
+changes with their actual resolution ratios.  This order describes the
+joint refinement.  The estimated remaining fine-grid error is
+$\delta_{mf}/[(N_f/N_m)^p-1]$; the larger of this estimate and the observed
+change sets the numerical scale used for the direct accuracy thresholds.
+These tests quantify refinement at fixed coefficient and matrix cutoffs.
+An independent cutoff check for the large-$L$ tail is given in
+Appendix~\ref{app:large-L-tail}.
 
-All numerical values in this appendix come from $\xi=0$ evolutions, and every
-waveform comparison uses all three levels of its stated ladder.
-
-The exterior-supported comparison applies the same paired-residual principle
-separately to the uniform and exterior families.  Its conservative scale is
-defined in Sec.~\ref{sec:exterior-tests}.  The ringdown-window exterior ladders are
-monotone for $L/M=80$, $160$, and $320$; the $L/M=640$ ladder is not, so no
-Richardson order is assigned there.  For these runs, the reduction constraint
-and its stored maximum norm are
-\begin{align*}
- C_j(\tau)&=\psi_j(\tau)-[\partial_\rho u(\tau)]_j,\\
- \|C\|_{\infty,{\rm stored}}
- &:=\max_{\tau\in\mathcal T_{\rm stored}}\max_j|C_j(\tau)|.
-\end{align*}
-Here $j$ runs over the base-grid Chebyshev collocation points.  For these
-$100M$ runs, $\mathcal T_{\rm stored}$ contains the initial and terminal
-records; some archives contain a numerically duplicated terminal sample.
-This is an absolute, unnormalized diagnostic evaluated only at those
-snapshots, not over the continuous time history.  In coarse, medium, and fine
-order it is $(7.54\times10^{-4},2.71\times10^{-4},2.14\times10^{-3})$ for
-$L/M=320$ and
-$(1.18\times10^{-3},2.87\times10^{-3},6.10\times10^{-4})$ for $L/M=640$.
-The overall maximum occurs in the medium $L/M=640$ run.  Because neither
-sequence decreases monotonically, this quantity is a stability guard rather
-than a convergence measure.  The archives do not retain a corresponding
-pointwise derivative-field scale, so we assign no relative normalization.
-All background, representation, and stability guards pass.  The
-family-specific scales used in the comparison are given explicitly in
-Table~\ref{tab:exterior-qnm-improvement}.
-
-For the fixed-mode family the largest cumulative refinement change is
-$0.1478\%$ at $L/M=320$ and $0.0465\%$ at $L/M=640$, with Richardson
-estimates $0.0138\%$ and $0.0035\%$.  Derived extrapolants inherit the
-refinement of all three members, which is why their observed changes reach
-$0.409\%$ while their fine-grid residuals stay near $0.03\%$.
-On the disjoint intervals refinement dominates: fine-grid residuals of $0.096$
-to $0.211\%$ on $40\leq U/M\leq80$ carry refinement changes of $1.02$ to
-$3.14\%$, and on $80\leq U/M\leq160$ refinement exceeds the residual
-outright; we therefore treat those intervals only as diagnostics, not as
-late-time accuracy statements.  For the localized source family the
-observed refinement changes stay at the $10^{-4}\%$ level on the archived
-interval.
-
-The standalone Schwarzschild check compares complete archived fields with a
-sphere and time integrated Parseval norm.  Relative to the fine
-$(N_r,\Delta\tau/M,\ell_{\max})=(2048,0.0005,50)$ archive, the coarse and
-medium ladder differences are $3.44\times10^{-7}$ and
-$7.66\times10^{-8}$.  Truncating the fine response itself isolates angular
-omission from radial and temporal error; the relative omitted-field norms are
-$2.29\times10^{-9}$ at $\ell_{\max}=42$ and $1.26\times10^{-10}$ at
-$\ell_{\max}=46$.  The largest stored reduction constraint is
-$1.80\times10^{-11}$.
-
-A separate minimally coupled sourced calculation compares the two
-implementations at $L/M=80$ on Schwarzschild and SdS.  It is a validation data
-set, not part of either production sequence.  Across these archives, the
-largest sphere-integrated relative difference is $5.58\times10^{-4}$ and the
-largest individual arrival-time difference is $4.14\times10^{-4}M$.  Both
-implementations use the analytic-envelope arrival for this comparison,
-whereas the $D_1$ analysis in Sec.~\ref{sec:sds_physics} uses the matched
-template lag.  We therefore treat the results separately: the
-cross-implementation comparison validates the sourced waveform and timing
-pipeline but does not contribute another measurement of the matched-template
-observable.  Both runs use $\ell_{\max}=42$, $\Delta\tau=0.002M$, output every
-$0.002M$, and end at $72M$.  The finite-difference run uses $N_r=768$ and
-classical RK4; the Dedalus run uses 512 Chebyshev T modes, $3/2$ dealiasing,
-RK443, and stagewise source evaluation.
-
-\subsection{Caustic timing audit}
-
-We include a timing measurement in a scaling fit only when all four
-matched-template lag optimizations avoid their $\pm4M$ bounds and $|D_1|$ is
-at least three times its combined fixed-source deterministic sensitivity.
-This rule excludes both local $L/M=640$ values, which remain as open markers
-in Fig.~\ref{fig:d1}.  The separate $1M$ null-geodesic residual threshold
-applies only to the $L/M=12$ phase pairs.
-
-The expected local and outer powers are tested with
-\begin{align}
- \frac{D_{1,\mathrm{local}}}{M}
- &=a_2\left(\frac{M}{L}\right)^2
- +a_4\left(\frac{M}{L}\right)^4,\notag\\
- \frac{D_{1,\mathrm{outer}}}{M}
- &=b_1\frac{M}{L}+b_2\left(\frac{M}{L}\right)^2.
- \label{eq:d1_scaling_models}
-\end{align}
-Inverse squared deterministic sensitivities are numerical weights, not
-inverse statistical variances.  The local fits use $L/M=80$, $160$, and
-$320$; the outer fit also includes $L/M=640$.  The curves therefore test the
-powers without assigning statistical meaning to their coefficients or
-scaled residual sums.
-
-Table~\ref{tab:timing} separates four deterministic timing sensitivities.  The
-PDE contribution comes from the paired refinement ladder.  The estimator
-contribution is the difference between matched-template and analytic-envelope
-arrivals.  Four $0.5M$ displacements and rescalings of the fixed extraction
-windows determine the window contribution; analysis grids spaced by
-$0.0005M$, $0.001M$, and $0.002M$ determine the cadence contribution.  Their
-linear sum is a conservative deterministic bound, not a standard deviation,
-confidence interval, or statistical fit weight.  Every combined target fails,
-although each PDE contribution alone meets its target.  Source-width
-dependence is a physical dependence on the chosen emitter and is excluded
-from this fixed-source numerical sensitivity budget.
-
-\begin{table*}[t]
- \caption{Minimally coupled ($\xi=0$) deterministic timing sensitivities in
- units of $M$.  The combined
- column is a conservative linear sum and not a statistical error.  None of
- the four target-bearing entries meets its specified analysis criterion,
- while every PDE contribution alone would.  The
- associated $D_1$ scaling is therefore used only as consistency evidence.}
-\label{tab:timing}
-\begin{ruledtabular}
-\begin{tabular}{rlrrrrrr}
-$L/M$ & observer & PDE & estimator & window & cadence & combined & target\\
-\colrule
-320 & $r=8M$ & $6.80\times10^{-8}$ & $3.24\times10^{-4}$ & $2.52\times10^{-5}$ & $3.04\times10^{-7}$ & $3.49\times10^{-4}$ & $1.0\times10^{-4}$\\
-320 & $r=12M$ & $7.86\times10^{-7}$ & $7.83\times10^{-4}$ & $1.59\times10^{-5}$ & $4.47\times10^{-8}$ & $8.00\times10^{-4}$ & $1.0\times10^{-4}$\\
-320 & outer & $3.83\times10^{-9}$ & $4.03\times10^{-3}$ & $2.45\times10^{-4}$ & $2.21\times10^{-6}$ & $4.28\times10^{-3}$ & $5.0\times10^{-4}$\\
-640 & outer & $1.04\times10^{-8}$ & $2.11\times10^{-3}$ & $1.27\times10^{-4}$ & $1.56\times10^{-6}$ & $2.24\times10^{-3}$ & $5.0\times10^{-4}$\\
-\end{tabular}
-\end{ruledtabular}
-\end{table*}
-
-The estimator term dominates all four combined bounds, preventing a precision
-coefficient statement.
-
-Two exclusions are recorded rather than corrected.  Both local $L/M=640$
-timings are diagnostic because $|D_1|$ is not large compared with the
-combined sensitivity of the same measurement.  All six generic angle phase
-pairs at $L/M=12$ are excluded from quantitative phase analysis because at
-least one extracted pulse in each pair differs from its null geodesic
-arrival by more than the $1M$ tolerance, the largest residual being
-$15.666M$.  No phase estimate is reported for those pairs, and their
-rejection carries no physical interpretation.
-
-\begin{figure*}[t]
- \centering
- \includegraphics[width=\textwidth]{figs/D1_scaling.pdf}
- \caption{Minimally coupled ($\xi=0$) absolute shift $|D_1|$ in the
- direct-to-first-echo spacing at
- $r=8M$, $r=12M$, and the outer boundary.  Bars show combined deterministic
- sensitivities.  Open markers fail the $|D_1|\geq3\,\delta D_1$ selection
- condition.  Dashed curves show the sensitivity-weighted fits in
- Eq.~\eqref{eq:d1_scaling_models}.}
- \label{fig:d1}
-\end{figure*}
-
-\FloatBarrier
-\section{Auxiliary caustic and late-time protocols}
-\label{app:latetime}
-
-\subsection{Caustic timing definition}
-
-At a fixed extraction radius, let $U_{\rm dir}$ be the direct-pulse arrival
-reconstructed at $\gamma=0$ and $U_{\rm echo}$ the first caustic-echo arrival
-at $\gamma=\pi$.  The primary estimator is the matched-template lag against
-the corresponding Schwarzschild pulse.  We define
-\begin{equation}
- D_1(r;L)=
- \left(U_{\rm echo}-U_{\rm dir}\right)_{\mathrm{SdS},L}
- -\left(U_{\rm echo}-U_{\rm dir}\right)_{\mathrm{Schw}},
- \label{eq:d1_definition}
-\end{equation}
-so a background-independent clock offset cancels.  Appendix
-\ref{app:convergence} gives the selection rule and scaling models.
-
-\subsection{Finite-radius crossover protocol}
-
-The main text quotes the $\xi=0$, $r=8M$ transition because it is the cleanest
-supporting case.  This separate crossover study treats the $\ell=1$ response
-for $L/M=20$, $40$, $80$, and $160$ at $r=4M$, $8M$, $16M$, and $\hc$.
-Finite-radius observations are compared with a separate Schwarzschild
-run at the same areal radius, while $\hc$ is compared with Schwarzschild
-$\scri^+$.  An additional $\ell=2$, $L/M=80$ calculation checks the
-mode dependence.
-
-Departure is the end of the last persistent interval, before cosmological
-entry, on which the local decay rate agrees with the Schwarzschild reference.
-Entry is the first persistent interval on which the rate agrees with the
-expected minimally coupled SdS value.  The rate is constructed from a
-centered root-mean-square
-envelope and a cubic Savitzky--Golay filter.  We repeat the extraction for
-$54$ combinations of smoothing width, root-mean-square fraction, persistence
-interval, and tolerance.  A setting resolves a transition only when it finds
-both endpoints.  At the aggregate level, a case is called resolved when at
-least $27$ settings do so and marginal when between $1$ and $26$ do so.  If
-none resolves, the case is reported by the missing endpoint, such as ``no
-cosmological entry.''  Quoted times are medians over the resolving settings,
-with the full sweep range as a systematic interval.
-
-At $r=8M$, the entry medians are $\kappa_cU=2.83$ for $L/M=80$ and $2.94$
-for $L/M=160$, with sweep ranges $[2.56,3.07]$ and $[2.68,3.19]$.
-They agree to $4\%$ in cosmological units while the corresponding geometric
-times differ by a factor of $2.05$.  The departure medians, $115.9M$ and
-$133.5M$, are instead approximately fixed in black-hole units; their
-dimensionless ranges are $[1.15,1.76]$ and $[0.71,0.96]$ in $\kappa_cU$.
-The transition interval consequently widens from approximately $117M$ to
-$343M$.  With only two clean lengths, this contrast is consistency evidence
-for the two physical scales and not a fitted scaling law.
-
-The shorter-length cases show why the aggregate classification matters.  At
-$L/M=20$ no observer enters a resolved cosmological regime.  At $L/M=40$ the
-$r=4M$ case has no cosmological entry, the $r=8M$ and $r=16M$ cases are
-marginal with respectively $1/54$ and $18/54$ resolving settings, while the
-cosmological-horizon case is resolved at the threshold $27/54$.
-
-The Schwarzschild reference does not settle within $5\%$ of its own
-$\ell=1$ Price-law value until $U=220.3M$ at $r=8M$ and $167.3M$ at $\scri^+$,
-both later than the corresponding finite-$L$ departures.  For $\ell=2$ the
-Price-law value is not attained at $r=4M$ within the evolved interval.  Thus the
-tested $L/M\leq160$ solutions leave the Schwarzschild waveform before a clean
-Schwarzschild power-law regime is established.  This supplies physical
-context for the short-length comparison interval; the production disjoint
-windows in Sec.~\ref{sec:direct_recovery} are labeled diagnostic for the
-separate numerical reason that their refinement change is not subdominant.
-
-\subsection{Uniform minimally coupled large-length control}
-\label{app:large-L-tail}
-
-The direct test of Schwarzschild Price-law recovery uses the same compact
-$\ell=1$ velocity data and geometric clock as the crossover study, but sets
-$L/M=3072$ and extracts at the asymptotic endpoints.  Uniform minimally
-coupled SdS is measured at $\hc$ and its independently evolved Schwarzschild
-control at $\scri^+$.  The spatial ladder uses $N=1536$, $2048$, and $3072$
-at $\Delta\tau/M=0.0025$, supplemented by an $N=2048$ calculation at
-$\Delta\tau/M=0.00125$.
-
-The centered $10M$ root-mean-square envelope defines
-$p_{\rm eff}=-d\ln A/d\ln U$, evaluated with a $40M$ log-time fit.  The fixed
-acceptance criterion requires both endpoint indices to remain within $5\%$
-of $p=3$ for a continuous $150M$ interval containing $U=300M$, while the two
-finest envelopes differ by less than $1\%$.  The final reported interval is
-$231.88\leq U/M\leq381.88$; it is distinct from the longer two-grid interval
-used to select this value of $L$ for the final ladder.
-Table~\ref{tab:large-L-tail-convergence} gives the spatial and temporal
-refinement changes on the reported interval.
+For the extrapolants, refinement changes in all three input waveforms
+propagate into the residual comparisons.  Table~\ref{tab:extrapolants}
+summarizes the largest values over the three cumulative intervals.  The
+observed changes reach $0.409\%$, exceeding the central residuals near
+$0.03\%$ and supporting the conservative $1\%$ agreement stated in
+Sec.~\ref{sec:direct_recovery}.
 
 \begin{table}[t]
- \caption{Numerical control on the final $L/M=3072$ Price-law interval.  Entries
- are maximum relative changes of the centered $10M$ root-mean-square envelope
- on $231.88\leq U/M\leq381.88$ for uniform SdS at $\hc$ and Schwarzschild at
- $\scri^+$; the temporal comparison is at $N=2048$.}
- \label{tab:large-L-tail-convergence}
+ \caption{Minimally coupled extrapolation checks.  Each entry is the
+ maximum over the cumulative intervals ending at $U/M=40,80,160$.
+ Fine-grid residuals, observed medium-to-fine residual changes, and
+ propagated Richardson estimates are reported separately, in percent.}
+ \label{tab:extrapolants}
  \begin{ruledtabular}
- \begin{tabular}{lcc}
- change & SdS & Schwarzschild\\
+ \begin{tabular}{lrrr}
+ comparison & residual & change & estimate\\
  \colrule
- spatial, $1536\to2048$ & $1.27\times10^{-4}$ & $3.58\times10^{-4}$\\
- spatial, $2048\to3072$ & $4.77\times10^{-5}$ & $2.20\times10^{-5}$\\
- temporal, $0.0025\to0.00125$ & $3.29\times10^{-8}$ & $3.36\times10^{-8}$\\
+ $W_\infty^{(80)}-W_{\rm Schw}$ & 0.0222 & 0.2666 & 0.0777\\
+ $W_\infty^{(160)}-W_{\rm Schw}$ & 0.0265 & 0.1430 & 0.0413\\
+ $W_\infty^{(80)}-W_\infty^{(160)}$ & 0.0313 & 0.4092 & 0.1189\\
  \end{tabular}
  \end{ruledtabular}
 \end{table}
 
-The operational departure times are $U/M=379.88$, $381.33$, and $381.88$
-at increasing spatial resolution; timestep halving leaves the $N=2048$ value
-$381.33$ unchanged.  The common refinement-supported record extends to
-$U/M=1983.58$, corresponding to $\kappa_cU=0.645$.  None of the $27$
-observer, scaled-window, and floor-multiplier combinations resolves a later
-cosmological exponential interval before that floor.  We therefore assign no
-entry or crossover time.  Figure~\ref{fig:large-L-tail} in
-Sec.~\ref{sec:uniform-price-benchmark} displays the resolved Price-law interval
-and the subsequent loss of numerical support.
+The cumulative norms are dominated by the early signal.  On the disjoint
+interval $40\leq U/M\leq80$, extrapolant residuals of $0.096$--$0.211\%$
+have refinement changes of $1.02$--$3.14\%$.  Refinement also exceeds the
+residuals on $80\leq U/M\leq160$.
 
-\subsection{Shared-flux exterior reduction}
+Localized-source refinement changes remain at the $10^{-4}\%$ level on
+the common simulated interval.  For the Schwarzschild control, the
+sphere- and time-integrated relative differences from the fine solution are
+$3.44\times10^{-7}$ and $7.66\times10^{-8}$ at coarse and medium resolution.
+Truncating the fine solution at $\ell_{\max}=42$ and $46$ gives omitted-mode
+norms of $2.29\times10^{-9}$ and $1.26\times10^{-10}$, respectively.
+All four values use the fine solution's Parseval norm for normalization.
 
-The long exterior-tail runs use an algebraically equivalent conservative
-characteristic reduction.  Define
+\subsection{Exterior ringdown}
+\label{app:ringdown-verification}
+
+The minimally coupled quadrupole results in
+Table~\ref{tab:exterior-qnm-improvement} use spectral-element calculations through
+$U=80M$ with degrees $24,32,40$ at $\Delta\tau=0.05M$, and a degree-$32$
+check at $0.025M$.  All three geometries use the displacement data
+\eqref{eq:displacement_data} and the same geometric clock.  Reported errors
+use degree $40$ and a common fine Schwarzschild reference.
+
+On $15\leq U/M\leq45$, the largest successive spatial changes of the
+paired residuals are $3.05\times10^{-9}$ and $6.73\times10^{-11}$;
+timestep halving gives $5.79\times10^{-8}$.  The largest individual waveform
+change under timestep halving is $1.96\times10^{-6}$.  All are $L^2$
+fractions normalized by the fine Schwarzschild waveform.  Replacing the
+common reference in both errors by the half-step Schwarzschild solution
+changes $\Delta E=E_{\rm SdS}-E_\chi$ by at most $2.44\times10^{-8}$.
+These changes are small compared with the measured improvements
+$\Delta E=0.00408$ and $0.00134$ at $L/M=320$ and $640$.
+
+\section{Tail decay and numerical accuracy}
+\label{app:latetime}
+
+We describe how the tail decay rates are measured and checked for
+numerical accuracy.
+
+\subsection{Schwarzschild tail at large \texorpdfstring{$L$}{L}}
+\label{app:large-L-tail}
+
+At $L/M=3072$, we compare minimally coupled SdS at $\hc$ with Schwarzschild
+at $\scri^+$, using the same compact $\ell=1$ velocity data and geometric
+clock.  We use $N=1536,2048,3072$ at $\Delta\tau=0.0025M$ and halve the
+timestep at $N=2048$.
+
+We measure the local power index by fitting $\ln A$ against $\ln U$ over
+$40M$, using the $10M$ RMS envelope \eqref{eq:rms-envelope}.  Both indices
+must stay within $5\%$ of $p=3$ and satisfy
+$|p_{\rm SdS}-p_{\rm Schw}|\leq0.15$ for a continuous $150M$ interval
+containing $U=300M$.  The two finest resolutions must also agree in envelope
+amplitude to within $1\%$.  The reported interval ends at departure from
+this criterion: $232\lesssim U/M\lesssim382$.
+Table~\ref{tab:large-L-tail-convergence} shows the changes under refinement.
+
+\begin{table}[t]
+ \caption{Largest relative envelope changes on the $L/M=3072$ Price-law
+ interval, $232\lesssim U/M\lesssim382$.  Values are fractions for SdS at
+ $\hc$ and Schwarzschild at $\scri^+$.  The timestep check uses $N=2048$.}
+ \label{tab:large-L-tail-convergence}
+ \begin{ruledtabular}
+ \begin{tabular}{lcc}
+ refinement & SdS & Schwarzschild\\
+ \colrule
+ $N:1536\to2048$ & $1.27\times10^{-4}$ & $3.58\times10^{-4}$\\
+ $N:2048\to3072$ & $4.77\times10^{-5}$ & $2.20\times10^{-5}$\\
+ $\Delta\tau/M:0.0025\to0.00125$ & $3.29\times10^{-8}$ & $3.36\times10^{-8}$\\
+ \end{tabular}
+ \end{ruledtabular}
+\end{table}
+
+Departure occurs near $U=382M$ and varies by about $2M$ with spatial
+resolution.  Halving the timestep leaves it unchanged.  This spread is
+measured with the decay-rate estimator held fixed.
+
+A further check at $N=2048$ and $\Delta\tau=0.0025M$ lowers the truncation
+thresholds for coefficients and matrices from $(10^{-6},10^{-12})$ to
+$(10^{-10},0)$.  It extends to $U=450M$ and also uses a different computing
+platform.  The largest relative envelope change is $2.5\times10^{-4}$,
+exceeding the finest spatial-refinement change; the largest absolute index
+change is $3.5\times10^{-4}$.  Departure moves about $0.8M$ earlier, leaving
+the Price-law conclusion unchanged.
+
+The main runs extend to $U/M\simeq1984$, or $\kappa_cU=0.645$.  To identify
+cosmological decay, we require the envelope to exceed ten times the
+numerical error estimated from refinement. The
+intermediate decay rate agrees with Schwarzschild to within $5\%$.
+
+\subsection{Uniform and exterior-supported tails}
+\label{app:matched-tail-protocol}
+
+The $L/M=640$ comparison in Fig.~\ref{fig:matched-tail} uses the
+spectral-element method, with degrees
+$24,32,40$ at $\Delta\tau=0.1M$ and a degree-$40$ run at $0.05M$, through
+$U=1000M$.  Schwarzschild and uniform SdS use nine elements; the exterior
+cases use sixteen.  The figure uses degree $40$ and the smaller timestep,
+with the same Schwarzschild reference for both couplings.
+
+Using the same envelope and fit as above, we require $p_{\rm eff}$ to
+remain within $10\%$ of $3$ for at least $40M$.  We retain an index only
+where the envelope exceeds ten times the numerical error estimated from
+refinement and the index changes by less than $0.1$ under both degree-$32$
+to $40$ refinement and timestep halving.  We omit times within half a fit
+window of a waveform zero.  Envelope widths $5M$, $10M$, and $20M$, combined
+with fit widths $30M$, $40M$, and $60M$, leave the outcome of this test
+unchanged.
+
+Only uniform conformal SdS meets the $40M$ requirement among the finite-$L$
+cases, on $153\lesssim U/M\lesssim295$
+(Table~\ref{tab:matched-tail-intervals}).  Both exterior cases fail the test.
+Spatial differences decrease from the degree-$24$--$32$ comparison to the
+degree-$32$--$40$ comparison in every case.  The agreement concerns the
+decay rate alone.
+
+\begin{table}[t]
+ \caption{Longest intervals with $p_{\rm eff}=3\pm10\%$ that pass the
+ numerical checks, for $\ell=1$ and $L/M=640$.  The required duration is
+ $40M$; the Schwarzschild interval ends with the usable data.  The waveform
+ changes $\delta_s$ and $\delta_t$ are relative $L^2$ norms.}
+ \label{tab:matched-tail-intervals}
+ \setlength{\tabcolsep}{4pt}
+ \begin{ruledtabular}
+ \begin{tabular}{lrrr}
+ case & $\Delta U/M$ & $\delta_s$ & $\delta_t$\\
+ \colrule
+ Schwarzschild & $\geq834.6$ & $4.59\times10^{-11}$ & $1.58\times10^{-7}$\\
+ uniform, $\xi=0$ & $9.6$ & $1.82\times10^{-10}$ & $2.18\times10^{-7}$\\
+ uniform, $\xi=1/6$ & $141.5$ & $1.82\times10^{-10}$ & $1.83\times10^{-7}$\\
+ exterior, $\xi=0$ & $13.3$ & $2.43\times10^{-7}$ & $3.06\times10^{-8}$\\
+ exterior, $\xi=1/6$ & $8.5$ & $3.52\times10^{-6}$ & $1.16\times10^{-7}$\\
+ \end{tabular}
+ \end{ruledtabular}
+\end{table}
+
+Here $\delta_s$ compares degrees $32$ and $40$; $\delta_t$ measures the
+change on halving the timestep.  Each is divided by the finer waveform norm
+and maximized over $150$--$300M$, $300$--$500M$, $500$--$750M$, and
+$750$--$950M$ for the same geometry and coupling.
+
+For cosmological decay, we measure $\gamma_{\rm eff}=-d\ln A/dU$.
+At large $L$, uniform SdS has the expected rate \cite{brady_radiative_1999}
 \begin{equation}
- \mathsf h:=\pi+\psi,\qquad \mathsf j:=\pi-\psi,
- \label{eq:conservative_characteristics}
+ \frac{\gamma_{\ell,\xi}}{\kappa_c}
+ =\ell+\frac32-\frac12\sqrt{9-48\xi}
+ +\mathcal O(M/L),
+ \label{eq:brady_exponent}
 \end{equation}
-and the shared fluxes
-\begin{equation}
- F_+:=A(1+B)\mathsf h,\qquad
- F_-:=A(1-B)\mathsf j.
- \label{eq:conservative_fluxes}
-\end{equation}
-The evolution system becomes
-\begin{align}
- \partial_\tau u&=\tfrac12(F_++F_-),\notag\\
- \partial_\tau\mathsf h&=\partial_\rho F_+-P_{\ell,\xi}u,\notag\\
- \partial_\tau\mathsf j&=-\partial_\rho F_--P_{\ell,\xi}u.
- \label{eq:conservative_characteristic_system}
-\end{align}
-Near the endpoints we retain the null factors as
-$A(1+B)=(1-\rho)\alpha_+$ and $A(1-B)=\rho\alpha_-$, with finite
-$\alpha_\pm$.  Reusing the same discrete fluxes in all three equations
-preserves
-\begin{equation}
- C_{\rm ch}:=\tfrac12(\mathsf h-\mathsf j)-\partial_\rho u
- \label{eq:conservative_constraint}
-\end{equation}
-at the semidiscrete level.  No damping is added, and $C_{\rm ch}=C$ in the
-continuum.  Schwarzschild and uniform SdS tail controls use
-Eqs.~\eqref{eq:evolve_u}--\eqref{eq:evolve_pi}; exterior-tail production uses
-Eq.~\eqref{eq:conservative_characteristic_system}.
+giving dipole rates $\gamma_{1,0}/\kappa_c\simeq1$ and
+$\gamma_{1,1/6}/\kappa_c\simeq2$.  Neither uniform waveform stays within
+$10\%$ of its expected rate for a full exponential-fit interval
+$\Delta(\kappa_cU)=0.25$ before the runs end at $\kappa_cU\simeq1.56$.
+Cosmological decay is also unresolved for the exterior profiles.
 
-\subsection{Exterior-tail formulation check}
-\label{app:tail-formulation-check}
+\subsection{Cosmological decay at finite radius}
+\label{app:finite-radius-crossover}
 
-The standard and shared-flux reductions are algebraically equivalent at the
-continuum level but differ after semidiscretization.  We therefore compare
-their waveforms on the same exterior background rather than relying on the
-continuum transformation alone.  A direct short regression at $L/M=80$
-agrees in absolute waveform amplitude to better than $10^{-7}$.  The
-independent long calculation uses
-endpoint-factored fields
-\begin{equation}
- H=\alpha_+(\pi+\psi),\qquad
- J=\alpha_-(\pi-\psi),
- \label{eq:factored_characteristics}
-\end{equation}
-so that the physical fluxes are $(1-\rho)H$ and $\rho J$.  It damps only the
-continuum reduction constraint, for which
-$\partial_\tau C=-M^{-1}C$, and evolves the same scalar equation, geometry,
-initial data, clock, and output times as the shared-flux production system.
+At $r=8M$, we compare minimally coupled $\ell=1$ signals at $L/M=80,160$
+with Schwarzschild. Departure ends the last sustained
+agreement with Schwarzschild before cosmological entry; entry begins the
+first sustained agreement with the expected SdS rate.  We vary smoothing,
+envelope width, required duration, and tolerance
+over 54 settings, requiring both times to be found in at least half of them.
+Quoted medians and ranges use the settings that identify both times.
 
-For $L/M=640$, $\ell=1$, and $\xi=0$, both formulations were evolved through
-$U/M=1000$ at $N=1536$ and $2048$ with
-$\Delta\tau/M=0.0025$.  At $N=2048$, their outer-boundary relative
-$L^2$ differences range from $0.62\%$ to $2.65\%$ over six late-signal audit
-windows between $U/M=100$ and $950$; the small late amplitude makes these
-windowed comparisons establish only percent-level waveform agreement.
-Nevertheless,
-the endpoint-factored and shared-flux systems give longest
-$p_{\rm eff}\simeq3$ intervals of $12.15M$ and $11.90M$, respectively, so
-both fail the required $40M$ persistence test and identify the same
-qualitative slow component.  The endpoint-factored value
-$p_{\rm eff}=1.176$ is a median local index, whereas $p=1.086$ is the slope of
-a fixed $120$--$250M$ log--log fit to the shared-flux waveform
-($R^2=0.9926$); they are distinct estimators.  This independent formulation
-supports the tail classification, not a more accurate late-time waveform.
-The three-grid and halved-timestep ladders set the production accuracy.
+For $L/M=80,160$, the entry ranges are $\kappa_cU\in[2.56,3.07]$ and
+$[2.68,3.19]$; the departure ranges are $[1.15,1.76]$ and $[0.71,0.96]$.
+These ranges accompany the medians quoted in Sec.~\ref{sec:sds_physics}.
+Both departures precede the settled Schwarzschild Price tail, which begins
+near $U=220M$ under the $5\%$ criterion.  The observed transition thus
+connects a Schwarzschild-like transient to cosmological decay.
 
-\subsection{Matched coupling and exterior protocol}
+\section{Exterior profile and boundary limits}
+\label{app:exterior-implementation}
 
-The regulator question concerns radiation at the asymptotic end.  The
-matched $L/M=640$ comparison therefore uses an $\ell=1$ waveform at $\hc$ for
-uniform and exterior-supported SdS and compares it with the same Schwarzschild
-waveform at $\scri^+$.  The matched calculation uses $L/M=640$ and extends
-through $U/M=1000$ for both $\xi=0$ and $1/6$.  This test complements the
-finite-radius crossover above: it asks whether a finite cosmological boundary
-can reproduce even a short interval of the Schwarzschild null-infinity Price
-law before its own asymptotics take over.
+The exterior profile keeps the transition layer and outer exact-SdS layer at nonvanishing compactified widths.  We specify this profile and derive its geometric,
+boundary-coefficient, and clock limits. 
 
-From a centered root-mean-square envelope $A(U)$ we form the local power index
-$p_{\rm eff}=-d\ln A/d\ln U$.  A candidate Schwarzschild-like interval must
-remain within $10\%$ of the null-infinity dipole value $p=3$ for at least
-$40M$.  A candidate subsequent exponential regime is measured with
-$\gamma_{\rm eff}=-d\ln A/dU$.  For uniform SdS, the large-$L$ reference rates are
-$\gamma_{\rm eff}/\kappa_c\simeq1$ for $\xi=0$ and $2$ for $\xi=1/6$.
-The uniform rate must remain within $10\%$ of its target for at least the
-semilog fit width $\Delta(\kappa_cU)=0.25$.  No target is imposed on the
-exterior-supported geometry; its late signal is analyzed without assigning
-an asymptotic decay law.
-Each claimed interval lies above the time-dependent numerical floor and
-persists under an envelope- and fit-window sweep.  Plotted indices require an
-envelope above ten times the measured spatial or temporal refinement floor,
-agreement within $0.1$ between the $N=2048$ and $3072$ indices, and agreement
-within $0.1$ between full- and half-step $N=2048$ indices; neighborhoods of
-signed zero crossings are omitted.  Three spatial resolutions
-and a fixed-resolution halved-timestep run test the ordering and duration of
-the intervals.  The primary estimator uses a $10M$ envelope and $40M$ local
-fit.  We also combine envelope widths $5M$, $10M$, and $20M$ with fit widths
-$30M$, $40M$, and $60M$.  Across these nine choices, the Schwarzschild
-candidate lasts $815.4$--$841.9M$ and the uniform conformal candidate lasts
-$131.1$--$148.1M$; both pass.  The longest candidates in uniform minimal,
-exterior minimal, and exterior conformal SdS last at most $10.2M$, $12.0M$,
-and $11.3M$, respectively, so all three fail.  The classification is therefore
-insensitive to the estimator widths.
+\subsection{Transition profile and large-\texorpdfstring{$L$}{L} limits}
 
-On the resolved $N=3072$ exterior envelopes, unweighted least-squares fits of
-$\ln A$ against $\ln U$ give $A\sim U^{-1.086}$ ($R^2=0.9926$) for $\xi=0$
-on $120\leq U/M\leq250$ and $A\sim U^{-0.920}$ ($R^2=0.9911$) for $\xi=1/6$
-on $160\leq U/M\leq400$.  These finite-interval exponents describe the chosen
-transition profile and are not universal tail indices.
-
-For uniform conformal SdS, the relative waveform changes on the accepted
-$153.3$--$294.8M$ interval are $7.90\times10^{-5}$ from $N=1536$ to $2048$
-and $7.97\times10^{-6}$ from $N=2048$ to $3072$; halving the timestep at
-$N=2048$ changes the waveform by $3.23\times10^{-8}$.  For the exterior
-family, the three spatial grids use $N=1536$, $2048$, and $3072$ with
-$\Delta\tau/M=0.0025$, supplemented by an $N=2048$ run at half that timestep.
-On the successive $300$--$500M$, $500$--$750M$, and $750$--$950M$ windows,
-the $N=2048$--$3072$ relative changes are $2.41\times10^{-6}$,
-$3.80\times10^{-6}$, and $2.97\times10^{-5}$ for $\xi=0$, and
-$4.28\times10^{-5}$, $3.15\times10^{-5}$, and $1.34\times10^{-4}$ for
-$\xi=1/6$.  The preceding spatial differences are larger by factors of about
-$10$--$11$ and $7.4$--$7.6$, respectively.  Halving the timestep changes
-these signals by only $3$--$4\times10^{-8}$, and the largest stored exterior
-reduction-constraint norm is $1.09\times10^{-8}$.
-
-Figure~\ref{fig:matched-tail} and Sec.~\ref{sec:matched-tail-result} give the
-full comparison; neither exterior coupling resolves a Schwarzschild Price-law
-interval or a cosmological entry.
-
-\section{Exterior profile, implementation details, and reproducibility}
-\label{app:reproducibility}
-
-\subsection{Production switch and profile diagnostics}
-The numerical family follows the horizon-scaled prescription through
-$L_\star/M=160$ and then imposes a common minimum width in Chebyshev angle on
-the transition and exact-SdS cap.  This leaves the $L/M=80$ and $160$ members
-unchanged and prevents either outer region from collapsing onto the endpoint.
-With the compactification~\eqref{eq:exterior_compactification}, define
-$\vartheta(r)=\arccos[2\rho_\chi(r)-1]$ on $2M\leq r\leq r_c$; Chebyshev
-collocation points are uniformly spaced in $\vartheta$.
-
-With $\beta=9/10$, first define
+Using \eqref{eq:exterior_compactification}, define the Chebyshev angle
+$\vartheta(r)=\arccos[2\rho_\chi(r)-1]$ on $2M\leq r\leq r_c$.
+Chebyshev collocation points are uniformly spaced in $\vartheta$.
+For $\beta=9/10$, set
 \begin{equation}
 \begin{aligned}
  \widehat R_1(L)&=\beta r_c,\\
@@ -1986,12 +1492,12 @@ With $\beta=9/10$, first define
 \end{aligned}
  \label{eq:horizon_scaled_transition}
 \end{equation}
-The final endpoints are
+The transition edges obey
 \begin{equation}
 \begin{aligned}
  \frac{L_\star}{M}&=160,\\
  \vartheta_\star&=\widehat\vartheta_1(L_\star)
- =0.07526440137447271,\\
+ \simeq0.07526,\\
  \vartheta_1(L)&=
  \max\{\widehat\vartheta_1(L),\vartheta_\star\},\\
  \vartheta_0(L)&=2\vartheta_1(L),\\
@@ -2001,117 +1507,102 @@ The final endpoints are
 \end{aligned}
  \label{eq:transition_radii}
 \end{equation}
-Thus $2M<R_0<R_1<r_c$.  For $L\leq L_\star$, the floor is inactive,
-$R_1=\beta r_c$, and the transition and cap have equal angle widths,
-$\vartheta_0-\vartheta_1=\vartheta_1$.  For $L>L_\star$, both widths equal
-$\vartheta_\star$ and both compact endpoints are fixed:
+Thus $2M<R_0<R_1<r_c$, and the transition and outer layers have equal angular widths,
+$\vartheta_0-\vartheta_1=\vartheta_1$.  For $L\leq L_\star$, $R_1=\beta r_c$;
+the $L/M=80,160$ members retain the horizon-scaled profile.  For
+$L>L_\star$, both widths equal $\vartheta_\star$, with fixed edge coordinates
+$\rho_{\chi,0}^\star=(1+\cos2\vartheta_\star)/2$ and
+$\rho_{\chi,1}^\star=(1+\cos\vartheta_\star)/2$.  The compactified widths are
 \begin{align}
- \rho_{\chi,0}^\star&=0.9943459581991452,\notag\\
- \rho_{\chi,1}^\star&=0.9985844858695327,\notag\\
  \Delta\rho_{\rm tr}
  &=\rho_{\chi,1}^\star-\rho_{\chi,0}^\star
- =0.004238527670387571,\notag\\
- \Delta\rho_{\rm cap}
- &=1-\rho_{\chi,1}^\star
- =0.001415514130467255.
+ \simeq0.004239,\notag\\
+ \Delta\rho_{\rm layer}
+ &=1-\rho_{\chi,1}^\star\simeq0.001416.
  \label{eq:transition_compact_widths}
 \end{align}
-
-The production switch is Eq.~\eqref{eq:exterior_switch} with
+The smooth switch \eqref{eq:exterior_switch} uses
 \begin{equation}
  \zeta_L(r)=\frac{\vartheta_0-\vartheta(r)}
  {\vartheta_0-\vartheta_1}.
  \label{eq:production_exterior_switch}
 \end{equation}
-It gives equal nonvanishing widths to the transition and exact-SdS cap in
-$\vartheta$.  Their compact endpoints approach the fixed values above, with
-the areal limits
+At the two tested lengths above $L_\star$, the radii are
+\begin{equation}
+\begin{array}{c|cc}
+ L/M & R_0/M & R_1/M\\ \hline
+ 320 &168.2&260.5\\
+ 640 &228.1&440.4
+\end{array}
+ \label{eq:fixed_angle_transition_radii}
+\end{equation}
+Their finite limits are
 \begin{equation}
 \begin{aligned}
  \frac{R_{0,\infty}}{M}
- &=\frac{2}{1-\rho_{\chi,0}^\star}
- =353.729256069105,\\
+ &=\frac{2}{1-\rho_{\chi,0}^\star}\simeq353.7,\\
  \frac{R_{1,\infty}}{M}
- &=\frac{2}{1-\rho_{\chi,1}^\star}
- =1412.914189235122,\\
+ &=\frac{2}{1-\rho_{\chi,1}^\star}\simeq1412.9,\\
  \frac{R_0}{r_c}&\longrightarrow0,
  &\frac{R_1}{r_c}&\longrightarrow0.
 \end{aligned}
  \label{eq:transition_radii_limit}
 \end{equation}
-The exact-SdS cap still ends at the cosmological horizon, but its inner edge
-does not remain at a fixed fraction of that horizon.  The transition begins
-and ends at finite, distant radii in the flat limit, while the metric
-correction there vanishes as $L^{-2}$.  The entire strong-field region is
-exactly Schwarzschild throughout the production sequence, for which
-$R_0>6M$.
-
-A useful unexpanded diagnostic is
-\begin{equation}
- R_{ab}R^{ab}
- =2\left(\Lambda_{\parallel}^2+\Lambda_{\perp}^2\right),
- \label{eq:exterior_ricci_squared}
-\end{equation}
-and the Kretschmann scalar is
-\begin{equation}
- R_{abcd}R^{abcd}=f_\chi''{}^2
- +4\left(\frac{f_\chi'}{r}\right)^2
- +4\left(\frac{1-f_\chi}{r^2}\right)^2.
- \label{eq:exterior_kretschmann}
-\end{equation}
-
-Because $R_1$ tends to a finite areal radius in the final family,
+The transition therefore approaches a finite, distant interval, while the
+exact-SdS layer extends from its outer edge to $r_c$.  Since $R_0>6M$
+throughout the numerical sequence, the strong-field region remains exactly
+Schwarzschild.  Equation~\eqref{eq:transition_mass} gives
 \begin{equation}
  \frac{\Delta m_{\rm tr}}{M}
  \sim\frac12\left(\frac{R_{1,\infty}}{M}\right)^3
- \left(\frac{M}{L}\right)^2
- \longrightarrow0.
+ \left(\frac{M}{L}\right)^2\longrightarrow0.
  \label{eq:transition_mass_fixed_angle_family}
 \end{equation}
 
-For a generic layer of areal width $\Delta=R_1-R_0$,
+For an areal width $\Delta=R_1-R_0$, the derivative scales are
 \begin{equation}
  \lambda'=\mathcal O\!\left(\frac{\Lambda}{\Delta}\right),
  \qquad
  \lambda''=\mathcal O\!\left(\frac{\Lambda}{\Delta^2}\right).
  \label{eq:transition_derivative_scales}
 \end{equation}
-A narrow areal layer can generate large curvature and a sharp scattering
-feature.  Here both endpoints have finite limits and
-$\Delta\to1059.184933166017M$.  The limiting profile therefore has
-$\chi_L'=\mathcal O(M^{-1})$ and
-$\chi_L''=\mathcal O(M^{-2})$.  At fixed $M$, the strict large-$L$ scalings
-of $\lambda=3\chi_L/L^2$ are
+Narrow layers can generate large curvature and sharp scattering features.
+Here $\Delta\to R_{1,\infty}-R_{0,\infty}\simeq1059.2M$, so the limiting
+profile has $\chi_L'=\mathcal O(M^{-1})$ and
+$\chi_L''=\mathcal O(M^{-2})$.  For $\lambda=3\chi_L/L^2$ at fixed $M$,
 \begin{equation}
  \lambda'=\mathcal O(L^{-2}M^{-1}),
  \qquad
  \lambda''=\mathcal O(L^{-2}M^{-2}).
  \label{eq:transition_width_floored_derivative_scales}
 \end{equation}
-The combinations entering the source eigenvalues and Ricci curvature are
-$\mathcal O(L^{-2})$.  The construction therefore replaces
-distributed strong-field bias by a smooth, low-curvature modification in a
-distant region.  The lapse change near the cosmological horizon remains order
-unity, while the transition retains a fixed spectral width.
+The source eigenvalues and Ricci curvature in the transition are therefore
+$\mathcal O(L^{-2})$, although the lapse change near $r_c$ remains order
+unity.
 
+For conformal coupling, the potential \eqref{eq:scalar_potential} becomes
+\begin{equation}
+ V_{\ell,1/6}^\chi=f_\chi\left[
+ \frac{\ell(\ell+1)}{r^2}+\frac{2M}{r^3}
+ +\frac{r\lambda'}{9}+\frac{r^2\lambda''}{18}\right].
+ \label{eq:exterior_conformal_scalar_potential}
+\end{equation}
+It equals the Schwarzschild potential below $R_0$ and the corresponding
+SdS potential above $R_1$.  
 
+\subsection{Boundary coefficients and clock asymptotics}
 
-
-\subsection{Endpoint coefficients and clock asymptotics}
-
-The coefficients used in Eqs.~\eqref{eq:evolve_u}--\eqref{eq:evolve_pi} are
-obtained without numerical differentiation of the compactification:
+The coefficients follow from Eqs.~\eqref{eq:coefficients} and
+\eqref{eq:potential_coefficient} with $G_\chi=2M/(D_Lr^2)$; removable
+horizon limits are assigned analytically using \eqref{eq:A_endpoint}.
+The bridge crosses both horizons regularly:
 \begin{align}
- G_\chi&=\frac{2M}{D_Lr^2},&
- A_\chi&=\frac{f_\chi G_\chi}{1-B_\chi^2},\notag\\
- P^\chi_{\ell,\xi}&=\frac{D_L}{2M}
- \left[\ell(\ell+1)+rf_\chi'+\xi r^2R_\chi\right].
- \label{eq:exterior_scalar_coefficients}
+ \lim_{r\to2M^+}\frac{1-B_\chi^2}{f_\chi}&=8,\notag\\
+ \lim_{r\to r_c^-}\frac{1-B_\chi^2}{f_\chi}
+ &=\frac{16M^2}{r_c(r_c-3M)}>0.
+ \label{eq:exterior_bridge_regular_limits}
 \end{align}
-Their removable horizon limits are assigned analytically, as in
-Eq.~\eqref{eq:A_endpoint}.
-In the exact-SdS cap, the horizon equation gives
-$D_L=r_c^2/L^2=1-2M/r_c$.  The outer endpoint values are therefore
+In the exact-SdS layer, $D_L=r_c^2/L^2=1-2M/r_c$, giving
 \begin{align}
  A_\chi(1)&=\frac{r_c-3M}{8M(r_c-2M)},&
  c_{+,\chi}(1)&=2A_\chi(1),\notag\\
@@ -2120,7 +1611,7 @@ $D_L=r_c^2/L^2=1-2M/r_c$.  The outer endpoint values are therefore
  &\left.\hspace{7em}+12\xi D_L\right].
  \label{eq:exterior_outer_endpoint_coefficients}
 \end{align}
-Hence
+Their flat limits are
 \begin{align}
  A_\chi(1)&\longrightarrow\frac{1}{8M},&
  c_{+,\chi}(1)&\longrightarrow\frac{1}{4M},\notag\\
@@ -2130,130 +1621,43 @@ Hence
  \frac{\ell(\ell+1)}{2M}.
  \label{eq:exterior_outer_endpoint_flat_limit}
 \end{align}
+For minimal coupling, convergence of the lower-order potential near the
+outer boundary remains nonuniform.  With $\delta=2M/r_c$, the potential in
+the outer layer contains
+\begin{equation}
+ -\frac{D_Lr^2}{ML^2}
+ =-\frac{D_L^2}{M}
+ \left[\frac{\delta}{\delta+D_L(1-\rho_\chi)}\right]^2.
+ \label{eq:exterior_cap_boundary_layer}
+\end{equation}
+Its boundary amplitude is order $M^{-1}$, while its compactified width
+shrinks as $M/L$.  Fixed geometric widths thus do not ensure accuracy at
+arbitrarily large $L$ and fixed resolution.  Conformal coupling cancels
+this term; the transition terms still require resolution checks.
 
-The exterior bridge's horizon crossings are regular; for example,
-\begin{align}
- \lim_{r\to2M^+}\frac{1-B_\chi^2}{f_\chi}&=8,\notag\\
- \lim_{r\to r_c^-}\frac{1-B_\chi^2}{f_\chi}
- &=\frac{16M^2}{r_c(r_c-3M)}>0.
- \label{eq:exterior_bridge_regular_limits}
-\end{align}
-
-The clock endpoint is also regular:
+The clock integrand has the finite horizon limit
 \begin{equation}
  \lim_{r\to r_c}\frac{1+B_\chi}{f_\chi}
  =\frac{B_\chi'(r_c)}{f_\chi'(r_c)}
  =\frac{8M^2}{r_c(r_c-3M)}.
  \label{eq:exterior_clock_endpoint}
 \end{equation}
-To obtain its flat limit, choose fixed $R>R_{1,\infty}$.  For sufficiently
-large $L$, the transition lies below $R$ and $[R,r_c]$ is exactly SdS.  On
-$[r_0,R]$, the integrand in Eq.~\eqref{eq:exterior_clock} approaches its
-Schwarzschild value with $\mathcal O(L^{-2})$ corrections.  In the exact cap,
-the cancellation-free expression is
+For its flat limit, choose a fixed $R>R_{1,\infty}$.  At sufficiently large
+$L$, $[R,r_c]$ is exactly SdS, while on $[r_0,R]$ the integrand in
+\eqref{eq:exterior_clock} differs from its Schwarzschild value by
+$\mathcal O(L^{-2})$.  In the outer layer, a cancellation-free form is
 \begin{equation}
  \frac{1+B_\chi}{f_\chi}
  =\frac{8M^2(r_c+r)}{r^2r_c^2
  \left[(r_c+r)/L^2-2M/(rr_c)\right]}.
  \label{eq:exterior_clock_cap}
 \end{equation}
-Comparison with the integrable Schwarzschild tail gives
-Eq.~\eqref{eq:exterior_clock_flat_limit}.
-
-\subsection{Exterior ringdown implementation and audit}
-
-The minimally coupled comparison uses RK222 with $3/2$ dealiasing and stores
-the waveform every $0.03M$.  The coarse, medium, and fine spatial resolutions
-are
-\begin{equation}
-\begin{aligned}
- L/M=80:&\quad(384,512,768),\\
- L/M=160:&\quad(768,1024,1536),\\
- L/M=320:&\quad(1024,1536,2048),\\
- L/M=640:&\quad(768,1024,1536).
-\end{aligned}
- \label{eq:exterior_resolution_ladders}
-\end{equation}
-At every $L$, the corresponding timesteps are $0.005M$, $0.00375M$, and
-$0.0025M$, matching the control ladder.  The bounded zeroth-order potential
-is explicit in the IMEX split, while transport is implicit.  Since each
-ladder refines space and time together, its numerical scale includes both
-effects; no separate fixed-resolution timestep check is used to reduce it.
-
-The angle floor is active at $L/M=320$ and $640$, where the audited transition
-radii are
-\begin{equation}
-\begin{array}{c|cc}
- L/M & R_0/M & R_1/M\\ \hline
- 320 &168.2329417&260.5413505\\
- 640 &228.1477989&440.4330107
-\end{array}
- \label{eq:fixed_angle_transition_radii}
-\end{equation}
-At $L/M=320$, the fine grid places $49$ Chebyshev points in each of the
-transition and cap; at $L/M=640$, it places $37$ in each.  The minimally
-coupled $L/M=640$ potential-representation error is
-$3.47\times10^{-6}$ relative to the analytic transition minimum.
-
-For either coupling, the scalar potential is
-\begin{equation}
- V_{\ell,\xi}^\chi=f_\chi\left[
- \frac{\ell(\ell+1)}{r^2}+\frac{f_\chi'}{r}+\xi R_\chi\right].
- \label{eq:exterior_scalar_potential}
-\end{equation}
-Using Eqs.~\eqref{eq:exterior_metric} and
-\eqref{eq:exterior_ricci_scalar}, the conformally coupled specialization is
-\begin{equation}
- V_{\ell,1/6}^\chi=f_\chi\left[
- \frac{\ell(\ell+1)}{r^2}+\frac{2M}{r^3}
- +\frac{r\lambda'}{9}+\frac{r^2\lambda''}{18}\right].
- \label{eq:exterior_conformal_scalar_potential}
-\end{equation}
-It equals the Schwarzschild potential inside $R_0$ and the corresponding SdS
-potential outside $R_1$.  Its derivative terms require an independent
-resolution audit for $\xi=1/6$.
-
-The metric bounds in Sec.~\ref{sec:exterior-supported} exclude unintended
-roots.  The numerical preflight checks $f_\chi>0$, $|B_\chi|<1$, finite
-coefficients, transition and cap point counts, potential resolution, and
-nonfinite or order-of-magnitude growth.  The $\xi=0$ sequence additionally
-requires a nonnegative represented potential.  These guards detect failure;
-the three-level waveform comparisons determine accuracy.  Stored constraint
-maxima sample available snapshots rather than a continuous history.
-
-The prompt-inclusive $0$--$80M$ audit gives reductions of $18.0\%$, $14.1\%$,
-$10.5\%$, and $7.35\%$ as $L/M$ increases.  In the disjoint $40$--$80M$
-window, the improvement is unresolved at $L/M=320$ and $640$; the calculation
-therefore supports no late-time claim.
-
-\subsection{Reproducibility}
-
-The reproducibility package keeps raw simulations separate from derived
-tables and figures.  Machine-readable manifests record each physical
-configuration and resolution, link every reported artifact to its inputs,
-verify checksums, and confirm that postprocessing leaves raw data unchanged.
-The records fix the mass normalization, foliation, compactification, data or
-source prescription, waveform clock, and analysis interval.  They cover the
-uniform finite-time and large-$L$ Price-law ladders, localized-source,
-exterior-ringdown, matched $L/M=640$ tail, cross-implementation, and
-independent-formulation checks.
-
-The public release includes the code, raw and derived data, analysis scripts,
-and foliation and late-time diagnostics.  Compact encoding of the localized
-responses introduces at most a $10^{-7}$ relative peak-reconstruction error,
-which is negligible for the percent-level comparisons.
-
-\begin{acknowledgments}
-A.Z. thanks Ted Jacobson, Rodrigo Panosso Macedo, and Alex
-Va\~n\'o-Vi\~nuales for discussions.  This work was inspired by Charles
-Misner's investigations of artificial cosmology and by the memorial
-symposium held at the University of Maryland in 2023.  This material is
-supported by NSF Grant No.~2309084.
-\end{acknowledgments}
-
-\section*{Data Availability}
-The code, simulation data, and analysis scripts supporting this study are
-publicly available in Ref.~\cite{blackhole_computation_2026}.
+Its integrated difference from the Schwarzschild integrand is
+$\mathcal O[M^3\log(r_c/R)/r_c^2]$, while the omitted Schwarzschild tail is
+$8M^2/r_c+\mathcal O(M^3/r_c^2)$.  Together these give
+$q_\chi=q_0-8M^2/r_c+o(M^2/r_c)$, with the same normalization
+$q_0=4M\ln[r_0/(r_0-2M)]$ as in
+\eqref{eq:exterior_clock_flat_limit}.
 
 \bibliographystyle{apsrev4-2}
 \makeatletter

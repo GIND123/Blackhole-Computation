@@ -1,0 +1,11 @@
+family,absolute_index_tolerance,minimum_duration_M,start_U_M,end_U_M,continuous_duration_M,meets_pilot_gate,refinement_resolved_through_U150_950,status
+schwarzschild,0.15,150.0,153.35,975.0,821.65,True,True,pilot consistency with archived claim; not replacement of full production protocol
+schwarzschild,0.3,40.0,140.4,975.0,834.6,True,True,pilot consistency with archived claim; not replacement of full production protocol
+uniform3072_minimal,0.15,150.0,172.3,381.1,208.8,True,True,pilot consistency with archived claim; not replacement of full production protocol
+uniform3072_minimal,0.3,40.0,150.8,715.45,564.6500000000001,True,True,pilot consistency with archived claim; not replacement of full production protocol
+uniform640_conformal,0.15,150.0,156.70000000000002,164.05,7.349999999999994,False,True,pilot consistency with archived claim; not replacement of full production protocol
+uniform640_conformal,0.3,40.0,153.25,294.7,141.45,True,True,pilot consistency with archived claim; not replacement of full production protocol
+exterior640_minimal,0.15,150.0,303.1,309.40000000000003,6.300000000000011,False,False,pilot consistency with archived claim; not replacement of full production protocol
+exterior640_minimal,0.3,40.0,299.40000000000003,312.35,12.949999999999989,False,False,pilot consistency with archived claim; not replacement of full production protocol
+exterior640_conformal,0.15,150.0,619.3000000000001,623.6,4.2999999999999545,False,False,pilot consistency with archived claim; not replacement of full production protocol
+exterior640_conformal,0.3,40.0,664.1,672.25,8.149999999999977,False,False,pilot consistency with archived claim; not replacement of full production protocol

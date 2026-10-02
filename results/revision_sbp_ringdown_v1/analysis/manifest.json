@@ -1,0 +1,189 @@
+{
+  "plan": {
+    "purpose": "Independent second-order u,v check of matched quadrupole waveforms; not shared-flux constraint validation",
+    "physics": {
+      "mass": 1,
+      "ell": 2,
+      "xi": 0,
+      "initial_data": "u=b((r-4M)/(1.5M)); u_tau=0",
+      "bump": "b(x)=exp(1-1/(1-x^2)) for |x|<1, otherwise zero",
+      "geometries": [
+        [
+          "schwarzschild",
+          null
+        ],
+        [
+          "uniform",
+          320
+        ],
+        [
+          "uniform",
+          640
+        ],
+        [
+          "exterior",
+          320
+        ],
+        [
+          "exterior",
+          640
+        ]
+      ],
+      "end_U": 80,
+      "reference_radius": 4,
+      "exterior_profile": "frozen width-floor switch and exact endpoint coefficients",
+      "clock": "U=tau-q, exact geometric q; no fitted alignment or amplitude"
+    },
+    "numerics": {
+      "levels": [
+        [
+          "coarse",
+          24,
+          "0.05"
+        ],
+        [
+          "medium",
+          32,
+          "0.05"
+        ],
+        [
+          "fine",
+          40,
+          "0.05"
+        ],
+        [
+          "half_dt",
+          32,
+          "0.025"
+        ]
+      ],
+      "layout": "wave-resolved for every background",
+      "arithmetic": "double-double",
+      "coefficient_digits": 50,
+      "integrator": "Radau IIA order 3",
+      "output_every": 1,
+      "windows": [
+        [
+          0.0,
+          80.0
+        ],
+        [
+          15.0,
+          45.0
+        ],
+        [
+          10.0,
+          40.0
+        ],
+        [
+          20.0,
+          50.0
+        ]
+      ],
+      "analysis_step": 0.025,
+      "interpolation": "cubic with half-output-cadence check and linear sensitivity",
+      "reference": "same-level Schwarzschild for paired residual refinement; fine Schwarzschild for headline errors"
+    },
+    "interpretation": "Observed changes diagnose resolution; no Richardson extrapolation or claimed rigorous bound."
+  },
+  "files": {
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_coarse/history.csv": "3fb0e85a5a85b5f3d8c58fc2c87a8eee32657b6d33fad1d2c4aeae559f354a79",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_coarse/configuration.json": "93115b2b22267cf9209222f488c79bc5bc9f972f5afb76f34bb579c65d2973a8",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_coarse/backend.json": "e3433a30855e074767b27fb433c04d05845f5a90042cf5d3833b6b50226df464",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_medium/history.csv": "36f6f1ad99bb292067c80e4c59fa33b33bbdc97693ef689cc520c0a0d32b7d11",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_medium/configuration.json": "836995fe8d042514b998e304f5fca55d2c7a1d4aae173f2c0b79f7c91c31c8df",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_medium/backend.json": "62481e1048833473e27a679031de228a725a76f8164116ff240afb8064425946",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_fine/history.csv": "29a2e39a13b3e14be316e25cd4b803a8f05421f5c89afc10d71c24d5b02d15a7",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_fine/configuration.json": "b8aa0aed95c4884cf9113b135f904b3cec91b04b048476bc2ebe4101487ccf88",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_fine/backend.json": "4834c28c013ff9b83d12eb379d39096ac1f32a78de0fa64bbb1027b5caf51783",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_half_dt/history.csv": "ce40b4f13936a3082fcd7fe908ae687cd30551fd6a51f9c628828ee9146c4673",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_half_dt/configuration.json": "4272100b29de22035cb49276dfa796e8af4e56bd2b9b26219f1e431cb64429d3",
+    "results/revision_sbp_ringdown_v1/runs/schwarzschild_half_dt/backend.json": "88cfb514723309d655c2f6f0da7e43388d3f83a570d942cd1fc595af73c0151d",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_coarse/history.csv": "522870b71252d0df335dc5a8352c3355a0e910337e3b20b2ba67a283c10d5b81",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_coarse/configuration.json": "c82ece8e2eaa13dd7c23f1e324d5171adfbff7cb737546b0d7d71fe9acbbc9c6",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_coarse/backend.json": "8be57957fc3c4379fa1f8dc70aa3f4a4bff1dee186597e0c0b9cbfa5741b258d",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_medium/history.csv": "9e451b4ed533936c4d0221753c33bbb5310347bbbfe29b411afd31e6aaf3d6ed",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_medium/configuration.json": "f1ef41d60dc9de2b1fe227996fc5ab945e557e6b5aed6cc52739c4c0d6018918",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_medium/backend.json": "e080ea3c31ae119323101233f486c53af03cdfcd4aeae5e65279006f57e51a85",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_fine/history.csv": "fdb47f3577e8f0b8798715d6dc5cab68de7753f239146a46961d6a3d948dc7af",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_fine/configuration.json": "3885239a1f2cafa64dd670a35f672d40060fc92cd6fd62fc645b4d0fa90df0e6",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_fine/backend.json": "1a291c8884898e5849fbf44fc9e776c23775410ea3ad87dae697b63d39e45e7f",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_half_dt/history.csv": "684d96ed17aaab1c3ac65a2fb4499301cbcd0c81b33e71fc81a73d87df8816d6",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_half_dt/configuration.json": "8c676474b55fad5f9bedaea305b524e74b4aa164679e1aac261874fcc4f59f0b",
+    "results/revision_sbp_ringdown_v1/runs/uniform320_half_dt/backend.json": "e57a7e064f79d24ff346ffd2c265806433ef80b3fb6b1dc293f138e35153a200",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_coarse/history.csv": "df1df7c7b772e0c325510c14baf836adf1e7091531b82715e9d33619394b2906",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_coarse/configuration.json": "291b285b12486e5ff641a9280a6cde0918c53c92cf8bbb47f5b15a4e71a988c7",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_coarse/backend.json": "0a3cfc9736f7e3ff7ba673ececc5eff9955df48d7091150b4bcc99276d394c81",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_medium/history.csv": "c09b75d45a85ff790155d73e64d99c746cf85e4b76e34f37f8f7f8c5b1c7a3f4",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_medium/configuration.json": "8a9008de55326bfb94f0640b88d39c22f74a546c5ee7540b33240c5869395573",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_medium/backend.json": "ec2589252afaf2d53a48288a1b98e6032f39815134d44d627a2f3170b9d5be13",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_fine/history.csv": "05bd4be4f4c7900b46ea29ace19537dcba6d6a609955c5f29c95dbda9b734f4d",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_fine/configuration.json": "c1e63be2e914ff2644dae895a16588b5b63002c91b56362eea092c95c0e655b2",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_fine/backend.json": "3148f11f1bb0ac94f63fd66fe7cf4114a2a029a516b62e13d58fd373053787cf",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_half_dt/history.csv": "621781ac7cf6cee1c025597e7c9a6d01f514f8d172cc25515d450481343a60d8",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_half_dt/configuration.json": "d9d65a9fe08ac30ba63c15cee5022006338b0575ac7d0effc7a2d42eb48315ac",
+    "results/revision_sbp_ringdown_v1/runs/uniform640_half_dt/backend.json": "937006f9c14d2db965a3e176268c3ffcf30aa8c7bac4437b68b9db6a4d2f8aa4",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_coarse/history.csv": "a9835a56aafa84df0aabae887503ed5ec19acb3479898afc9367fdd3d0724442",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_coarse/configuration.json": "e7a864559c86b7dc755cfd9c110230523bbe74d894f03c23bc8f76f044592874",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_coarse/backend.json": "201684e88af2651cd86a48e19a2b5155bc027f6538ca92cc65e0878e84d066db",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_medium/history.csv": "1401eb54d069c4f419594338f0c832b1b918685802b180f2c3a51c0f2e0cfe88",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_medium/configuration.json": "9ce3fcda10e8716973c92d1565d08be102555bc1f8647fc97731c4a58aff2428",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_medium/backend.json": "e815737e4072908f465438e5abd754474510748a56f38c4569392eb5b769c50c",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_fine/history.csv": "4b04be9e94272a11fdb40aa369f0bc7d99af396a1597fcd66737f4c5a1c58d96",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_fine/configuration.json": "9e03cbc77c5ee34e77442030a6ad4e3d0dbcb349b023486fc259b5255295263d",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_fine/backend.json": "8397f9e9cefef2cea03fd8d3af33e5b16dafcfc612c5818861973d3ab42773b8",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_half_dt/history.csv": "992696951c64ffcb5dfca98214fc8d359b31efdd13a29758264748a3db7c0651",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_half_dt/configuration.json": "6bf478ef8a16fa8f47e4de06bd552673b1d3cbefbfc0d0f1b236eab81632e85b",
+    "results/revision_sbp_ringdown_v1/runs/exterior320_half_dt/backend.json": "7103dfd2c751c883abeec3614880ab214c7ab985d83492b6ad8c285ef891cdb0",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_coarse/history.csv": "d4a086d662a7df1694727bddf40aef48a00bf1730ebec160ff89c58563832dee",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_coarse/configuration.json": "ec7716d6e5ac811ddf9997ff586f2a181968ba4b7db52d2c1c658e5c891fb145",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_coarse/backend.json": "b25c8fa6b2cbf76baccf1e3abdbf08b8234eebf5a9912f3f0a039f0ad4fe47a4",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_medium/history.csv": "05e482919b7ab7930ca66540f55dae27e80e19fa623f62ef74f8490eeb432133",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_medium/configuration.json": "6e695dc216f133b879624239210867187f6ca6d39934cdc46a45a4d9e86873d8",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_medium/backend.json": "df8b1ea6d1569f3fbbe18887906b47aeab6ec212a9483d4c99a2465ec6737702",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_fine/history.csv": "9e883ccfac60426bed9beeafa5d857e0b9f50aba09326ddd9bbf06627774337d",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_fine/configuration.json": "6bfd9bf442e77e6876894c78649927eba3e1cef0015d9100c068f2c3ed7b7fdf",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_fine/backend.json": "b8e7bc7fe8a0172772e904ea16b6ae9c7d9f8fcab89236540a5198d1be70b845",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_half_dt/history.csv": "b76273927579294fbc87568ff94afb983079828a67e5953f5b34cd7cb27f2633",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_half_dt/configuration.json": "bb16ecc0f170088ce3b31e8bb5b7c2c630b945e29e346b619aeb8e87b934db58",
+    "results/revision_sbp_ringdown_v1/runs/exterior640_half_dt/backend.json": "29520806eba28deaefb3f17717937853dcdce40ec21d43005874987d74b9d5a5",
+    "results/regulator_production_v3/raw/flat/fine/schwarzschild.npz": "52c6e76c29aacf1f4d45597b65e6988ae0ee22b872fff4a54438cf8616130ed1",
+    "results/regulator_production_v3/raw/flat/fine/sds_L320.npz": "e3821a5675bc35a9f71570e647348e3bb9cb2f575ceab8a3c44a4fb23146e988",
+    "results/regulator_production_v3/raw/flat/fine/sds_L640.npz": "ba99d949ee34b6f18e82609b2aecaa7ad1ff609823cc4ddd195ae3e24e448b5e",
+    "results/exterior_regulator_width_floor_qnm_v5/raw/exterior/L320/fine/sds_L320.npz": "5a491acf31c420006f1c4d7f348ab16dff1a401b048e4e3587f183656635208b",
+    "results/exterior_regulator_width_floor_qnm_v5/raw/exterior/L640/fine/sds_L640.npz": "488289d67d7750b218166d1fa564cf9c65b6f2e19f8753aa09f4f13e57c17e9d",
+    "results/ringdown_constraint_revision_v1/raw/shared_flux/L320/N1024_dt0p01.npz": "cf526eb7d0c7f9fc5999b7b831baa3a97ca9d995bec85d10a6e274e86f885754",
+    "results/ringdown_constraint_revision_v1/raw/shared_flux/L640/N1024_dt0p01.npz": "c9d505d0a140c9bc2a9bb21b13fb6a26624f585432402b74cca31f370f14b8f8",
+    "results/revision_sbp_ringdown_v1/plan.json": "df77922fbe7229b1dd8fdab526b42617522534406ec4bda47b8d75b0493e4338",
+    "black_hole/sbp_ringdown_validation.py": "f06bb84a343278e5834e5984742682283d2be19d3e17aaab8dff0951c5768cbe",
+    "results/revision_sbp_ringdown_v1/operators/exterior320_p24/operator.txt": "eda83d303c19db7537b575a7d4ae46eb9a6a2e38f7609fe31e9ff53f5519f8d4",
+    "results/revision_sbp_ringdown_v1/operators/exterior320_p32/operator.txt": "378856711004ee0d6bc328f9e93ce73f145c026dedc632ebec9e65264b094cb9",
+    "results/revision_sbp_ringdown_v1/operators/exterior320_p40/operator.txt": "064ddcbdf569daca9f777d2c1e77d0a0eb808e82445d2b0f009a286ba57d4ff5",
+    "results/revision_sbp_ringdown_v1/operators/exterior640_p24/operator.txt": "0e8b7a8210cb56a58b75e32e4d2e7587255201fe108238f9d6b525ea72c87bdb",
+    "results/revision_sbp_ringdown_v1/operators/exterior640_p32/operator.txt": "47fd7296fc4f699d7d530f0bb3cde4d3c309da90d7c935a2012e2b65f9d8f7f4",
+    "results/revision_sbp_ringdown_v1/operators/exterior640_p40/operator.txt": "595a5ea189dd89b6473f0c71b40bb05c85081f74b82d2898f4c1cb01c0be723d",
+    "results/revision_sbp_ringdown_v1/operators/schwarzschild_p24/operator.txt": "b82d62c0fdf3c490409bb85e586e153f9873bc86b86fa33019edb714faf79052",
+    "results/revision_sbp_ringdown_v1/operators/schwarzschild_p32/operator.txt": "634ea0009ba8500ce52b234efd41ee22708ec2582bd720d149e6cded4b460a9b",
+    "results/revision_sbp_ringdown_v1/operators/schwarzschild_p40/operator.txt": "dbf4fe08ae26066da7d50980d276d28aa49c8ed43bffeb922e0b0b571e02e693",
+    "results/revision_sbp_ringdown_v1/operators/uniform320_p24/operator.txt": "1f1b58912aff621af76d95b780a36288ff68c1c7eda6dfc490700069e05e6e65",
+    "results/revision_sbp_ringdown_v1/operators/uniform320_p32/operator.txt": "525dfbc2f36a167922a4ec8fa88334284530416992fe6dc2a92178d9b7ef883d",
+    "results/revision_sbp_ringdown_v1/operators/uniform320_p40/operator.txt": "e5cc43c4b1656e42a4dca9bd5cb887639bc68253de97bbef66e5bface54ad713",
+    "results/revision_sbp_ringdown_v1/operators/uniform640_p24/operator.txt": "1e31096cff65d0a51ed90fb441184e129fdc135ba73648126fcd90dcfee362d1",
+    "results/revision_sbp_ringdown_v1/operators/uniform640_p32/operator.txt": "7eead5e34d1ade9bf75beebf2b6f838e4715da31b28f68f5536a6e0c269d729e",
+    "results/revision_sbp_ringdown_v1/operators/uniform640_p40/operator.txt": "daaa2b82da32fa2e8dd800b01633384b12ade378536ceacd8af386d6b205f043"
+  },
+  "outputs": {
+    "results/revision_sbp_ringdown_v1/analysis/cadence.csv": "5818397aa4f295039037d2742f934d43b9b05d949b724236f4118ad33826a225",
+    "results/revision_sbp_ringdown_v1/analysis/compact_summary.csv": "680f847a2398a993337817808fc72e40c48f385e551402423432bc21f208de71",
+    "results/revision_sbp_ringdown_v1/analysis/cross_formulation.csv": "479e1203fc846647c7867fee591414f6bbec5cdd9b6d9274d2783e978c3f89f6",
+    "results/revision_sbp_ringdown_v1/analysis/errors.csv": "61bf83f806633c835d22c84e58dd47de47ea736e898aa7d2157844c2375e0680",
+    "results/revision_sbp_ringdown_v1/analysis/improvement.csv": "2ada792d4734b341fa0cc9aa70e4097e15fe310cc67614127a81d91bf7cd3640",
+    "results/revision_sbp_ringdown_v1/analysis/waveform_refinement.csv": "3be727f46d1fd9002b28721a19b4a9429f57094389d5102a79d4547114b0b448",
+    "results/revision_sbp_ringdown_v1/analysis/waveforms.npz": "6c04642dd5fa15e2943bd02e8d4d5cacd19f1537ddf1a30710209d633e7e8945"
+  },
+  "notes": [
+    "No reduction variable: this check cannot establish shared-flux constraint control.",
+    "Reference refinement is included through paired residual vectors, not independent statistical errors.",
+    "Level-to-level changes and cadence checks are diagnostic scales, not rigorous bounds."
+  ]
+}

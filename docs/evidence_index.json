@@ -47,7 +47,7 @@
       "package": "results/regulator_production_v3",
       "artifact": "results/regulator_production_v3/localized_source_regulator.pdf",
       "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "",
+      "note": "submission copy retains direct errors and modal residuals; rendered by paper/make_submission_figures.py",
       "sha256": "e55f19cf48008fa5631d8002d201642a79ade1e8b5315d34ae43dab7885d68ea",
       "issues": []
     },
@@ -63,32 +63,12 @@
     },
     {
       "kind": "figure",
-      "name": "exterior_qnm_residual_comparison.pdf",
-      "package": "results/exterior_regulator_width_floor_qnm_v5",
-      "artifact": "results/exterior_regulator_width_floor_qnm_v5/width_floor_qnm_residual_comparison.pdf",
-      "command": "python -m black_hole.far_regulator_production_analysis --output-dir results/exterior_regulator_width_floor_qnm_v5 --control-dir results/regulator_production_v3 --legacy-candidate-dir results/exterior_regulator_far_production_v1",
-      "note": "raw ringdown-window residuals against the frozen Schwarzschild control",
-      "sha256": "e2ba8b6e84b2812ed8a9011d3e7c6741a6320145f3aa1921e4855aecc7114a17",
-      "issues": []
-    },
-    {
-      "kind": "figure",
-      "name": "tail_outer_boundary_comparison.pdf",
-      "package": "results/curvature_coupling_production_v2",
-      "artifact": "results/curvature_coupling_production_v2/tail_outer_boundary_comparison.pdf",
-      "command": "python -m black_hole.curvature_coupling_tail_analysis --root results/curvature_coupling_production_v2",
-      "note": "matched outer-boundary tail comparison",
-      "sha256": "c97374a254567a7104cc874a408f21502bf2e2c79fcd9867b74a0148bd63fbfa",
-      "issues": []
-    },
-    {
-      "kind": "figure",
-      "name": "D1_scaling.pdf",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/D1_scaling.pdf",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "",
-      "sha256": "0b5fcc1d0521550bdb89b5698906b0fdcb0d39d7899397b95a1644d49cf5de0e",
+      "name": "matched_tail_comparison.pdf",
+      "package": "results/sbp_matched_tail_revision_v1",
+      "artifact": "results/sbp_matched_tail_revision_v1/analysis/matched_tail_comparison.pdf",
+      "command": "python -m black_hole.sbp_matched_tail_figure --root results/sbp_matched_tail_revision_v1",
+      "note": "matched outer-boundary tails from the SBP revision",
+      "sha256": "053a2160f2b9e67c109ade3ed804419112f6bc545395f81432b1510fa58bbe08",
       "issues": []
     },
     {
@@ -104,21 +84,11 @@
     {
       "kind": "table",
       "name": "tab:exterior-qnm-improvement",
-      "package": "results/exterior_regulator_width_floor_qnm_v5",
-      "artifact": "results/exterior_regulator_width_floor_qnm_v5/tables/width_floor_vs_uniform_raw.csv",
-      "command": "python -m black_hole.far_regulator_production_analysis --output-dir results/exterior_regulator_width_floor_qnm_v5 --control-dir results/regulator_production_v3 --legacy-candidate-dir results/exterior_regulator_far_production_v1",
-      "note": "unshifted ringdown-window errors, refinement scales, and reductions",
-      "sha256": "ad0113d08df5fb23878f4cc48fc042d5550bf02e1490d09fc3b1235d99487f07",
-      "issues": []
-    },
-    {
-      "kind": "table",
-      "name": "tab:timing",
-      "package": "results/regulator_production_v3",
-      "artifact": "results/regulator_production_v3/tables/D1_measurements.csv",
-      "command": "python -m black_hole.regulator_analysis --output-dir results/regulator_production_v3",
-      "note": "deterministic timing sensitivities",
-      "sha256": "101328a84680848693b28a5cf1315122a38359a293b83c5e6fd52156ec36b22c",
+      "package": "results/revision_sbp_ringdown_v1",
+      "artifact": "results/revision_sbp_ringdown_v1/analysis/compact_summary.csv",
+      "command": "python -m black_hole.sbp_ringdown_validation analyze --root results/revision_sbp_ringdown_v1",
+      "note": "SBP ringdown-window errors, refinement scales, and reductions",
+      "sha256": "680f847a2398a993337817808fc72e40c48f385e551402423432bc21f208de71",
       "issues": []
     },
     {
@@ -129,6 +99,16 @@
       "command": "python -m black_hole.large_l_tail --output-dir results/large_l_tail report-final 3072",
       "note": "spatial and timestep sensitivity on the accepted Price interval",
       "sha256": "131642741b0912e958d5b132c719302a0fecf0a9db173814ccbedd1b777b7830",
+      "issues": []
+    },
+    {
+      "kind": "table",
+      "name": "tab:matched-tail-intervals",
+      "package": "results/sbp_matched_tail_revision_v1",
+      "artifact": "results/sbp_matched_tail_revision_v1/analysis/matched_tail_intervals.csv",
+      "command": "python -m black_hole.sbp_matched_tail_figure --root results/sbp_matched_tail_revision_v1",
+      "note": "refinement-supported Price-rate intervals at the outer boundary",
+      "sha256": "14d31c5c9f0931cc83d17310b2b3194c790106171ad84eaa8037db8283e92ed3",
       "issues": []
     }
   ],
@@ -146,39 +126,19 @@
         "production (enforced at manifest creation)"
       ]
     },
-    "results/exterior_regulator_width_floor_qnm_v5": {
-      "manifest": "results/exterior_regulator_width_floor_qnm_v5/manifest.json",
-      "analysis_revision": "base cfd4225aa97cfcdb14f3a5a634434b3021f75d22 + authoritative source hashes",
-      "simulation_commits": [
-        "2460d976fd023f7bcae892d760436248d32d0290",
-        "31a83ed589842062e47764887411688daec711ae",
-        "7079fc2dc6bc41a11aa835b6c961d80464bb37fb"
-      ],
-      "simulation_records": [
-        "2460d976fd023f7bcae892d760436248d32d0290",
-        "31a83ed589842062e47764887411688daec711ae",
-        "7079fc2dc6bc41a11aa835b6c961d80464bb37fb"
-      ],
-      "provenance_grades": [
-        "production",
-        "screening"
-      ]
+    "results/revision_sbp_ringdown_v1": {
+      "manifest": "results/revision_sbp_ringdown_v1/analysis/manifest.json",
+      "analysis_revision": null,
+      "simulation_commits": [],
+      "simulation_records": [],
+      "provenance_grades": []
     },
-    "results/curvature_coupling_production_v2": {
-      "manifest": "results/curvature_coupling_production_v2/tail_manifest.json",
-      "analysis_revision": "source c59acb4d8126c881234516c88fac62aee576371352e4f8c00da36de099c7973a",
-      "simulation_commits": [
-        "451c662c05d524946840b79d51186e45c8714fcd"
-      ],
-      "simulation_records": [
-        "451c662c05d524946840b79d51186e45c8714fcd",
-        "exterior_tail_conservative_v2_20260827",
-        "sds_curvature_20260826_v1"
-      ],
-      "provenance_grades": [
-        "hash-verified campaign archives",
-        "formulation controls retained as screening evidence"
-      ]
+    "results/sbp_matched_tail_revision_v1": {
+      "manifest": "results/sbp_matched_tail_revision_v1/analysis/matched_tail_manifest.json",
+      "analysis_revision": null,
+      "simulation_commits": [],
+      "simulation_records": [],
+      "provenance_grades": []
     },
     "results/large_l_tail": {
       "manifest": "results/large_l_tail/manifest.json",

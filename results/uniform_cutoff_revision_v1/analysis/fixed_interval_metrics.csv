@@ -1,0 +1,3 @@
+background,comparison,window_lower,window_upper,sample_count,maximum_relative_envelope_change,relative_tail_waveform_l2,maximum_absolute_local_index_change
+sds,compatible_archived_production_to_tightened,231.88,381.88,3000,0.0002504309882550473,0.00023148714893028442,0.00026594723695438915
+schwarzschild,compatible_archived_production_to_tightened,231.88,381.88,3000,0.0002414437534019205,0.00021703533694258036,0.00034896457799993286

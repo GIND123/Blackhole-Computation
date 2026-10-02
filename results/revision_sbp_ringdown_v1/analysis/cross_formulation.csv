@@ -1,0 +1,9 @@
+L,lo,hi,shared_vs_sbp_waveform_change,shared_E,reference
+320,0.0,80.0,2.6546987005699417e-05,0.02431329673213055,SBP fine Schwarzschild common to both residuals
+320,15.0,45.0,8.672039614282406e-06,0.027721807862529847,SBP fine Schwarzschild common to both residuals
+320,10.0,40.0,6.810855193429941e-06,0.027977644407838908,SBP fine Schwarzschild common to both residuals
+320,20.0,50.0,8.829622936003739e-06,0.019539847182559217,SBP fine Schwarzschild common to both residuals
+640,0.0,80.0,2.744214742592801e-05,0.012412005670776487,SBP fine Schwarzschild common to both residuals
+640,15.0,45.0,1.1192127663868906e-05,0.014190299450341216,SBP fine Schwarzschild common to both residuals
+640,10.0,40.0,8.684524606676956e-06,0.014286994372865097,SBP fine Schwarzschild common to both residuals
+640,20.0,50.0,1.2505300925389258e-05,0.009990462070197114,SBP fine Schwarzschild common to both residuals

@@ -1,0 +1,61 @@
+{
+  "background": "schwarzschild",
+  "L_over_M": "640",
+  "xi": "0",
+  "ell": 1,
+  "mass": "1",
+  "degree": 16,
+  "nodes": 145,
+  "layout": "standard",
+  "block_boundaries": [
+    "0.0",
+    "0.33333333333333333333333333333333333333333333333333",
+    "0.55000000000000000000000000000000000000000000000000",
+    "0.70000000000000000000000000000000000000000000000000",
+    "0.77777777777777777777777777777777777777777777777778",
+    "0.90000000000000000000000000000000000000000000000000",
+    "0.97000000000000000000000000000000000000000000000000",
+    "0.99434595819914520000000000000000000000000000000000",
+    "0.99858448586953270000000000000000000000000000000000",
+    "1.0000000000000000000000000000000000000000000000000"
+  ],
+  "precision_digits": 50,
+  "q": "2.7725887222397812376689284858327062723020005374410",
+  "sbp_identity_defect": "2.6727647100921956461405364671514818788151968801050e-51",
+  "energy_identity_defect": "5.3455294201843912922810729343029637576303937602101e-51",
+  "stiffness_symmetry_defect": "4.2764235361475130338248583474423710061043150081681e-50",
+  "stiffness_generalized_low_eigenvalues_float64": [
+    0.1025242627214635,
+    0.1413682093993513,
+    0.14744393487775448,
+    0.1600053544077113
+  ],
+  "formulation": "continuous LGL SBP weak scalar u,v; Hermite4",
+  "initial_data": "u=0; v=areal bump center6 halfwidth3 amplitude1",
+  "geometry": {
+    "background": "schwarzschild",
+    "mass": "1.0",
+    "cosmological_length": "640.0",
+    "ell": 1,
+    "curvature_coupling": "0.0",
+    "coefficient_decimal_digits": 50,
+    "black_hole_radius": "2.0",
+    "outer_radius": "+inf",
+    "transition_inner_rho": null,
+    "transition_outer_rho": null,
+    "initial_support_rho": [
+      "0.33333333333333333333333333333333333333333333333333",
+      "0.77777777777777777777777777777777777777777777777778"
+    ],
+    "initial_data": "u=0, d_tau u=C-infinity areal bump centered at 6M with half-width 3M",
+    "retarded_offset": "2.772588722239781237668928485832706272302000537441",
+    "retarded_clock": "U=tau-q; height and tortoise normalized at r=4M"
+  },
+  "time_alignment": "U=tau-q; no fitted shift or rescaling",
+  "preparation_seconds": 0.33922908396925777,
+  "source_sha256": {
+    "black_hole/sbp_hermite.py": "3a0109f0f44e63e462d326a55edda3e0d15b55546a0fc1cfd72ada74de76ebc6",
+    "black_hole/sbp_geometry.py": "f2803ed29ed3c218668d58cc4d8678288cdc5e343509f2e069b1e969025213fd"
+  },
+  "operator_sha256": "136e84a92bec94f62070cd673dc2307bf835bf4bf2113ce857d2461a4fd08b28"
+}

@@ -1,0 +1,61 @@
+{
+  "background": "uniform",
+  "L_over_M": "3072",
+  "xi": "0",
+  "ell": 1,
+  "mass": "1",
+  "degree": 32,
+  "nodes": 289,
+  "layout": "standard",
+  "block_boundaries": [
+    "0.0",
+    "0.33355027672906217542419194310557622802328344543087",
+    "0.55000000000000000000000000000000000000000000000000",
+    "0.70000000000000000000000000000000000000000000000000",
+    "0.77828454454382291874047128619754178096028798475322",
+    "0.90000000000000000000000000000000000000000000000000",
+    "0.97000000000000000000000000000000000000000000000000",
+    "0.99434595819914520000000000000000000000000000000000",
+    "0.99858448586953270000000000000000000000000000000000",
+    "1.0000000000000000000000000000000000000000000000000"
+  ],
+  "precision_digits": 50,
+  "q": "2.7699892491597176066772267271601511185958085272136",
+  "sbp_identity_defect": "4.0091470651382934692108047007272228182227953201576e-51",
+  "energy_identity_defect": "5.3455294201843912922810729343029637576303937602101e-51",
+  "stiffness_symmetry_defect": "3.4211388289180104270598866779538968048834520065345e-49",
+  "stiffness_generalized_low_eigenvalues_float64": [
+    0.10251774989437687,
+    0.12463056623505858,
+    0.14853920718140023,
+    0.18191358886106807
+  ],
+  "formulation": "continuous LGL SBP weak scalar u,v",
+  "initial_data": "u=0; v=areal bump center6 halfwidth3 amplitude1",
+  "geometry": {
+    "background": "uniform",
+    "mass": "1.0",
+    "cosmological_length": "3072.0",
+    "ell": 1,
+    "curvature_coupling": "0.0",
+    "coefficient_decimal_digits": 50,
+    "black_hole_radius": "2.0000008477115813936962990777906986321135783256532",
+    "outer_radius": "3070.9995112944414823655932241199164282427411189632",
+    "transition_inner_rho": null,
+    "transition_outer_rho": null,
+    "initial_support_rho": [
+      "0.33355027672906217542419194310557622802328344543087",
+      "0.77828454454382291874047128619754178096028798475322"
+    ],
+    "initial_data": "u=0, d_tau u=C-infinity areal bump centered at 6M with half-width 3M",
+    "retarded_offset": "2.7699892491597176066772267271601511185958085272136",
+    "retarded_clock": "U=tau-q; height and tortoise normalized at r=4M"
+  },
+  "time_alignment": "U=tau-q; no fitted shift or rescaling",
+  "preparation_seconds": 2.67877983400831,
+  "source_sha256": {
+    "black_hole/sbp_hermite.py": "35fd99f0a4525410ff122276c24aa648b49f4ab4984abe8c7df462289cc25236",
+    "black_hole/sbp_geometry.py": "f2803ed29ed3c218668d58cc4d8678288cdc5e343509f2e069b1e969025213fd"
+  },
+  "operator_sha256": "b7c33c494a11a97a5a1cd97f0f03432559dc2244480c74fd5625b6e8e2b9de39"
+}

@@ -1,0 +1,63 @@
+{
+  "background": "uniform",
+  "L_over_M": "640",
+  "xi": "0",
+  "ell": 1,
+  "mass": "1",
+  "degree": 32,
+  "nodes": 289,
+  "layout": "standard",
+  "block_boundaries": [
+    "0.0",
+    "0.33437338887904198560559654263452792379198519352281",
+    "0.55000000000000000000000000000000000000000000000000",
+    "0.70000000000000000000000000000000000000000000000000",
+    "0.78021763614940255998756114747774666540218208863210",
+    "0.90000000000000000000000000000000000000000000000000",
+    "0.97000000000000000000000000000000000000000000000000",
+    "0.99434595819914520000000000000000000000000000000000",
+    "0.99858448586953270000000000000000000000000000000000",
+    "1.0000000000000000000000000000000000000000000000000"
+  ],
+  "precision_digits": 50,
+  "q": "2.7601962434291778230257642733666219909498464269370",
+  "sbp_identity_defect": "4.0091470651382934692108047007272228182227953201576e-51",
+  "energy_identity_defect": "5.3455294201843912922810729343029637576303937602101e-51",
+  "stiffness_symmetry_defect": "3.4211388289180104270598866779538968048834520065345e-49",
+  "stiffness_generalized_low_eigenvalues_float64": [
+    0.10244636827598247,
+    0.12387699006658603,
+    0.15531630951818898,
+    0.20357164076707357
+  ],
+  "formulation": "continuous LGL SBP weak scalar u,v",
+  "initial_data_kind": "velocity",
+  "initial_data": "u=0, d_tau u=C-infinity areal bump centered at 6M with half-width 3M",
+  "geometry": {
+    "background": "uniform",
+    "mass": "1.0",
+    "cosmological_length": "640.0",
+    "ell": 1,
+    "curvature_coupling": "0.0",
+    "coefficient_decimal_digits": 50,
+    "black_hole_radius": "2.0000195318222269425860334404536281433849130262326",
+    "outer_radius": "638.99764643401923686747483983483346123555158988676",
+    "transition_inner_rho": null,
+    "transition_outer_rho": null,
+    "initial_support_rho": [
+      "0.33437338887904198560559654263452792379198519352281",
+      "0.7802176361494025599875611474777466654021820886321"
+    ],
+    "initial_data_kind": "velocity",
+    "initial_data": "u=0, d_tau u=C-infinity areal bump centered at 6M with half-width 3M",
+    "retarded_offset": "2.760196243429177823025764273366621990949846426937",
+    "retarded_clock": "U=tau-q; height and tortoise normalized at r=4M"
+  },
+  "time_alignment": "U=tau-q; no fitted shift or rescaling",
+  "preparation_seconds": 17.705871290992945,
+  "source_sha256": {
+    "black_hole/sbp_hermite.py": "3a5d6aa65a23f5f49fc92cf83f0b55513c49868425a42886716f5be9f32d1a22",
+    "black_hole/sbp_geometry.py": "bef008b212a9a4d4017a867b8182f0201f9cc1ae5f5c23d25d4bd8a206983c3f"
+  },
+  "operator_sha256": "361855ef9d0476b3d104ff40f3db8eac4b8d73195406ed0041e4c459467afee4"
+}

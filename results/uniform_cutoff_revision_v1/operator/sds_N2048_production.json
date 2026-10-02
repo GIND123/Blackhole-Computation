@@ -1,0 +1,64 @@
+{
+  "rhs": [
+    {
+      "datum": "actual_initial_velocity",
+      "tau": 0.0,
+      "constraint_linf": 0.0,
+      "implicit_constraint_rhs_linf": 2.6895357447422718e-14,
+      "explicit_constraint_rhs_linf": 0.0,
+      "complete_constraint_rhs_linf": 2.6895357447422718e-14
+    },
+    {
+      "datum": "constraint_satisfying_polynomial",
+      "tau": 0.0,
+      "constraint_linf": 1.389332539099706e-16,
+      "implicit_constraint_rhs_linf": 7.94341121724805e-18,
+      "explicit_constraint_rhs_linf": 0.0,
+      "complete_constraint_rhs_linf": 7.94341121724805e-18
+    },
+    {
+      "datum": "evolved_state",
+      "tau": 0.0025,
+      "constraint_linf": 1.6300306241192956e-12,
+      "implicit_constraint_rhs_linf": 4.4334692320537536e-14,
+      "explicit_constraint_rhs_linf": 0.0,
+      "complete_constraint_rhs_linf": 4.4334692320537536e-14
+    }
+  ],
+  "history": [
+    {
+      "tau": 0.0,
+      "constraint_linf": 0.0,
+      "constraint_velocity_scale": 0.0
+    },
+    {
+      "tau": 0.0025,
+      "constraint_linf": 1.6300306241192956e-12,
+      "constraint_velocity_scale": 1.6300346002817118e-12
+    }
+  ],
+  "ncc_cutoff": 1e-06,
+  "entry_cutoff": 1e-12,
+  "history_dt": 1.0,
+  "sampled_not_continuous_maxima": true,
+  "assembly_seconds": 7.880113791965414,
+  "matrix_shape": [
+    6144,
+    6144
+  ],
+  "matrix_nnz": 183946,
+  "dedalus_version": "3.0.4",
+  "fixed_velocity_scale": 0.9999975606883341,
+  "normalization": "M*||G_v||_infinity (not a waveform error)",
+  "evolution_seconds": 1.4853025420452468,
+  "wall_seconds": 12.857159083010629,
+  "source_sha256": {
+    "uniform_cutoff_audit.py": "77964fd6094bc5af7b2a5e34afc097d424083dfca8517f0fcbe6244308f37cdd",
+    "sds_solver.py": "c866b276bba1349d673529d169b29d78e26c3fcf21ddd04d0b7bfef59e6f822b",
+    "large_l_tail.py": "0568f1e344d64208af858335416f2f8615e5f4b81dbface49c42b1931f7a7ff6",
+    "sds_model.py": "5593c3bd55735132bd8572c742512106c7674d06e783a8f0fd894b6411d83206",
+    "schwarzschild_scalar.py": "fd25e46bb34286b45935a10bd5d7787891f261ad80003be0ca071203bb46c3ad"
+  },
+  "sampled_maximum_constraint_linf": 1.6300306241192956e-12,
+  "sampled_maximum_constraint_velocity_scale": 1.6300346002817118e-12
+}

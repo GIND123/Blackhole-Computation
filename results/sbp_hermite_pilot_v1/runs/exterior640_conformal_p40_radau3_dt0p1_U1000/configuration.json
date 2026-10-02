@@ -1,0 +1,80 @@
+{
+  "background": "exterior",
+  "L_over_M": "640",
+  "xi": "1/6",
+  "ell": 1,
+  "mass": "1",
+  "degree": 40,
+  "nodes": 361,
+  "layout": "standard",
+  "block_boundaries": [
+    "0.0",
+    "0.33437990967533198555659266115673277027450916532314",
+    "0.55000000000000000000000000000000000000000000000000",
+    "0.70000000000000000000000000000000000000000000000000",
+    "0.78021978924244129963204954269904313064052138575400",
+    "0.90000000000000000000000000000000000000000000000000",
+    "0.97000000000000000000000000000000000000000000000000",
+    "0.99434595819914519085706315468158453612427764022930",
+    "0.99858448586953274524595224179051024129297237828346",
+    "1.0000000000000000000000000000000000000000000000000"
+  ],
+  "precision_digits": 50,
+  "q": "2.7600652758743297418587199559774349416657249657887",
+  "sbp_identity_defect": "4.0091470651382934692108047007272228182227953201576e-51",
+  "energy_identity_defect": "5.3455294201843912922810729343029637576303937602101e-51",
+  "stiffness_symmetry_defect": "3.4211388289180104270598866779538968048834520065345e-49",
+  "stiffness_generalized_low_eigenvalues_float64": [
+    0.10252188505917996,
+    0.14447934526025902,
+    0.17223251658384675,
+    0.22058492173297384
+  ],
+  "formulation": "continuous LGL SBP weak scalar u,v",
+  "initial_data": "u=0; v=areal bump center6 halfwidth3 amplitude1",
+  "geometry": {
+    "background": "exterior",
+    "mass": "1.0",
+    "cosmological_length": "640.0",
+    "ell": 1,
+    "curvature_coupling": "0.16666666666666666666666666666666666666666666666667",
+    "coefficient_decimal_digits": 50,
+    "black_hole_radius": "2.0",
+    "outer_radius": "638.99764643401923686747483983483346123555158988676",
+    "transition_inner_rho": "0.9943459581991451908570631546815845361242776402293",
+    "transition_outer_rho": "0.99858448586953274524595224179051024129297237828346",
+    "initial_support_rho": [
+      "0.33437990967533198555659266115673277027450916532314",
+      "0.780219789242441299632049542699043130640521385754"
+    ],
+    "initial_data": "u=0, d_tau u=C-infinity areal bump centered at 6M with half-width 3M",
+    "retarded_offset": "2.7600652758743297418587199559774349416657249657887",
+    "retarded_clock": "U=tau-q; height and tortoise normalized at r=4M"
+  },
+  "time_alignment": "U=tau-q; no fitted shift or rescaling",
+  "preparation_seconds": 14.117101249983534,
+  "source_sha256": {
+    "black_hole/sbp_hermite.py": "35fd99f0a4525410ff122276c24aa648b49f4ab4984abe8c7df462289cc25236",
+    "black_hole/sbp_geometry.py": "f2803ed29ed3c218668d58cc4d8678288cdc5e343509f2e069b1e969025213fd"
+  },
+  "operator_sha256": "6e4a9233e098b7336f9e3f77d7116c3107a7f0215f438a437a7cf7baacfc8cdb",
+  "dt": "0.1",
+  "end_u": "1000",
+  "end_tau": "1002.7600652758743297418587199559774349416657249658",
+  "output_every": 1,
+  "integrator": "radau3",
+  "wall_seconds": 85.59807504096534,
+  "command": [
+    "/Users/anilzenginoglu/Documents/projects/26-SdS/Govind/black_hole/high_precision/_build/hermite_banded_dd",
+    "/Users/anilzenginoglu/Documents/projects/26-SdS/Govind/results/sbp_hermite_pilot_v1/operators/exterior640_conformal_p40/operator.txt",
+    "/Users/anilzenginoglu/Documents/projects/26-SdS/Govind/results/sbp_hermite_pilot_v1/runs/exterior640_conformal_p40_radau3_dt0p1_U1000",
+    "0.1",
+    "1002.7600652758743297418587199559774349416657249658",
+    "1",
+    "300",
+    "--integrator",
+    "radau3"
+  ],
+  "backend_sha256": "aa347daa901b9b82b676c43d14fba5b99ea768f5514d8d2c910df54bf4316ae6",
+  "returncode": 0
+}

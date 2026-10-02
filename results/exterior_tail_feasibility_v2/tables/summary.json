@@ -1,0 +1,106 @@
+{
+  "question": "Does exterior support recover a short Schwarzschild p=3 interval at the cosmological horizon, or does the asymptotic modification remain visible in the tail?",
+  "length_over_M": 640.0,
+  "ell": 1,
+  "outer_price_target": 3.0,
+  "retarded_time_range_over_M": [
+    0.0,
+    1000.0
+  ],
+  "primary_rms_envelope_width_over_M": 10.0,
+  "primary_price_fit_window_over_M": 40.0,
+  "price_band_relative_tolerance": 0.1,
+  "price_interval_target_over_M": 40.0,
+  "refinement_stability_threshold_abs_diagnostic": 0.1,
+  "outcomes": {
+    "schwarzschild": {
+      "price_band": [
+        2.7,
+        3.3
+      ],
+      "longest_price_band_interval": [
+        140.37741127766628,
+        974.9774112874971
+      ],
+      "longest_price_band_duration_over_M": 834.6000000098309,
+      "price_interval_target_over_M": 40.0,
+      "price_interval_objective_met": true,
+      "power_refinement_supported_to_U_over_M": 974.9774112874971,
+      "persistent_departure_interval": null,
+      "persistent_departure_direction": null,
+      "persistent_departure_median_p_eff": null,
+      "exponential_target_gamma_over_kappa": 1.0,
+      "exponential_minimum_interval_over_M": 160.50294935744557,
+      "exponential_target_interval": null,
+      "exponential_claim_resolved": false,
+      "gamma_refinement_supported_to_U_over_M": 914.727411286182
+    },
+    "uniform": {
+      "price_band": [
+        2.7,
+        3.3
+      ],
+      "longest_price_band_interval": [
+        134.489803756482,
+        144.08980375647326
+      ],
+      "longest_price_band_duration_over_M": 9.599999999991269,
+      "price_interval_target_over_M": 40.0,
+      "price_interval_objective_met": false,
+      "power_refinement_supported_to_U_over_M": 630.9398037587976,
+      "persistent_departure_interval": [
+        162.7398037564563,
+        630.9398037587976
+      ],
+      "persistent_departure_direction": "faster_than_U^-3",
+      "persistent_departure_median_p_eff": 4.429098102094391,
+      "exponential_target_gamma_over_kappa": 1.0,
+      "exponential_minimum_interval_over_M": 160.50294935744557,
+      "exponential_target_interval": null,
+      "exponential_claim_resolved": false,
+      "gamma_refinement_supported_to_U_over_M": 605.989803758253
+    },
+    "exterior": {
+      "price_band": [
+        2.7,
+        3.3
+      ],
+      "longest_price_band_interval": [
+        302.53993472388424,
+        314.6899347238732
+      ],
+      "longest_price_band_duration_over_M": 12.14999999998895,
+      "price_interval_target_over_M": 40.0,
+      "price_interval_objective_met": false,
+      "power_refinement_supported_to_U_over_M": 975.0399347338637,
+      "persistent_departure_interval": [
+        109.43993472405988,
+        302.4899347238843
+      ],
+      "persistent_departure_direction": "slower_than_U^-3",
+      "persistent_departure_median_p_eff": 1.1757050527949113,
+      "exponential_target_gamma_over_kappa": 1.0,
+      "exponential_minimum_interval_over_M": 160.50294935744557,
+      "exponential_target_interval": null,
+      "exponential_claim_resolved": false,
+      "gamma_refinement_supported_to_U_over_M": 914.7899347325485
+    }
+  },
+  "exterior_resolutions": [
+    1536,
+    2048
+  ],
+  "control_resolutions": [
+    1536,
+    2048,
+    3072
+  ],
+  "exterior_two_grid_interpretation": "The N=1536 versus N=2048 result is an observed refinement difference; two grids do not establish a convergence order.",
+  "exponential_interpretation_rule": "gamma_eff/kappa_c is diagnostic unless two-grid agreement and 10 percent agreement with the ell=1 target persist for at least one complete semilog fit width.",
+  "figure_png": "results/exterior_tail_feasibility_v2/outer_power_index_comparison.png",
+  "figure_pdf": "results/exterior_tail_feasibility_v2/outer_power_index_comparison.pdf",
+  "fixed_windows_table": "results/exterior_tail_feasibility_v2/tables/outer_decay_fixed_windows.csv",
+  "estimator_sensitivity_table": "results/exterior_tail_feasibility_v2/tables/tail_estimator_sensitivity.csv",
+  "constraint_probe_table": "results/exterior_tail_feasibility_v2/tables/constraint_probe_audit.csv",
+  "control_archives_reused_read_only": true
+}

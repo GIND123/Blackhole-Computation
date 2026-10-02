@@ -1,0 +1,4 @@
+{
+  "schwarzschild_p24_radau3_dt0p1_U1000": "Superseded preliminary backend (82c6390), before robust decimal parsing. Excluded conservatively together with the affected uniform run; original output retained.",
+  "uniform640_conformal_p24_radau3_dt0p1_U1000": "Preliminary backend (82c6390), before robust decimal parsing, disagrees with independent band-LU Radau applied to the identical operator. Rechecked with corrected backend aa347daa; original output retained. Not spatial truncation error."
+}

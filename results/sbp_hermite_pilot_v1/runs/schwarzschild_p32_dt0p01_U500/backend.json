@@ -1,0 +1,15 @@
+{
+  "completed": true,
+  "precision": "double-double",
+  "method": "Hermite H4 Pade [2/2], conjugate Cayley increments",
+  "n": 289,
+  "bandwidth": 32,
+  "full_steps": 50277,
+  "partial_step": "2.58872223978123766892848582839337e-03",
+  "dt": "1.00000000000000000000000000000000e-02",
+  "endtime": "5.02772588722239781237668928485831e+02",
+  "discarded_imaginary_max": "2.87898841442941193516481022733524e-30",
+  "state_max": "1.13580356741935892229110699637197e+00",
+  "setup_seconds": 1.52309999999999997472022172928519e-02,
+  "total_seconds": 1.55858500999999989744537742808461e+02
+}

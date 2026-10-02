@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "results/regulator_production_v3/raw/flat/coarse/schwarzschild.npz": "fb86342cd440cdcb2f6e9dfbe224b2f5dd27dbc27a73c6799e51ba5c41789ce7",
+    "results/regulator_production_v3/raw/flat/medium/schwarzschild.npz": "151af88eb2f01b984ca07eaab2a3c69e5c4735fe031cbd6ee3bf45fd108e4001",
+    "results/regulator_production_v3/raw/flat/fine/schwarzschild.npz": "52c6e76c29aacf1f4d45597b65e6988ae0ee22b872fff4a54438cf8616130ed1",
+    "results/regulator_production_v3/raw/flat/coarse/sds_L80.npz": "3b3297ef39a7f06188147cdb33ecfaa7cc1c4c67bd0011d746ef02880d37da8a",
+    "results/regulator_production_v3/raw/flat/medium/sds_L80.npz": "daf9b3177b3171e13f66c5a1e468f9d240ad4702a9c563a359e13c4ad08c30fe",
+    "results/regulator_production_v3/raw/flat/fine/sds_L80.npz": "88ee8ba1a1d1ede9f488b6e11b2694102dd287b6d2bdd1d74028b3d694b8599d",
+    "results/exterior_regulator_far_production_v1/raw/exterior/L80/coarse/sds_L80.npz": "0c5a0beb0abf69570a0e979ae76f443046763c2e913a9d425814cef8cdf3cc6f",
+    "results/exterior_regulator_far_production_v1/raw/exterior/L80/medium/sds_L80.npz": "6687ea38d0123cc718d560a06026a288c68965120a1950db60f7ebb6968ca0ff",
+    "results/exterior_regulator_far_production_v1/raw/exterior/L80/fine/sds_L80.npz": "ff3c513a603221eedca2059a6050f8853e7fae223e558e4403c3904aaec3835d",
+    "results/regulator_production_v3/raw/flat/coarse/sds_L160.npz": "3500d5ff152a174aaab4fed01d630b6f3318e9232748b9c2e330382cc984df55",
+    "results/regulator_production_v3/raw/flat/medium/sds_L160.npz": "a9b199fa8b3bd8056afc904f5d2407f6c7db6b5da7e3be30dfca7f6eb9ccde41",
+    "results/regulator_production_v3/raw/flat/fine/sds_L160.npz": "361713a7f8b29cf33f29f442a1ef990ca21ac8f441dd154b50bc9bd9ca3f8cc9",
+    "results/exterior_regulator_far_production_v1/raw/exterior/L160/coarse/sds_L160.npz": "602afa8038813b0a195f8eb920f9368b94c67fa2217a5f1e1bf401d0e036f935",
+    "results/exterior_regulator_far_production_v1/raw/exterior/L160/medium/sds_L160.npz": "e38fdf93fcc39e4625f9442b731a68c59e0ad502133b3670ab797a3933175fb7",
+    "results/exterior_regulator_far_production_v1/raw/exterior/L160/fine/sds_L160.npz": "b535cf1d4b46e97a790bb2fe4a447e1aa2d1b1048280006bed0fd333ccf65917"
+  },
+  "analysis_source_sha256": "f06bb84a343278e5834e5984742682283d2be19d3e17aaab8dff0951c5768cbe",
+  "convention": "Original fine-Schwarzschild grid, original linear interpolation, unchanged windows and clock",
+  "diagnostics": "Largest observed adjacent coupled-level vector change; no Richardson model or proven bound",
+  "uniform_alternatives": "Fixed-reference and level-paired residual changes are separate named columns",
+  "reference_sensitivity": "Replace Schwarzschild fine by medium jointly in both candidate norms and denominator"
+}

@@ -1,0 +1,4883 @@
+{
+  "metrics": [
+    {
+      "background": "sds",
+      "comparison": "compatible_archived_production_to_tightened",
+      "window_lower": 231.88,
+      "window_upper": 381.88,
+      "sample_count": 3000,
+      "maximum_relative_envelope_change": 0.0002504309882550473,
+      "relative_tail_waveform_l2": 0.00023148714893028442,
+      "maximum_absolute_local_index_change": 0.00026594723695438915
+    },
+    {
+      "background": "schwarzschild",
+      "comparison": "compatible_archived_production_to_tightened",
+      "window_lower": 231.88,
+      "window_upper": 381.88,
+      "sample_count": 3000,
+      "maximum_relative_envelope_change": 0.0002414437534019205,
+      "relative_tail_waveform_l2": 0.00021703533694258036,
+      "maximum_absolute_local_index_change": 0.00034896457799993286
+    }
+  ],
+  "classifications": {
+    "production": {
+      "departure_U_over_M": 381.33001075052556,
+      "rule_selected_interval": [
+        231.33001075052556,
+        381.33001075052556
+      ],
+      "classification": "passes",
+      "longest_continuous_interval": [
+        172.28001075071572,
+        381.33001075052556
+      ],
+      "longest_duration": 209.04999999980984,
+      "anchor": 300.0,
+      "required_duration": 150.0,
+      "p_target": 3.0,
+      "relative_band": 0.05,
+      "mutual_index_band": 0.15000000000000002,
+      "maximum_original_fine_envelope_refinement_in_selected_interval": {
+        "sds": 4.740696273553332e-05,
+        "schwarzschild": 2.1880792673124883e-05
+      },
+      "envelope_refinement_condition": "both original finest-grid envelope differences <=1%; not a new refined ladder for tightened cutoffs",
+      "measured_floor": "unchanged original finest spatial/temporal envelope ladder",
+      "record_end_U": 12296.009779208318,
+      "composed_price_estimator_padding_M": 25.0
+    },
+    "tight": {
+      "departure_U_over_M": 380.58001075052624,
+      "rule_selected_interval": [
+        230.58001075052624,
+        380.58001075052624
+      ],
+      "classification": "passes",
+      "longest_continuous_interval": [
+        172.28001075071572,
+        380.58001075052624
+      ],
+      "longest_duration": 208.29999999981052,
+      "anchor": 300.0,
+      "required_duration": 150.0,
+      "p_target": 3.0,
+      "relative_band": 0.05,
+      "mutual_index_band": 0.15000000000000002,
+      "maximum_original_fine_envelope_refinement_in_selected_interval": {
+        "sds": 4.7022917226617715e-05,
+        "schwarzschild": 2.172699539087033e-05
+      },
+      "envelope_refinement_condition": "both original finest-grid envelope differences <=1%; not a new refined ladder for tightened cutoffs",
+      "measured_floor": "unchanged original finest spatial/temporal envelope ladder",
+      "record_end_U": 450.0,
+      "composed_price_estimator_padding_M": 25.0
+    },
+    "cutoff_departure_change": -0.7499999999993179
+  },
+  "diagnostics": {
+    "tight_sds": {
+      "assembly_seconds": 1.675267459009774,
+      "dedalus_version": "3.0.4",
+      "entry_cutoff": 0.0,
+      "evolution_seconds": 2576.5414817500277,
+      "fixed_velocity_scale": 0.9999975606883341,
+      "history": [
+        {
+          "constraint_linf": 0.0,
+          "constraint_velocity_scale": 0.0,
+          "tau": 0.0
+        },
+        {
+          "constraint_linf": 3.4472047251449387e-10,
+          "constraint_velocity_scale": 3.4472131339721513e-10,
+          "tau": 0.9999999999999897
+        },
+        {
+          "constraint_linf": 1.3415521366288823e-09,
+          "constraint_velocity_scale": 1.3415554091006422e-09,
+          "tau": 1.9999999999999685
+        },
+        {
+          "constraint_linf": 2.681191417111045e-09,
+          "constraint_velocity_scale": 2.681197957388501e-09,
+          "tau": 2.999999999999947
+        },
+        {
+          "constraint_linf": 3.901477196007564e-09,
+          "constraint_velocity_scale": 3.901486712949618e-09,
+          "tau": 3.999999999999926
+        },
+        {
+          "constraint_linf": 3.4842799297326786e-09,
+          "constraint_velocity_scale": 3.4842884289980907e-09,
+          "tau": 5.000000000000082
+        },
+        {
+          "constraint_linf": 4.136680956514167e-09,
+          "constraint_velocity_scale": 4.136691047192897e-09,
+          "tau": 6.000000000000238
+        },
+        {
+          "constraint_linf": 4.726622119188475e-09,
+          "constraint_velocity_scale": 4.726633648921076e-09,
+          "tau": 7.000000000000394
+        },
+        {
+          "constraint_linf": 4.945801814472207e-09,
+          "constraint_velocity_scale": 4.945813878853699e-09,
+          "tau": 8.00000000000055
+        },
+        {
+          "constraint_linf": 4.876070420278415e-09,
+          "constraint_velocity_scale": 4.8760823145628885e-09,
+          "tau": 9.000000000000352
+        },
+        {
+          "constraint_linf": 4.736081000787944e-09,
+          "constraint_velocity_scale": 4.7360925535937605e-09,
+          "tau": 10.000000000000153
+        },
+        {
+          "constraint_linf": 4.421534205934887e-09,
+          "constraint_velocity_scale": 4.421544991461166e-09,
+          "tau": 10.999999999999954
+        },
+        {
+          "constraint_linf": 4.050762285838441e-09,
+          "constraint_velocity_scale": 4.050772166934244e-09,
+          "tau": 11.999999999999755
+        },
+        {
+          "constraint_linf": 4.312203173131926e-09,
+          "constraint_velocity_scale": 4.3122136919650904e-09,
+          "tau": 12.999999999999556
+        },
+        {
+          "constraint_linf": 3.8022873835517465e-09,
+          "constraint_velocity_scale": 3.802296658538343e-09,
+          "tau": 13.999999999999357
+        },
+        {
+          "constraint_linf": 3.1636389987764156e-09,
+          "constraint_velocity_scale": 3.1636467158967563e-09,
+          "tau": 14.999999999999158
+        },
+        {
+          "constraint_linf": 4.2691909292453e-09,
+          "constraint_velocity_scale": 4.2692013431579405e-09,
+          "tau": 15.999999999998959
+        },
+        {
+          "constraint_linf": 4.1804987586109355e-09,
+          "constraint_velocity_scale": 4.180508956175201e-09,
+          "tau": 16.99999999999947
+        },
+        {
+          "constraint_linf": 4.6793962826270365e-09,
+          "constraint_velocity_scale": 4.679407697160822e-09,
+          "tau": 17.999999999999982
+        },
+        {
+          "constraint_linf": 5.510112265281697e-09,
+          "constraint_velocity_scale": 5.510125706195613e-09,
+          "tau": 19.000000000000494
+        },
+        {
+          "constraint_linf": 5.740013803559462e-09,
+          "constraint_velocity_scale": 5.74002780527625e-09,
+          "tau": 20.000000000001005
+        },
+        {
+          "constraint_linf": 5.336780197603331e-09,
+          "constraint_velocity_scale": 5.336793215705281e-09,
+          "tau": 21.000000000001517
+        },
+        {
+          "constraint_linf": 5.388248984345621e-09,
+          "constraint_velocity_scale": 5.3882621279962885e-09,
+          "tau": 22.00000000000203
+        },
+        {
+          "constraint_linf": 5.3642203440970175e-09,
+          "constraint_velocity_scale": 5.3642334291341995e-09,
+          "tau": 23.00000000000254
+        },
+        {
+          "constraint_linf": 5.280941441777476e-09,
+          "constraint_velocity_scale": 5.280954323670965e-09,
+          "tau": 24.000000000003052
+        },
+        {
+          "constraint_linf": 4.994841039214188e-09,
+          "constraint_velocity_scale": 4.994853223217925e-09,
+          "tau": 25.000000000003563
+        },
+        {
+          "constraint_linf": 4.892403378737734e-09,
+          "constraint_velocity_scale": 4.892415312863481e-09,
+          "tau": 26.000000000004075
+        },
+        {
+          "constraint_linf": 5.15646999379078e-09,
+          "constraint_velocity_scale": 5.156482572058874e-09,
+          "tau": 27.000000000004587
+        },
+        {
+          "constraint_linf": 5.180630357914608e-09,
+          "constraint_velocity_scale": 5.1806429951175025e-09,
+          "tau": 28.000000000005098
+        },
+        {
+          "constraint_linf": 5.216497655070706e-09,
+          "constraint_velocity_scale": 5.21651037976533e-09,
+          "tau": 29.00000000000561
+        },
+        {
+          "constraint_linf": 5.275086525164443e-09,
+          "constraint_velocity_scale": 5.27509939277593e-09,
+          "tau": 30.00000000000612
+        },
+        {
+          "constraint_linf": 5.3705659805366275e-09,
+          "constraint_velocity_scale": 5.370579081052832e-09,
+          "tau": 31.000000000006633
+        },
+        {
+          "constraint_linf": 5.5482070850620985e-09,
+          "constraint_velocity_scale": 5.548220618901379e-09,
+          "tau": 32.00000000000714
+        },
+        {
+          "constraint_linf": 5.4958620397886554e-09,
+          "constraint_velocity_scale": 5.495875445941745e-09,
+          "tau": 33.00000000000623
+        },
+        {
+          "constraint_linf": 5.485259611971876e-09,
+          "constraint_velocity_scale": 5.4852729922622764e-09,
+          "tau": 34.00000000000532
+        },
+        {
+          "constraint_linf": 5.499479375853e-09,
+          "constraint_velocity_scale": 5.4994927908299205e-09,
+          "tau": 35.00000000000441
+        },
+        {
+          "constraint_linf": 5.470848026575461e-09,
+          "constraint_velocity_scale": 5.4708613717114276e-09,
+          "tau": 36.0000000000035
+        },
+        {
+          "constraint_linf": 5.488650477067021e-09,
+          "constraint_velocity_scale": 5.488663865628819e-09,
+          "tau": 37.00000000000259
+        },
+        {
+          "constraint_linf": 5.3580399426563305e-09,
+          "constraint_velocity_scale": 5.35805301261755e-09,
+          "tau": 38.000000000001684
+        },
+        {
+          "constraint_linf": 5.390817566153933e-09,
+          "constraint_velocity_scale": 5.390830716070188e-09,
+          "tau": 39.000000000000774
+        },
+        {
+          "constraint_linf": 5.438657620508619e-09,
+          "constraint_velocity_scale": 5.438670887121961e-09,
+          "tau": 39.999999999999865
+        },
+        {
+          "constraint_linf": 5.372504505274947e-09,
+          "constraint_velocity_scale": 5.3725176105198295e-09,
+          "tau": 40.999999999998956
+        },
+        {
+          "constraint_linf": 5.41214825053425e-09,
+          "constraint_velocity_scale": 5.412161452482819e-09,
+          "tau": 41.999999999998046
+        },
+        {
+          "constraint_linf": 5.407516775046637e-09,
+          "constraint_velocity_scale": 5.407529965697566e-09,
+          "tau": 42.99999999999714
+        },
+        {
+          "constraint_linf": 5.4030753907827625e-09,
+          "constraint_velocity_scale": 5.403088570599744e-09,
+          "tau": 43.99999999999623
+        },
+        {
+          "constraint_linf": 5.406149351085208e-09,
+          "constraint_velocity_scale": 5.406162538400556e-09,
+          "tau": 44.99999999999532
+        },
+        {
+          "constraint_linf": 5.412353390210705e-09,
+          "constraint_velocity_scale": 5.412366592659674e-09,
+          "tau": 45.99999999999441
+        },
+        {
+          "constraint_linf": 5.4392517584388775e-09,
+          "constraint_velocity_scale": 5.43926502650151e-09,
+          "tau": 46.9999999999935
+        },
+        {
+          "constraint_linf": 5.416413914058009e-09,
+          "constraint_velocity_scale": 5.416427126411886e-09,
+          "tau": 47.99999999999259
+        },
+        {
+          "constraint_linf": 5.417272199257815e-09,
+          "constraint_velocity_scale": 5.417285413705322e-09,
+          "tau": 48.99999999999168
+        },
+        {
+          "constraint_linf": 5.417105611371564e-09,
+          "constraint_velocity_scale": 5.41711882541271e-09,
+          "tau": 49.99999999999077
+        },
+        {
+          "constraint_linf": 5.441946182968401e-09,
+          "constraint_velocity_scale": 5.441959457603591e-09,
+          "tau": 50.99999999998986
+        },
+        {
+          "constraint_linf": 5.445669686891473e-09,
+          "constraint_velocity_scale": 5.445682970609472e-09,
+          "tau": 51.99999999998895
+        },
+        {
+          "constraint_linf": 5.4682710156998716e-09,
+          "constraint_velocity_scale": 5.46828435454969e-09,
+          "tau": 52.99999999998804
+        },
+        {
+          "constraint_linf": 5.471378163368284e-09,
+          "constraint_velocity_scale": 5.471391509797422e-09,
+          "tau": 53.99999999998713
+        },
+        {
+          "constraint_linf": 5.470928286738707e-09,
+          "constraint_velocity_scale": 5.4709416320704535e-09,
+          "tau": 54.99999999998622
+        },
+        {
+          "constraint_linf": 5.4682187992863954e-09,
+          "constraint_velocity_scale": 5.468232138008842e-09,
+          "tau": 55.99999999998531
+        },
+        {
+          "constraint_linf": 5.469291785158549e-09,
+          "constraint_velocity_scale": 5.4693051264983485e-09,
+          "tau": 56.999999999984404
+        },
+        {
+          "constraint_linf": 5.4572122599733095e-09,
+          "constraint_velocity_scale": 5.45722557184731e-09,
+          "tau": 57.999999999983494
+        },
+        {
+          "constraint_linf": 5.462973852139963e-09,
+          "constraint_velocity_scale": 5.462987178068318e-09,
+          "tau": 58.999999999982585
+        },
+        {
+          "constraint_linf": 5.458291280967199e-09,
+          "constraint_velocity_scale": 5.458304595473274e-09,
+          "tau": 59.999999999981675
+        },
+        {
+          "constraint_linf": 5.469986657122637e-09,
+          "constraint_velocity_scale": 5.47000000015745e-09,
+          "tau": 60.999999999980766
+        },
+        {
+          "constraint_linf": 5.467147208714026e-09,
+          "constraint_velocity_scale": 5.467160544822522e-09,
+          "tau": 61.999999999979856
+        },
+        {
+          "constraint_linf": 5.4653103296380874e-09,
+          "constraint_velocity_scale": 5.465323661265852e-09,
+          "tau": 62.99999999997895
+        },
+        {
+          "constraint_linf": 5.472988990388001e-09,
+          "constraint_velocity_scale": 5.473002340746458e-09,
+          "tau": 63.99999999997804
+        },
+        {
+          "constraint_linf": 5.473795170771639e-09,
+          "constraint_velocity_scale": 5.4738085230966265e-09,
+          "tau": 64.99999999997713
+        },
+        {
+          "constraint_linf": 5.476431852179853e-09,
+          "constraint_velocity_scale": 5.476445210936544e-09,
+          "tau": 65.99999999997623
+        },
+        {
+          "constraint_linf": 5.475037785303548e-09,
+          "constraint_velocity_scale": 5.475051140659667e-09,
+          "tau": 66.99999999997532
+        },
+        {
+          "constraint_linf": 5.475086662139752e-09,
+          "constraint_velocity_scale": 5.475100017615097e-09,
+          "tau": 67.9999999999744
+        },
+        {
+          "constraint_linf": 5.473239462747111e-09,
+          "constraint_velocity_scale": 5.4732528137165496e-09,
+          "tau": 68.9999999999735
+        },
+        {
+          "constraint_linf": 5.474709949308526e-09,
+          "constraint_velocity_scale": 5.474723303864949e-09,
+          "tau": 69.99999999997259
+        },
+        {
+          "constraint_linf": 5.471492479945165e-09,
+          "constraint_velocity_scale": 5.471505826653158e-09,
+          "tau": 70.99999999997168
+        },
+        {
+          "constraint_linf": 5.470909711235615e-09,
+          "constraint_velocity_scale": 5.4709230565220496e-09,
+          "tau": 71.99999999997077
+        },
+        {
+          "constraint_linf": 5.470150719697735e-09,
+          "constraint_velocity_scale": 5.470164063132748e-09,
+          "tau": 72.99999999996986
+        },
+        {
+          "constraint_linf": 5.472472595480749e-09,
+          "constraint_velocity_scale": 5.4724859445795545e-09,
+          "tau": 73.99999999996895
+        },
+        {
+          "constraint_linf": 5.474610447454345e-09,
+          "constraint_velocity_scale": 5.474623801768051e-09,
+          "tau": 74.99999999996804
+        },
+        {
+          "constraint_linf": 5.476106083193692e-09,
+          "constraint_velocity_scale": 5.476119441155728e-09,
+          "tau": 75.99999999996713
+        },
+        {
+          "constraint_linf": 5.476583442476636e-09,
+          "constraint_velocity_scale": 5.476596801603104e-09,
+          "tau": 76.99999999996622
+        },
+        {
+          "constraint_linf": 5.476569148597572e-09,
+          "constraint_velocity_scale": 5.4765825076891725e-09,
+          "tau": 77.99999999996531
+        },
+        {
+          "constraint_linf": 5.476645796849491e-09,
+          "constraint_velocity_scale": 5.4766591561280606e-09,
+          "tau": 78.9999999999644
+        },
+        {
+          "constraint_linf": 5.476984945735643e-09,
+          "constraint_velocity_scale": 5.476998305841505e-09,
+          "tau": 79.99999999996349
+        },
+        {
+          "constraint_linf": 5.476654771491751e-09,
+          "constraint_velocity_scale": 5.476668130792213e-09,
+          "tau": 80.99999999996258
+        },
+        {
+          "constraint_linf": 5.4779235187817875e-09,
+          "constraint_velocity_scale": 5.477936881177126e-09,
+          "tau": 81.99999999996167
+        },
+        {
+          "constraint_linf": 5.477075134974063e-09,
+          "constraint_velocity_scale": 5.477088495299925e-09,
+          "tau": 82.99999999996076
+        },
+        {
+          "constraint_linf": 5.477189246839057e-09,
+          "constraint_velocity_scale": 5.477202607443273e-09,
+          "tau": 83.99999999995985
+        },
+        {
+          "constraint_linf": 5.476635493599547e-09,
+          "constraint_velocity_scale": 5.476648852852984e-09,
+          "tau": 84.99999999995894
+        },
+        {
+          "constraint_linf": 5.476809384845514e-09,
+          "constraint_velocity_scale": 5.476822744523127e-09,
+          "tau": 85.99999999995804
+        },
+        {
+          "constraint_linf": 5.476971305126771e-09,
+          "constraint_velocity_scale": 5.476984665199359e-09,
+          "tau": 86.99999999995713
+        },
+        {
+          "constraint_linf": 5.477030168473488e-09,
+          "constraint_velocity_scale": 5.477043528689662e-09,
+          "tau": 87.99999999995622
+        },
+        {
+          "constraint_linf": 5.4772517290133145e-09,
+          "constraint_velocity_scale": 5.477265089769945e-09,
+          "tau": 88.9999999999553
+        },
+        {
+          "constraint_linf": 5.477899630300741e-09,
+          "constraint_velocity_scale": 5.477912992637808e-09,
+          "tau": 89.9999999999544
+        },
+        {
+          "constraint_linf": 5.478453321033027e-09,
+          "constraint_velocity_scale": 5.478466684720722e-09,
+          "tau": 90.99999999995349
+        },
+        {
+          "constraint_linf": 5.4780227599200935e-09,
+          "constraint_velocity_scale": 5.478036122557513e-09,
+          "tau": 91.99999999995258
+        },
+        {
+          "constraint_linf": 5.477923550328174e-09,
+          "constraint_velocity_scale": 5.4779369127235905e-09,
+          "tau": 92.99999999995167
+        },
+        {
+          "constraint_linf": 5.477773295970295e-09,
+          "constraint_velocity_scale": 5.477786657999193e-09,
+          "tau": 93.99999999995076
+        },
+        {
+          "constraint_linf": 5.477644698340073e-09,
+          "constraint_velocity_scale": 5.477658060055281e-09,
+          "tau": 94.99999999994985
+        },
+        {
+          "constraint_linf": 5.477835135242253e-09,
+          "constraint_velocity_scale": 5.4778484974219965e-09,
+          "tau": 95.99999999994894
+        },
+        {
+          "constraint_linf": 5.478094240634877e-09,
+          "constraint_velocity_scale": 5.4781076034466605e-09,
+          "tau": 96.99999999994803
+        },
+        {
+          "constraint_linf": 5.478109233057785e-09,
+          "constraint_velocity_scale": 5.47812259590614e-09,
+          "tau": 97.99999999994712
+        },
+        {
+          "constraint_linf": 5.4781806937481855e-09,
+          "constraint_velocity_scale": 5.4781940567708564e-09,
+          "tau": 98.99999999994621
+        },
+        {
+          "constraint_linf": 5.478194723546017e-09,
+          "constraint_velocity_scale": 5.4782080866029105e-09,
+          "tau": 99.9999999999453
+        },
+        {
+          "constraint_linf": 5.478284364702621e-09,
+          "constraint_velocity_scale": 5.478297727978178e-09,
+          "tau": 100.9999999999444
+        },
+        {
+          "constraint_linf": 5.47833085874124e-09,
+          "constraint_velocity_scale": 5.478344222130211e-09,
+          "tau": 101.99999999994348
+        },
+        {
+          "constraint_linf": 5.478141624420871e-09,
+          "constraint_velocity_scale": 5.4781549873482395e-09,
+          "tau": 102.99999999994257
+        },
+        {
+          "constraint_linf": 5.478257176564101e-09,
+          "constraint_velocity_scale": 5.4782705397733375e-09,
+          "tau": 103.99999999994166
+        },
+        {
+          "constraint_linf": 5.478336668101732e-09,
+          "constraint_velocity_scale": 5.478350031504874e-09,
+          "tau": 104.99999999994075
+        },
+        {
+          "constraint_linf": 5.478316131971246e-09,
+          "constraint_velocity_scale": 5.478329495324294e-09,
+          "tau": 105.99999999993985
+        },
+        {
+          "constraint_linf": 5.478364623050838e-09,
+          "constraint_velocity_scale": 5.478377986522171e-09,
+          "tau": 106.99999999993894
+        },
+        {
+          "constraint_linf": 5.478406279383891e-09,
+          "constraint_velocity_scale": 5.478419642956837e-09,
+          "tau": 107.99999999993803
+        },
+        {
+          "constraint_linf": 5.478423199968797e-09,
+          "constraint_velocity_scale": 5.478436563583017e-09,
+          "tau": 108.99999999993712
+        },
+        {
+          "constraint_linf": 5.4785926346266025e-09,
+          "constraint_velocity_scale": 5.4786059986541274e-09,
+          "tau": 109.99999999993621
+        },
+        {
+          "constraint_linf": 5.4786475093141355e-09,
+          "constraint_velocity_scale": 5.478660873475517e-09,
+          "tau": 110.9999999999353
+        },
+        {
+          "constraint_linf": 5.478638032721372e-09,
+          "constraint_velocity_scale": 5.478651396859637e-09,
+          "tau": 111.99999999993439
+        },
+        {
+          "constraint_linf": 5.4785494312171735e-09,
+          "constraint_velocity_scale": 5.4785627951393116e-09,
+          "tau": 112.99999999993348
+        },
+        {
+          "constraint_linf": 5.4785503540595795e-09,
+          "constraint_velocity_scale": 5.478563717983969e-09,
+          "tau": 113.99999999993257
+        },
+        {
+          "constraint_linf": 5.478579688548247e-09,
+          "constraint_velocity_scale": 5.4785930525441924e-09,
+          "tau": 114.99999999993166
+        },
+        {
+          "constraint_linf": 5.478533978499711e-09,
+          "constraint_velocity_scale": 5.478547342384155e-09,
+          "tau": 115.99999999993075
+        },
+        {
+          "constraint_linf": 5.478546353291782e-09,
+          "constraint_velocity_scale": 5.478559717206412e-09,
+          "tau": 116.99999999992984
+        },
+        {
+          "constraint_linf": 5.478545674255431e-09,
+          "constraint_velocity_scale": 5.478559038168405e-09,
+          "tau": 117.99999999992893
+        },
+        {
+          "constraint_linf": 5.478510582982339e-09,
+          "constraint_velocity_scale": 5.478523946809714e-09,
+          "tau": 118.99999999992802
+        },
+        {
+          "constraint_linf": 5.478475352436216e-09,
+          "constraint_velocity_scale": 5.478488716177653e-09,
+          "tau": 119.99999999992711
+        },
+        {
+          "constraint_linf": 5.478511413351918e-09,
+          "constraint_velocity_scale": 5.478524777181319e-09,
+          "tau": 120.9999999999262
+        },
+        {
+          "constraint_linf": 5.478533228650997e-09,
+          "constraint_velocity_scale": 5.478546592533612e-09,
+          "tau": 121.9999999999253
+        },
+        {
+          "constraint_linf": 5.478508987583784e-09,
+          "constraint_velocity_scale": 5.478522351407267e-09,
+          "tau": 122.99999999992438
+        },
+        {
+          "constraint_linf": 5.478544541153413e-09,
+          "constraint_velocity_scale": 5.478557905063623e-09,
+          "tau": 123.99999999992347
+        },
+        {
+          "constraint_linf": 5.478545169143529e-09,
+          "constraint_velocity_scale": 5.478558533055271e-09,
+          "tau": 124.99999999992257
+        },
+        {
+          "constraint_linf": 5.47850459454404e-09,
+          "constraint_velocity_scale": 5.478517958356807e-09,
+          "tau": 125.99999999992166
+        },
+        {
+          "constraint_linf": 5.4784375267398954e-09,
+          "constraint_velocity_scale": 5.478450890389063e-09,
+          "tau": 126.99999999992075
+        },
+        {
+          "constraint_linf": 5.478456199573638e-09,
+          "constraint_velocity_scale": 5.478469563268355e-09,
+          "tau": 127.99999999991984
+        },
+        {
+          "constraint_linf": 5.4785096628048616e-09,
+          "constraint_velocity_scale": 5.478523026629992e-09,
+          "tau": 128.99999999991894
+        },
+        {
+          "constraint_linf": 5.478480641375495e-09,
+          "constraint_velocity_scale": 5.478494005129833e-09,
+          "tau": 129.99999999991803
+        },
+        {
+          "constraint_linf": 5.4785095228433484e-09,
+          "constraint_velocity_scale": 5.478522886668138e-09,
+          "tau": 130.99999999991712
+        },
+        {
+          "constraint_linf": 5.478520662749911e-09,
+          "constraint_velocity_scale": 5.478534026601875e-09,
+          "tau": 131.9999999999162
+        },
+        {
+          "constraint_linf": 5.478586248933756e-09,
+          "constraint_velocity_scale": 5.4785996129457045e-09,
+          "tau": 132.9999999999153
+        },
+        {
+          "constraint_linf": 5.478571445292276e-09,
+          "constraint_velocity_scale": 5.4785848092681135e-09,
+          "tau": 133.9999999999144
+        },
+        {
+          "constraint_linf": 5.478600204103803e-09,
+          "constraint_velocity_scale": 5.4786135681497925e-09,
+          "tau": 134.99999999991348
+        },
+        {
+          "constraint_linf": 5.4785899576499505e-09,
+          "constraint_velocity_scale": 5.478603321670946e-09,
+          "tau": 135.99999999991257
+        },
+        {
+          "constraint_linf": 5.478613285065327e-09,
+          "constraint_velocity_scale": 5.478626649143225e-09,
+          "tau": 136.99999999991167
+        },
+        {
+          "constraint_linf": 5.478581728650191e-09,
+          "constraint_velocity_scale": 5.478595092651113e-09,
+          "tau": 137.99999999991076
+        },
+        {
+          "constraint_linf": 5.478590791359195e-09,
+          "constraint_velocity_scale": 5.4786041553822245e-09,
+          "tau": 138.99999999990985
+        },
+        {
+          "constraint_linf": 5.478648904019288e-09,
+          "constraint_velocity_scale": 5.478662268184072e-09,
+          "tau": 139.99999999990894
+        },
+        {
+          "constraint_linf": 5.4786832429462915e-09,
+          "constraint_velocity_scale": 5.478696607194839e-09,
+          "tau": 140.99999999990803
+        },
+        {
+          "constraint_linf": 5.478707051113186e-09,
+          "constraint_velocity_scale": 5.478720415419809e-09,
+          "tau": 141.99999999990712
+        },
+        {
+          "constraint_linf": 5.478668806788874e-09,
+          "constraint_velocity_scale": 5.478682171002208e-09,
+          "tau": 142.9999999999062
+        },
+        {
+          "constraint_linf": 5.478673480980731e-09,
+          "constraint_velocity_scale": 5.478686845205467e-09,
+          "tau": 143.9999999999053
+        },
+        {
+          "constraint_linf": 5.478653519537531e-09,
+          "constraint_velocity_scale": 5.478666883713573e-09,
+          "tau": 144.9999999999044
+        },
+        {
+          "constraint_linf": 5.478636798932282e-09,
+          "constraint_velocity_scale": 5.478650163067538e-09,
+          "tau": 145.99999999990348
+        },
+        {
+          "constraint_linf": 5.478651147357144e-09,
+          "constraint_velocity_scale": 5.478664511527401e-09,
+          "tau": 146.99999999990257
+        },
+        {
+          "constraint_linf": 5.4786684874841345e-09,
+          "constraint_velocity_scale": 5.478681851696689e-09,
+          "tau": 147.99999999990166
+        },
+        {
+          "constraint_linf": 5.478647291717689e-09,
+          "constraint_velocity_scale": 5.478660655878541e-09,
+          "tau": 148.99999999990075
+        },
+        {
+          "constraint_linf": 5.478654782179086e-09,
+          "constraint_velocity_scale": 5.478668146358209e-09,
+          "tau": 149.99999999989984
+        },
+        {
+          "constraint_linf": 5.478650949695375e-09,
+          "constraint_velocity_scale": 5.47866431386515e-09,
+          "tau": 150.99999999989893
+        },
+        {
+          "constraint_linf": 5.478642823541986e-09,
+          "constraint_velocity_scale": 5.478656187691938e-09,
+          "tau": 151.99999999989802
+        },
+        {
+          "constraint_linf": 5.478664690742922e-09,
+          "constraint_velocity_scale": 5.4786780549462155e-09,
+          "tau": 152.9999999998971
+        },
+        {
+          "constraint_linf": 5.478684101685353e-09,
+          "constraint_velocity_scale": 5.478697465935996e-09,
+          "tau": 153.9999999998962
+        },
+        {
+          "constraint_linf": 5.478698020539538e-09,
+          "constraint_velocity_scale": 5.478711384824133e-09,
+          "tau": 154.9999999998953
+        },
+        {
+          "constraint_linf": 5.478696833742084e-09,
+          "constraint_velocity_scale": 5.4787101980237845e-09,
+          "tau": 155.99999999989438
+        },
+        {
+          "constraint_linf": 5.478689153498668e-09,
+          "constraint_velocity_scale": 5.478702517761633e-09,
+          "tau": 156.99999999989348
+        },
+        {
+          "constraint_linf": 5.478683491708625e-09,
+          "constraint_velocity_scale": 5.47869685595778e-09,
+          "tau": 157.99999999989257
+        },
+        {
+          "constraint_linf": 5.478686259683516e-09,
+          "constraint_velocity_scale": 5.4786996239394225e-09,
+          "tau": 158.99999999989166
+        },
+        {
+          "constraint_linf": 5.478684436595602e-09,
+          "constraint_velocity_scale": 5.478697800847061e-09,
+          "tau": 159.99999999989075
+        },
+        {
+          "constraint_linf": 5.478715059784185e-09,
+          "constraint_velocity_scale": 5.4787284241103446e-09,
+          "tau": 160.99999999988984
+        },
+        {
+          "constraint_linf": 5.478752549920855e-09,
+          "constraint_velocity_scale": 5.478765914338464e-09,
+          "tau": 161.99999999988893
+        },
+        {
+          "constraint_linf": 5.478768468227691e-09,
+          "constraint_velocity_scale": 5.478781832684131e-09,
+          "tau": 162.99999999988802
+        },
+        {
+          "constraint_linf": 5.478768743165713e-09,
+          "constraint_velocity_scale": 5.478782107622822e-09,
+          "tau": 163.9999999998871
+        },
+        {
+          "constraint_linf": 5.47877301927005e-09,
+          "constraint_velocity_scale": 5.478786383737591e-09,
+          "tau": 164.9999999998862
+        },
+        {
+          "constraint_linf": 5.478791047880635e-09,
+          "constraint_velocity_scale": 5.4788044123921535e-09,
+          "tau": 165.9999999998853
+        },
+        {
+          "constraint_linf": 5.478795886133527e-09,
+          "constraint_velocity_scale": 5.478809250656848e-09,
+          "tau": 166.99999999988438
+        },
+        {
+          "constraint_linf": 5.478826905928259e-09,
+          "constraint_velocity_scale": 5.478840270527246e-09,
+          "tau": 167.99999999988347
+        },
+        {
+          "constraint_linf": 5.478821979207399e-09,
+          "constraint_velocity_scale": 5.478835343794369e-09,
+          "tau": 168.99999999988256
+        },
+        {
+          "constraint_linf": 5.478836282654443e-09,
+          "constraint_velocity_scale": 5.478849647276303e-09,
+          "tau": 169.99999999988165
+        },
+        {
+          "constraint_linf": 5.478865370578364e-09,
+          "constraint_velocity_scale": 5.478878735271179e-09,
+          "tau": 170.99999999988074
+        },
+        {
+          "constraint_linf": 5.478856576813351e-09,
+          "constraint_velocity_scale": 5.4788699414847154e-09,
+          "tau": 171.99999999987983
+        },
+        {
+          "constraint_linf": 5.478863879475765e-09,
+          "constraint_velocity_scale": 5.478877244164943e-09,
+          "tau": 172.99999999987892
+        },
+        {
+          "constraint_linf": 5.478874256439423e-09,
+          "constraint_velocity_scale": 5.478887621153913e-09,
+          "tau": 173.999999999878
+        },
+        {
+          "constraint_linf": 5.47887036332738e-09,
+          "constraint_velocity_scale": 5.478883728032374e-09,
+          "tau": 174.9999999998771
+        },
+        {
+          "constraint_linf": 5.478873371420072e-09,
+          "constraint_velocity_scale": 5.478886736132403e-09,
+          "tau": 175.9999999998762
+        },
+        {
+          "constraint_linf": 5.4788759568986854e-09,
+          "constraint_velocity_scale": 5.478889321617324e-09,
+          "tau": 176.99999999987529
+        },
+        {
+          "constraint_linf": 5.478893357536901e-09,
+          "constraint_velocity_scale": 5.478906722297985e-09,
+          "tau": 177.99999999987438
+        },
+        {
+          "constraint_linf": 5.4788825747274655e-09,
+          "constraint_velocity_scale": 5.4788959394622465e-09,
+          "tau": 178.99999999987347
+        },
+        {
+          "constraint_linf": 5.47888189405747e-09,
+          "constraint_velocity_scale": 5.478895258790591e-09,
+          "tau": 179.99999999987256
+        },
+        {
+          "constraint_linf": 5.4789003694031776e-09,
+          "constraint_velocity_scale": 5.478913734181366e-09,
+          "tau": 180.99999999987165
+        },
+        {
+          "constraint_linf": 5.478903874928986e-09,
+          "constraint_velocity_scale": 5.478917239715725e-09,
+          "tau": 181.99999999987074
+        },
+        {
+          "constraint_linf": 5.478910102348426e-09,
+          "constraint_velocity_scale": 5.478923467150356e-09,
+          "tau": 182.99999999986983
+        },
+        {
+          "constraint_linf": 5.478912453448899e-09,
+          "constraint_velocity_scale": 5.478925818256564e-09,
+          "tau": 183.99999999986892
+        },
+        {
+          "constraint_linf": 5.4789186895493236e-09,
+          "constraint_velocity_scale": 5.4789320543722e-09,
+          "tau": 184.999999999868
+        },
+        {
+          "constraint_linf": 5.478925913996878e-09,
+          "constraint_velocity_scale": 5.478939278837378e-09,
+          "tau": 185.9999999998671
+        },
+        {
+          "constraint_linf": 5.478924513143589e-09,
+          "constraint_velocity_scale": 5.478937877980671e-09,
+          "tau": 186.9999999998662
+        },
+        {
+          "constraint_linf": 5.478921388192775e-09,
+          "constraint_velocity_scale": 5.478934753022235e-09,
+          "tau": 187.99999999986528
+        },
+        {
+          "constraint_linf": 5.4789458331174835e-09,
+          "constraint_velocity_scale": 5.478959198006572e-09,
+          "tau": 188.99999999986437
+        },
+        {
+          "constraint_linf": 5.47894599422224e-09,
+          "constraint_velocity_scale": 5.478959359111722e-09,
+          "tau": 189.99999999986346
+        },
+        {
+          "constraint_linf": 5.478953880754474e-09,
+          "constraint_velocity_scale": 5.478967245663194e-09,
+          "tau": 190.99999999986255
+        },
+        {
+          "constraint_linf": 5.4789707741922515e-09,
+          "constraint_velocity_scale": 5.47898413914218e-09,
+          "tau": 191.99999999986164
+        },
+        {
+          "constraint_linf": 5.478974003090322e-09,
+          "constraint_velocity_scale": 5.4789873680481255e-09,
+          "tau": 192.99999999986073
+        },
+        {
+          "constraint_linf": 5.478973225287452e-09,
+          "constraint_velocity_scale": 5.478986590243359e-09,
+          "tau": 193.99999999985982
+        },
+        {
+          "constraint_linf": 5.4790008145861225e-09,
+          "constraint_velocity_scale": 5.479014179609328e-09,
+          "tau": 194.99999999985891
+        },
+        {
+          "constraint_linf": 5.479011377836749e-09,
+          "constraint_velocity_scale": 5.479024742885722e-09,
+          "tau": 195.999999999858
+        },
+        {
+          "constraint_linf": 5.479007561313559e-09,
+          "constraint_velocity_scale": 5.479020926353222e-09,
+          "tau": 196.9999999998571
+        },
+        {
+          "constraint_linf": 5.4790141457567315e-09,
+          "constraint_velocity_scale": 5.479027510812456e-09,
+          "tau": 197.9999999998562
+        },
+        {
+          "constraint_linf": 5.479021926776819e-09,
+          "constraint_velocity_scale": 5.479035291851524e-09,
+          "tau": 198.99999999985528
+        },
+        {
+          "constraint_linf": 5.4790225949598905e-09,
+          "constraint_velocity_scale": 5.479035960036226e-09,
+          "tau": 199.99999999985437
+        },
+        {
+          "constraint_linf": 5.479035427470568e-09,
+          "constraint_velocity_scale": 5.479048792578206e-09,
+          "tau": 200.99999999985346
+        },
+        {
+          "constraint_linf": 5.47903714850043e-09,
+          "constraint_velocity_scale": 5.4790505136122655e-09,
+          "tau": 201.99999999985255
+        },
+        {
+          "constraint_linf": 5.479035090678385e-09,
+          "constraint_velocity_scale": 5.4790484557852015e-09,
+          "tau": 202.99999999985164
+        },
+        {
+          "constraint_linf": 5.479031870567257e-09,
+          "constraint_velocity_scale": 5.479045235666218e-09,
+          "tau": 203.99999999985073
+        },
+        {
+          "constraint_linf": 5.479031204740268e-09,
+          "constraint_velocity_scale": 5.479044569837605e-09,
+          "tau": 204.99999999984982
+        },
+        {
+          "constraint_linf": 5.47903770128193e-09,
+          "constraint_velocity_scale": 5.479051066395114e-09,
+          "tau": 205.9999999998489
+        },
+        {
+          "constraint_linf": 5.479038962550007e-09,
+          "constraint_velocity_scale": 5.479052327666268e-09,
+          "tau": 206.999999999848
+        },
+        {
+          "constraint_linf": 5.479039260349796e-09,
+          "constraint_velocity_scale": 5.4790526254667834e-09,
+          "tau": 207.9999999998471
+        },
+        {
+          "constraint_linf": 5.479046160395875e-09,
+          "constraint_velocity_scale": 5.4790595255296935e-09,
+          "tau": 208.99999999984618
+        },
+        {
+          "constraint_linf": 5.479054611032673e-09,
+          "constraint_velocity_scale": 5.4790679761871055e-09,
+          "tau": 209.99999999984527
+        },
+        {
+          "constraint_linf": 5.479065517612846e-09,
+          "constraint_velocity_scale": 5.479078882793883e-09,
+          "tau": 210.99999999984436
+        },
+        {
+          "constraint_linf": 5.479071365870132e-09,
+          "constraint_velocity_scale": 5.479084731065435e-09,
+          "tau": 211.99999999984345
+        },
+        {
+          "constraint_linf": 5.479071184903191e-09,
+          "constraint_velocity_scale": 5.479084550098053e-09,
+          "tau": 212.99999999984254
+        },
+        {
+          "constraint_linf": 5.4790789508895105e-09,
+          "constraint_velocity_scale": 5.479092316103316e-09,
+          "tau": 213.99999999984163
+        },
+        {
+          "constraint_linf": 5.479086861658975e-09,
+          "constraint_velocity_scale": 5.479100226892077e-09,
+          "tau": 214.99999999984072
+        },
+        {
+          "constraint_linf": 5.479094298057874e-09,
+          "constraint_velocity_scale": 5.479107663309116e-09,
+          "tau": 215.99999999983982
+        },
+        {
+          "constraint_linf": 5.479102094726943e-09,
+          "constraint_velocity_scale": 5.479115459997203e-09,
+          "tau": 216.9999999998389
+        },
+        {
+          "constraint_linf": 5.479098652334938e-09,
+          "constraint_velocity_scale": 5.479112017596801e-09,
+          "tau": 217.999999999838
+        },
+        {
+          "constraint_linf": 5.479105701719206e-09,
+          "constraint_velocity_scale": 5.479119066998265e-09,
+          "tau": 218.9999999998371
+        },
+        {
+          "constraint_linf": 5.479114457736464e-09,
+          "constraint_velocity_scale": 5.479127823036882e-09,
+          "tau": 219.99999999983618
+        },
+        {
+          "constraint_linf": 5.479101316994377e-09,
+          "constraint_velocity_scale": 5.47911468226274e-09,
+          "tau": 220.99999999983527
+        },
+        {
+          "constraint_linf": 5.479117527904409e-09,
+          "constraint_velocity_scale": 5.479130893212316e-09,
+          "tau": 221.99999999983436
+        },
+        {
+          "constraint_linf": 5.47912595468524e-09,
+          "constraint_velocity_scale": 5.479139320013702e-09,
+          "tau": 222.99999999983345
+        },
+        {
+          "constraint_linf": 5.47912167425817e-09,
+          "constraint_velocity_scale": 5.479135039576191e-09,
+          "tau": 223.99999999983254
+        },
+        {
+          "constraint_linf": 5.47911911015199e-09,
+          "constraint_velocity_scale": 5.479132475463756e-09,
+          "tau": 224.99999999983163
+        },
+        {
+          "constraint_linf": 5.479123554289818e-09,
+          "constraint_velocity_scale": 5.479136919612425e-09,
+          "tau": 225.99999999983072
+        },
+        {
+          "constraint_linf": 5.4791274184089085e-09,
+          "constraint_velocity_scale": 5.479140783740941e-09,
+          "tau": 226.9999999998298
+        },
+        {
+          "constraint_linf": 5.479132633142764e-09,
+          "constraint_velocity_scale": 5.479145998487517e-09,
+          "tau": 227.9999999998289
+        },
+        {
+          "constraint_linf": 5.479130973571617e-09,
+          "constraint_velocity_scale": 5.479144338912322e-09,
+          "tau": 228.999999999828
+        },
+        {
+          "constraint_linf": 5.479138656747182e-09,
+          "constraint_velocity_scale": 5.479152022106628e-09,
+          "tau": 229.99999999982708
+        },
+        {
+          "constraint_linf": 5.479144948615869e-09,
+          "constraint_velocity_scale": 5.479158313990664e-09,
+          "tau": 230.99999999982617
+        },
+        {
+          "constraint_linf": 5.479145455140542e-09,
+          "constraint_velocity_scale": 5.479158820516572e-09,
+          "tau": 231.99999999982526
+        },
+        {
+          "constraint_linf": 5.47915739896627e-09,
+          "constraint_velocity_scale": 5.479170764371435e-09,
+          "tau": 232.99999999982435
+        },
+        {
+          "constraint_linf": 5.479167252604707e-09,
+          "constraint_velocity_scale": 5.4791806180339075e-09,
+          "tau": 233.99999999982344
+        },
+        {
+          "constraint_linf": 5.479176145152453e-09,
+          "constraint_velocity_scale": 5.479189510603346e-09,
+          "tau": 234.99999999982253
+        },
+        {
+          "constraint_linf": 5.479187164012965e-09,
+          "constraint_velocity_scale": 5.479200529490736e-09,
+          "tau": 235.99999999982163
+        },
+        {
+          "constraint_linf": 5.47918926721378e-09,
+          "constraint_velocity_scale": 5.479202632696681e-09,
+          "tau": 236.99999999982072
+        },
+        {
+          "constraint_linf": 5.479205542347569e-09,
+          "constraint_velocity_scale": 5.479218907870171e-09,
+          "tau": 237.9999999998198
+        },
+        {
+          "constraint_linf": 5.47921734243017e-09,
+          "constraint_velocity_scale": 5.4792307079815564e-09,
+          "tau": 238.9999999998189
+        },
+        {
+          "constraint_linf": 5.479230058836351e-09,
+          "constraint_velocity_scale": 5.479243424418756e-09,
+          "tau": 239.999999999818
+        },
+        {
+          "constraint_linf": 5.4792335785765844e-09,
+          "constraint_velocity_scale": 5.479246944167576e-09,
+          "tau": 240.99999999981708
+        },
+        {
+          "constraint_linf": 5.479235250803983e-09,
+          "constraint_velocity_scale": 5.479248616399053e-09,
+          "tau": 241.99999999981617
+        },
+        {
+          "constraint_linf": 5.479243534813512e-09,
+          "constraint_velocity_scale": 5.4792569004287895e-09,
+          "tau": 242.99999999981526
+        },
+        {
+          "constraint_linf": 5.479252404817658e-09,
+          "constraint_velocity_scale": 5.479265770454572e-09,
+          "tau": 243.99999999981435
+        },
+        {
+          "constraint_linf": 5.479264052101114e-09,
+          "constraint_velocity_scale": 5.47927741776644e-09,
+          "tau": 244.99999999981344
+        },
+        {
+          "constraint_linf": 5.479270599687665e-09,
+          "constraint_velocity_scale": 5.479283965368962e-09,
+          "tau": 245.99999999981253
+        },
+        {
+          "constraint_linf": 5.479281760219972e-09,
+          "constraint_velocity_scale": 5.479295125928494e-09,
+          "tau": 246.99999999981162
+        },
+        {
+          "constraint_linf": 5.479292326272566e-09,
+          "constraint_velocity_scale": 5.4793056920068616e-09,
+          "tau": 247.9999999998107
+        },
+        {
+          "constraint_linf": 5.479297216339713e-09,
+          "constraint_velocity_scale": 5.479310582085937e-09,
+          "tau": 248.9999999998098
+        },
+        {
+          "constraint_linf": 5.479299851007396e-09,
+          "constraint_velocity_scale": 5.479313216760047e-09,
+          "tau": 249.9999999998089
+        },
+        {
+          "constraint_linf": 5.479303762095936e-09,
+          "constraint_velocity_scale": 5.479317127858128e-09,
+          "tau": 250.99999999980798
+        },
+        {
+          "constraint_linf": 5.479307929291212e-09,
+          "constraint_velocity_scale": 5.479321295063568e-09,
+          "tau": 251.99999999980707
+        },
+        {
+          "constraint_linf": 5.479313746510554e-09,
+          "constraint_velocity_scale": 5.4793271122971e-09,
+          "tau": 252.99999999980616
+        },
+        {
+          "constraint_linf": 5.479321524385796e-09,
+          "constraint_velocity_scale": 5.479334890191315e-09,
+          "tau": 253.99999999980525
+        },
+        {
+          "constraint_linf": 5.479327102154269e-09,
+          "constraint_velocity_scale": 5.479340467973394e-09,
+          "tau": 254.99999999980434
+        },
+        {
+          "constraint_linf": 5.479328945319064e-09,
+          "constraint_velocity_scale": 5.479342311142685e-09,
+          "tau": 255.99999999980344
+        },
+        {
+          "constraint_linf": 5.479332844259377e-09,
+          "constraint_velocity_scale": 5.479346210092509e-09,
+          "tau": 256.9999999998025
+        },
+        {
+          "constraint_linf": 5.479332325536813e-09,
+          "constraint_velocity_scale": 5.47934569136868e-09,
+          "tau": 257.9999999998016
+        },
+        {
+          "constraint_linf": 5.479342284288712e-09,
+          "constraint_velocity_scale": 5.4793556501448714e-09,
+          "tau": 258.9999999998007
+        },
+        {
+          "constraint_linf": 5.479350965720994e-09,
+          "constraint_velocity_scale": 5.47936433159833e-09,
+          "tau": 259.9999999997998
+        },
+        {
+          "constraint_linf": 5.47935868757213e-09,
+          "constraint_velocity_scale": 5.479372053468301e-09,
+          "tau": 260.9999999997989
+        },
+        {
+          "constraint_linf": 5.479370374373031e-09,
+          "constraint_velocity_scale": 5.4793837402977104e-09,
+          "tau": 261.999999999798
+        },
+        {
+          "constraint_linf": 5.4793738721910455e-09,
+          "constraint_velocity_scale": 5.479387238124257e-09,
+          "tau": 262.99999999979707
+        },
+        {
+          "constraint_linf": 5.4793803519949275e-09,
+          "constraint_velocity_scale": 5.479393717943946e-09,
+          "tau": 263.99999999979616
+        },
+        {
+          "constraint_linf": 5.479390293291524e-09,
+          "constraint_velocity_scale": 5.479403659264792e-09,
+          "tau": 264.99999999979525
+        },
+        {
+          "constraint_linf": 5.479396364399552e-09,
+          "constraint_velocity_scale": 5.47940973038763e-09,
+          "tau": 265.99999999979434
+        },
+        {
+          "constraint_linf": 5.479403236979087e-09,
+          "constraint_velocity_scale": 5.4794166029839286e-09,
+          "tau": 266.99999999979343
+        },
+        {
+          "constraint_linf": 5.479412504846207e-09,
+          "constraint_velocity_scale": 5.479425870873656e-09,
+          "tau": 267.9999999997925
+        },
+        {
+          "constraint_linf": 5.479416793230685e-09,
+          "constraint_velocity_scale": 5.479430159268595e-09,
+          "tau": 268.9999999997916
+        },
+        {
+          "constraint_linf": 5.479425721310533e-09,
+          "constraint_velocity_scale": 5.479439087370222e-09,
+          "tau": 269.9999999997907
+        },
+        {
+          "constraint_linf": 5.479432227169128e-09,
+          "constraint_velocity_scale": 5.479445593244686e-09,
+          "tau": 270.9999999997898
+        },
+        {
+          "constraint_linf": 5.47944296034885e-09,
+          "constraint_velocity_scale": 5.47945632645059e-09,
+          "tau": 271.9999999997889
+        },
+        {
+          "constraint_linf": 5.479454403157952e-09,
+          "constraint_velocity_scale": 5.4794677692876044e-09,
+          "tau": 272.999999999788
+        },
+        {
+          "constraint_linf": 5.4794639721212825e-09,
+          "constraint_velocity_scale": 5.479477338274277e-09,
+          "tau": 273.99999999978706
+        },
+        {
+          "constraint_linf": 5.479472970906416e-09,
+          "constraint_velocity_scale": 5.479486337081361e-09,
+          "tau": 274.99999999978616
+        },
+        {
+          "constraint_linf": 5.479484471635304e-09,
+          "constraint_velocity_scale": 5.479497837838303e-09,
+          "tau": 275.99999999978525
+        },
+        {
+          "constraint_linf": 5.479493645074605e-09,
+          "constraint_velocity_scale": 5.479507011299981e-09,
+          "tau": 276.99999999978434
+        },
+        {
+          "constraint_linf": 5.479500785996291e-09,
+          "constraint_velocity_scale": 5.479514152239086e-09,
+          "tau": 277.9999999997834
+        },
+        {
+          "constraint_linf": 5.479513738305049e-09,
+          "constraint_velocity_scale": 5.479527104579439e-09,
+          "tau": 278.9999999997825
+        },
+        {
+          "constraint_linf": 5.4795196803442506e-09,
+          "constraint_velocity_scale": 5.479533046633135e-09,
+          "tau": 279.9999999997816
+        },
+        {
+          "constraint_linf": 5.479530488532641e-09,
+          "constraint_velocity_scale": 5.479543854847889e-09,
+          "tau": 280.9999999997807
+        },
+        {
+          "constraint_linf": 5.479539551105547e-09,
+          "constraint_velocity_scale": 5.479552917442903e-09,
+          "tau": 281.9999999997798
+        },
+        {
+          "constraint_linf": 5.479546627333271e-09,
+          "constraint_velocity_scale": 5.479559993687888e-09,
+          "tau": 282.9999999997789
+        },
+        {
+          "constraint_linf": 5.479555008612676e-09,
+          "constraint_velocity_scale": 5.479568374987737e-09,
+          "tau": 283.99999999977797
+        },
+        {
+          "constraint_linf": 5.4795619302756395e-09,
+          "constraint_velocity_scale": 5.479575296667585e-09,
+          "tau": 284.99999999977706
+        },
+        {
+          "constraint_linf": 5.479571013143183e-09,
+          "constraint_velocity_scale": 5.479584379557284e-09,
+          "tau": 285.99999999977615
+        },
+        {
+          "constraint_linf": 5.479579537969058e-09,
+          "constraint_velocity_scale": 5.479592904403954e-09,
+          "tau": 286.99999999977524
+        },
+        {
+          "constraint_linf": 5.479590376954406e-09,
+          "constraint_velocity_scale": 5.479603743415742e-09,
+          "tau": 287.99999999977433
+        },
+        {
+          "constraint_linf": 5.479598741332554e-09,
+          "constraint_velocity_scale": 5.479612107814293e-09,
+          "tau": 288.9999999997734
+        },
+        {
+          "constraint_linf": 5.4796093547506865e-09,
+          "constraint_velocity_scale": 5.479622721258315e-09,
+          "tau": 289.9999999997725
+        },
+        {
+          "constraint_linf": 5.4796154898348965e-09,
+          "constraint_velocity_scale": 5.47962885635749e-09,
+          "tau": 290.9999999997716
+        },
+        {
+          "constraint_linf": 5.479622676193937e-09,
+          "constraint_velocity_scale": 5.479636042734061e-09,
+          "tau": 291.9999999997707
+        },
+        {
+          "constraint_linf": 5.479630828372007e-09,
+          "constraint_velocity_scale": 5.479644194932017e-09,
+          "tau": 292.9999999997698
+        },
+        {
+          "constraint_linf": 5.4796430670803e-09,
+          "constraint_velocity_scale": 5.479656433670163e-09,
+          "tau": 293.9999999997689
+        },
+        {
+          "constraint_linf": 5.4796516658184295e-09,
+          "constraint_velocity_scale": 5.4796650324292685e-09,
+          "tau": 294.99999999976797
+        },
+        {
+          "constraint_linf": 5.479659143138383e-09,
+          "constraint_velocity_scale": 5.479672509767461e-09,
+          "tau": 295.99999999976706
+        },
+        {
+          "constraint_linf": 5.479665782720097e-09,
+          "constraint_velocity_scale": 5.479679149365372e-09,
+          "tau": 296.99999999976615
+        },
+        {
+          "constraint_linf": 5.479673302309598e-09,
+          "constraint_velocity_scale": 5.479686668973215e-09,
+          "tau": 297.99999999976524
+        },
+        {
+          "constraint_linf": 5.479679950596658e-09,
+          "constraint_velocity_scale": 5.479693317276492e-09,
+          "tau": 298.9999999997643
+        },
+        {
+          "constraint_linf": 5.479686924733679e-09,
+          "constraint_velocity_scale": 5.479700291430526e-09,
+          "tau": 299.9999999997634
+        },
+        {
+          "constraint_linf": 5.479696983753011e-09,
+          "constraint_velocity_scale": 5.479710350474394e-09,
+          "tau": 300.9999999997625
+        },
+        {
+          "constraint_linf": 5.479703160558938e-09,
+          "constraint_velocity_scale": 5.4797165272953885e-09,
+          "tau": 301.9999999997616
+        },
+        {
+          "constraint_linf": 5.479711539411161e-09,
+          "constraint_velocity_scale": 5.47972490616805e-09,
+          "tau": 302.9999999997607
+        },
+        {
+          "constraint_linf": 5.479720910263443e-09,
+          "constraint_velocity_scale": 5.479734277043191e-09,
+          "tau": 303.9999999997598
+        },
+        {
+          "constraint_linf": 5.479730240446497e-09,
+          "constraint_velocity_scale": 5.479743607249004e-09,
+          "tau": 304.99999999975887
+        },
+        {
+          "constraint_linf": 5.4797368175548105e-09,
+          "constraint_velocity_scale": 5.479750184373361e-09,
+          "tau": 305.99999999975796
+        },
+        {
+          "constraint_linf": 5.47974540447657e-09,
+          "constraint_velocity_scale": 5.479758771316067e-09,
+          "tau": 306.99999999975705
+        },
+        {
+          "constraint_linf": 5.4797540112857275e-09,
+          "constraint_velocity_scale": 5.4797673781462195e-09,
+          "tau": 307.99999999975614
+        },
+        {
+          "constraint_linf": 5.479763039891374e-09,
+          "constraint_velocity_scale": 5.4797764067738895e-09,
+          "tau": 308.99999999975523
+        },
+        {
+          "constraint_linf": 5.479772804797714e-09,
+          "constraint_velocity_scale": 5.479786171704049e-09,
+          "tau": 309.9999999997543
+        },
+        {
+          "constraint_linf": 5.4797828601394314e-09,
+          "constraint_velocity_scale": 5.479796227070295e-09,
+          "tau": 310.9999999997534
+        },
+        {
+          "constraint_linf": 5.479791249758034e-09,
+          "constraint_velocity_scale": 5.479804616709362e-09,
+          "tau": 311.9999999997525
+        },
+        {
+          "constraint_linf": 5.4797960860560845e-09,
+          "constraint_velocity_scale": 5.47980945301921e-09,
+          "tau": 312.9999999997516
+        },
+        {
+          "constraint_linf": 5.479804284220364e-09,
+          "constraint_velocity_scale": 5.479817651203487e-09,
+          "tau": 313.9999999997507
+        },
+        {
+          "constraint_linf": 5.4798118589806285e-09,
+          "constraint_velocity_scale": 5.479825225982229e-09,
+          "tau": 314.9999999997498
+        },
+        {
+          "constraint_linf": 5.47982090653455e-09,
+          "constraint_velocity_scale": 5.479834273558221e-09,
+          "tau": 315.99999999974887
+        },
+        {
+          "constraint_linf": 5.4798306306981936e-09,
+          "constraint_velocity_scale": 5.479843997745585e-09,
+          "tau": 316.99999999974796
+        },
+        {
+          "constraint_linf": 5.479837940106242e-09,
+          "constraint_velocity_scale": 5.479851307171463e-09,
+          "tau": 317.99999999974705
+        },
+        {
+          "constraint_linf": 5.47985030940073e-09,
+          "constraint_velocity_scale": 5.479863676496123e-09,
+          "tau": 318.99999999974614
+        },
+        {
+          "constraint_linf": 5.479859034633093e-09,
+          "constraint_velocity_scale": 5.479872401749771e-09,
+          "tau": 319.9999999997452
+        },
+        {
+          "constraint_linf": 5.4798662632399e-09,
+          "constraint_velocity_scale": 5.47987963037421e-09,
+          "tau": 320.9999999997443
+        },
+        {
+          "constraint_linf": 5.479875405236513e-09,
+          "constraint_velocity_scale": 5.4798887723931236e-09,
+          "tau": 321.9999999997434
+        },
+        {
+          "constraint_linf": 5.47988205342571e-09,
+          "constraint_velocity_scale": 5.4798954205985375e-09,
+          "tau": 322.9999999997425
+        },
+        {
+          "constraint_linf": 5.479891029401926e-09,
+          "constraint_velocity_scale": 5.479904396596648e-09,
+          "tau": 323.9999999997416
+        },
+        {
+          "constraint_linf": 5.4799011470713745e-09,
+          "constraint_velocity_scale": 5.479914514290777e-09,
+          "tau": 324.9999999997407
+        },
+        {
+          "constraint_linf": 5.479909827568961e-09,
+          "constraint_velocity_scale": 5.479923194809538e-09,
+          "tau": 325.99999999973977
+        },
+        {
+          "constraint_linf": 5.479919642523154e-09,
+          "constraint_velocity_scale": 5.4799330097876736e-09,
+          "tau": 326.99999999973886
+        },
+        {
+          "constraint_linf": 5.47992640229962e-09,
+          "constraint_velocity_scale": 5.479939769580628e-09,
+          "tau": 327.99999999973795
+        },
+        {
+          "constraint_linf": 5.479938415037442e-09,
+          "constraint_velocity_scale": 5.479951782347754e-09,
+          "tau": 328.99999999973704
+        },
+        {
+          "constraint_linf": 5.479945220975016e-09,
+          "constraint_velocity_scale": 5.479958588301928e-09,
+          "tau": 329.99999999973613
+        },
+        {
+          "constraint_linf": 5.4799563681550555e-09,
+          "constraint_velocity_scale": 5.47996973550916e-09,
+          "tau": 330.9999999997352
+        },
+        {
+          "constraint_linf": 5.479960230584872e-09,
+          "constraint_velocity_scale": 5.4799735979483985e-09,
+          "tau": 331.9999999997343
+        },
+        {
+          "constraint_linf": 5.479968211016761e-09,
+          "constraint_velocity_scale": 5.479981578399754e-09,
+          "tau": 332.9999999997334
+        },
+        {
+          "constraint_linf": 5.479975134838101e-09,
+          "constraint_velocity_scale": 5.479988502237983e-09,
+          "tau": 333.9999999997325
+        },
+        {
+          "constraint_linf": 5.4799843321310865e-09,
+          "constraint_velocity_scale": 5.479997699553404e-09,
+          "tau": 334.9999999997316
+        },
+        {
+          "constraint_linf": 5.479992991060066e-09,
+          "constraint_velocity_scale": 5.480006358503506e-09,
+          "tau": 335.9999999997307
+        },
+        {
+          "constraint_linf": 5.48000161139959e-09,
+          "constraint_velocity_scale": 5.480014978864057e-09,
+          "tau": 336.99999999972977
+        },
+        {
+          "constraint_linf": 5.480012092226272e-09,
+          "constraint_velocity_scale": 5.480025459716306e-09,
+          "tau": 337.99999999972886
+        },
+        {
+          "constraint_linf": 5.480021202627087e-09,
+          "constraint_velocity_scale": 5.4800345701393436e-09,
+          "tau": 338.99999999972795
+        },
+        {
+          "constraint_linf": 5.480029167142326e-09,
+          "constraint_velocity_scale": 5.4800425346740104e-09,
+          "tau": 339.99999999972704
+        },
+        {
+          "constraint_linf": 5.480039211987499e-09,
+          "constraint_velocity_scale": 5.4800525795436865e-09,
+          "tau": 340.9999999997261
+        },
+        {
+          "constraint_linf": 5.480050279096602e-09,
+          "constraint_velocity_scale": 5.480063646679785e-09,
+          "tau": 341.9999999997252
+        },
+        {
+          "constraint_linf": 5.480057798160312e-09,
+          "constraint_velocity_scale": 5.480071165761836e-09,
+          "tau": 342.9999999997243
+        },
+        {
+          "constraint_linf": 5.480063866772164e-09,
+          "constraint_velocity_scale": 5.480077234388491e-09,
+          "tau": 343.9999999997234
+        },
+        {
+          "constraint_linf": 5.4800717120690935e-09,
+          "constraint_velocity_scale": 5.480085079704559e-09,
+          "tau": 344.9999999997225
+        },
+        {
+          "constraint_linf": 5.480082578996492e-09,
+          "constraint_velocity_scale": 5.480095946658465e-09,
+          "tau": 345.9999999997216
+        },
+        {
+          "constraint_linf": 5.480092958265381e-09,
+          "constraint_velocity_scale": 5.480106325952673e-09,
+          "tau": 346.99999999972067
+        },
+        {
+          "constraint_linf": 5.4801029449195e-09,
+          "constraint_velocity_scale": 5.480116312631152e-09,
+          "tau": 347.99999999971976
+        },
+        {
+          "constraint_linf": 5.480111159858618e-09,
+          "constraint_velocity_scale": 5.480124527590308e-09,
+          "tau": 348.99999999971885
+        },
+        {
+          "constraint_linf": 5.48011842178339e-09,
+          "constraint_velocity_scale": 5.480131789532795e-09,
+          "tau": 349.99999999971794
+        },
+        {
+          "constraint_linf": 5.48012937729692e-09,
+          "constraint_velocity_scale": 5.4801427450730485e-09,
+          "tau": 350.99999999971703
+        },
+        {
+          "constraint_linf": 5.480138987987651e-09,
+          "constraint_velocity_scale": 5.480152355787223e-09,
+          "tau": 351.9999999997161
+        },
+        {
+          "constraint_linf": 5.480145934519792e-09,
+          "constraint_velocity_scale": 5.480159302336308e-09,
+          "tau": 352.9999999997152
+        },
+        {
+          "constraint_linf": 5.480154590083742e-09,
+          "constraint_velocity_scale": 5.4801679579213726e-09,
+          "tau": 353.9999999997143
+        },
+        {
+          "constraint_linf": 5.480162510933905e-09,
+          "constraint_velocity_scale": 5.4801758787908566e-09,
+          "tau": 354.9999999997134
+        },
+        {
+          "constraint_linf": 5.480171659384748e-09,
+          "constraint_velocity_scale": 5.4801850272640164e-09,
+          "tau": 355.9999999997125
+        },
+        {
+          "constraint_linf": 5.480180052411299e-09,
+          "constraint_velocity_scale": 5.48019342031104e-09,
+          "tau": 356.9999999997116
+        },
+        {
+          "constraint_linf": 5.480189405752175e-09,
+          "constraint_velocity_scale": 5.480202773674732e-09,
+          "tau": 357.99999999971067
+        },
+        {
+          "constraint_linf": 5.480197199482826e-09,
+          "constraint_velocity_scale": 5.480210567424394e-09,
+          "tau": 358.99999999970976
+        },
+        {
+          "constraint_linf": 5.4802046075354855e-09,
+          "constraint_velocity_scale": 5.480217975495124e-09,
+          "tau": 359.99999999970885
+        },
+        {
+          "constraint_linf": 5.48021314119608e-09,
+          "constraint_velocity_scale": 5.480226509176536e-09,
+          "tau": 360.99999999970794
+        },
+        {
+          "constraint_linf": 5.48022137397892e-09,
+          "constraint_velocity_scale": 5.480234741979458e-09,
+          "tau": 361.99999999970703
+        },
+        {
+          "constraint_linf": 5.480230967509764e-09,
+          "constraint_velocity_scale": 5.480244335533704e-09,
+          "tau": 362.9999999997061
+        },
+        {
+          "constraint_linf": 5.480239764688799e-09,
+          "constraint_velocity_scale": 5.480253132734198e-09,
+          "tau": 363.9999999997052
+        },
+        {
+          "constraint_linf": 5.480247797094022e-09,
+          "constraint_velocity_scale": 5.480261165159014e-09,
+          "tau": 364.9999999997043
+        },
+        {
+          "constraint_linf": 5.4802566180471594e-09,
+          "constraint_velocity_scale": 5.480269986133669e-09,
+          "tau": 365.9999999997034
+        },
+        {
+          "constraint_linf": 5.480266319924981e-09,
+          "constraint_velocity_scale": 5.480279688035156e-09,
+          "tau": 366.9999999997025
+        },
+        {
+          "constraint_linf": 5.48027534951264e-09,
+          "constraint_velocity_scale": 5.4802887176448414e-09,
+          "tau": 367.9999999997016
+        },
+        {
+          "constraint_linf": 5.480284163684792e-09,
+          "constraint_velocity_scale": 5.480297531838494e-09,
+          "tau": 368.99999999970066
+        },
+        {
+          "constraint_linf": 5.4802951662566615e-09,
+          "constraint_velocity_scale": 5.480308534437202e-09,
+          "tau": 369.99999999969975
+        },
+        {
+          "constraint_linf": 5.480301701542737e-09,
+          "constraint_velocity_scale": 5.480315069739219e-09,
+          "tau": 370.99999999969884
+        },
+        {
+          "constraint_linf": 5.480310277785633e-09,
+          "constraint_velocity_scale": 5.480323646003035e-09,
+          "tau": 371.99999999969793
+        },
+        {
+          "constraint_linf": 5.480319087553352e-09,
+          "constraint_velocity_scale": 5.480332455792245e-09,
+          "tau": 372.999999999697
+        },
+        {
+          "constraint_linf": 5.48032580806303e-09,
+          "constraint_velocity_scale": 5.480339176318315e-09,
+          "tau": 373.9999999996961
+        },
+        {
+          "constraint_linf": 5.4803339430895246e-09,
+          "constraint_velocity_scale": 5.480347311364654e-09,
+          "tau": 374.9999999996952
+        },
+        {
+          "constraint_linf": 5.48034283494802e-09,
+          "constraint_velocity_scale": 5.48035620324484e-09,
+          "tau": 375.9999999996943
+        },
+        {
+          "constraint_linf": 5.480351110760722e-09,
+          "constraint_velocity_scale": 5.480364479077729e-09,
+          "tau": 376.9999999996934
+        },
+        {
+          "constraint_linf": 5.480360388927943e-09,
+          "constraint_velocity_scale": 5.4803737572675825e-09,
+          "tau": 377.9999999996925
+        },
+        {
+          "constraint_linf": 5.480370043619549e-09,
+          "constraint_velocity_scale": 5.480383411982739e-09,
+          "tau": 378.99999999969157
+        },
+        {
+          "constraint_linf": 5.480377499311061e-09,
+          "constraint_velocity_scale": 5.480390867692438e-09,
+          "tau": 379.99999999969066
+        },
+        {
+          "constraint_linf": 5.480384881756279e-09,
+          "constraint_velocity_scale": 5.480398250155664e-09,
+          "tau": 380.99999999968975
+        },
+        {
+          "constraint_linf": 5.480394301544575e-09,
+          "constraint_velocity_scale": 5.480407669966938e-09,
+          "tau": 381.99999999968884
+        },
+        {
+          "constraint_linf": 5.480403380993687e-09,
+          "constraint_velocity_scale": 5.480416749438198e-09,
+          "tau": 382.99999999968793
+        },
+        {
+          "constraint_linf": 5.4804140374339525e-09,
+          "constraint_velocity_scale": 5.480427405904458e-09,
+          "tau": 383.999999999687
+        },
+        {
+          "constraint_linf": 5.480422510985715e-09,
+          "constraint_velocity_scale": 5.4804358794768906e-09,
+          "tau": 384.9999999996861
+        },
+        {
+          "constraint_linf": 5.480432387809683e-09,
+          "constraint_velocity_scale": 5.4804457563249504e-09,
+          "tau": 385.9999999996852
+        },
+        {
+          "constraint_linf": 5.480440955000455e-09,
+          "constraint_velocity_scale": 5.4804543235366205e-09,
+          "tau": 386.9999999996843
+        },
+        {
+          "constraint_linf": 5.480450721559795e-09,
+          "constraint_velocity_scale": 5.480464090119784e-09,
+          "tau": 387.9999999996834
+        },
+        {
+          "constraint_linf": 5.480460216272824e-09,
+          "constraint_velocity_scale": 5.4804735848559746e-09,
+          "tau": 388.9999999996825
+        },
+        {
+          "constraint_linf": 5.480469320798337e-09,
+          "constraint_velocity_scale": 5.4804826894036965e-09,
+          "tau": 389.99999999968156
+        },
+        {
+          "constraint_linf": 5.480478933783062e-09,
+          "constraint_velocity_scale": 5.48049230241187e-09,
+          "tau": 390.99999999968065
+        },
+        {
+          "constraint_linf": 5.480486628764752e-09,
+          "constraint_velocity_scale": 5.480499997412331e-09,
+          "tau": 391.99999999967974
+        },
+        {
+          "constraint_linf": 5.480496429908843e-09,
+          "constraint_velocity_scale": 5.4805097985803294e-09,
+          "tau": 392.99999999967883
+        },
+        {
+          "constraint_linf": 5.480506244712468e-09,
+          "constraint_velocity_scale": 5.4805196134078966e-09,
+          "tau": 393.9999999996779
+        },
+        {
+          "constraint_linf": 5.480516066772526e-09,
+          "constraint_velocity_scale": 5.480529435491913e-09,
+          "tau": 394.999999999677
+        },
+        {
+          "constraint_linf": 5.480526485474935e-09,
+          "constraint_velocity_scale": 5.480539854219737e-09,
+          "tau": 395.9999999996761
+        },
+        {
+          "constraint_linf": 5.48053694747511e-09,
+          "constraint_velocity_scale": 5.480550316245432e-09,
+          "tau": 396.9999999996752
+        },
+        {
+          "constraint_linf": 5.480547383019073e-09,
+          "constraint_velocity_scale": 5.480560751814851e-09,
+          "tau": 397.9999999996743
+        },
+        {
+          "constraint_linf": 5.4805582987414e-09,
+          "constraint_velocity_scale": 5.480571667563805e-09,
+          "tau": 398.9999999996734
+        },
+        {
+          "constraint_linf": 5.480566498650384e-09,
+          "constraint_velocity_scale": 5.480579867492791e-09,
+          "tau": 399.99999999967247
+        },
+        {
+          "constraint_linf": 5.480576088503217e-09,
+          "constraint_velocity_scale": 5.4805894573690165e-09,
+          "tau": 400.99999999967156
+        },
+        {
+          "constraint_linf": 5.48058497319981e-09,
+          "constraint_velocity_scale": 5.480598342087282e-09,
+          "tau": 401.99999999967065
+        },
+        {
+          "constraint_linf": 5.480595619446633e-09,
+          "constraint_velocity_scale": 5.480608988360075e-09,
+          "tau": 402.99999999966974
+        },
+        {
+          "constraint_linf": 5.480606016876948e-09,
+          "constraint_velocity_scale": 5.480619385815752e-09,
+          "tau": 403.99999999966883
+        },
+        {
+          "constraint_linf": 5.4806150260221385e-09,
+          "constraint_velocity_scale": 5.480628394982919e-09,
+          "tau": 404.9999999996679
+        },
+        {
+          "constraint_linf": 5.480625061812466e-09,
+          "constraint_velocity_scale": 5.480638430797727e-09,
+          "tau": 405.999999999667
+        },
+        {
+          "constraint_linf": 5.480633857073294e-09,
+          "constraint_velocity_scale": 5.480647226080009e-09,
+          "tau": 406.9999999996661
+        },
+        {
+          "constraint_linf": 5.480643064229086e-09,
+          "constraint_velocity_scale": 5.480656433258261e-09,
+          "tau": 407.9999999996652
+        },
+        {
+          "constraint_linf": 5.480653364715901e-09,
+          "constraint_velocity_scale": 5.480666733770202e-09,
+          "tau": 408.9999999996643
+        },
+        {
+          "constraint_linf": 5.480662648831346e-09,
+          "constraint_velocity_scale": 5.480676017908294e-09,
+          "tau": 409.9999999996634
+        },
+        {
+          "constraint_linf": 5.480671693695079e-09,
+          "constraint_velocity_scale": 5.4806850627940895e-09,
+          "tau": 410.99999999966246
+        },
+        {
+          "constraint_linf": 5.480680923796482e-09,
+          "constraint_velocity_scale": 5.480694292918008e-09,
+          "tau": 411.99999999966155
+        },
+        {
+          "constraint_linf": 5.48069177690787e-09,
+          "constraint_velocity_scale": 5.4807051460558696e-09,
+          "tau": 412.99999999966064
+        },
+        {
+          "constraint_linf": 5.480701913302333e-09,
+          "constraint_velocity_scale": 5.4807152824750585e-09,
+          "tau": 413.99999999965974
+        },
+        {
+          "constraint_linf": 5.480712673717869e-09,
+          "constraint_velocity_scale": 5.4807260429168424e-09,
+          "tau": 414.9999999996588
+        },
+        {
+          "constraint_linf": 5.480722303783779e-09,
+          "constraint_velocity_scale": 5.480735673006244e-09,
+          "tau": 415.9999999996579
+        },
+        {
+          "constraint_linf": 5.480732007616889e-09,
+          "constraint_velocity_scale": 5.480745376863025e-09,
+          "tau": 416.999999999657
+        },
+        {
+          "constraint_linf": 5.480742425144769e-09,
+          "constraint_velocity_scale": 5.480755794416316e-09,
+          "tau": 417.9999999996561
+        },
+        {
+          "constraint_linf": 5.480753248402143e-09,
+          "constraint_velocity_scale": 5.4807666177000914e-09,
+          "tau": 418.9999999996552
+        },
+        {
+          "constraint_linf": 5.480764868569499e-09,
+          "constraint_velocity_scale": 5.4807782378957925e-09,
+          "tau": 419.9999999996543
+        },
+        {
+          "constraint_linf": 5.480775751542759e-09,
+          "constraint_velocity_scale": 5.4807891208956e-09,
+          "tau": 420.99999999965337
+        },
+        {
+          "constraint_linf": 5.480786469645365e-09,
+          "constraint_velocity_scale": 5.480799839024351e-09,
+          "tau": 421.99999999965246
+        },
+        {
+          "constraint_linf": 5.480797992723184e-09,
+          "constraint_velocity_scale": 5.4808113621302784e-09,
+          "tau": 422.99999999965155
+        },
+        {
+          "constraint_linf": 5.480807339123843e-09,
+          "constraint_velocity_scale": 5.480820708553736e-09,
+          "tau": 423.99999999965064
+        },
+        {
+          "constraint_linf": 5.480817260380266e-09,
+          "constraint_velocity_scale": 5.48083062983436e-09,
+          "tau": 424.99999999964973
+        },
+        {
+          "constraint_linf": 5.480828499580579e-09,
+          "constraint_velocity_scale": 5.480841869062089e-09,
+          "tau": 425.9999999996488
+        },
+        {
+          "constraint_linf": 5.480839198621472e-09,
+          "constraint_velocity_scale": 5.48085256812908e-09,
+          "tau": 426.9999999996479
+        },
+        {
+          "constraint_linf": 5.480849115398311e-09,
+          "constraint_velocity_scale": 5.480862484930109e-09,
+          "tau": 427.999999999647
+        },
+        {
+          "constraint_linf": 5.480859972149259e-09,
+          "constraint_velocity_scale": 5.480873341707541e-09,
+          "tau": 428.9999999996461
+        },
+        {
+          "constraint_linf": 5.48087000979917e-09,
+          "constraint_velocity_scale": 5.480883379381936e-09,
+          "tau": 429.9999999996452
+        },
+        {
+          "constraint_linf": 5.480879974501754e-09,
+          "constraint_velocity_scale": 5.480893344108828e-09,
+          "tau": 430.9999999996443
+        },
+        {
+          "constraint_linf": 5.480890359329396e-09,
+          "constraint_velocity_scale": 5.480903728961801e-09,
+          "tau": 431.99999999964336
+        },
+        {
+          "constraint_linf": 5.4809004972499025e-09,
+          "constraint_velocity_scale": 5.480913866907038e-09,
+          "tau": 432.99999999964245
+        },
+        {
+          "constraint_linf": 5.480911383397112e-09,
+          "constraint_velocity_scale": 5.480924753080802e-09,
+          "tau": 433.99999999964155
+        },
+        {
+          "constraint_linf": 5.480921777945216e-09,
+          "constraint_velocity_scale": 5.480935147654262e-09,
+          "tau": 434.99999999964064
+        },
+        {
+          "constraint_linf": 5.480931794921133e-09,
+          "constraint_velocity_scale": 5.480945164654613e-09,
+          "tau": 435.9999999996397
+        },
+        {
+          "constraint_linf": 5.480942965645873e-09,
+          "constraint_velocity_scale": 5.480956335406602e-09,
+          "tau": 436.9999999996388
+        },
+        {
+          "constraint_linf": 5.480953907878676e-09,
+          "constraint_velocity_scale": 5.480967277666097e-09,
+          "tau": 437.9999999996379
+        },
+        {
+          "constraint_linf": 5.480964584839339e-09,
+          "constraint_velocity_scale": 5.480977954652805e-09,
+          "tau": 438.999999999637
+        },
+        {
+          "constraint_linf": 5.480974851017277e-09,
+          "constraint_velocity_scale": 5.480988220855785e-09,
+          "tau": 439.9999999996361
+        },
+        {
+          "constraint_linf": 5.480984809015122e-09,
+          "constraint_velocity_scale": 5.4809981788779206e-09,
+          "tau": 440.9999999996352
+        },
+        {
+          "constraint_linf": 5.480994501912534e-09,
+          "constraint_velocity_scale": 5.4810078717989765e-09,
+          "tau": 441.99999999963427
+        },
+        {
+          "constraint_linf": 5.4810059463528124e-09,
+          "constraint_velocity_scale": 5.481019316267172e-09,
+          "tau": 442.99999999963336
+        },
+        {
+          "constraint_linf": 5.481016375239136e-09,
+          "constraint_velocity_scale": 5.481029745178934e-09,
+          "tau": 443.99999999963245
+        },
+        {
+          "constraint_linf": 5.481026814510898e-09,
+          "constraint_velocity_scale": 5.481040184476161e-09,
+          "tau": 444.99999999963154
+        },
+        {
+          "constraint_linf": 5.481036773320326e-09,
+          "constraint_velocity_scale": 5.481050143309882e-09,
+          "tau": 445.99999999963063
+        },
+        {
+          "constraint_linf": 5.4810474233725646e-09,
+          "constraint_velocity_scale": 5.4810607933881e-09,
+          "tau": 446.9999999996297
+        },
+        {
+          "constraint_linf": 5.481057588403507e-09,
+          "constraint_velocity_scale": 5.481070958443838e-09,
+          "tau": 447.9999999996288
+        },
+        {
+          "constraint_linf": 5.481067673443218e-09,
+          "constraint_velocity_scale": 5.481081043508149e-09,
+          "tau": 448.9999999996279
+        },
+        {
+          "constraint_linf": 5.481079014760055e-09,
+          "constraint_velocity_scale": 5.481092384852651e-09,
+          "tau": 449.999999999627
+        },
+        {
+          "constraint_linf": 5.481091497211251e-09,
+          "constraint_velocity_scale": 5.481104867334296e-09,
+          "tau": 450.9999999996261
+        },
+        {
+          "constraint_linf": 5.481103196567983e-09,
+          "constraint_velocity_scale": 5.481116566719566e-09,
+          "tau": 451.9999999996252
+        },
+        {
+          "constraint_linf": 5.481111190881407e-09,
+          "constraint_velocity_scale": 5.481124561052491e-09,
+          "tau": 452.76998924916137
+        }
+      ],
+      "history_dt": 1.0,
+      "matrix_nnz": 330622,
+      "matrix_shape": [
+        6144,
+        6144
+      ],
+      "ncc_cutoff": 1e-10,
+      "normalization": "M*||G_v||_infinity (not a waveform error)",
+      "rhs": [
+        {
+          "complete_constraint_rhs_linf": 3.885608364145412e-14,
+          "constraint_linf": 0.0,
+          "datum": "actual_initial_velocity",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 3.885608364145412e-14,
+          "tau": 0.0
+        },
+        {
+          "complete_constraint_rhs_linf": 2.772432536198095e-17,
+          "constraint_linf": 1.259563081123134e-16,
+          "datum": "constraint_satisfying_polynomial",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 2.772432536198095e-17,
+          "tau": 0.0
+        },
+        {
+          "complete_constraint_rhs_linf": 1.0908497042910357e-15,
+          "constraint_linf": 5.478194723546017e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 1.0908497042910357e-15,
+          "tau": 99.9999999999453
+        },
+        {
+          "complete_constraint_rhs_linf": 2.1530779559041528e-15,
+          "constraint_linf": 5.479299851007396e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 2.1530779559041528e-15,
+          "tau": 249.9999999998089
+        },
+        {
+          "complete_constraint_rhs_linf": 7.763502902536939e-16,
+          "constraint_linf": 5.4803339430895246e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 7.763502902536939e-16,
+          "tau": 374.9999999996952
+        },
+        {
+          "complete_constraint_rhs_linf": 9.776504438207026e-16,
+          "constraint_linf": 5.481079014760055e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 9.776504438207026e-16,
+          "tau": 449.999999999627
+        },
+        {
+          "complete_constraint_rhs_linf": 1.5682065996342826e-15,
+          "constraint_linf": 5.481111190881407e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 1.5682065996342826e-15,
+          "tau": 452.76998924916137
+        }
+      ],
+      "sampled_maximum_constraint_linf": 5.740013803559462e-09,
+      "sampled_maximum_constraint_velocity_scale": 5.74002780527625e-09,
+      "sampled_not_continuous_maxima": true,
+      "source_sha256": {
+        "large_l_tail.py": "0568f1e344d64208af858335416f2f8615e5f4b81dbface49c42b1931f7a7ff6",
+        "schwarzschild_scalar.py": "fd25e46bb34286b45935a10bd5d7787891f261ad80003be0ca071203bb46c3ad",
+        "sds_model.py": "5593c3bd55735132bd8572c742512106c7674d06e783a8f0fd894b6411d83206",
+        "sds_solver.py": "c866b276bba1349d673529d169b29d78e26c3fcf21ddd04d0b7bfef59e6f822b",
+        "uniform_cutoff_audit.py": "77964fd6094bc5af7b2a5e34afc097d424083dfca8517f0fcbe6244308f37cdd"
+      },
+      "wall_seconds": 2579.4312836250174
+    },
+    "tight_schwarzschild": {
+      "assembly_seconds": 4.144006957998499,
+      "dedalus_version": "3.0.4",
+      "entry_cutoff": 0.0,
+      "evolution_seconds": 2573.393555665971,
+      "fixed_velocity_scale": 0.9999999710457538,
+      "history": [
+        {
+          "constraint_linf": 0.0,
+          "constraint_velocity_scale": 0.0,
+          "tau": 0.0
+        },
+        {
+          "constraint_linf": 9.019952879604643e-11,
+          "constraint_velocity_scale": 9.019953140770588e-11,
+          "tau": 0.9999999999999897
+        },
+        {
+          "constraint_linf": 9.62704131756011e-10,
+          "constraint_velocity_scale": 9.627041596303842e-10,
+          "tau": 1.9999999999999685
+        },
+        {
+          "constraint_linf": 1.3624615800134263e-09,
+          "constraint_velocity_scale": 1.3624616194624755e-09,
+          "tau": 2.999999999999947
+        },
+        {
+          "constraint_linf": 1.946044037032009e-09,
+          "constraint_velocity_scale": 1.9460440933782485e-09,
+          "tau": 3.999999999999926
+        },
+        {
+          "constraint_linf": 1.7673770477267607e-09,
+          "constraint_velocity_scale": 1.7673770988998325e-09,
+          "tau": 5.000000000000082
+        },
+        {
+          "constraint_linf": 1.4064194730702338e-09,
+          "constraint_velocity_scale": 1.4064195137920506e-09,
+          "tau": 6.000000000000238
+        },
+        {
+          "constraint_linf": 6.362766946431382e-10,
+          "constraint_velocity_scale": 6.362767130660508e-10,
+          "tau": 7.000000000000394
+        },
+        {
+          "constraint_linf": 8.295744243351529e-10,
+          "constraint_velocity_scale": 8.295744483548558e-10,
+          "tau": 8.00000000000055
+        },
+        {
+          "constraint_linf": 8.954272649888868e-10,
+          "constraint_velocity_scale": 8.954272909153091e-10,
+          "tau": 9.000000000000352
+        },
+        {
+          "constraint_linf": 9.883881271665266e-10,
+          "constraint_velocity_scale": 9.883881557845606e-10,
+          "tau": 10.000000000000153
+        },
+        {
+          "constraint_linf": 1.0589670335008733e-09,
+          "constraint_velocity_scale": 1.0589670641624664e-09,
+          "tau": 10.999999999999954
+        },
+        {
+          "constraint_linf": 1.2931406537289204e-09,
+          "constraint_velocity_scale": 1.2931406911708344e-09,
+          "tau": 11.999999999999755
+        },
+        {
+          "constraint_linf": 1.6037827882594594e-09,
+          "constraint_velocity_scale": 1.6037828346957825e-09,
+          "tau": 12.999999999999556
+        },
+        {
+          "constraint_linf": 2.1588504114386886e-09,
+          "constraint_velocity_scale": 2.158850473946577e-09,
+          "tau": 13.999999999999357
+        },
+        {
+          "constraint_linf": 1.8475517569125946e-09,
+          "constraint_velocity_scale": 1.8475518104070646e-09,
+          "tau": 14.999999999999158
+        },
+        {
+          "constraint_linf": 1.4445261905202879e-09,
+          "constraint_velocity_scale": 1.444526232345456e-09,
+          "tau": 15.999999999998959
+        },
+        {
+          "constraint_linf": 1.6238725465556589e-09,
+          "constraint_velocity_scale": 1.6238725935736658e-09,
+          "tau": 16.99999999999947
+        },
+        {
+          "constraint_linf": 1.4357380798698274e-09,
+          "constraint_velocity_scale": 1.4357381214405424e-09,
+          "tau": 17.999999999999982
+        },
+        {
+          "constraint_linf": 1.6262527450102988e-09,
+          "constraint_velocity_scale": 1.6262527920972226e-09,
+          "tau": 19.000000000000494
+        },
+        {
+          "constraint_linf": 1.3168652889364851e-09,
+          "constraint_velocity_scale": 1.3168653270653281e-09,
+          "tau": 20.000000000001005
+        },
+        {
+          "constraint_linf": 1.3723059927220255e-09,
+          "constraint_velocity_scale": 1.3723060324561123e-09,
+          "tau": 21.000000000001517
+        },
+        {
+          "constraint_linf": 1.4565466544045141e-09,
+          "constraint_velocity_scale": 1.4565466965777258e-09,
+          "tau": 22.00000000000203
+        },
+        {
+          "constraint_linf": 1.455791421231036e-09,
+          "constraint_velocity_scale": 1.4557914633823805e-09,
+          "tau": 23.00000000000254
+        },
+        {
+          "constraint_linf": 1.4925562830349162e-09,
+          "constraint_velocity_scale": 1.4925563262507595e-09,
+          "tau": 24.000000000003052
+        },
+        {
+          "constraint_linf": 1.5462245880387929e-09,
+          "constraint_velocity_scale": 1.5462246328085615e-09,
+          "tau": 25.000000000003563
+        },
+        {
+          "constraint_linf": 1.5564025646269025e-09,
+          "constraint_velocity_scale": 1.5564026096913669e-09,
+          "tau": 26.000000000004075
+        },
+        {
+          "constraint_linf": 2.019507342321647e-09,
+          "constraint_velocity_scale": 2.0195074007949613e-09,
+          "tau": 27.000000000004587
+        },
+        {
+          "constraint_linf": 2.3190566343164598e-09,
+          "constraint_velocity_scale": 2.3190567014629986e-09,
+          "tau": 28.000000000005098
+        },
+        {
+          "constraint_linf": 2.3499132703127033e-09,
+          "constraint_velocity_scale": 2.349913338352673e-09,
+          "tau": 29.00000000000561
+        },
+        {
+          "constraint_linf": 2.242824113679084e-09,
+          "constraint_velocity_scale": 2.2428241786183676e-09,
+          "tau": 30.00000000000612
+        },
+        {
+          "constraint_linf": 2.2146681668123082e-09,
+          "constraint_velocity_scale": 2.2146682309363576e-09,
+          "tau": 31.000000000006633
+        },
+        {
+          "constraint_linf": 2.2129975615057305e-09,
+          "constraint_velocity_scale": 2.2129976255814085e-09,
+          "tau": 32.00000000000714
+        },
+        {
+          "constraint_linf": 2.247454286340702e-09,
+          "constraint_velocity_scale": 2.2474543514140486e-09,
+          "tau": 33.00000000000623
+        },
+        {
+          "constraint_linf": 2.261539580512194e-09,
+          "constraint_velocity_scale": 2.26153964599337e-09,
+          "tau": 34.00000000000532
+        },
+        {
+          "constraint_linf": 2.291987137231428e-09,
+          "constraint_velocity_scale": 2.2919872035941895e-09,
+          "tau": 35.00000000000441
+        },
+        {
+          "constraint_linf": 2.2557618545239362e-09,
+          "constraint_velocity_scale": 2.255761919837822e-09,
+          "tau": 36.0000000000035
+        },
+        {
+          "constraint_linf": 2.196313288090045e-09,
+          "constraint_velocity_scale": 2.1963133516826426e-09,
+          "tau": 37.00000000000259
+        },
+        {
+          "constraint_linf": 2.1555632943498065e-09,
+          "constraint_velocity_scale": 2.1555633567625185e-09,
+          "tau": 38.000000000001684
+        },
+        {
+          "constraint_linf": 2.2107266272265907e-09,
+          "constraint_velocity_scale": 2.2107266912365157e-09,
+          "tau": 39.000000000000774
+        },
+        {
+          "constraint_linf": 2.1789551183439574e-09,
+          "constraint_velocity_scale": 2.1789551814339624e-09,
+          "tau": 39.999999999999865
+        },
+        {
+          "constraint_linf": 2.144175648704862e-09,
+          "constraint_velocity_scale": 2.1441757107878536e-09,
+          "tau": 40.999999999998956
+        },
+        {
+          "constraint_linf": 2.1646681553774114e-09,
+          "constraint_velocity_scale": 2.164668218053748e-09,
+          "tau": 41.999999999998046
+        },
+        {
+          "constraint_linf": 2.1597044497953614e-09,
+          "constraint_velocity_scale": 2.1597045123279777e-09,
+          "tau": 42.99999999999714
+        },
+        {
+          "constraint_linf": 2.134004260940937e-09,
+          "constraint_velocity_scale": 2.134004322729424e-09,
+          "tau": 43.99999999999623
+        },
+        {
+          "constraint_linf": 2.134973824403013e-09,
+          "constraint_velocity_scale": 2.1349738862195727e-09,
+          "tau": 44.99999999999532
+        },
+        {
+          "constraint_linf": 2.1296452095746397e-09,
+          "constraint_velocity_scale": 2.129645271236913e-09,
+          "tau": 45.99999999999441
+        },
+        {
+          "constraint_linf": 2.154073695525604e-09,
+          "constraint_velocity_scale": 2.154073757895186e-09,
+          "tau": 46.9999999999935
+        },
+        {
+          "constraint_linf": 2.1740261150439886e-09,
+          "constraint_velocity_scale": 2.174026177991278e-09,
+          "tau": 47.99999999999259
+        },
+        {
+          "constraint_linf": 2.1687789981254364e-09,
+          "constraint_velocity_scale": 2.1687790609207992e-09,
+          "tau": 48.99999999999168
+        },
+        {
+          "constraint_linf": 2.197278875672874e-09,
+          "constraint_velocity_scale": 2.1972789392934293e-09,
+          "tau": 49.99999999999077
+        },
+        {
+          "constraint_linf": 2.2351625838949485e-09,
+          "constraint_velocity_scale": 2.2351626486123983e-09,
+          "tau": 50.99999999998986
+        },
+        {
+          "constraint_linf": 2.2162126327504856e-09,
+          "constraint_velocity_scale": 2.2162126969192537e-09,
+          "tau": 51.99999999998895
+        },
+        {
+          "constraint_linf": 2.2062498696836063e-09,
+          "constraint_velocity_scale": 2.20624993356391e-09,
+          "tau": 52.99999999998804
+        },
+        {
+          "constraint_linf": 2.2219983945788563e-09,
+          "constraint_velocity_scale": 2.2219984589151466e-09,
+          "tau": 53.99999999998713
+        },
+        {
+          "constraint_linf": 2.220590246619151e-09,
+          "constraint_velocity_scale": 2.2205903109146695e-09,
+          "tau": 54.99999999998622
+        },
+        {
+          "constraint_linf": 2.2205078642898424e-09,
+          "constraint_velocity_scale": 2.220507928582976e-09,
+          "tau": 55.99999999998531
+        },
+        {
+          "constraint_linf": 2.2180053231489642e-09,
+          "constraint_velocity_scale": 2.2180053873696383e-09,
+          "tau": 56.999999999984404
+        },
+        {
+          "constraint_linf": 2.219778126475223e-09,
+          "constraint_velocity_scale": 2.2197781907472274e-09,
+          "tau": 57.999999999983494
+        },
+        {
+          "constraint_linf": 2.2173784211936452e-09,
+          "constraint_velocity_scale": 2.217378485396168e-09,
+          "tau": 58.999999999982585
+        },
+        {
+          "constraint_linf": 2.214414574274352e-09,
+          "constraint_velocity_scale": 2.2144146383910584e-09,
+          "tau": 59.999999999981675
+        },
+        {
+          "constraint_linf": 2.2157549343262817e-09,
+          "constraint_velocity_scale": 2.2157549984817975e-09,
+          "tau": 60.999999999980766
+        },
+        {
+          "constraint_linf": 2.2161414972208636e-09,
+          "constraint_velocity_scale": 2.216141561387572e-09,
+          "tau": 61.999999999979856
+        },
+        {
+          "constraint_linf": 2.2170815364928545e-09,
+          "constraint_velocity_scale": 2.2170816006867812e-09,
+          "tau": 62.99999999997895
+        },
+        {
+          "constraint_linf": 2.222933236314119e-09,
+          "constraint_velocity_scale": 2.222933300677477e-09,
+          "tau": 63.99999999997804
+        },
+        {
+          "constraint_linf": 2.224918799003378e-09,
+          "constraint_velocity_scale": 2.2249188634242263e-09,
+          "tau": 64.99999999997713
+        },
+        {
+          "constraint_linf": 2.223932433895604e-09,
+          "constraint_velocity_scale": 2.223932498287893e-09,
+          "tau": 65.99999999997623
+        },
+        {
+          "constraint_linf": 2.2240148649322834e-09,
+          "constraint_velocity_scale": 2.2240149293269594e-09,
+          "tau": 66.99999999997532
+        },
+        {
+          "constraint_linf": 2.2258590710965716e-09,
+          "constraint_velocity_scale": 2.225859135544645e-09,
+          "tau": 67.9999999999744
+        },
+        {
+          "constraint_linf": 2.229312643382964e-09,
+          "constraint_velocity_scale": 2.2293127079310334e-09,
+          "tau": 68.9999999999735
+        },
+        {
+          "constraint_linf": 2.228774208488886e-09,
+          "constraint_velocity_scale": 2.228774273021365e-09,
+          "tau": 69.99999999997259
+        },
+        {
+          "constraint_linf": 2.231552811725124e-09,
+          "constraint_velocity_scale": 2.2315528763380555e-09,
+          "tau": 70.99999999997168
+        },
+        {
+          "constraint_linf": 2.22973185195698e-09,
+          "constraint_velocity_scale": 2.229731916517187e-09,
+          "tau": 71.99999999997077
+        },
+        {
+          "constraint_linf": 2.2300087417756516e-09,
+          "constraint_velocity_scale": 2.2300088063438755e-09,
+          "tau": 72.99999999996986
+        },
+        {
+          "constraint_linf": 2.2317670823592037e-09,
+          "constraint_velocity_scale": 2.2317671469783394e-09,
+          "tau": 73.99999999996895
+        },
+        {
+          "constraint_linf": 2.2340408541850634e-09,
+          "constraint_velocity_scale": 2.2340409188700343e-09,
+          "tau": 74.99999999996804
+        },
+        {
+          "constraint_linf": 2.2335595164301137e-09,
+          "constraint_velocity_scale": 2.233559581101148e-09,
+          "tau": 75.99999999996713
+        },
+        {
+          "constraint_linf": 2.23356025366296e-09,
+          "constraint_velocity_scale": 2.2335603183340153e-09,
+          "tau": 76.99999999996622
+        },
+        {
+          "constraint_linf": 2.233840773407712e-09,
+          "constraint_velocity_scale": 2.23384083808689e-09,
+          "tau": 77.99999999996531
+        },
+        {
+          "constraint_linf": 2.2335069377254536e-09,
+          "constraint_velocity_scale": 2.2335070023949653e-09,
+          "tau": 78.9999999999644
+        },
+        {
+          "constraint_linf": 2.2340080029356834e-09,
+          "constraint_velocity_scale": 2.234008067619703e-09,
+          "tau": 79.99999999996349
+        },
+        {
+          "constraint_linf": 2.2349860153855746e-09,
+          "constraint_velocity_scale": 2.234986080097912e-09,
+          "tau": 80.99999999996258
+        },
+        {
+          "constraint_linf": 2.235182836713328e-09,
+          "constraint_velocity_scale": 2.2351829014313643e-09,
+          "tau": 81.99999999996167
+        },
+        {
+          "constraint_linf": 2.2359681993850263e-09,
+          "constraint_velocity_scale": 2.235968264125802e-09,
+          "tau": 82.99999999996076
+        },
+        {
+          "constraint_linf": 2.237081167023541e-09,
+          "constraint_velocity_scale": 2.2370812317965418e-09,
+          "tau": 83.99999999995985
+        },
+        {
+          "constraint_linf": 2.2374650931756684e-09,
+          "constraint_velocity_scale": 2.2374651579597856e-09,
+          "tau": 84.99999999995894
+        },
+        {
+          "constraint_linf": 2.237849049212882e-09,
+          "constraint_velocity_scale": 2.237849114008116e-09,
+          "tau": 85.99999999995804
+        },
+        {
+          "constraint_linf": 2.237388143189129e-09,
+          "constraint_velocity_scale": 2.237388207971018e-09,
+          "tau": 86.99999999995713
+        },
+        {
+          "constraint_linf": 2.2372310224712105e-09,
+          "constraint_velocity_scale": 2.23723108724855e-09,
+          "tau": 87.99999999995622
+        },
+        {
+          "constraint_linf": 2.2372245522372775e-09,
+          "constraint_velocity_scale": 2.23722461701443e-09,
+          "tau": 88.9999999999553
+        },
+        {
+          "constraint_linf": 2.2372656896059495e-09,
+          "constraint_velocity_scale": 2.237265754384293e-09,
+          "tau": 89.9999999999544
+        },
+        {
+          "constraint_linf": 2.237471533942037e-09,
+          "constraint_velocity_scale": 2.2374715987263406e-09,
+          "tau": 90.99999999995349
+        },
+        {
+          "constraint_linf": 2.2370743490398445e-09,
+          "constraint_velocity_scale": 2.237074413812648e-09,
+          "tau": 91.99999999995258
+        },
+        {
+          "constraint_linf": 2.2373702720266254e-09,
+          "constraint_velocity_scale": 2.2373703368079972e-09,
+          "tau": 92.99999999995167
+        },
+        {
+          "constraint_linf": 2.237648283221297e-09,
+          "constraint_velocity_scale": 2.2376483480107182e-09,
+          "tau": 93.99999999995076
+        },
+        {
+          "constraint_linf": 2.237474980756492e-09,
+          "constraint_velocity_scale": 2.2374750455408952e-09,
+          "tau": 94.99999999994985
+        },
+        {
+          "constraint_linf": 2.237716444149103e-09,
+          "constraint_velocity_scale": 2.237716508940498e-09,
+          "tau": 95.99999999994894
+        },
+        {
+          "constraint_linf": 2.2377947799210077e-09,
+          "constraint_velocity_scale": 2.2377948447146706e-09,
+          "tau": 96.99999999994803
+        },
+        {
+          "constraint_linf": 2.2377802358446875e-09,
+          "constraint_velocity_scale": 2.2377803006379293e-09,
+          "tau": 97.99999999994712
+        },
+        {
+          "constraint_linf": 2.2378125544912463e-09,
+          "constraint_velocity_scale": 2.2378126192854237e-09,
+          "tau": 98.99999999994621
+        },
+        {
+          "constraint_linf": 2.237825157237457e-09,
+          "constraint_velocity_scale": 2.2378252220319995e-09,
+          "tau": 99.9999999999453
+        },
+        {
+          "constraint_linf": 2.2379030116921306e-09,
+          "constraint_velocity_scale": 2.2379030764889272e-09,
+          "tau": 100.9999999999444
+        },
+        {
+          "constraint_linf": 2.237880607699462e-09,
+          "constraint_velocity_scale": 2.23788067249561e-09,
+          "tau": 101.99999999994348
+        },
+        {
+          "constraint_linf": 2.237973659459026e-09,
+          "constraint_velocity_scale": 2.2379737242578683e-09,
+          "tau": 102.99999999994257
+        },
+        {
+          "constraint_linf": 2.2378331673906118e-09,
+          "constraint_velocity_scale": 2.2378332321853864e-09,
+          "tau": 103.99999999994166
+        },
+        {
+          "constraint_linf": 2.2379268978393552e-09,
+          "constraint_velocity_scale": 2.2379269626368434e-09,
+          "tau": 104.99999999994075
+        },
+        {
+          "constraint_linf": 2.2379566656457157e-09,
+          "constraint_velocity_scale": 2.237956730444066e-09,
+          "tau": 105.99999999993985
+        },
+        {
+          "constraint_linf": 2.2379838143564724e-09,
+          "constraint_velocity_scale": 2.2379838791556087e-09,
+          "tau": 106.99999999993894
+        },
+        {
+          "constraint_linf": 2.2380552163561782e-09,
+          "constraint_velocity_scale": 2.238055281157382e-09,
+          "tau": 107.99999999993803
+        },
+        {
+          "constraint_linf": 2.2380328457989437e-09,
+          "constraint_velocity_scale": 2.2380329105994995e-09,
+          "tau": 108.99999999993712
+        },
+        {
+          "constraint_linf": 2.2380009548799882e-09,
+          "constraint_velocity_scale": 2.238001019679621e-09,
+          "tau": 109.99999999993621
+        },
+        {
+          "constraint_linf": 2.238053533848392e-09,
+          "constraint_velocity_scale": 2.238053598649547e-09,
+          "tau": 110.9999999999353
+        },
+        {
+          "constraint_linf": 2.238068434037788e-09,
+          "constraint_velocity_scale": 2.2380684988393744e-09,
+          "tau": 111.99999999993439
+        },
+        {
+          "constraint_linf": 2.238217221268206e-09,
+          "constraint_velocity_scale": 2.2382172860741006e-09,
+          "tau": 112.99999999993348
+        },
+        {
+          "constraint_linf": 2.2381972039216678e-09,
+          "constraint_velocity_scale": 2.2381972687269827e-09,
+          "tau": 113.99999999993257
+        },
+        {
+          "constraint_linf": 2.238263128934969e-09,
+          "constraint_velocity_scale": 2.238263193742193e-09,
+          "tau": 114.99999999993166
+        },
+        {
+          "constraint_linf": 2.238446334437274e-09,
+          "constraint_velocity_scale": 2.2384463992498026e-09,
+          "tau": 115.99999999993075
+        },
+        {
+          "constraint_linf": 2.2385000345089073e-09,
+          "constraint_velocity_scale": 2.2385000993229904e-09,
+          "tau": 116.99999999992984
+        },
+        {
+          "constraint_linf": 2.2385560674674085e-09,
+          "constraint_velocity_scale": 2.238556132283114e-09,
+          "tau": 117.99999999992893
+        },
+        {
+          "constraint_linf": 2.2385205913616334e-09,
+          "constraint_velocity_scale": 2.2385206561763116e-09,
+          "tau": 118.99999999992802
+        },
+        {
+          "constraint_linf": 2.238538080248839e-09,
+          "constraint_velocity_scale": 2.2385381450640233e-09,
+          "tau": 119.99999999992711
+        },
+        {
+          "constraint_linf": 2.2385913740767062e-09,
+          "constraint_velocity_scale": 2.2385914388934338e-09,
+          "tau": 120.9999999999262
+        },
+        {
+          "constraint_linf": 2.2385744489156603e-09,
+          "constraint_velocity_scale": 2.238574513731898e-09,
+          "tau": 121.9999999999253
+        },
+        {
+          "constraint_linf": 2.238625854915993e-09,
+          "constraint_velocity_scale": 2.238625919733719e-09,
+          "tau": 122.99999999992438
+        },
+        {
+          "constraint_linf": 2.238671181341381e-09,
+          "constraint_velocity_scale": 2.238671246160419e-09,
+          "tau": 123.99999999992347
+        },
+        {
+          "constraint_linf": 2.2386815860017185e-09,
+          "constraint_velocity_scale": 2.2386816508210583e-09,
+          "tau": 124.99999999992257
+        },
+        {
+          "constraint_linf": 2.2387210260084897e-09,
+          "constraint_velocity_scale": 2.2387210908289715e-09,
+          "tau": 125.99999999992166
+        },
+        {
+          "constraint_linf": 2.2387847011790875e-09,
+          "constraint_velocity_scale": 2.238784766001413e-09,
+          "tau": 126.99999999992075
+        },
+        {
+          "constraint_linf": 2.238806781938763e-09,
+          "constraint_velocity_scale": 2.2388068467617276e-09,
+          "tau": 127.99999999991984
+        },
+        {
+          "constraint_linf": 2.238782250850266e-09,
+          "constraint_velocity_scale": 2.2387823156725202e-09,
+          "tau": 128.99999999991894
+        },
+        {
+          "constraint_linf": 2.2388312276105702e-09,
+          "constraint_velocity_scale": 2.2388312924342428e-09,
+          "tau": 129.99999999991803
+        },
+        {
+          "constraint_linf": 2.2389027869346713e-09,
+          "constraint_velocity_scale": 2.2389028517604156e-09,
+          "tau": 130.99999999991712
+        },
+        {
+          "constraint_linf": 2.2389172019700827e-09,
+          "constraint_velocity_scale": 2.2389172667962447e-09,
+          "tau": 131.9999999999162
+        },
+        {
+          "constraint_linf": 2.238937819426305e-09,
+          "constraint_velocity_scale": 2.238937884253064e-09,
+          "tau": 132.9999999999153
+        },
+        {
+          "constraint_linf": 2.238976645746204e-09,
+          "constraint_velocity_scale": 2.238976710574087e-09,
+          "tau": 133.9999999999144
+        },
+        {
+          "constraint_linf": 2.2389501185968317e-09,
+          "constraint_velocity_scale": 2.2389501834239466e-09,
+          "tau": 134.99999999991348
+        },
+        {
+          "constraint_linf": 2.2389820930253325e-09,
+          "constraint_velocity_scale": 2.238982157853373e-09,
+          "tau": 135.99999999991257
+        },
+        {
+          "constraint_linf": 2.239024145995849e-09,
+          "constraint_velocity_scale": 2.2390242108251072e-09,
+          "tau": 136.99999999991167
+        },
+        {
+          "constraint_linf": 2.2389976344082653e-09,
+          "constraint_velocity_scale": 2.238997699236756e-09,
+          "tau": 137.99999999991076
+        },
+        {
+          "constraint_linf": 2.239009330711769e-09,
+          "constraint_velocity_scale": 2.239009395540598e-09,
+          "tau": 138.99999999990985
+        },
+        {
+          "constraint_linf": 2.2389790374721897e-09,
+          "constraint_velocity_scale": 2.238979102300142e-09,
+          "tau": 139.99999999990894
+        },
+        {
+          "constraint_linf": 2.23897704131717e-09,
+          "constraint_velocity_scale": 2.2389771061450643e-09,
+          "tau": 140.99999999990803
+        },
+        {
+          "constraint_linf": 2.2389517689868723e-09,
+          "constraint_velocity_scale": 2.238951833814035e-09,
+          "tau": 141.99999999990712
+        },
+        {
+          "constraint_linf": 2.2389669957393784e-09,
+          "constraint_velocity_scale": 2.238967060566982e-09,
+          "tau": 142.9999999999062
+        },
+        {
+          "constraint_linf": 2.2389248685748203e-09,
+          "constraint_velocity_scale": 2.238924933401204e-09,
+          "tau": 143.9999999999053
+        },
+        {
+          "constraint_linf": 2.23891115165583e-09,
+          "constraint_velocity_scale": 2.2389112164818165e-09,
+          "tau": 144.9999999999044
+        },
+        {
+          "constraint_linf": 2.2389036347403463e-09,
+          "constraint_velocity_scale": 2.2389036995661154e-09,
+          "tau": 145.99999999990348
+        },
+        {
+          "constraint_linf": 2.238907211228026e-09,
+          "constraint_velocity_scale": 2.2389072760538984e-09,
+          "tau": 146.99999999990257
+        },
+        {
+          "constraint_linf": 2.238939776323157e-09,
+          "constraint_velocity_scale": 2.2389398411499724e-09,
+          "tau": 147.99999999990166
+        },
+        {
+          "constraint_linf": 2.2389596720441183e-09,
+          "constraint_velocity_scale": 2.23895973687151e-09,
+          "tau": 148.99999999990075
+        },
+        {
+          "constraint_linf": 2.238982928636387e-09,
+          "constraint_velocity_scale": 2.238982993464452e-09,
+          "tau": 149.99999999989984
+        },
+        {
+          "constraint_linf": 2.2390238288984633e-09,
+          "constraint_velocity_scale": 2.2390238937277123e-09,
+          "tau": 150.99999999989893
+        },
+        {
+          "constraint_linf": 2.239027351830061e-09,
+          "constraint_velocity_scale": 2.239027416659412e-09,
+          "tau": 151.99999999989802
+        },
+        {
+          "constraint_linf": 2.239047954801793e-09,
+          "constraint_velocity_scale": 2.2390480196317407e-09,
+          "tau": 152.9999999998971
+        },
+        {
+          "constraint_linf": 2.2390513069436527e-09,
+          "constraint_velocity_scale": 2.2390513717736975e-09,
+          "tau": 153.9999999998962
+        },
+        {
+          "constraint_linf": 2.2390504465629808e-09,
+          "constraint_velocity_scale": 2.2390505113930007e-09,
+          "tau": 154.9999999998953
+        },
+        {
+          "constraint_linf": 2.2390619278189642e-09,
+          "constraint_velocity_scale": 2.2390619926493163e-09,
+          "tau": 155.99999999989438
+        },
+        {
+          "constraint_linf": 2.239058264800394e-09,
+          "constraint_velocity_scale": 2.23905832963064e-09,
+          "tau": 156.99999999989348
+        },
+        {
+          "constraint_linf": 2.2390394838094574e-09,
+          "constraint_velocity_scale": 2.2390395486391597e-09,
+          "tau": 157.99999999989257
+        },
+        {
+          "constraint_linf": 2.239056255425581e-09,
+          "constraint_velocity_scale": 2.239056320255769e-09,
+          "tau": 158.99999999989166
+        },
+        {
+          "constraint_linf": 2.2390688310334755e-09,
+          "constraint_velocity_scale": 2.2390688958640277e-09,
+          "tau": 159.99999999989075
+        },
+        {
+          "constraint_linf": 2.2391001010428364e-09,
+          "constraint_velocity_scale": 2.239100165874294e-09,
+          "tau": 160.99999999988984
+        },
+        {
+          "constraint_linf": 2.239097553922157e-09,
+          "constraint_velocity_scale": 2.239097618753541e-09,
+          "tau": 161.99999999988893
+        },
+        {
+          "constraint_linf": 2.239119619396404e-09,
+          "constraint_velocity_scale": 2.2391196842284264e-09,
+          "tau": 162.99999999988802
+        },
+        {
+          "constraint_linf": 2.2391288493475004e-09,
+          "constraint_velocity_scale": 2.23912891417979e-09,
+          "tau": 163.9999999998871
+        },
+        {
+          "constraint_linf": 2.2391131275626075e-09,
+          "constraint_velocity_scale": 2.2391131923944423e-09,
+          "tau": 164.9999999998862
+        },
+        {
+          "constraint_linf": 2.239100898018927e-09,
+          "constraint_velocity_scale": 2.2391009628504077e-09,
+          "tau": 165.9999999998853
+        },
+        {
+          "constraint_linf": 2.2391067327422707e-09,
+          "constraint_velocity_scale": 2.23910679757392e-09,
+          "tau": 166.99999999988438
+        },
+        {
+          "constraint_linf": 2.2391245571713476e-09,
+          "constraint_velocity_scale": 2.2391246220035133e-09,
+          "tau": 167.99999999988347
+        },
+        {
+          "constraint_linf": 2.239126163603848e-09,
+          "constraint_velocity_scale": 2.23912622843606e-09,
+          "tau": 168.99999999988256
+        },
+        {
+          "constraint_linf": 2.239141974132991e-09,
+          "constraint_velocity_scale": 2.239142038965661e-09,
+          "tau": 169.99999999988165
+        },
+        {
+          "constraint_linf": 2.2391702660846986e-09,
+          "constraint_velocity_scale": 2.2391703309181877e-09,
+          "tau": 170.99999999988074
+        },
+        {
+          "constraint_linf": 2.239183812398732e-09,
+          "constraint_velocity_scale": 2.239183877232613e-09,
+          "tau": 171.99999999987983
+        },
+        {
+          "constraint_linf": 2.2391947955378853e-09,
+          "constraint_velocity_scale": 2.2391948603720846e-09,
+          "tau": 172.99999999987892
+        },
+        {
+          "constraint_linf": 2.239210602298702e-09,
+          "constraint_velocity_scale": 2.2392106671333593e-09,
+          "tau": 173.999999999878
+        },
+        {
+          "constraint_linf": 2.2391889756616432e-09,
+          "constraint_velocity_scale": 2.239189040495674e-09,
+          "tau": 174.9999999998771
+        },
+        {
+          "constraint_linf": 2.239205594225634e-09,
+          "constraint_velocity_scale": 2.239205659060146e-09,
+          "tau": 175.9999999998762
+        },
+        {
+          "constraint_linf": 2.2392118808130526e-09,
+          "constraint_velocity_scale": 2.2392119456477466e-09,
+          "tau": 176.99999999987529
+        },
+        {
+          "constraint_linf": 2.239212823937881e-09,
+          "constraint_velocity_scale": 2.239212888772602e-09,
+          "tau": 177.99999999987438
+        },
+        {
+          "constraint_linf": 2.239227261890532e-09,
+          "constraint_velocity_scale": 2.2392273267256715e-09,
+          "tau": 178.99999999987347
+        },
+        {
+          "constraint_linf": 2.2392445514583914e-09,
+          "constraint_velocity_scale": 2.2392446162940312e-09,
+          "tau": 179.99999999987256
+        },
+        {
+          "constraint_linf": 2.2392555854854728e-09,
+          "constraint_velocity_scale": 2.2392556503214323e-09,
+          "tau": 180.99999999987165
+        },
+        {
+          "constraint_linf": 2.23926188681912e-09,
+          "constraint_velocity_scale": 2.239261951655262e-09,
+          "tau": 181.99999999987074
+        },
+        {
+          "constraint_linf": 2.239270268934962e-09,
+          "constraint_velocity_scale": 2.2392703337713467e-09,
+          "tau": 182.99999999986983
+        },
+        {
+          "constraint_linf": 2.239294051089208e-09,
+          "constraint_velocity_scale": 2.2392941159262813e-09,
+          "tau": 183.99999999986892
+        },
+        {
+          "constraint_linf": 2.239323383161817e-09,
+          "constraint_velocity_scale": 2.2393234479997395e-09,
+          "tau": 184.999999999868
+        },
+        {
+          "constraint_linf": 2.2393446435596256e-09,
+          "constraint_velocity_scale": 2.239344708398164e-09,
+          "tau": 185.9999999998671
+        },
+        {
+          "constraint_linf": 2.2393499288630465e-09,
+          "constraint_velocity_scale": 2.2393499937017378e-09,
+          "tau": 186.9999999998662
+        },
+        {
+          "constraint_linf": 2.239367353148504e-09,
+          "constraint_velocity_scale": 2.2393674179876995e-09,
+          "tau": 187.99999999986528
+        },
+        {
+          "constraint_linf": 2.239366933078515e-09,
+          "constraint_velocity_scale": 2.2393669979176983e-09,
+          "tau": 188.99999999986437
+        },
+        {
+          "constraint_linf": 2.2393713927362255e-09,
+          "constraint_velocity_scale": 2.239371457575538e-09,
+          "tau": 189.99999999986346
+        },
+        {
+          "constraint_linf": 2.2393727789647267e-09,
+          "constraint_velocity_scale": 2.2393728438040793e-09,
+          "tau": 190.99999999986255
+        },
+        {
+          "constraint_linf": 2.2393768489599374e-09,
+          "constraint_velocity_scale": 2.239376913799408e-09,
+          "tau": 191.99999999986164
+        },
+        {
+          "constraint_linf": 2.239394944108172e-09,
+          "constraint_velocity_scale": 2.2393950089481665e-09,
+          "tau": 192.99999999986073
+        },
+        {
+          "constraint_linf": 2.239408673105487e-09,
+          "constraint_velocity_scale": 2.239408737945879e-09,
+          "tau": 193.99999999985982
+        },
+        {
+          "constraint_linf": 2.2394156623687725e-09,
+          "constraint_velocity_scale": 2.2394157272093667e-09,
+          "tau": 194.99999999985891
+        },
+        {
+          "constraint_linf": 2.2394172268873764e-09,
+          "constraint_velocity_scale": 2.239417291728016e-09,
+          "tau": 195.999999999858
+        },
+        {
+          "constraint_linf": 2.2394196884400773e-09,
+          "constraint_velocity_scale": 2.239419753280788e-09,
+          "tau": 196.9999999998571
+        },
+        {
+          "constraint_linf": 2.2394187517273265e-09,
+          "constraint_velocity_scale": 2.2394188165680105e-09,
+          "tau": 197.9999999998562
+        },
+        {
+          "constraint_linf": 2.2394189162436887e-09,
+          "constraint_velocity_scale": 2.2394189810843772e-09,
+          "tau": 198.99999999985528
+        },
+        {
+          "constraint_linf": 2.2394292943405785e-09,
+          "constraint_velocity_scale": 2.2394293591815677e-09,
+          "tau": 199.99999999985437
+        },
+        {
+          "constraint_linf": 2.2394239366119574e-09,
+          "constraint_velocity_scale": 2.2394240014527915e-09,
+          "tau": 200.99999999985346
+        },
+        {
+          "constraint_linf": 2.2394264906133e-09,
+          "constraint_velocity_scale": 2.239426555454208e-09,
+          "tau": 201.99999999985255
+        },
+        {
+          "constraint_linf": 2.2394385652181767e-09,
+          "constraint_velocity_scale": 2.2394386300594343e-09,
+          "tau": 202.99999999985164
+        },
+        {
+          "constraint_linf": 2.2394409673851537e-09,
+          "constraint_velocity_scale": 2.239441032226481e-09,
+          "tau": 203.99999999985073
+        },
+        {
+          "constraint_linf": 2.239448541225107e-09,
+          "constraint_velocity_scale": 2.239448606066653e-09,
+          "tau": 204.99999999984982
+        },
+        {
+          "constraint_linf": 2.2394492082296984e-09,
+          "constraint_velocity_scale": 2.239449273071264e-09,
+          "tau": 205.9999999998489
+        },
+        {
+          "constraint_linf": 2.2394584190974083e-09,
+          "constraint_velocity_scale": 2.2394584839392408e-09,
+          "tau": 206.999999999848
+        },
+        {
+          "constraint_linf": 2.2394599624659175e-09,
+          "constraint_velocity_scale": 2.2394600273077947e-09,
+          "tau": 207.9999999998471
+        },
+        {
+          "constraint_linf": 2.239467122058252e-09,
+          "constraint_velocity_scale": 2.2394671869003363e-09,
+          "tau": 208.99999999984618
+        },
+        {
+          "constraint_linf": 2.2394765214605694e-09,
+          "constraint_velocity_scale": 2.239476586302926e-09,
+          "tau": 209.99999999984527
+        },
+        {
+          "constraint_linf": 2.239480876083461e-09,
+          "constraint_velocity_scale": 2.2394809409259438e-09,
+          "tau": 210.99999999984436
+        },
+        {
+          "constraint_linf": 2.2394855318353597e-09,
+          "constraint_velocity_scale": 2.2394855966779772e-09,
+          "tau": 211.99999999984345
+        },
+        {
+          "constraint_linf": 2.2394790107753273e-09,
+          "constraint_velocity_scale": 2.2394790756177558e-09,
+          "tau": 212.99999999984254
+        },
+        {
+          "constraint_linf": 2.2394833498057214e-09,
+          "constraint_velocity_scale": 2.2394834146482756e-09,
+          "tau": 213.99999999984163
+        },
+        {
+          "constraint_linf": 2.2394891738173264e-09,
+          "constraint_velocity_scale": 2.2394892386600493e-09,
+          "tau": 214.99999999984072
+        },
+        {
+          "constraint_linf": 2.2394890673307182e-09,
+          "constraint_velocity_scale": 2.239489132173438e-09,
+          "tau": 215.99999999983982
+        },
+        {
+          "constraint_linf": 2.239500121437356e-09,
+          "constraint_velocity_scale": 2.2395001862803956e-09,
+          "tau": 216.9999999998389
+        },
+        {
+          "constraint_linf": 2.2395290496594213e-09,
+          "constraint_velocity_scale": 2.2395291145032986e-09,
+          "tau": 217.999999999838
+        },
+        {
+          "constraint_linf": 2.2395292641184876e-09,
+          "constraint_velocity_scale": 2.239529328962371e-09,
+          "tau": 218.9999999998371
+        },
+        {
+          "constraint_linf": 2.239548514104979e-09,
+          "constraint_velocity_scale": 2.23954857894942e-09,
+          "tau": 219.99999999983618
+        },
+        {
+          "constraint_linf": 2.2395648129188414e-09,
+          "constraint_velocity_scale": 2.2395648777637543e-09,
+          "tau": 220.99999999983527
+        },
+        {
+          "constraint_linf": 2.2395668646724095e-09,
+          "constraint_velocity_scale": 2.239566929517382e-09,
+          "tau": 221.99999999983436
+        },
+        {
+          "constraint_linf": 2.2395696608167185e-09,
+          "constraint_velocity_scale": 2.2395697256617716e-09,
+          "tau": 222.99999999983345
+        },
+        {
+          "constraint_linf": 2.239574204587094e-09,
+          "constraint_velocity_scale": 2.239574269432279e-09,
+          "tau": 223.99999999983254
+        },
+        {
+          "constraint_linf": 2.2395761936240656e-09,
+          "constraint_velocity_scale": 2.239576258469308e-09,
+          "tau": 224.99999999983163
+        },
+        {
+          "constraint_linf": 2.2395858783962825e-09,
+          "constraint_velocity_scale": 2.2395859432418054e-09,
+          "tau": 225.99999999983072
+        },
+        {
+          "constraint_linf": 2.2395948566888575e-09,
+          "constraint_velocity_scale": 2.23959492153464e-09,
+          "tau": 226.9999999998298
+        },
+        {
+          "constraint_linf": 2.2395999303959315e-09,
+          "constraint_velocity_scale": 2.239599995241861e-09,
+          "tau": 227.9999999998289
+        },
+        {
+          "constraint_linf": 2.2395968444862752e-09,
+          "constraint_velocity_scale": 2.2395969093321154e-09,
+          "tau": 228.999999999828
+        },
+        {
+          "constraint_linf": 2.2396056433415573e-09,
+          "constraint_velocity_scale": 2.2396057081876522e-09,
+          "tau": 229.99999999982708
+        },
+        {
+          "constraint_linf": 2.2396094624097657e-09,
+          "constraint_velocity_scale": 2.2396095272559715e-09,
+          "tau": 230.99999999982617
+        },
+        {
+          "constraint_linf": 2.239613138148414e-09,
+          "constraint_velocity_scale": 2.239613202994726e-09,
+          "tau": 231.99999999982526
+        },
+        {
+          "constraint_linf": 2.239618944981445e-09,
+          "constraint_velocity_scale": 2.2396190098279254e-09,
+          "tau": 232.99999999982435
+        },
+        {
+          "constraint_linf": 2.2396251394265545e-09,
+          "constraint_velocity_scale": 2.239625204273214e-09,
+          "tau": 233.99999999982344
+        },
+        {
+          "constraint_linf": 2.2396302174573425e-09,
+          "constraint_velocity_scale": 2.2396302823041493e-09,
+          "tau": 234.99999999982253
+        },
+        {
+          "constraint_linf": 2.239634424554981e-09,
+          "constraint_velocity_scale": 2.2396344894019095e-09,
+          "tau": 235.99999999982163
+        },
+        {
+          "constraint_linf": 2.2396479219761887e-09,
+          "constraint_velocity_scale": 2.239647986823508e-09,
+          "tau": 236.99999999982072
+        },
+        {
+          "constraint_linf": 2.2396538970033164e-09,
+          "constraint_velocity_scale": 2.2396539618508084e-09,
+          "tau": 237.9999999998198
+        },
+        {
+          "constraint_linf": 2.239663048598454e-09,
+          "constraint_velocity_scale": 2.239663113446211e-09,
+          "tau": 238.9999999998189
+        },
+        {
+          "constraint_linf": 2.2396699622559596e-09,
+          "constraint_velocity_scale": 2.239670027103917e-09,
+          "tau": 239.999999999818
+        },
+        {
+          "constraint_linf": 2.2396763120229613e-09,
+          "constraint_velocity_scale": 2.2396763768711028e-09,
+          "tau": 240.99999999981708
+        },
+        {
+          "constraint_linf": 2.239685613552448e-09,
+          "constraint_velocity_scale": 2.239685678400859e-09,
+          "tau": 241.99999999981617
+        },
+        {
+          "constraint_linf": 2.2396857482314924e-09,
+          "constraint_velocity_scale": 2.239685813079907e-09,
+          "tau": 242.99999999981526
+        },
+        {
+          "constraint_linf": 2.239681021528139e-09,
+          "constraint_velocity_scale": 2.2396810863764166e-09,
+          "tau": 243.99999999981435
+        },
+        {
+          "constraint_linf": 2.2396799927514794e-09,
+          "constraint_velocity_scale": 2.239680057599727e-09,
+          "tau": 244.99999999981344
+        },
+        {
+          "constraint_linf": 2.239685870094551e-09,
+          "constraint_velocity_scale": 2.239685934942969e-09,
+          "tau": 245.99999999981253
+        },
+        {
+          "constraint_linf": 2.2396956206124164e-09,
+          "constraint_velocity_scale": 2.2396956854611165e-09,
+          "tau": 246.99999999981162
+        },
+        {
+          "constraint_linf": 2.239705464909504e-09,
+          "constraint_velocity_scale": 2.2397055297584894e-09,
+          "tau": 247.9999999998107
+        },
+        {
+          "constraint_linf": 2.239709098438784e-09,
+          "constraint_velocity_scale": 2.2397091632878745e-09,
+          "tau": 248.9999999998098
+        },
+        {
+          "constraint_linf": 2.2397188381760663e-09,
+          "constraint_velocity_scale": 2.239718903025439e-09,
+          "tau": 249.9999999998089
+        },
+        {
+          "constraint_linf": 2.2397214633750136e-09,
+          "constraint_velocity_scale": 2.2397215282244624e-09,
+          "tau": 250.99999999980798
+        },
+        {
+          "constraint_linf": 2.23972436426079e-09,
+          "constraint_velocity_scale": 2.239724429110323e-09,
+          "tau": 251.99999999980707
+        },
+        {
+          "constraint_linf": 2.239727737617351e-09,
+          "constraint_velocity_scale": 2.239727802466981e-09,
+          "tau": 252.99999999980616
+        },
+        {
+          "constraint_linf": 2.2397343087564225e-09,
+          "constraint_velocity_scale": 2.239734373606243e-09,
+          "tau": 253.99999999980525
+        },
+        {
+          "constraint_linf": 2.2397348553891784e-09,
+          "constraint_velocity_scale": 2.2397349202390147e-09,
+          "tau": 254.99999999980434
+        },
+        {
+          "constraint_linf": 2.239742010232155e-09,
+          "constraint_velocity_scale": 2.2397420750821984e-09,
+          "tau": 255.99999999980344
+        },
+        {
+          "constraint_linf": 2.239749726497692e-09,
+          "constraint_velocity_scale": 2.239749791347959e-09,
+          "tau": 256.9999999998025
+        },
+        {
+          "constraint_linf": 2.2397557350578574e-09,
+          "constraint_velocity_scale": 2.2397557999082984e-09,
+          "tau": 257.9999999998016
+        },
+        {
+          "constraint_linf": 2.2397594245041155e-09,
+          "constraint_velocity_scale": 2.239759489354663e-09,
+          "tau": 258.9999999998007
+        },
+        {
+          "constraint_linf": 2.2397681194303066e-09,
+          "constraint_velocity_scale": 2.239768184281106e-09,
+          "tau": 259.9999999997998
+        },
+        {
+          "constraint_linf": 2.2397761472017426e-09,
+          "constraint_velocity_scale": 2.2397762120527746e-09,
+          "tau": 260.9999999997989
+        },
+        {
+          "constraint_linf": 2.239780119560315e-09,
+          "constraint_velocity_scale": 2.239780184411462e-09,
+          "tau": 261.999999999798
+        },
+        {
+          "constraint_linf": 2.2397837502792937e-09,
+          "constraint_velocity_scale": 2.2397838151305457e-09,
+          "tau": 262.99999999979707
+        },
+        {
+          "constraint_linf": 2.239793014177453e-09,
+          "constraint_velocity_scale": 2.2397930790289733e-09,
+          "tau": 263.99999999979616
+        },
+        {
+          "constraint_linf": 2.2397972113139494e-09,
+          "constraint_velocity_scale": 2.239797276165591e-09,
+          "tau": 264.99999999979525
+        },
+        {
+          "constraint_linf": 2.2397962299172563e-09,
+          "constraint_velocity_scale": 2.23979629476887e-09,
+          "tau": 265.99999999979434
+        },
+        {
+          "constraint_linf": 2.239802825301563e-09,
+          "constraint_velocity_scale": 2.2398028901533675e-09,
+          "tau": 266.99999999979343
+        },
+        {
+          "constraint_linf": 2.2398090772230653e-09,
+          "constraint_velocity_scale": 2.2398091420750506e-09,
+          "tau": 267.9999999997925
+        },
+        {
+          "constraint_linf": 2.239817332093275e-09,
+          "constraint_velocity_scale": 2.2398173969454993e-09,
+          "tau": 268.9999999997916
+        },
+        {
+          "constraint_linf": 2.2398217210793454e-09,
+          "constraint_velocity_scale": 2.2398217859316968e-09,
+          "tau": 269.9999999997907
+        },
+        {
+          "constraint_linf": 2.2398238742915357e-09,
+          "constraint_velocity_scale": 2.2398239391439495e-09,
+          "tau": 270.9999999997898
+        },
+        {
+          "constraint_linf": 2.2398236408267686e-09,
+          "constraint_velocity_scale": 2.2398237056791758e-09,
+          "tau": 271.9999999997889
+        },
+        {
+          "constraint_linf": 2.239827191464198e-09,
+          "constraint_velocity_scale": 2.2398272563167077e-09,
+          "tau": 272.999999999788
+        },
+        {
+          "constraint_linf": 2.239835372985544e-09,
+          "constraint_velocity_scale": 2.239835437838291e-09,
+          "tau": 273.99999999978706
+        },
+        {
+          "constraint_linf": 2.239834878414336e-09,
+          "constraint_velocity_scale": 2.2398349432670683e-09,
+          "tau": 274.99999999978616
+        },
+        {
+          "constraint_linf": 2.239841811710805e-09,
+          "constraint_velocity_scale": 2.2398418765637384e-09,
+          "tau": 275.99999999978525
+        },
+        {
+          "constraint_linf": 2.2398503728309236e-09,
+          "constraint_velocity_scale": 2.2398504376841046e-09,
+          "tau": 276.99999999978434
+        },
+        {
+          "constraint_linf": 2.2398570759623966e-09,
+          "constraint_velocity_scale": 2.2398571408157716e-09,
+          "tau": 277.9999999997834
+        },
+        {
+          "constraint_linf": 2.2398659643074097e-09,
+          "constraint_velocity_scale": 2.2398660291610423e-09,
+          "tau": 278.9999999997825
+        },
+        {
+          "constraint_linf": 2.2398688863952208e-09,
+          "constraint_velocity_scale": 2.239868951248938e-09,
+          "tau": 279.9999999997816
+        },
+        {
+          "constraint_linf": 2.239874246536428e-09,
+          "constraint_velocity_scale": 2.2398743113903e-09,
+          "tau": 280.9999999997807
+        },
+        {
+          "constraint_linf": 2.239873511617344e-09,
+          "constraint_velocity_scale": 2.239873576471195e-09,
+          "tau": 281.9999999997798
+        },
+        {
+          "constraint_linf": 2.239878003757508e-09,
+          "constraint_velocity_scale": 2.2398780686114895e-09,
+          "tau": 282.9999999997789
+        },
+        {
+          "constraint_linf": 2.239884955016836e-09,
+          "constraint_velocity_scale": 2.2398850198710185e-09,
+          "tau": 283.99999999977797
+        },
+        {
+          "constraint_linf": 2.239891175961957e-09,
+          "constraint_velocity_scale": 2.2398912408163197e-09,
+          "tau": 284.99999999977706
+        },
+        {
+          "constraint_linf": 2.2398985646191088e-09,
+          "constraint_velocity_scale": 2.2398986294736852e-09,
+          "tau": 285.99999999977615
+        },
+        {
+          "constraint_linf": 2.2399065968799125e-09,
+          "constraint_velocity_scale": 2.2399066617347214e-09,
+          "tau": 286.99999999977524
+        },
+        {
+          "constraint_linf": 2.239915039957632e-09,
+          "constraint_velocity_scale": 2.2399151048126852e-09,
+          "tau": 287.99999999977433
+        },
+        {
+          "constraint_linf": 2.2399225937319866e-09,
+          "constraint_velocity_scale": 2.2399226585872588e-09,
+          "tau": 288.9999999997734
+        },
+        {
+          "constraint_linf": 2.239929607375317e-09,
+          "constraint_velocity_scale": 2.239929672230792e-09,
+          "tau": 289.9999999997725
+        },
+        {
+          "constraint_linf": 2.2399334133095e-09,
+          "constraint_velocity_scale": 2.2399334781650854e-09,
+          "tau": 290.9999999997716
+        },
+        {
+          "constraint_linf": 2.2399396431952147e-09,
+          "constraint_velocity_scale": 2.2399397080509807e-09,
+          "tau": 291.9999999997707
+        },
+        {
+          "constraint_linf": 2.239947276358855e-09,
+          "constraint_velocity_scale": 2.2399473412148417e-09,
+          "tau": 292.9999999997698
+        },
+        {
+          "constraint_linf": 2.2399456009476704e-09,
+          "constraint_velocity_scale": 2.2399456658036088e-09,
+          "tau": 293.9999999997689
+        },
+        {
+          "constraint_linf": 2.2399518813813333e-09,
+          "constraint_velocity_scale": 2.2399519462374533e-09,
+          "tau": 294.99999999976797
+        },
+        {
+          "constraint_linf": 2.23995542667413e-09,
+          "constraint_velocity_scale": 2.239955491530353e-09,
+          "tau": 295.99999999976706
+        },
+        {
+          "constraint_linf": 2.239960060925004e-09,
+          "constraint_velocity_scale": 2.239960125781361e-09,
+          "tau": 296.99999999976615
+        },
+        {
+          "constraint_linf": 2.2399646758565638e-09,
+          "constraint_velocity_scale": 2.2399647407130543e-09,
+          "tau": 297.99999999976524
+        },
+        {
+          "constraint_linf": 2.2399724019103703e-09,
+          "constraint_velocity_scale": 2.2399724667670846e-09,
+          "tau": 298.9999999997643
+        },
+        {
+          "constraint_linf": 2.239978182485256e-09,
+          "constraint_velocity_scale": 2.239978247342138e-09,
+          "tau": 299.9999999997634
+        },
+        {
+          "constraint_linf": 2.2399821469365025e-09,
+          "constraint_velocity_scale": 2.239982211793499e-09,
+          "tau": 300.9999999997625
+        },
+        {
+          "constraint_linf": 2.239988735608358e-09,
+          "constraint_velocity_scale": 2.2399888004655454e-09,
+          "tau": 301.9999999997616
+        },
+        {
+          "constraint_linf": 2.2399916432598705e-09,
+          "constraint_velocity_scale": 2.239991708117142e-09,
+          "tau": 302.9999999997607
+        },
+        {
+          "constraint_linf": 2.24000154128621e-09,
+          "constraint_velocity_scale": 2.240001606143768e-09,
+          "tau": 303.9999999997598
+        },
+        {
+          "constraint_linf": 2.240006152267066e-09,
+          "constraint_velocity_scale": 2.2400062171247575e-09,
+          "tau": 304.99999999975887
+        },
+        {
+          "constraint_linf": 2.240011822624131e-09,
+          "constraint_velocity_scale": 2.240011887481987e-09,
+          "tau": 305.99999999975796
+        },
+        {
+          "constraint_linf": 2.240017074959046e-09,
+          "constraint_velocity_scale": 2.2400171398170537e-09,
+          "tau": 306.99999999975705
+        },
+        {
+          "constraint_linf": 2.2400228286561693e-09,
+          "constraint_velocity_scale": 2.2400228935143436e-09,
+          "tau": 307.99999999975614
+        },
+        {
+          "constraint_linf": 2.240026246944809e-09,
+          "constraint_velocity_scale": 2.2400263118030826e-09,
+          "tau": 308.99999999975523
+        },
+        {
+          "constraint_linf": 2.240031173874834e-09,
+          "constraint_velocity_scale": 2.24003123873325e-09,
+          "tau": 309.9999999997543
+        },
+        {
+          "constraint_linf": 2.240036242320051e-09,
+          "constraint_velocity_scale": 2.2400363071786134e-09,
+          "tau": 310.9999999997534
+        },
+        {
+          "constraint_linf": 2.2400402781567257e-09,
+          "constraint_velocity_scale": 2.2400403430154054e-09,
+          "tau": 311.9999999997525
+        },
+        {
+          "constraint_linf": 2.2400483724367553e-09,
+          "constraint_velocity_scale": 2.2400484372956695e-09,
+          "tau": 312.9999999997516
+        },
+        {
+          "constraint_linf": 2.2400511342686397e-09,
+          "constraint_velocity_scale": 2.2400511991276337e-09,
+          "tau": 313.9999999997507
+        },
+        {
+          "constraint_linf": 2.2400552020390887e-09,
+          "constraint_velocity_scale": 2.2400552668982005e-09,
+          "tau": 314.9999999997498
+        },
+        {
+          "constraint_linf": 2.2400601741610555e-09,
+          "constraint_velocity_scale": 2.2400602390203113e-09,
+          "tau": 315.99999999974887
+        },
+        {
+          "constraint_linf": 2.240064150218105e-09,
+          "constraint_velocity_scale": 2.240064215077476e-09,
+          "tau": 316.99999999974796
+        },
+        {
+          "constraint_linf": 2.2400722959023772e-09,
+          "constraint_velocity_scale": 2.2400723607619838e-09,
+          "tau": 317.99999999974705
+        },
+        {
+          "constraint_linf": 2.240077064819863e-09,
+          "constraint_velocity_scale": 2.2400771296796075e-09,
+          "tau": 318.99999999974614
+        },
+        {
+          "constraint_linf": 2.2400819572709194e-09,
+          "constraint_velocity_scale": 2.240082022130806e-09,
+          "tau": 319.9999999997452
+        },
+        {
+          "constraint_linf": 2.240091323790583e-09,
+          "constraint_velocity_scale": 2.2400913886507403e-09,
+          "tau": 320.9999999997443
+        },
+        {
+          "constraint_linf": 2.2400990810466525e-09,
+          "constraint_velocity_scale": 2.240099145907035e-09,
+          "tau": 321.9999999997434
+        },
+        {
+          "constraint_linf": 2.240101597724354e-09,
+          "constraint_velocity_scale": 2.2401016625848092e-09,
+          "tau": 322.9999999997425
+        },
+        {
+          "constraint_linf": 2.2401075357874345e-09,
+          "constraint_velocity_scale": 2.2401076006480614e-09,
+          "tau": 323.9999999997416
+        },
+        {
+          "constraint_linf": 2.2401108988348246e-09,
+          "constraint_velocity_scale": 2.240110963695549e-09,
+          "tau": 324.9999999997407
+        },
+        {
+          "constraint_linf": 2.2401167377020623e-09,
+          "constraint_velocity_scale": 2.240116802562956e-09,
+          "tau": 325.99999999973977
+        },
+        {
+          "constraint_linf": 2.240121036346604e-09,
+          "constraint_velocity_scale": 2.2401211012076223e-09,
+          "tau": 326.99999999973886
+        },
+        {
+          "constraint_linf": 2.240124094015473e-09,
+          "constraint_velocity_scale": 2.2401241588765798e-09,
+          "tau": 327.99999999973795
+        },
+        {
+          "constraint_linf": 2.240130685960133e-09,
+          "constraint_velocity_scale": 2.2401307508214305e-09,
+          "tau": 328.99999999973704
+        },
+        {
+          "constraint_linf": 2.240136993042115e-09,
+          "constraint_velocity_scale": 2.240137057903595e-09,
+          "tau": 329.99999999973613
+        },
+        {
+          "constraint_linf": 2.2401406247226284e-09,
+          "constraint_velocity_scale": 2.2401406895842136e-09,
+          "tau": 330.9999999997352
+        },
+        {
+          "constraint_linf": 2.240148009619327e-09,
+          "constraint_velocity_scale": 2.240148074481126e-09,
+          "tau": 331.9999999997343
+        },
+        {
+          "constraint_linf": 2.2401516924735796e-09,
+          "constraint_velocity_scale": 2.2401517573354853e-09,
+          "tau": 332.9999999997334
+        },
+        {
+          "constraint_linf": 2.2401574387752293e-09,
+          "constraint_velocity_scale": 2.2401575036373012e-09,
+          "tau": 333.9999999997325
+        },
+        {
+          "constraint_linf": 2.2401601930615295e-09,
+          "constraint_velocity_scale": 2.2401602579236813e-09,
+          "tau": 334.9999999997316
+        },
+        {
+          "constraint_linf": 2.2401640580539155e-09,
+          "constraint_velocity_scale": 2.240164122916179e-09,
+          "tau": 335.9999999997307
+        },
+        {
+          "constraint_linf": 2.2401678390975774e-09,
+          "constraint_velocity_scale": 2.2401679039599505e-09,
+          "tau": 336.99999999972977
+        },
+        {
+          "constraint_linf": 2.2401760905749767e-09,
+          "constraint_velocity_scale": 2.240176155437589e-09,
+          "tau": 337.99999999972886
+        },
+        {
+          "constraint_linf": 2.2401833663148913e-09,
+          "constraint_velocity_scale": 2.240183431177714e-09,
+          "tau": 338.99999999972795
+        },
+        {
+          "constraint_linf": 2.2401906569228897e-09,
+          "constraint_velocity_scale": 2.2401907217859233e-09,
+          "tau": 339.99999999972704
+        },
+        {
+          "constraint_linf": 2.2401972081218793e-09,
+          "constraint_velocity_scale": 2.2401972729851027e-09,
+          "tau": 340.9999999997261
+        },
+        {
+          "constraint_linf": 2.2402043697184348e-09,
+          "constraint_velocity_scale": 2.2402044345818654e-09,
+          "tau": 341.9999999997252
+        },
+        {
+          "constraint_linf": 2.240212838092896e-09,
+          "constraint_velocity_scale": 2.240212902956572e-09,
+          "tau": 342.9999999997243
+        },
+        {
+          "constraint_linf": 2.2402183261110097e-09,
+          "constraint_velocity_scale": 2.2402183909748448e-09,
+          "tau": 343.9999999997234
+        },
+        {
+          "constraint_linf": 2.240222969133635e-09,
+          "constraint_velocity_scale": 2.2402230339976047e-09,
+          "tau": 344.9999999997225
+        },
+        {
+          "constraint_linf": 2.24022904284025e-09,
+          "constraint_velocity_scale": 2.2402291077043953e-09,
+          "tau": 345.9999999997216
+        },
+        {
+          "constraint_linf": 2.2402317382440934e-09,
+          "constraint_velocity_scale": 2.2402318031083164e-09,
+          "tau": 346.99999999972067
+        },
+        {
+          "constraint_linf": 2.2402368899504776e-09,
+          "constraint_velocity_scale": 2.24023695481485e-09,
+          "tau": 347.99999999971976
+        },
+        {
+          "constraint_linf": 2.240239222240056e-09,
+          "constraint_velocity_scale": 2.2402392871044957e-09,
+          "tau": 348.99999999971885
+        },
+        {
+          "constraint_linf": 2.2402446237520785e-09,
+          "constraint_velocity_scale": 2.240244688616675e-09,
+          "tau": 349.99999999971794
+        },
+        {
+          "constraint_linf": 2.240253063760094e-09,
+          "constraint_velocity_scale": 2.2402531286249347e-09,
+          "tau": 350.99999999971703
+        },
+        {
+          "constraint_linf": 2.240257746878463e-09,
+          "constraint_velocity_scale": 2.2402578117434393e-09,
+          "tau": 351.9999999997161
+        },
+        {
+          "constraint_linf": 2.240263299954205e-09,
+          "constraint_velocity_scale": 2.240263364819342e-09,
+          "tau": 352.9999999997152
+        },
+        {
+          "constraint_linf": 2.2402684013666207e-09,
+          "constraint_velocity_scale": 2.2402684662319055e-09,
+          "tau": 353.9999999997143
+        },
+        {
+          "constraint_linf": 2.240272663251931e-09,
+          "constraint_velocity_scale": 2.240272728117339e-09,
+          "tau": 354.9999999997134
+        },
+        {
+          "constraint_linf": 2.2402763704855383e-09,
+          "constraint_velocity_scale": 2.2402764353510538e-09,
+          "tau": 355.9999999997125
+        },
+        {
+          "constraint_linf": 2.2402798113118247e-09,
+          "constraint_velocity_scale": 2.24027987617744e-09,
+          "tau": 356.9999999997116
+        },
+        {
+          "constraint_linf": 2.2402846809904303e-09,
+          "constraint_velocity_scale": 2.2402847458561865e-09,
+          "tau": 357.99999999971067
+        },
+        {
+          "constraint_linf": 2.2402895623896433e-09,
+          "constraint_velocity_scale": 2.240289627255541e-09,
+          "tau": 358.99999999970976
+        },
+        {
+          "constraint_linf": 2.240296218343405e-09,
+          "constraint_velocity_scale": 2.2402962832094953e-09,
+          "tau": 359.99999999970885
+        },
+        {
+          "constraint_linf": 2.2403003421680735e-09,
+          "constraint_velocity_scale": 2.240300407034283e-09,
+          "tau": 360.99999999970794
+        },
+        {
+          "constraint_linf": 2.240306359167219e-09,
+          "constraint_velocity_scale": 2.2403064240336026e-09,
+          "tau": 361.99999999970703
+        },
+        {
+          "constraint_linf": 2.240312518482977e-09,
+          "constraint_velocity_scale": 2.2403125833495393e-09,
+          "tau": 362.9999999997061
+        },
+        {
+          "constraint_linf": 2.2403176168177904e-09,
+          "constraint_velocity_scale": 2.2403176816845004e-09,
+          "tau": 363.9999999997052
+        },
+        {
+          "constraint_linf": 2.240323923810104e-09,
+          "constraint_velocity_scale": 2.2403239886769963e-09,
+          "tau": 364.9999999997043
+        },
+        {
+          "constraint_linf": 2.2403292197446362e-09,
+          "constraint_velocity_scale": 2.240329284611682e-09,
+          "tau": 365.9999999997034
+        },
+        {
+          "constraint_linf": 2.2403368276095108e-09,
+          "constraint_velocity_scale": 2.2403368924767766e-09,
+          "tau": 366.9999999997025
+        },
+        {
+          "constraint_linf": 2.2403425894811682e-09,
+          "constraint_velocity_scale": 2.240342654348601e-09,
+          "tau": 367.9999999997016
+        },
+        {
+          "constraint_linf": 2.2403488743644172e-09,
+          "constraint_velocity_scale": 2.240348939232032e-09,
+          "tau": 368.99999999970066
+        },
+        {
+          "constraint_linf": 2.2403566927966177e-09,
+          "constraint_velocity_scale": 2.240356757664459e-09,
+          "tau": 369.99999999969975
+        },
+        {
+          "constraint_linf": 2.2403629889485453e-09,
+          "constraint_velocity_scale": 2.240363053816569e-09,
+          "tau": 370.99999999969884
+        },
+        {
+          "constraint_linf": 2.2403685661252596e-09,
+          "constraint_velocity_scale": 2.2403686309934444e-09,
+          "tau": 371.99999999969793
+        },
+        {
+          "constraint_linf": 2.240371880943792e-09,
+          "constraint_velocity_scale": 2.2403719458120726e-09,
+          "tau": 372.999999999697
+        },
+        {
+          "constraint_linf": 2.2403769738422668e-09,
+          "constraint_velocity_scale": 2.2403770387106952e-09,
+          "tau": 373.9999999996961
+        },
+        {
+          "constraint_linf": 2.240381773638985e-09,
+          "constraint_velocity_scale": 2.2403818385075523e-09,
+          "tau": 374.9999999996952
+        },
+        {
+          "constraint_linf": 2.2403873470694752e-09,
+          "constraint_velocity_scale": 2.240387411938204e-09,
+          "tau": 375.9999999996943
+        },
+        {
+          "constraint_linf": 2.2403944439455e-09,
+          "constraint_velocity_scale": 2.2403945088144343e-09,
+          "tau": 376.9999999996934
+        },
+        {
+          "constraint_linf": 2.2403994831640916e-09,
+          "constraint_velocity_scale": 2.240399548033172e-09,
+          "tau": 377.9999999996925
+        },
+        {
+          "constraint_linf": 2.2404062156499687e-09,
+          "constraint_velocity_scale": 2.2404062805192437e-09,
+          "tau": 378.99999999969157
+        },
+        {
+          "constraint_linf": 2.2404125234800177e-09,
+          "constraint_velocity_scale": 2.2404125883494755e-09,
+          "tau": 379.99999999969066
+        },
+        {
+          "constraint_linf": 2.2404200712309507e-09,
+          "constraint_velocity_scale": 2.240420136100627e-09,
+          "tau": 380.99999999968975
+        },
+        {
+          "constraint_linf": 2.2404252091941543e-09,
+          "constraint_velocity_scale": 2.2404252740639794e-09,
+          "tau": 381.99999999968884
+        },
+        {
+          "constraint_linf": 2.240428772571953e-09,
+          "constraint_velocity_scale": 2.240428837441881e-09,
+          "tau": 382.99999999968793
+        },
+        {
+          "constraint_linf": 2.2404331688902943e-09,
+          "constraint_velocity_scale": 2.24043323376035e-09,
+          "tau": 383.999999999687
+        },
+        {
+          "constraint_linf": 2.2404393615884976e-09,
+          "constraint_velocity_scale": 2.2404394264587326e-09,
+          "tau": 384.9999999996861
+        },
+        {
+          "constraint_linf": 2.2404455758316233e-09,
+          "constraint_velocity_scale": 2.240445640702038e-09,
+          "tau": 385.9999999996852
+        },
+        {
+          "constraint_linf": 2.2404512280387816e-09,
+          "constraint_velocity_scale": 2.24045129290936e-09,
+          "tau": 386.9999999996843
+        },
+        {
+          "constraint_linf": 2.2404572786149558e-09,
+          "constraint_velocity_scale": 2.2404573434857094e-09,
+          "tau": 387.9999999996834
+        },
+        {
+          "constraint_linf": 2.2404624169024704e-09,
+          "constraint_velocity_scale": 2.240462481773373e-09,
+          "tau": 388.9999999996825
+        },
+        {
+          "constraint_linf": 2.2404682231772394e-09,
+          "constraint_velocity_scale": 2.2404682880483098e-09,
+          "tau": 389.99999999968156
+        },
+        {
+          "constraint_linf": 2.2404723174216162e-09,
+          "constraint_velocity_scale": 2.2404723822928054e-09,
+          "tau": 390.99999999968065
+        },
+        {
+          "constraint_linf": 2.240478153026304e-09,
+          "constraint_velocity_scale": 2.2404782178976618e-09,
+          "tau": 391.99999999967974
+        },
+        {
+          "constraint_linf": 2.2404845237946373e-09,
+          "constraint_velocity_scale": 2.2404845886661796e-09,
+          "tau": 392.99999999967883
+        },
+        {
+          "constraint_linf": 2.240489751754056e-09,
+          "constraint_velocity_scale": 2.2404898166257496e-09,
+          "tau": 393.9999999996779
+        },
+        {
+          "constraint_linf": 2.2404951523542954e-09,
+          "constraint_velocity_scale": 2.2404952172261454e-09,
+          "tau": 394.999999999677
+        },
+        {
+          "constraint_linf": 2.2405000980699088e-09,
+          "constraint_velocity_scale": 2.2405001629419023e-09,
+          "tau": 395.9999999996761
+        },
+        {
+          "constraint_linf": 2.2405063527501073e-09,
+          "constraint_velocity_scale": 2.2405064176222817e-09,
+          "tau": 396.9999999996752
+        },
+        {
+          "constraint_linf": 2.2405113914810552e-09,
+          "constraint_velocity_scale": 2.2405114563533756e-09,
+          "tau": 397.9999999996743
+        },
+        {
+          "constraint_linf": 2.240516586069155e-09,
+          "constraint_velocity_scale": 2.240516650941626e-09,
+          "tau": 398.9999999996734
+        },
+        {
+          "constraint_linf": 2.2405225451356395e-09,
+          "constraint_velocity_scale": 2.240522610008283e-09,
+          "tau": 399.99999999967247
+        },
+        {
+          "constraint_linf": 2.2405270370770067e-09,
+          "constraint_velocity_scale": 2.24052710194978e-09,
+          "tau": 400.99999999967156
+        },
+        {
+          "constraint_linf": 2.240531372214207e-09,
+          "constraint_velocity_scale": 2.240531437087106e-09,
+          "tau": 401.99999999967065
+        },
+        {
+          "constraint_linf": 2.2405361442765812e-09,
+          "constraint_velocity_scale": 2.2405362091496183e-09,
+          "tau": 402.99999999966974
+        },
+        {
+          "constraint_linf": 2.2405412611681834e-09,
+          "constraint_velocity_scale": 2.2405413260413685e-09,
+          "tau": 403.99999999966883
+        },
+        {
+          "constraint_linf": 2.240546206971951e-09,
+          "constraint_velocity_scale": 2.2405462718452793e-09,
+          "tau": 404.9999999996679
+        },
+        {
+          "constraint_linf": 2.240551385740545e-09,
+          "constraint_velocity_scale": 2.2405514506140233e-09,
+          "tau": 405.999999999667
+        },
+        {
+          "constraint_linf": 2.240557633112048e-09,
+          "constraint_velocity_scale": 2.240557697985707e-09,
+          "tau": 406.9999999996661
+        },
+        {
+          "constraint_linf": 2.2405624037409193e-09,
+          "constraint_velocity_scale": 2.2405624686147165e-09,
+          "tau": 407.9999999996652
+        },
+        {
+          "constraint_linf": 2.2405689091073333e-09,
+          "constraint_velocity_scale": 2.240568973981319e-09,
+          "tau": 408.9999999996643
+        },
+        {
+          "constraint_linf": 2.240574952068256e-09,
+          "constraint_velocity_scale": 2.240575016942417e-09,
+          "tau": 409.9999999996634
+        },
+        {
+          "constraint_linf": 2.2405809488532816e-09,
+          "constraint_velocity_scale": 2.240581013727616e-09,
+          "tau": 410.99999999966246
+        },
+        {
+          "constraint_linf": 2.2405863544953144e-09,
+          "constraint_velocity_scale": 2.240586419369805e-09,
+          "tau": 411.99999999966155
+        },
+        {
+          "constraint_linf": 2.240592062358883e-09,
+          "constraint_velocity_scale": 2.2405921272335393e-09,
+          "tau": 412.99999999966064
+        },
+        {
+          "constraint_linf": 2.240596857604546e-09,
+          "constraint_velocity_scale": 2.240596922479341e-09,
+          "tau": 413.99999999965974
+        },
+        {
+          "constraint_linf": 2.240602629307415e-09,
+          "constraint_velocity_scale": 2.240602694182377e-09,
+          "tau": 414.9999999996588
+        },
+        {
+          "constraint_linf": 2.240607694254139e-09,
+          "constraint_velocity_scale": 2.2406077591292478e-09,
+          "tau": 415.9999999996579
+        },
+        {
+          "constraint_linf": 2.2406141792662658e-09,
+          "constraint_velocity_scale": 2.2406142441415623e-09,
+          "tau": 416.999999999657
+        },
+        {
+          "constraint_linf": 2.2406213512714685e-09,
+          "constraint_velocity_scale": 2.2406214161469726e-09,
+          "tau": 417.9999999996561
+        },
+        {
+          "constraint_linf": 2.240627038754135e-09,
+          "constraint_velocity_scale": 2.2406271036298036e-09,
+          "tau": 418.9999999996552
+        },
+        {
+          "constraint_linf": 2.2406328409953346e-09,
+          "constraint_velocity_scale": 2.2406329058711713e-09,
+          "tau": 419.9999999996543
+        },
+        {
+          "constraint_linf": 2.24063925384527e-09,
+          "constraint_velocity_scale": 2.240639318721292e-09,
+          "tau": 420.99999999965337
+        },
+        {
+          "constraint_linf": 2.2406447281405323e-09,
+          "constraint_velocity_scale": 2.2406447930167135e-09,
+          "tau": 421.99999999965246
+        },
+        {
+          "constraint_linf": 2.2406506802129252e-09,
+          "constraint_velocity_scale": 2.2406507450892785e-09,
+          "tau": 422.99999999965155
+        },
+        {
+          "constraint_linf": 2.2406554587515438e-09,
+          "constraint_velocity_scale": 2.2406555236280356e-09,
+          "tau": 423.99999999965064
+        },
+        {
+          "constraint_linf": 2.2406611685407674e-09,
+          "constraint_velocity_scale": 2.2406612334174246e-09,
+          "tau": 424.99999999964973
+        },
+        {
+          "constraint_linf": 2.2406660839183746e-09,
+          "constraint_velocity_scale": 2.240666148795174e-09,
+          "tau": 425.9999999996488
+        },
+        {
+          "constraint_linf": 2.240671463543168e-09,
+          "constraint_velocity_scale": 2.240671528420123e-09,
+          "tau": 426.9999999996479
+        },
+        {
+          "constraint_linf": 2.2406765700631742e-09,
+          "constraint_velocity_scale": 2.2406766349402773e-09,
+          "tau": 427.999999999647
+        },
+        {
+          "constraint_linf": 2.240681738095541e-09,
+          "constraint_velocity_scale": 2.240681802972794e-09,
+          "tau": 428.9999999996461
+        },
+        {
+          "constraint_linf": 2.2406871491926175e-09,
+          "constraint_velocity_scale": 2.2406872140700266e-09,
+          "tau": 429.9999999996452
+        },
+        {
+          "constraint_linf": 2.2406919966126874e-09,
+          "constraint_velocity_scale": 2.240692061490237e-09,
+          "tau": 430.9999999996443
+        },
+        {
+          "constraint_linf": 2.2406982219681554e-09,
+          "constraint_velocity_scale": 2.2406982868458854e-09,
+          "tau": 431.99999999964336
+        },
+        {
+          "constraint_linf": 2.2407033092051233e-09,
+          "constraint_velocity_scale": 2.2407033740830006e-09,
+          "tau": 432.99999999964245
+        },
+        {
+          "constraint_linf": 2.2407073273371196e-09,
+          "constraint_velocity_scale": 2.240707392215113e-09,
+          "tau": 433.99999999964155
+        },
+        {
+          "constraint_linf": 2.2407131164056836e-09,
+          "constraint_velocity_scale": 2.2407131812838446e-09,
+          "tau": 434.99999999964064
+        },
+        {
+          "constraint_linf": 2.240719349541439e-09,
+          "constraint_velocity_scale": 2.240719414419781e-09,
+          "tau": 435.9999999996397
+        },
+        {
+          "constraint_linf": 2.240725605787214e-09,
+          "constraint_velocity_scale": 2.240725670665737e-09,
+          "tau": 436.9999999996388
+        },
+        {
+          "constraint_linf": 2.2407310486218392e-09,
+          "constraint_velocity_scale": 2.2407311135005197e-09,
+          "tau": 437.9999999996379
+        },
+        {
+          "constraint_linf": 2.240735705072835e-09,
+          "constraint_velocity_scale": 2.2407357699516503e-09,
+          "tau": 438.999999999637
+        },
+        {
+          "constraint_linf": 2.2407409509551655e-09,
+          "constraint_velocity_scale": 2.2407410158341326e-09,
+          "tau": 439.9999999996361
+        },
+        {
+          "constraint_linf": 2.2407458976547156e-09,
+          "constraint_velocity_scale": 2.2407459625338258e-09,
+          "tau": 440.9999999996352
+        },
+        {
+          "constraint_linf": 2.2407521657990533e-09,
+          "constraint_velocity_scale": 2.240752230678345e-09,
+          "tau": 441.99999999963427
+        },
+        {
+          "constraint_linf": 2.240757969352271e-09,
+          "constraint_velocity_scale": 2.240758034231731e-09,
+          "tau": 442.99999999963336
+        },
+        {
+          "constraint_linf": 2.240763646062052e-09,
+          "constraint_velocity_scale": 2.2407637109416763e-09,
+          "tau": 443.99999999963245
+        },
+        {
+          "constraint_linf": 2.2407685551628505e-09,
+          "constraint_velocity_scale": 2.2407686200426167e-09,
+          "tau": 444.99999999963154
+        },
+        {
+          "constraint_linf": 2.2407739973214733e-09,
+          "constraint_velocity_scale": 2.240774062201397e-09,
+          "tau": 445.99999999963063
+        },
+        {
+          "constraint_linf": 2.2407804945318104e-09,
+          "constraint_velocity_scale": 2.2407805594119224e-09,
+          "tau": 446.9999999996297
+        },
+        {
+          "constraint_linf": 2.2407866212232813e-09,
+          "constraint_velocity_scale": 2.2407866861035707e-09,
+          "tau": 447.9999999996288
+        },
+        {
+          "constraint_linf": 2.240794249195949e-09,
+          "constraint_velocity_scale": 2.2407943140764594e-09,
+          "tau": 448.9999999996279
+        },
+        {
+          "constraint_linf": 2.240800301684929e-09,
+          "constraint_velocity_scale": 2.2408003665656145e-09,
+          "tau": 449.999999999627
+        },
+        {
+          "constraint_linf": 2.240805952950167e-09,
+          "constraint_velocity_scale": 2.2408060178310165e-09,
+          "tau": 450.9999999996261
+        },
+        {
+          "constraint_linf": 2.2408111090126557e-09,
+          "constraint_velocity_scale": 2.2408111738936544e-09,
+          "tau": 451.9999999996252
+        },
+        {
+          "constraint_linf": 2.240815636195029e-09,
+          "constraint_velocity_scale": 2.2408157010761583e-09,
+          "tau": 452.7725887222398
+        }
+      ],
+      "history_dt": 1.0,
+      "matrix_nnz": 330622,
+      "matrix_shape": [
+        6144,
+        6144
+      ],
+      "ncc_cutoff": 1e-10,
+      "normalization": "M*||G_v||_infinity (not a waveform error)",
+      "rhs": [
+        {
+          "complete_constraint_rhs_linf": 2.2786967859468592e-14,
+          "constraint_linf": 0.0,
+          "datum": "actual_initial_velocity",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 2.2786967859468592e-14,
+          "tau": 0.0
+        },
+        {
+          "complete_constraint_rhs_linf": 1.842459267212512e-17,
+          "constraint_linf": 1.259563081123134e-16,
+          "datum": "constraint_satisfying_polynomial",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 1.842459267212512e-17,
+          "tau": 0.0
+        },
+        {
+          "complete_constraint_rhs_linf": 3.518031105781626e-16,
+          "constraint_linf": 2.237825157237457e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 3.518031105781626e-16,
+          "tau": 99.9999999999453
+        },
+        {
+          "complete_constraint_rhs_linf": 2.7445630488504645e-16,
+          "constraint_linf": 2.2397188381760663e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 2.7445630488504645e-16,
+          "tau": 249.9999999998089
+        },
+        {
+          "complete_constraint_rhs_linf": 3.933865107015774e-16,
+          "constraint_linf": 2.240381773638985e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 3.933865107015774e-16,
+          "tau": 374.9999999996952
+        },
+        {
+          "complete_constraint_rhs_linf": 8.547639090694806e-16,
+          "constraint_linf": 2.240800301684929e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 8.547639090694806e-16,
+          "tau": 449.999999999627
+        },
+        {
+          "complete_constraint_rhs_linf": 7.91422514126017e-16,
+          "constraint_linf": 2.240815636195029e-09,
+          "datum": "evolved_state",
+          "explicit_constraint_rhs_linf": 0.0,
+          "implicit_constraint_rhs_linf": 7.91422514126017e-16,
+          "tau": 452.7725887222398
+        }
+      ],
+      "sampled_maximum_constraint_linf": 2.3499132703127033e-09,
+      "sampled_maximum_constraint_velocity_scale": 2.349913338352673e-09,
+      "sampled_not_continuous_maxima": true,
+      "source_sha256": {
+        "large_l_tail.py": "0568f1e344d64208af858335416f2f8615e5f4b81dbface49c42b1931f7a7ff6",
+        "schwarzschild_scalar.py": "fd25e46bb34286b45935a10bd5d7787891f261ad80003be0ca071203bb46c3ad",
+        "sds_model.py": "5593c3bd55735132bd8572c742512106c7674d06e783a8f0fd894b6411d83206",
+        "sds_solver.py": "c866b276bba1349d673529d169b29d78e26c3fcf21ddd04d0b7bfef59e6f822b",
+        "uniform_cutoff_audit.py": "77964fd6094bc5af7b2a5e34afc097d424083dfca8517f0fcbe6244308f37cdd"
+      },
+      "wall_seconds": 2579.3444684169954
+    }
+  },
+  "validation": {
+    "sds": {
+      "matching_physical_configuration": true,
+      "normal_completion": true,
+      "end_U": 450.0,
+      "padding_beyond_fixed_interval": 68.12,
+      "required_composed_padding": 25.0,
+      "same_timestep_and_output_convention": true,
+      "production_Dedalus_version": "3.0.5",
+      "candidate_Dedalus_version": "3.0.4",
+      "comparison_caveat": "Radial assembly paths are compatible, but platform/dependency arithmetic changes are not independently isolated from cutoff changes."
+    },
+    "schwarzschild": {
+      "matching_physical_configuration": true,
+      "normal_completion": true,
+      "end_U": 450.0,
+      "padding_beyond_fixed_interval": 68.12,
+      "required_composed_padding": 25.0,
+      "same_timestep_and_output_convention": true,
+      "production_Dedalus_version": "3.0.5",
+      "candidate_Dedalus_version": "3.0.4",
+      "comparison_caveat": "Radial assembly paths are compatible, but platform/dependency arithmetic changes are not independently isolated from cutoff changes."
+    }
+  },
+  "comparison_to_original_refinement_scales": [
+    {
+      "background": "sds",
+      "original_refinement": "spatial_N2048_to_N3072",
+      "original_maximum_relative_envelope_change": 4.769019808945567e-05,
+      "measured_configuration_change_divided_by_original_scale": 5.251204614107436
+    },
+    {
+      "background": "sds",
+      "original_refinement": "spatial_N1536_to_N2048",
+      "original_maximum_relative_envelope_change": 0.000127098197090476,
+      "measured_configuration_change_divided_by_original_scale": 1.9703740413939606
+    },
+    {
+      "background": "sds",
+      "original_refinement": "timestep_0p00125_to_0p0025_at_N2048",
+      "original_maximum_relative_envelope_change": 3.290371170098399e-08,
+      "measured_configuration_change_divided_by_original_scale": 7611.025483412503
+    },
+    {
+      "background": "schwarzschild",
+      "original_refinement": "spatial_N2048_to_N3072",
+      "original_maximum_relative_envelope_change": 2.1993631927130026e-05,
+      "measured_configuration_change_divided_by_original_scale": 10.977893701316788
+    },
+    {
+      "background": "schwarzschild",
+      "original_refinement": "spatial_N1536_to_N2048",
+      "original_maximum_relative_envelope_change": 0.00035792480637892704,
+      "measured_configuration_change_divided_by_original_scale": 0.6745655766208877
+    },
+    {
+      "background": "schwarzschild",
+      "original_refinement": "timestep_0p00125_to_0p0025_at_N2048",
+      "original_maximum_relative_envelope_change": 3.355276807861131e-08,
+      "measured_configuration_change_divided_by_original_scale": 7195.941414915101
+    }
+  ],
+  "scope": "N2048 cutoff regression through U450; not long-record cutoff validation",
+  "scientific_interpretation": {
+    "rate_interval_classification_stable": true,
+    "amplitude_sensitivity_subdominant_to_finest_spatial_change": false,
+    "original_finest_grid_interval_replaced": false,
+    "new_refined_production_calculation": false,
+    "second_tighter_trajectory_performed": false,
+    "cutoff_plateau_established": false,
+    "restriction": "The measured combined cutoff/platform sensitivity leaves the original rate criterion satisfied but does not demonstrate waveform-cutoff insensitivity at finest-refinement precision, a continuum error bound, or the long record near U1984. The unchanged archived spatial floor is support from the original ladder, not a new tightened-cutoff ladder."
+  },
+  "hashes": {
+    "results/large_l_tail/raw/final_schwarzschild_for_L3072_N1536_dt0p0025.npz": "fa6a1d3bdbfa84625f65882cf78804e3bbcf5a71eb827534e9a3604623fbf2c1",
+    "results/large_l_tail/raw/final_sds_L3072_N1536_dt0p0025.npz": "7ed80d06bf410dfcf3eb26b2cc110d30ce7cc00d11f104b6d225007ccf67f414",
+    "results/large_l_tail/raw/final_schwarzschild_for_L3072_N2048_dt0p0025.npz": "ae76034330c505bce9d784f4f7f23af170dafb817743d946321d80e645e88510",
+    "results/large_l_tail/raw/final_sds_L3072_N2048_dt0p0025.npz": "4178accce390932925c49091faab402fbe396cd79fa06d380b38e3ff02255a0b",
+    "results/large_l_tail/raw/final_schwarzschild_for_L3072_N3072_dt0p0025.npz": "d8b013a5b42fa227f73d6d604450bcad6d6919784c5bfbe4c637a4d8b6374259",
+    "results/large_l_tail/raw/final_sds_L3072_N3072_dt0p0025.npz": "5bba8c40d97504a41625faf885dcf32aa448e4b79ee5a2d044a982c9eb6c7c95",
+    "results/large_l_tail/raw/final_schwarzschild_for_L3072_N2048_dt0p00125.npz": "8c49d45be71e9a3453403b8de5dc7c3adb161da1dab3f79fa44bc969350ba906",
+    "results/large_l_tail/raw/final_sds_L3072_N2048_dt0p00125.npz": "765bef2fcc6ec4767d7375872edfd50321d7ad9de5e517f153694829bf90c3a3",
+    "results/uniform_cutoff_revision_v1/raw/sds_N2048_tight.npz": "df0ad694623a3c541190c7fe506bb106bb91a2de490f3290d2225e21169c6ad6",
+    "results/uniform_cutoff_revision_v1/raw/schwarzschild_N2048_tight.npz": "47c60b17fbc1583cec265e7f55a8e28a9118745dbdd3675874333bde0fd2fc98",
+    "results/large_l_tail/tables/final_L3072_numerical_sensitivities.csv": "8070db7ca359625da3365467dc24440c032afd34036728ad9b28611774ac1393"
+  },
+  "source_hashes": {
+    "/Users/anilzenginoglu/Documents/projects/26-SdS/Govind/black_hole/uniform_cutoff_analysis.py": "0f57e93d830600f900db4dbbfe344f9b9fa4d8001ac47e8ff3ef05d8a02c7df0",
+    "/Users/anilzenginoglu/Documents/projects/26-SdS/Govind/black_hole/uniform_cutoff_audit.py": "77964fd6094bc5af7b2a5e34afc097d424083dfca8517f0fcbe6244308f37cdd",
+    "/Users/anilzenginoglu/Documents/projects/26-SdS/Govind/black_hole/large_l_tail.py": "0568f1e344d64208af858335416f2f8615e5f4b81dbface49c42b1931f7a7ff6"
+  }
+}
